@@ -1,0 +1,1328 @@
+{
+  "success": true,
+  "command": "command eval_file",
+  "data": {
+    "command": "eval_file",
+    "parameters": {
+      "file": "Tools/InspectExport.cs",
+      "json": true
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": [
+        {
+          "name": "Adult_ROOT",
+          "parent": "Workshop",
+          "pos": "(2.350, 0.000, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "AdultVariant_ROOT",
+          "parent": "Workshop",
+          "pos": "(0.300, 0.000, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Baseball_Bat_ROOT",
+          "parent": "Workshop",
+          "pos": "(3.800, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bat_Grip_SOCKET",
+          "parent": "Baseball_Bat_ROOT",
+          "pos": "(3.800, 0.920, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Boombox_ROOT",
+          "parent": "Workshop",
+          "pos": "(5.100, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Boombox_Grip_SOCKET",
+          "parent": "Boombox_ROOT",
+          "pos": "(5.100, 1.400, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Broom_ROOT",
+          "parent": "Workshop",
+          "pos": "(3.450, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Broom_Grip_SOCKET",
+          "parent": "Broom_ROOT",
+          "pos": "(3.450, 1.500, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Child_ROOT",
+          "parent": "Workshop",
+          "pos": "(-1.550, 0.000, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(76.00, 76.00, 69.00)"
+        },
+        {
+          "name": "ChildVariant_ROOT",
+          "parent": "Workshop",
+          "pos": "(-3.200, 0.000, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(76.00, 76.00, 69.00)"
+        },
+        {
+          "name": "Cleaning_Bucket_ROOT",
+          "parent": "Workshop",
+          "pos": "(5.100, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bucket_Grip_SOCKET",
+          "parent": "Cleaning_Bucket_ROOT",
+          "pos": "(5.100, 1.240, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cleaning_Rag_ROOT",
+          "parent": "Workshop",
+          "pos": "(4.200, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Rag_Grip_SOCKET",
+          "parent": "Cleaning_Rag_ROOT",
+          "pos": "(4.200, 0.780, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Crew_ROOT",
+          "parent": "Workshop",
+          "pos": "(4.400, 0.000, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Crew_Grip_L_SOCKET",
+          "parent": "Hand_L",
+          "pos": "(5.060, 1.102, 4.130)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Crew_Grip_R_SOCKET",
+          "parent": "Hand_R",
+          "pos": "(3.740, 1.102, 4.130)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Curb_Ramp_ROOT",
+          "parent": "Workshop",
+          "pos": "(-53.000, 0.000, 21.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Delivery_Bicycle_ROOT",
+          "parent": "Workshop",
+          "pos": "(9.000, 0.000, 7.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bike_Cooler_SOCKET",
+          "parent": "Delivery_Bicycle_ROOT",
+          "pos": "(9.000, 0.870, 6.360)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bike_Rider_SOCKET",
+          "parent": "Delivery_Bicycle_ROOT",
+          "pos": "(9.000, 1.100, 6.680)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bike_Hand_-1_SOCKET",
+          "parent": "Bike_Steering_PIVOT",
+          "pos": "(9.270, 1.100, 7.680)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bike_Hand_1_SOCKET",
+          "parent": "Bike_Steering_PIVOT",
+          "pos": "(8.730, 1.100, 7.680)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BikeCarrier_Delivery_Cooler_ROOT",
+          "parent": "Delivery_Bicycle_ROOT",
+          "pos": "(9.000, 0.870, 6.360)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BikeCarrier_Cooler_Grip_SOCKET",
+          "parent": "BikeCarrier_Delivery_Cooler_ROOT",
+          "pos": "(9.000, 1.510, 6.360)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BikeCarrier_Cooler_Lid_HINGE",
+          "parent": "BikeCarrier_Delivery_Cooler_ROOT",
+          "pos": "(9.000, 1.340, 6.145)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BikeCarrier_Cooler_Lid_HINGE_Mesh",
+          "parent": "BikeCarrier_Cooler_Lid_HINGE",
+          "pos": "(9.000, 1.355, 6.360)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Delivery_Cooler_ROOT",
+          "parent": "Workshop",
+          "pos": "(2.700, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cooler_Grip_SOCKET",
+          "parent": "Delivery_Cooler_ROOT",
+          "pos": "(2.700, 1.390, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cooler_Lid_HINGE",
+          "parent": "Delivery_Cooler_ROOT",
+          "pos": "(2.700, 1.220, 6.985)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cooler_Lid_HINGE_Mesh",
+          "parent": "Cooler_Lid_HINGE",
+          "pos": "(2.700, 1.235, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Dustpan_ROOT",
+          "parent": "Workshop",
+          "pos": "(1.800, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Dustpan_Grip_SOCKET",
+          "parent": "Dustpan_ROOT",
+          "pos": "(1.800, 0.870, 8.950)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Fire_Hydrant_ROOT",
+          "parent": "Workshop",
+          "pos": "(-19.000, 0.000, 10.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FirstPersonHands_ROOT",
+          "parent": "Workshop",
+          "pos": "(-4.650, 0.150, 4.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FirstPerson_Grip_L_SOCKET",
+          "parent": "Hand_L",
+          "pos": "(-4.370, 0.412, 4.060)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FirstPerson_Grip_R_SOCKET",
+          "parent": "Hand_R",
+          "pos": "(-4.930, 0.412, 4.060)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Flower_Patch_ROOT",
+          "parent": "Workshop",
+          "pos": "(-15.500, 0.000, 10.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Grass_Cell_ROOT",
+          "parent": "Workshop",
+          "pos": "(-12.400, 0.000, 24.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "House_Bungalow_ROOT",
+          "parent": "Workshop",
+          "pos": "(-3.500, 0.000, -7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "House_Cottage_ROOT",
+          "parent": "Workshop",
+          "pos": "(10.500, 0.000, -7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "House_Family_ROOT",
+          "parent": "Workshop",
+          "pos": "(-10.500, 0.000, -7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "House_Townhouse_ROOT",
+          "parent": "Workshop",
+          "pos": "(3.500, 0.000, -7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "IceCreamTruck_ROOT",
+          "parent": "Workshop",
+          "pos": "(-1.500, 0.000, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BodyShell_ROOT",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-1.500, -0.101, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "Cabin_ROOT",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-1.500, -0.101, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "DriverSeat_SOCKET",
+          "parent": "Cabin_ROOT",
+          "pos": "(0.158, 1.268, 0.020)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "DriverView_SOCKET",
+          "parent": "Cabin_ROOT",
+          "pos": "(0.113, 2.236, 0.020)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "SteeringWheel_ROOT",
+          "parent": "Cabin_ROOT",
+          "pos": "(0.863, 1.787, 0.020)",
+          "rot": "(333.0, 270.0, 90.0)",
+          "scale": "(116.76, 140.00, 113.24)"
+        },
+        {
+          "name": "Chassis_ROOT",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-1.500, -0.101, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "DriverDoor_HINGE",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(1.412, 0.560, 0.804)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "DriverDoor_HINGE_Mesh",
+          "parent": "DriverDoor_HINGE",
+          "pos": "(0.354, 1.197, 0.804)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "InteriorEquipment_ROOT",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-2.850, 0.560, -2.320)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Pour_SOCKET.001",
+          "parent": "BatterBottle_ROOT.001",
+          "pos": "(-1.020, 1.807, -1.970)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_FinishedCone_Scoop02_SOCKET.001",
+          "parent": "Cone_2Scoops_ROOT.001",
+          "pos": "(-3.055, 1.877, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_FinishedCone_Scoop03_SOCKET.001",
+          "parent": "Cone_2Scoops_ROOT.001",
+          "pos": "(-3.055, 1.997, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_Scoop_SOCKET.002",
+          "parent": "Cone_2Scoops_ROOT.001",
+          "pos": "(-3.055, 1.757, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_FinishedCone_Scoop02_SOCKET.001",
+          "parent": "Cone_3Scoops_ROOT.001",
+          "pos": "(-3.465, 1.877, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_FinishedCone_Scoop03_SOCKET.001",
+          "parent": "Cone_3Scoops_ROOT.001",
+          "pos": "(-3.465, 1.997, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_Scoop_SOCKET.002",
+          "parent": "Cone_3Scoops_ROOT.001",
+          "pos": "(-3.465, 1.757, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.006",
+          "parent": "ConeHolder_1.001",
+          "pos": "(-1.825, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.007",
+          "parent": "ConeHolder_2.001",
+          "pos": "(-2.235, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.008",
+          "parent": "ConeHolder_3.001",
+          "pos": "(-2.645, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.009",
+          "parent": "ConeHolder_4.001",
+          "pos": "(-3.055, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.010",
+          "parent": "ConeHolder_5.001",
+          "pos": "(-3.465, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.011",
+          "parent": "ConeHolder_6.001",
+          "pos": "(-3.875, 1.556, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Scoop_SOCKET.002",
+          "parent": "EmptyCone_ROOT.001",
+          "pos": "(-2.235, 1.760, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FinishedCone_Scoop02_SOCKET.001",
+          "parent": "FinishedCone_ROOT.001",
+          "pos": "(-2.645, 1.877, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FinishedCone_Scoop03_SOCKET.001",
+          "parent": "FinishedCone_ROOT.001",
+          "pos": "(-2.645, 1.997, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Scoop_SOCKET.003",
+          "parent": "FinishedCone_ROOT.001",
+          "pos": "(-2.645, 1.757, -1.928)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "HeldScoop_SOCKET.001",
+          "parent": "Scooper_ROOT.001",
+          "pos": "(-3.556, 1.578, -1.820)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "SprinkleEmission_SOCKET.001",
+          "parent": "SprinkleShaker_ROOT.001",
+          "pos": "(-4.040, 1.700, -1.970)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Lid_HINGE • rotate local X.001",
+          "parent": "WaffleMaker_ROOT.001",
+          "pos": "(-1.120, 1.700, -2.485)",
+          "rot": "(18.0, 180.0, 180.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Lid_HINGE_Mesh.001",
+          "parent": "Lid_HINGE • rotate local X.001",
+          "pos": "(-1.120, 1.868, -2.582)",
+          "rot": "(18.0, 180.0, 180.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "PassengerDoor_HINGE",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(1.412, 0.560, -3.004)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "PassengerDoor_HINGE_Mesh",
+          "parent": "PassengerDoor_HINGE",
+          "pos": "(0.354, 1.197, -3.004)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "RearEntryDoor_HINGE",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-5.073, 0.548, -0.316)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "RearEntryDoor_HINGE_Mesh",
+          "parent": "RearEntryDoor_HINGE",
+          "pos": "(-5.073, 1.398, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "RoofIceCreamSign_ROOT",
+          "parent": "Roof_ROOT • hide for interior view",
+          "pos": "(-2.609, 3.581, -1.058)",
+          "rot": "(335.0, 90.0, 270.0)",
+          "scale": "(491.10, 588.00, 474.90)"
+        },
+        {
+          "name": "ServeCustomer_SOCKET",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-2.640, 1.490, 1.110)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ServiceLedge_ROOT",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-1.500, -0.101, -1.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "ServingHatch_HINGE",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-2.609, 2.908, 0.915)",
+          "rot": "(8.0, 180.0, 180.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "ServingHatch_HINGE_Mesh",
+          "parent": "ServingHatch_HINGE",
+          "pos": "(-2.609, 3.012, 1.651)",
+          "rot": "(8.0, 180.0, 180.0)",
+          "scale": "(112.00, 140.00, 118.00)"
+        },
+        {
+          "name": "ServingView_SOCKET",
+          "parent": "IceCreamTruck_ROOT",
+          "pos": "(-2.640, 2.180, -0.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Ingredient_Carton_ROOT",
+          "parent": "Workshop",
+          "pos": "(0.450, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Carton_Grip_SOCKET",
+          "parent": "Ingredient_Carton_ROOT",
+          "pos": "(0.450, 0.950, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Mailbox_ROOT",
+          "parent": "Workshop",
+          "pos": "(-17.400, 0.000, 10.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Mop_ROOT",
+          "parent": "Workshop",
+          "pos": "(2.650, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Mop_Grip_SOCKET",
+          "parent": "Mop_ROOT",
+          "pos": "(2.650, 1.500, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Napkin_Dispenser_ROOT",
+          "parent": "Workshop",
+          "pos": "(-2.450, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Park_Bench_ROOT",
+          "parent": "Workshop",
+          "pos": "(-10.000, 0.000, 8.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Park_Cell_ROOT",
+          "parent": "Workshop",
+          "pos": "(-37.200, 0.000, 24.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkBench_Park_Bench_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-31.200, 0.060, 20.400)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkBin_Park_TrashBin_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-40.200, 0.060, 27.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkFenceA_Picket_Fence_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-30.000, 0.060, 12.900)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkFenceB_Picket_Fence_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-44.400, 0.060, 12.900)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkFlowers_Flower_Patch_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-30.900, 0.060, 32.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkLamp_Street_Lamp_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-33.900, 0.060, 27.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkMaple_Tree_Roundmaple_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-30.300, 0.060, 16.500)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkPicnic_Picnic_Table_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-43.200, 0.060, 18.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkShrubA_Shrub_Round_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-29.400, 0.060, 31.500)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ParkShrubB_Shrub_Round_ROOT",
+          "parent": "Park_Cell_ROOT",
+          "pos": "(-44.400, 0.060, 31.500)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Park_TrashBin_ROOT",
+          "parent": "Workshop",
+          "pos": "(-15.000, 0.000, 7.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Picket_Fence_ROOT",
+          "parent": "Workshop",
+          "pos": "(-11.000, 0.000, 10.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Picnic_Table_ROOT",
+          "parent": "Workshop",
+          "pos": "(-13.000, 0.000, 7.700)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "PopUp_Stand_ROOT",
+          "parent": "Workshop",
+          "pos": "(13.400, 0.000, 6.700)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Stand_Cone_-0.3_SOCKET",
+          "parent": "PopUp_Stand_ROOT",
+          "pos": "(13.700, 1.100, 7.080)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Stand_Cone_-0.65_SOCKET",
+          "parent": "PopUp_Stand_ROOT",
+          "pos": "(14.050, 1.100, 7.080)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Stand_Cone_0.05_SOCKET",
+          "parent": "PopUp_Stand_ROOT",
+          "pos": "(13.350, 1.100, 7.080)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Stand_Service_SOCKET",
+          "parent": "PopUp_Stand_ROOT",
+          "pos": "(13.400, 1.050, 7.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "PreparationSet_ROOT",
+          "parent": "Workshop",
+          "pos": "(4.200, 0.000, 2.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "BatterBottle_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(6.030, 0.960, 2.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Pour_SOCKET",
+          "parent": "BatterBottle_ROOT",
+          "pos": "(6.030, 1.247, 2.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone_2Scoops_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(3.995, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_FinishedCone_Scoop02_SOCKET",
+          "parent": "Cone_2Scoops_ROOT",
+          "pos": "(3.995, 1.317, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_FinishedCone_Scoop03_SOCKET",
+          "parent": "Cone_2Scoops_ROOT",
+          "pos": "(3.995, 1.437, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_Scoop01_ROOT",
+          "parent": "Cone_2Scoops_ROOT",
+          "pos": "(3.995, 1.197, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_Scoop02_ROOT",
+          "parent": "Cone_2Scoops_ROOT",
+          "pos": "(3.995, 1.317, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone2_Scoop_SOCKET.001",
+          "parent": "Cone_2Scoops_ROOT",
+          "pos": "(3.995, 1.197, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone_3Scoops_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(3.585, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_FinishedCone_Scoop02_SOCKET",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.317, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_FinishedCone_Scoop03_SOCKET",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.437, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_Scoop01_ROOT",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.197, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_Scoop02_ROOT",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.317, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_Scoop03_ROOT",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.437, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cone3_Scoop_SOCKET.001",
+          "parent": "Cone_3Scoops_ROOT",
+          "pos": "(3.585, 1.197, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET",
+          "parent": "ConeHolder_1",
+          "pos": "(5.225, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.001",
+          "parent": "ConeHolder_2",
+          "pos": "(4.815, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.002",
+          "parent": "ConeHolder_3",
+          "pos": "(4.405, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.003",
+          "parent": "ConeHolder_4",
+          "pos": "(3.995, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.004",
+          "parent": "ConeHolder_5",
+          "pos": "(3.585, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "ConePlacement_SOCKET.005",
+          "parent": "ConeHolder_6",
+          "pos": "(3.175, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "CookedWaffle_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(5.930, 1.091, 2.125)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "EmptyCone_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(4.815, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Scoop_SOCKET",
+          "parent": "EmptyCone_ROOT",
+          "pos": "(4.815, 1.200, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FinishedCone_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(4.405, 0.996, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FinishedCone_Scoop02_SOCKET",
+          "parent": "FinishedCone_ROOT",
+          "pos": "(4.405, 1.317, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "FinishedCone_Scoop03_SOCKET",
+          "parent": "FinishedCone_ROOT",
+          "pos": "(4.405, 1.437, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Scoop_SOCKET.001",
+          "parent": "FinishedCone_ROOT",
+          "pos": "(4.405, 1.197, 2.492)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "PrepCounter_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(4.200, 0.000, 2.100)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "RawBatter_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(5.930, 1.090, 2.125)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Scooper_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(3.630, 0.991, 2.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "HeldScoop_SOCKET",
+          "parent": "Scooper_ROOT",
+          "pos": "(3.494, 1.018, 2.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "SprinkleShaker_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(3.010, 0.960, 2.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "SprinkleEmission_SOCKET",
+          "parent": "SprinkleShaker_ROOT",
+          "pos": "(3.010, 1.140, 2.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "WaffleStation_ROOT",
+          "parent": "PreparationSet_ROOT",
+          "pos": "(5.930, 0.000, 2.125)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "WaffleMaker_ROOT",
+          "parent": "WaffleStation_ROOT",
+          "pos": "(5.930, 0.960, 2.125)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Lid_HINGE • rotate local X",
+          "parent": "WaffleMaker_ROOT",
+          "pos": "(5.930, 1.140, 1.935)",
+          "rot": "(18.0, 180.0, 180.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Lid_HINGE_Mesh",
+          "parent": "Lid_HINGE • rotate local X",
+          "pos": "(5.930, 1.308, 1.838)",
+          "rot": "(18.0, 180.0, 180.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Restock_Box_ROOT",
+          "parent": "Workshop",
+          "pos": "(-0.450, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Box_Grip_SOCKET",
+          "parent": "Restock_Box_ROOT",
+          "pos": "(-0.450, 0.970, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_Corner_ROOT",
+          "parent": "Workshop",
+          "pos": "(12.400, 0.000, 48.800)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_Crossroads_ROOT",
+          "parent": "Workshop",
+          "pos": "(-37.200, 0.000, 48.800)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_Crosswalk_ROOT",
+          "parent": "Workshop",
+          "pos": "(12.400, 0.000, 24.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_DeadEnd_ROOT",
+          "parent": "Workshop",
+          "pos": "(37.200, 0.000, 24.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_Straight_ROOT",
+          "parent": "Workshop",
+          "pos": "(37.200, 0.000, 48.800)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Road_TJunction_ROOT",
+          "parent": "Workshop",
+          "pos": "(-12.400, 0.000, 48.800)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Serving_Cup_ROOT",
+          "parent": "Workshop",
+          "pos": "(-1.350, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Cup_Scoop_SOCKET",
+          "parent": "Serving_Cup_ROOT",
+          "pos": "(-1.350, 0.875, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Serving_Tray_ROOT",
+          "parent": "Workshop",
+          "pos": "(-4.250, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tray_Cup_1_SOCKET",
+          "parent": "Serving_Tray_ROOT",
+          "pos": "(-4.090, 0.795, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tray_Cup_2_SOCKET",
+          "parent": "Serving_Tray_ROOT",
+          "pos": "(-4.250, 0.795, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tray_Cup_3_SOCKET",
+          "parent": "Serving_Tray_ROOT",
+          "pos": "(-4.410, 0.795, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Shrub_Round_ROOT",
+          "parent": "Workshop",
+          "pos": "(-14.000, 0.000, 10.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Sidewalk_Corner_ROOT",
+          "parent": "Workshop",
+          "pos": "(-53.000, 0.000, 27.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Sidewalk_Straight_ROOT",
+          "parent": "Workshop",
+          "pos": "(-53.000, 0.000, 44.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Spare_Tire_ROOT",
+          "parent": "Workshop",
+          "pos": "(-3.250, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Street_Lamp_ROOT",
+          "parent": "Workshop",
+          "pos": "(-16.700, 0.000, 7.800)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Street_Sign_ROOT",
+          "parent": "Workshop",
+          "pos": "(-19.000, 0.000, 7.600)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Supply_Crate_ROOT",
+          "parent": "Workshop",
+          "pos": "(1.400, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Crate_Grip_SOCKET",
+          "parent": "Supply_Crate_ROOT",
+          "pos": "(1.400, 1.050, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tasting_Spoon_ROOT",
+          "parent": "Workshop",
+          "pos": "(-1.850, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Spoon_Grip_SOCKET",
+          "parent": "Tasting_Spoon_ROOT",
+          "pos": "(-1.850, 0.815, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Toolbox_ROOT",
+          "parent": "Workshop",
+          "pos": "(-0.250, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Toolbox_Grip_SOCKET",
+          "parent": "Toolbox_ROOT",
+          "pos": "(-0.250, 1.130, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Topping_Jar_ROOT",
+          "parent": "Workshop",
+          "pos": "(-3.250, 0.750, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Jar_Grip_SOCKET",
+          "parent": "Topping_Jar_ROOT",
+          "pos": "(-3.250, 0.880, 7.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Traffic_Cone_ROOT",
+          "parent": "Workshop",
+          "pos": "(-2.100, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Trash_Bag_ROOT",
+          "parent": "Workshop",
+          "pos": "(0.850, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Bag_Grip_SOCKET",
+          "parent": "Trash_Bag_ROOT",
+          "pos": "(0.850, 1.270, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tree_Broadoak_ROOT",
+          "parent": "Workshop",
+          "pos": "(8.400, 0.000, -0.450)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tree_Roundmaple_ROOT",
+          "parent": "Workshop",
+          "pos": "(-9.900, 0.000, -1.000)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tree_Slenderpoplar_ROOT",
+          "parent": "Workshop",
+          "pos": "(5.500, 0.000, -1.500)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Tree_Tieredpine_ROOT",
+          "parent": "Workshop",
+          "pos": "(-7.000, 0.000, 0.300)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Wrench_ROOT",
+          "parent": "Workshop",
+          "pos": "(-1.200, 0.750, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        },
+        {
+          "name": "Wrench_Grip_SOCKET",
+          "parent": "Wrench_ROOT",
+          "pos": "(-1.200, 0.870, 9.200)",
+          "rot": "(270.0, 0.0, 0.0)",
+          "scale": "(100.00, 100.00, 100.00)"
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/cooperdalton/Ice Cream Truck Prototype/Ice Cream Truck Prototype"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

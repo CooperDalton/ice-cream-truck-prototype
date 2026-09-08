@@ -1,0 +1,834 @@
+{
+  "existing_objects_preserved": 299,
+  "new_assets": 44,
+  "tile_edges": {
+    "Road_Straight_ROOT": {
+      "N": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "S": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    },
+    "Road_Corner_ROOT": {
+      "N": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "E": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    },
+    "Road_TJunction_ROOT": {
+      "N": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "E": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "S": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    },
+    "Road_Crossroads_ROOT": {
+      "N": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "E": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "S": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "W": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    },
+    "Road_DeadEnd_ROOT": {
+      "S": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    },
+    "Road_Crosswalk_ROOT": {
+      "N": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ],
+      "S": [
+        0.06,
+        0.06,
+        0.12,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.12,
+        0.06,
+        0.06
+      ]
+    }
+  },
+  "articulation": {
+    "Cooler_Lid_HINGE": 0.64486,
+    "Bike_Steering_PIVOT": 0.03215,
+    "Bike_FrontWheel_AXLE": 0.25257,
+    "Bike_RearWheel_AXLE": 0.25257,
+    "Bike_Pedals_AXLE": 0.03444,
+    "Mailbox_Flag_PIVOT": 0.01204
+  },
+  "exports": {
+    "RoadAndParkKit": {
+      "Road_Straight_ROOT": {
+        "vertices": 705,
+        "triangles": 818,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Corner_ROOT": {
+        "vertices": 657,
+        "triangles": 770,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Road_TJunction_ROOT": {
+        "vertices": 743,
+        "triangles": 834,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Crossroads_ROOT": {
+        "vertices": 781,
+        "triangles": 850,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_DeadEnd_ROOT": {
+        "vertices": 697,
+        "triangles": 814,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Crosswalk_ROOT": {
+        "vertices": 803,
+        "triangles": 902,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      },
+      "Grass_Cell_ROOT": {
+        "vertices": 14,
+        "triangles": 12,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Sidewalk_Straight_ROOT": {
+        "vertices": 131,
+        "triangles": 128,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Sidewalk_Corner_ROOT": {
+        "vertices": 66,
+        "triangles": 88,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Curb_Ramp_ROOT": {
+        "vertices": 24,
+        "triangles": 12,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Park_Cell_ROOT": {
+        "vertices": 5941,
+        "triangles": 5004,
+        "mesh_nodes": 13,
+        "material_sections": 22
+      },
+      "Park_Bench_ROOT": {
+        "vertices": 531,
+        "triangles": 572,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Picnic_Table_ROOT": {
+        "vertices": 464,
+        "triangles": 528,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Park_TrashBin_ROOT": {
+        "vertices": 216,
+        "triangles": 360,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Street_Lamp_ROOT": {
+        "vertices": 320,
+        "triangles": 364,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Picket_Fence_ROOT": {
+        "vertices": 360,
+        "triangles": 438,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Shrub_Round_ROOT": {
+        "vertices": 267,
+        "triangles": 360,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Flower_Patch_ROOT": {
+        "vertices": 474,
+        "triangles": 420,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Mailbox_ROOT": {
+        "vertices": 201,
+        "triangles": 264,
+        "mesh_nodes": 2,
+        "material_sections": 5
+      },
+      "Fire_Hydrant_ROOT": {
+        "vertices": 389,
+        "triangles": 384,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Street_Sign_ROOT": {
+        "vertices": 152,
+        "triangles": 144,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      }
+    },
+    "RemainingProps": {
+      "Boombox_ROOT": {
+        "vertices": 875,
+        "triangles": 1012,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      },
+      "Baseball_Bat_ROOT": {
+        "vertices": 96,
+        "triangles": 188,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Delivery_Cooler_ROOT": {
+        "vertices": 330,
+        "triangles": 440,
+        "mesh_nodes": 2,
+        "material_sections": 4
+      },
+      "Supply_Crate_ROOT": {
+        "vertices": 429,
+        "triangles": 572,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Ingredient_Carton_ROOT": {
+        "vertices": 85,
+        "triangles": 96,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Restock_Box_ROOT": {
+        "vertices": 47,
+        "triangles": 56,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Serving_Cup_ROOT": {
+        "vertices": 64,
+        "triangles": 124,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Tasting_Spoon_ROOT": {
+        "vertices": 123,
+        "triangles": 164,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Napkin_Dispenser_ROOT": {
+        "vertices": 101,
+        "triangles": 132,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Topping_Jar_ROOT": {
+        "vertices": 166,
+        "triangles": 164,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Serving_Tray_ROOT": {
+        "vertices": 169,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Cleaning_Bucket_ROOT": {
+        "vertices": 163,
+        "triangles": 256,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Cleaning_Rag_ROOT": {
+        "vertices": 68,
+        "triangles": 88,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Broom_ROOT": {
+        "vertices": 221,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Mop_ROOT": {
+        "vertices": 282,
+        "triangles": 336,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Dustpan_ROOT": {
+        "vertices": 144,
+        "triangles": 168,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Trash_Bag_ROOT": {
+        "vertices": 212,
+        "triangles": 268,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Toolbox_ROOT": {
+        "vertices": 165,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Wrench_ROOT": {
+        "vertices": 136,
+        "triangles": 176,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Traffic_Cone_ROOT": {
+        "vertices": 133,
+        "triangles": 132,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Spare_Tire_ROOT": {
+        "vertices": 291,
+        "triangles": 392,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Delivery_Bicycle_ROOT": {
+        "vertices": 2607,
+        "triangles": 2960,
+        "mesh_nodes": 7,
+        "material_sections": 19
+      },
+      "PopUp_Stand_ROOT": {
+        "vertices": 1085,
+        "triangles": 1444,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      }
+    },
+    "WorkshopModels": {
+      "PreparationSet_ROOT": {
+        "vertices": 27527,
+        "triangles": 38212,
+        "mesh_nodes": 49,
+        "material_sections": 112
+      },
+      "Tree_Broadoak_ROOT": {
+        "vertices": 3120,
+        "triangles": 1324,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Tree_Slenderpoplar_ROOT": {
+        "vertices": 2352,
+        "triangles": 972,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Tree_Tieredpine_ROOT": {
+        "vertices": 1910,
+        "triangles": 918,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Tree_Roundmaple_ROOT": {
+        "vertices": 2640,
+        "triangles": 1128,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "House_Cottage_ROOT": {
+        "vertices": 2368,
+        "triangles": 3108,
+        "mesh_nodes": 1,
+        "material_sections": 9
+      },
+      "House_Townhouse_ROOT": {
+        "vertices": 3610,
+        "triangles": 4736,
+        "mesh_nodes": 1,
+        "material_sections": 8
+      },
+      "House_Bungalow_ROOT": {
+        "vertices": 2736,
+        "triangles": 3600,
+        "mesh_nodes": 1,
+        "material_sections": 9
+      },
+      "House_Family_ROOT": {
+        "vertices": 3004,
+        "triangles": 3948,
+        "mesh_nodes": 1,
+        "material_sections": 8
+      },
+      "IceCreamTruck_ROOT": {
+        "vertices": 44175,
+        "triangles": 60485,
+        "mesh_nodes": 69,
+        "material_sections": 194
+      },
+      "Crew_ROOT": {
+        "vertices": 2531,
+        "triangles": 4052,
+        "mesh_nodes": 1,
+        "material_sections": 8
+      },
+      "Adult_ROOT": {
+        "vertices": 2507,
+        "triangles": 4024,
+        "mesh_nodes": 1,
+        "material_sections": 7
+      },
+      "AdultVariant_ROOT": {
+        "vertices": 2507,
+        "triangles": 4024,
+        "mesh_nodes": 1,
+        "material_sections": 7
+      },
+      "Child_ROOT": {
+        "vertices": 2455,
+        "triangles": 3928,
+        "mesh_nodes": 1,
+        "material_sections": 7
+      },
+      "ChildVariant_ROOT": {
+        "vertices": 2455,
+        "triangles": 3928,
+        "mesh_nodes": 1,
+        "material_sections": 7
+      },
+      "FirstPersonHands_ROOT": {
+        "vertices": 658,
+        "triangles": 1192,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Road_Straight_ROOT": {
+        "vertices": 705,
+        "triangles": 818,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Corner_ROOT": {
+        "vertices": 657,
+        "triangles": 770,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Road_TJunction_ROOT": {
+        "vertices": 743,
+        "triangles": 834,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Crossroads_ROOT": {
+        "vertices": 781,
+        "triangles": 850,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_DeadEnd_ROOT": {
+        "vertices": 697,
+        "triangles": 814,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Road_Crosswalk_ROOT": {
+        "vertices": 803,
+        "triangles": 902,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      },
+      "Grass_Cell_ROOT": {
+        "vertices": 14,
+        "triangles": 12,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Sidewalk_Straight_ROOT": {
+        "vertices": 131,
+        "triangles": 128,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Sidewalk_Corner_ROOT": {
+        "vertices": 66,
+        "triangles": 88,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Curb_Ramp_ROOT": {
+        "vertices": 24,
+        "triangles": 12,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Park_Cell_ROOT": {
+        "vertices": 5941,
+        "triangles": 5004,
+        "mesh_nodes": 13,
+        "material_sections": 22
+      },
+      "Park_Bench_ROOT": {
+        "vertices": 531,
+        "triangles": 572,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Picnic_Table_ROOT": {
+        "vertices": 464,
+        "triangles": 528,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Park_TrashBin_ROOT": {
+        "vertices": 216,
+        "triangles": 360,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Street_Lamp_ROOT": {
+        "vertices": 320,
+        "triangles": 364,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Picket_Fence_ROOT": {
+        "vertices": 360,
+        "triangles": 438,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Shrub_Round_ROOT": {
+        "vertices": 267,
+        "triangles": 360,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Flower_Patch_ROOT": {
+        "vertices": 474,
+        "triangles": 420,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Mailbox_ROOT": {
+        "vertices": 201,
+        "triangles": 264,
+        "mesh_nodes": 2,
+        "material_sections": 5
+      },
+      "Fire_Hydrant_ROOT": {
+        "vertices": 389,
+        "triangles": 384,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Street_Sign_ROOT": {
+        "vertices": 152,
+        "triangles": 144,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Boombox_ROOT": {
+        "vertices": 875,
+        "triangles": 1012,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      },
+      "Baseball_Bat_ROOT": {
+        "vertices": 96,
+        "triangles": 188,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Delivery_Cooler_ROOT": {
+        "vertices": 330,
+        "triangles": 440,
+        "mesh_nodes": 2,
+        "material_sections": 4
+      },
+      "Supply_Crate_ROOT": {
+        "vertices": 429,
+        "triangles": 572,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Ingredient_Carton_ROOT": {
+        "vertices": 85,
+        "triangles": 96,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Restock_Box_ROOT": {
+        "vertices": 47,
+        "triangles": 56,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Serving_Cup_ROOT": {
+        "vertices": 64,
+        "triangles": 124,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Tasting_Spoon_ROOT": {
+        "vertices": 123,
+        "triangles": 164,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Napkin_Dispenser_ROOT": {
+        "vertices": 101,
+        "triangles": 132,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Topping_Jar_ROOT": {
+        "vertices": 166,
+        "triangles": 164,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Serving_Tray_ROOT": {
+        "vertices": 169,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Cleaning_Bucket_ROOT": {
+        "vertices": 163,
+        "triangles": 256,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Cleaning_Rag_ROOT": {
+        "vertices": 68,
+        "triangles": 88,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Broom_ROOT": {
+        "vertices": 221,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Mop_ROOT": {
+        "vertices": 282,
+        "triangles": 336,
+        "mesh_nodes": 1,
+        "material_sections": 4
+      },
+      "Dustpan_ROOT": {
+        "vertices": 144,
+        "triangles": 168,
+        "mesh_nodes": 1,
+        "material_sections": 2
+      },
+      "Trash_Bag_ROOT": {
+        "vertices": 212,
+        "triangles": 268,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Toolbox_ROOT": {
+        "vertices": 165,
+        "triangles": 220,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Wrench_ROOT": {
+        "vertices": 136,
+        "triangles": 176,
+        "mesh_nodes": 1,
+        "material_sections": 1
+      },
+      "Traffic_Cone_ROOT": {
+        "vertices": 133,
+        "triangles": 132,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Spare_Tire_ROOT": {
+        "vertices": 291,
+        "triangles": 392,
+        "mesh_nodes": 1,
+        "material_sections": 3
+      },
+      "Delivery_Bicycle_ROOT": {
+        "vertices": 2607,
+        "triangles": 2960,
+        "mesh_nodes": 7,
+        "material_sections": 19
+      },
+      "PopUp_Stand_ROOT": {
+        "vertices": 1085,
+        "triangles": 1444,
+        "mesh_nodes": 1,
+        "material_sections": 5
+      }
+    }
+  },
+  "checks": {
+    "all_old_model_geometry_and_transforms_unchanged": true,
+    "road_edges_match_in_all_port_directions": true,
+    "eight_meter_tiles": true,
+    "articulated_parts_move": true,
+    "new_asset_budget_under_7000_triangles_each": true,
+    "review_shelves_excluded_from_exports": true
+  }
+}

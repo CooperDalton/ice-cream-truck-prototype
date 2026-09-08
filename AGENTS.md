@@ -2,6 +2,8 @@
 
 This is an ice cream truck simulator prototype for a game development class. The Unity project is in `Ice Cream Truck Prototype/`. Agents should implement as much of the requested prototype work as possible, including creating and moving scripts, scene objects, prefabs, folders, and assets as needed. Keep Unity references intact when moving assets by using the editor or preserving their existing `.meta` files.
 
+All Blender models belong in the master scene at `Ice Cream Truck Prototype/Assets/IceCreamTruckWorkshop.blend`. Keep new assets in that scene, organized into collections and arranged side by side for review. Preserve unsaved user edits before updating the file.
+
 ## Code Style Preferences
 
 - Do not add unnecessary null checks. If something should exist, assume it exists and let the game crash so the root issue is obvious.

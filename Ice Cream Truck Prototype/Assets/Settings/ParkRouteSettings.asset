@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ffd2caa83ad3457199c8299b1eacdda, type: 3}
+  m_Name: ParkRouteSettings
+  m_EditorClassIdentifier: Assembly-CSharp::PrototypeSettingsSO
+  openingHour: 8
+  closingHour: 18
+  secondsPerGameMinute: 12
+  quota: 100
+  quotaIncreasePerDay: 25
+  nextDayDelay: 8
+  walkSpeed: 3
+  sprintMultiplier: 1.65
+  sprintFovIncrease: 5
+  jumpHeight: 0.65
+  truckSpeed: 10
+  reverseSpeed: 4
+  acceleration: 4
+  braking: 12
+  steeringAngle: 32
+  wheelbase: 4
+  truckAttractionRadius: 22
+  boomboxAttractionRadius: 38
+  mouseSensitivity: 0.1
+  headBob: 1
+  bobAmplitude: 0.025
+  bobFrequency: 1.8
+  cameraSmoothing: 12
+  fieldOfView: 75
+  reach: 3.8
+  pourSeconds: 1.1
+  cookSeconds: 4
+  burnGraceSeconds: 12
+  scoopMouseDistance: 400
+  sprinkleMouseDistance: 280
+  minimumScoopSeconds: 1
+  minimumSprinkleSeconds: 0.7
+  lidAnimationSpeed: 8
+  maximumScoops: 3
+  firstCustomerDelay: 3
+  customerPatience: 150
+  customerWalkSpeed: 1.4
+  customerRunSpeed: 3.5
+  attractionCheckInterval: 0.5
+  repeatCustomerDelay: 60
+  sprinkleOrderChance: 0.4
+  conePrice: 2
+  scoopPrice: 3
+  sprinklePrice: 1
+  randomizeWorldSeed: 0
+  worldSeed: 4312
+  junctionsPerSide: 3
+  tileSize: 120
+  extraRoadChance: 0.3
+  parkChance: 0.35
+  residentsPerHotspot: 5
+  parkChildChance: 0.85
+  residentialChildChance: 0.25
+  navigationCellSize: 2
+  soundVolume: 0.35
+  messageSeconds: 3

@@ -1,0 +1,2679 @@
+[
+  {
+    "name": "RoofSign_IceCreamScoop_Mesh",
+    "mesh": "Icosphere.020",
+    "users": [
+      "RoofSign_IceCreamScoop_Mesh",
+      "IceCreamScoop_Mesh.001",
+      "Cone2_Scoop01_IceCreamScoop_Mesh.001",
+      "Cone2_Scoop02_IceCreamScoop_Mesh.001",
+      "Cone3_Scoop01_IceCreamScoop_Mesh.001",
+      "Cone3_Scoop02_IceCreamScoop_Mesh.001",
+      "Cone3_Scoop03_IceCreamScoop_Mesh.001"
+    ],
+    "triangles": 1600,
+    "vertices": 900,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCreamScoop_Mesh",
+    "mesh": "Icosphere.019",
+    "users": [
+      "IceCreamScoop_Mesh",
+      "Cone2_Scoop01_IceCreamScoop_Mesh",
+      "Cone2_Scoop02_IceCreamScoop_Mesh",
+      "Cone3_Scoop01_IceCreamScoop_Mesh",
+      "Cone3_Scoop02_IceCreamScoop_Mesh",
+      "Cone3_Scoop03_IceCreamScoop_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 900,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Adult_Mesh",
+    "mesh": "Rounded bean body.001",
+    "users": [
+      "Adult_Mesh",
+      "AdultVariant_Mesh"
+    ],
+    "triangles": 4024,
+    "vertices": 2048,
+    "materials": 7,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": [
+      [
+        "Simple character rig",
+        "ARMATURE"
+      ]
+    ]
+  },
+  {
+    "name": "Child_Mesh",
+    "mesh": "Rounded bean body.003",
+    "users": [
+      "Child_Mesh",
+      "ChildVariant_Mesh"
+    ],
+    "triangles": 3928,
+    "vertices": 2000,
+    "materials": 7,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": [
+      [
+        "Simple character rig",
+        "ARMATURE"
+      ]
+    ]
+  },
+  {
+    "name": "BodyShell_ROOT_Mesh",
+    "mesh": "Cube.373",
+    "users": [
+      "BodyShell_ROOT_Mesh"
+    ],
+    "triangles": 5662,
+    "vertices": 2972,
+    "materials": 10,
+    "empty_materials": 1,
+    "degenerate": 136,
+    "loose_vertices": 0,
+    "boundary_edges": 62,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "House_Townhouse_Mesh",
+    "mesh": "Cube.060",
+    "users": [
+      "House_Townhouse_Mesh"
+    ],
+    "triangles": 4736,
+    "vertices": 2580,
+    "materials": 8,
+    "empty_materials": 0,
+    "degenerate": 176,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Crew_Mesh",
+    "mesh": "Rounded bean body",
+    "users": [
+      "Crew_Mesh"
+    ],
+    "triangles": 4052,
+    "vertices": 2062,
+    "materials": 8,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": [
+      [
+        "Simple character rig",
+        "ARMATURE"
+      ]
+    ]
+  },
+  {
+    "name": "House_Family_Mesh",
+    "mesh": "Cube.227",
+    "users": [
+      "House_Family_Mesh"
+    ],
+    "triangles": 3948,
+    "vertices": 2148,
+    "materials": 8,
+    "empty_materials": 0,
+    "degenerate": 152,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "House_Bungalow_Mesh",
+    "mesh": "Cube.167",
+    "users": [
+      "House_Bungalow_Mesh"
+    ],
+    "triangles": 3600,
+    "vertices": 1962,
+    "materials": 9,
+    "empty_materials": 0,
+    "degenerate": 96,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "House_Cottage_Mesh",
+    "mesh": "Cube.054",
+    "users": [
+      "House_Cottage_Mesh"
+    ],
+    "triangles": 3108,
+    "vertices": 1692,
+    "materials": 9,
+    "empty_materials": 0,
+    "degenerate": 112,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tree_Roundmaple_Mesh",
+    "mesh": "Cone.030",
+    "users": [
+      "Tree_Roundmaple_Mesh",
+      "ParkMaple_Tree_Roundmaple_Mesh"
+    ],
+    "triangles": 1128,
+    "vertices": 588,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Cabin_ROOT_Mesh",
+    "mesh": "Cube.364 left hand drive",
+    "users": [
+      "Cabin_ROOT_Mesh"
+    ],
+    "triangles": 1948,
+    "vertices": 1026,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 106,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_1_3_Chocolate_Mesh",
+    "mesh": "Removable tub.038",
+    "users": [
+      "Tub_1_3_Chocolate_Mesh"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_1_4_Mint_Mesh",
+    "mesh": "Removable tub.039",
+    "users": [
+      "Tub_1_4_Mint_Mesh"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_2_2_Cookie cream_Mesh",
+    "mesh": "Removable tub.043",
+    "users": [
+      "Tub_2_2_Cookie cream_Mesh"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_1_3_Chocolate_Mesh.001",
+    "mesh": "Removable tub.050",
+    "users": [
+      "Tub_1_3_Chocolate_Mesh.001"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_1_4_Mint_Mesh.001",
+    "mesh": "Removable tub.051",
+    "users": [
+      "Tub_1_4_Mint_Mesh.001"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tub_2_2_Cookie cream_Mesh.001",
+    "mesh": "Removable tub.055",
+    "users": [
+      "Tub_2_2_Cookie cream_Mesh.001"
+    ],
+    "triangles": 1652,
+    "vertices": 856,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Upper plate grid_Mesh",
+    "mesh": "Cube.397",
+    "users": [
+      "Upper plate grid_Mesh"
+    ],
+    "triangles": 1624,
+    "vertices": 848,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Upper plate grid_Mesh.001",
+    "mesh": "Cube.402",
+    "users": [
+      "Upper plate grid_Mesh.001"
+    ],
+    "triangles": 1624,
+    "vertices": 848,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "PrepCounter_ROOT_Mesh",
+    "mesh": "Cube.388",
+    "users": [
+      "PrepCounter_ROOT_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 860,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 96,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "WaffleMaker_ROOT_Mesh",
+    "mesh": "Cube.396",
+    "users": [
+      "WaffleMaker_ROOT_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 862,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "CookedWaffle_ROOT_Mesh",
+    "mesh": "Cylinder.005",
+    "users": [
+      "CookedWaffle_ROOT_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 838,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "SprinkleShaker_ROOT_Mesh",
+    "mesh": "Shaker body.003",
+    "users": [
+      "SprinkleShaker_ROOT_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 1011,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 566,
+    "loose_vertices": 0,
+    "boundary_edges": 288,
+    "nonmanifold_edges": 1,
+    "modifiers": []
+  },
+  {
+    "name": "SprinkleShaker_ROOT_Mesh.001",
+    "mesh": "Shaker body.004",
+    "users": [
+      "SprinkleShaker_ROOT_Mesh.001"
+    ],
+    "triangles": 1600,
+    "vertices": 1011,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 566,
+    "loose_vertices": 0,
+    "boundary_edges": 288,
+    "nonmanifold_edges": 1,
+    "modifiers": []
+  },
+  {
+    "name": "CookedWaffle_ROOT_Mesh.001",
+    "mesh": "Cylinder.006",
+    "users": [
+      "CookedWaffle_ROOT_Mesh.001"
+    ],
+    "triangles": 1600,
+    "vertices": 838,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "WaffleMaker_ROOT_Mesh.001",
+    "mesh": "Cube.401",
+    "users": [
+      "WaffleMaker_ROOT_Mesh.001"
+    ],
+    "triangles": 1600,
+    "vertices": 862,
+    "materials": 6,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "PrepCounter_ROOT_Mesh.001",
+    "mesh": "Cube.409",
+    "users": [
+      "PrepCounter_ROOT_Mesh.001"
+    ],
+    "triangles": 1600,
+    "vertices": 860,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 96,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "FrontLeft_Wheel_AXLE_Mesh",
+    "mesh": "Rounded tire.004",
+    "users": [
+      "FrontLeft_Wheel_AXLE_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 816,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "FrontRight_Wheel_AXLE_Mesh",
+    "mesh": "Rounded tire.005",
+    "users": [
+      "FrontRight_Wheel_AXLE_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 816,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "RearLeft_Wheel_AXLE_Mesh",
+    "mesh": "Rounded tire.006",
+    "users": [
+      "RearLeft_Wheel_AXLE_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 816,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "RearRight_Wheel_AXLE_Mesh",
+    "mesh": "Rounded tire.007",
+    "users": [
+      "RearRight_Wheel_AXLE_Mesh"
+    ],
+    "triangles": 1600,
+    "vertices": 816,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "PopUp_Stand_Mesh",
+    "mesh": "Cube.166",
+    "users": [
+      "PopUp_Stand_Mesh"
+    ],
+    "triangles": 1444,
+    "vertices": 792,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 120,
+    "loose_vertices": 0,
+    "boundary_edges": 48,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "BatterBottle_ROOT_Mesh",
+    "mesh": "Squeeze bottle body.003",
+    "users": [
+      "BatterBottle_ROOT_Mesh"
+    ],
+    "triangles": 1439,
+    "vertices": 1078,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 661,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "BatterBottle_ROOT_Mesh.001",
+    "mesh": "Squeeze bottle body.004",
+    "users": [
+      "BatterBottle_ROOT_Mesh.001"
+    ],
+    "triangles": 1439,
+    "vertices": 1078,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 661,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "EmptyCone_ROOT_Mesh",
+    "mesh": "Shared flat-textured waffle cone",
+    "users": [
+      "EmptyCone_ROOT_Mesh",
+      "FinishedCone_ROOT_Mesh",
+      "Cone2_FinishedCone_ROOT_Mesh",
+      "Cone3_FinishedCone_ROOT_Mesh",
+      "RoofSign_FinishedCone_ROOT_Mesh",
+      "EmptyCone_ROOT_Mesh.001",
+      "FinishedCone_ROOT_Mesh.001",
+      "Cone2_FinishedCone_ROOT_Mesh.001",
+      "Cone3_FinishedCone_ROOT_Mesh.001"
+    ],
+    "triangles": 156,
+    "vertices": 80,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tree_Broadoak_Mesh",
+    "mesh": "Cone.013",
+    "users": [
+      "Tree_Broadoak_Mesh"
+    ],
+    "triangles": 1324,
+    "vertices": 690,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkFenceA_Picket_Fence_Mesh",
+    "mesh": "Cube.067",
+    "users": [
+      "ParkFenceA_Picket_Fence_Mesh",
+      "ParkFenceB_Picket_Fence_Mesh",
+      "Picket_Fence_Mesh"
+    ],
+    "triangles": 438,
+    "vertices": 251,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Lid_HINGE_Mesh",
+    "mesh": "Cylinder.004",
+    "users": [
+      "Lid_HINGE_Mesh"
+    ],
+    "triangles": 1246,
+    "vertices": 637,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Lid_HINGE_Mesh.001",
+    "mesh": "Cylinder.008",
+    "users": [
+      "Lid_HINGE_Mesh.001"
+    ],
+    "triangles": 1246,
+    "vertices": 637,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Scooper_ROOT_Mesh",
+    "mesh": "Cube.398",
+    "users": [
+      "Scooper_ROOT_Mesh"
+    ],
+    "triangles": 1223,
+    "vertices": 627,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 19,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Scooper_ROOT_Mesh.001",
+    "mesh": "Cube.399",
+    "users": [
+      "Scooper_ROOT_Mesh.001"
+    ],
+    "triangles": 1223,
+    "vertices": 627,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 19,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "FirstPersonMittens_Mesh",
+    "mesh": "First-person L",
+    "users": [
+      "FirstPersonMittens_Mesh"
+    ],
+    "triangles": 1192,
+    "vertices": 604,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": [
+      [
+        "Simple character rig",
+        "ARMATURE"
+      ]
+    ]
+  },
+  {
+    "name": "ParkBench_Park_Bench_Mesh",
+    "mesh": "Cone",
+    "users": [
+      "ParkBench_Park_Bench_Mesh",
+      "Park_Bench_Mesh"
+    ],
+    "triangles": 572,
+    "vertices": 312,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkShrubA_Shrub_Round_Mesh",
+    "mesh": "Sphere",
+    "users": [
+      "ParkShrubA_Shrub_Round_Mesh",
+      "ParkShrubB_Shrub_Round_Mesh",
+      "Shrub_Round_Mesh"
+    ],
+    "triangles": 360,
+    "vertices": 186,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkPicnic_Picnic_Table_Mesh",
+    "mesh": "Cone.006",
+    "users": [
+      "ParkPicnic_Picnic_Table_Mesh",
+      "Picnic_Table_Mesh"
+    ],
+    "triangles": 528,
+    "vertices": 288,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Roof_ROOT_Mesh",
+    "mesh": "Cube.363",
+    "users": [
+      "Roof_ROOT_Mesh"
+    ],
+    "triangles": 1012,
+    "vertices": 552,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 112,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Boombox_Mesh",
+    "mesh": "Cube.083",
+    "users": [
+      "Boombox_Mesh"
+    ],
+    "triangles": 1012,
+    "vertices": 540,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 4,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tree_Slenderpoplar_Mesh",
+    "mesh": "Cube.356",
+    "users": [
+      "Tree_Slenderpoplar_Mesh"
+    ],
+    "triangles": 972,
+    "vertices": 516,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tree_Tieredpine_Mesh",
+    "mesh": "Pine tier 1",
+    "users": [
+      "Tree_Tieredpine_Mesh"
+    ],
+    "triangles": 918,
+    "vertices": 475,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "SteeringWheel_ROOT_Mesh",
+    "mesh": "Torus.001 left hand drive",
+    "users": [
+      "SteeringWheel_ROOT_Mesh"
+    ],
+    "triangles": 912,
+    "vertices": 464,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_Crosswalk_Mesh",
+    "mesh": "Road_Crosswalk_Surface",
+    "users": [
+      "Road_Crosswalk_Mesh"
+    ],
+    "triangles": 902,
+    "vertices": 509,
+    "materials": 5,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 92,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_Crossroads_Mesh",
+    "mesh": "Road_Crossroads_Surface",
+    "users": [
+      "Road_Crossroads_Mesh"
+    ],
+    "triangles": 850,
+    "vertices": 481,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 116,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkFlowers_Flower_Patch_Mesh",
+    "mesh": "Cone.021",
+    "users": [
+      "ParkFlowers_Flower_Patch_Mesh",
+      "Flower_Patch_Mesh"
+    ],
+    "triangles": 420,
+    "vertices": 252,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_TJunction_Mesh",
+    "mesh": "Road_TJunction_Surface",
+    "users": [
+      "Road_TJunction_Mesh"
+    ],
+    "triangles": 834,
+    "vertices": 467,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 104,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_Straight_Mesh",
+    "mesh": "Road_Straight_Surface",
+    "users": [
+      "Road_Straight_Mesh"
+    ],
+    "triangles": 818,
+    "vertices": 453,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 92,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_DeadEnd_Mesh",
+    "mesh": "Road_DeadEnd_Surface",
+    "users": [
+      "Road_DeadEnd_Mesh"
+    ],
+    "triangles": 814,
+    "vertices": 447,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 80,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Road_Corner_Mesh",
+    "mesh": "Road_Corner_Surface",
+    "users": [
+      "Road_Corner_Mesh"
+    ],
+    "triangles": 770,
+    "vertices": 421,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 92,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "DriverDoor_HINGE_Mesh",
+    "mesh": "Cube.371",
+    "users": [
+      "DriverDoor_HINGE_Mesh"
+    ],
+    "triangles": 738,
+    "vertices": 380,
+    "materials": 5,
+    "empty_materials": 1,
+    "degenerate": 6,
+    "loose_vertices": 0,
+    "boundary_edges": 4,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "PassengerDoor_HINGE_Mesh",
+    "mesh": "Cube.372",
+    "users": [
+      "PassengerDoor_HINGE_Mesh"
+    ],
+    "triangles": 738,
+    "vertices": 380,
+    "materials": 5,
+    "empty_materials": 1,
+    "degenerate": 6,
+    "loose_vertices": 0,
+    "boundary_edges": 4,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Bike_RearWheel_AXLE_Mesh",
+    "mesh": "Torus.003",
+    "users": [
+      "Bike_RearWheel_AXLE_Mesh"
+    ],
+    "triangles": 732,
+    "vertices": 384,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Bike_FrontWheel_AXLE_Mesh",
+    "mesh": "Torus.005",
+    "users": [
+      "Bike_FrontWheel_AXLE_Mesh"
+    ],
+    "triangles": 732,
+    "vertices": 384,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkLamp_Street_Lamp_Mesh",
+    "mesh": "Cone.010",
+    "users": [
+      "ParkLamp_Street_Lamp_Mesh",
+      "Street_Lamp_Mesh"
+    ],
+    "triangles": 364,
+    "vertices": 200,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_1_Mesh",
+    "mesh": "Cube.389",
+    "users": [
+      "ConeHolder_1_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_2_Mesh",
+    "mesh": "Cube.390",
+    "users": [
+      "ConeHolder_2_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_3_Mesh",
+    "mesh": "Cube.391",
+    "users": [
+      "ConeHolder_3_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_4_Mesh",
+    "mesh": "Cube.392",
+    "users": [
+      "ConeHolder_4_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_5_Mesh",
+    "mesh": "Cube.393",
+    "users": [
+      "ConeHolder_5_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_6_Mesh",
+    "mesh": "Cube.394",
+    "users": [
+      "ConeHolder_6_Mesh"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_1_Mesh.001",
+    "mesh": "Cube.403",
+    "users": [
+      "ConeHolder_1_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_2_Mesh.001",
+    "mesh": "Cube.404",
+    "users": [
+      "ConeHolder_2_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_3_Mesh.001",
+    "mesh": "Cube.405",
+    "users": [
+      "ConeHolder_3_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_4_Mesh.001",
+    "mesh": "Cube.406",
+    "users": [
+      "ConeHolder_4_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_5_Mesh.001",
+    "mesh": "Cube.407",
+    "users": [
+      "ConeHolder_5_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ConeHolder_6_Mesh.001",
+    "mesh": "Cube.408",
+    "users": [
+      "ConeHolder_6_Mesh.001"
+    ],
+    "triangles": 720,
+    "vertices": 378,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ParkBin_Park_TrashBin_Mesh",
+    "mesh": "Bin body",
+    "users": [
+      "ParkBin_Park_TrashBin_Mesh",
+      "Park_TrashBin_Mesh"
+    ],
+    "triangles": 360,
+    "vertices": 184,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Supply_Crate_Mesh",
+    "mesh": "Cube.103",
+    "users": [
+      "Supply_Crate_Mesh"
+    ],
+    "triangles": 572,
+    "vertices": 312,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 64,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Delivery_Bicycle_Mesh",
+    "mesh": "Cone.075",
+    "users": [
+      "Delivery_Bicycle_Mesh"
+    ],
+    "triangles": 572,
+    "vertices": 312,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 22,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Chassis_ROOT_Mesh",
+    "mesh": "Cube.374",
+    "users": [
+      "Chassis_ROOT_Mesh"
+    ],
+    "triangles": 556,
+    "vertices": 296,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "WaffleStation_ROOT_Mesh",
+    "mesh": "Cube.395",
+    "users": [
+      "WaffleStation_ROOT_Mesh"
+    ],
+    "triangles": 540,
+    "vertices": 282,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "WaffleStation_ROOT_Mesh.001",
+    "mesh": "Cube.400",
+    "users": [
+      "WaffleStation_ROOT_Mesh.001"
+    ],
+    "triangles": 540,
+    "vertices": 282,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCreamTruck_ROOT_Mesh.002",
+    "mesh": "Cube.366",
+    "users": [
+      "IceCreamTruck_ROOT_Mesh.002"
+    ],
+    "triangles": 528,
+    "vertices": 288,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Delivery_Cooler_Mesh",
+    "mesh": "Cube.093",
+    "users": [
+      "Delivery_Cooler_Mesh",
+      "BikeCarrier_Delivery_Cooler_Mesh"
+    ],
+    "triangles": 264,
+    "vertices": 144,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 8,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ServingHatch_HINGE_Mesh",
+    "mesh": "Cube.367",
+    "users": [
+      "ServingHatch_HINGE_Mesh"
+    ],
+    "triangles": 520,
+    "vertices": 280,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 4,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCreamTruck_ROOT_Mesh",
+    "mesh": "Cylinder.001",
+    "users": [
+      "IceCreamTruck_ROOT_Mesh"
+    ],
+    "triangles": 512,
+    "vertices": 272,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 16,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Spare_Tire_Mesh",
+    "mesh": "Torus.002",
+    "users": [
+      "Spare_Tire_Mesh"
+    ],
+    "triangles": 392,
+    "vertices": 200,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub",
+    "mesh": "Removable tub.036",
+    "users": [
+      "Removable tub"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.001",
+    "mesh": "Removable tub.037",
+    "users": [
+      "Removable tub.001"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.004",
+    "mesh": "Removable tub.040",
+    "users": [
+      "Removable tub.004"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.005",
+    "mesh": "Removable tub.041",
+    "users": [
+      "Removable tub.005"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.006",
+    "mesh": "Removable tub.042",
+    "users": [
+      "Removable tub.006"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.008",
+    "mesh": "Removable tub.044",
+    "users": [
+      "Removable tub.008"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.009",
+    "mesh": "Removable tub.045",
+    "users": [
+      "Removable tub.009"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.010",
+    "mesh": "Removable tub.046",
+    "users": [
+      "Removable tub.010"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.011",
+    "mesh": "Removable tub.047",
+    "users": [
+      "Removable tub.011"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.002",
+    "mesh": "Removable tub.048",
+    "users": [
+      "Removable tub.002"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.003",
+    "mesh": "Removable tub.049",
+    "users": [
+      "Removable tub.003"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.007",
+    "mesh": "Removable tub.052",
+    "users": [
+      "Removable tub.007"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.012",
+    "mesh": "Removable tub.053",
+    "users": [
+      "Removable tub.012"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.013",
+    "mesh": "Removable tub.054",
+    "users": [
+      "Removable tub.013"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.014",
+    "mesh": "Removable tub.056",
+    "users": [
+      "Removable tub.014"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.015",
+    "mesh": "Removable tub.057",
+    "users": [
+      "Removable tub.015"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.016",
+    "mesh": "Removable tub.058",
+    "users": [
+      "Removable tub.016"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Removable tub.017",
+    "mesh": "Removable tub.059",
+    "users": [
+      "Removable tub.017"
+    ],
+    "triangles": 388,
+    "vertices": 196,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Fire_Hydrant_Mesh",
+    "mesh": "Cone.024",
+    "users": [
+      "Fire_Hydrant_Mesh"
+    ],
+    "triangles": 384,
+    "vertices": 206,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Cooler_Lid_HINGE_Mesh",
+    "mesh": "Cube.098",
+    "users": [
+      "Cooler_Lid_HINGE_Mesh",
+      "BikeCarrier_Cooler_Lid_HINGE_Mesh"
+    ],
+    "triangles": 176,
+    "vertices": 96,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Mop_Mesh",
+    "mesh": "Cone.043",
+    "users": [
+      "Mop_Mesh"
+    ],
+    "triangles": 336,
+    "vertices": 184,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Raw batter portion",
+    "mesh": "Icosphere.004",
+    "users": [
+      "Raw batter portion"
+    ],
+    "triangles": 320,
+    "vertices": 162,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Raw batter portion.001",
+    "mesh": "Icosphere.018",
+    "users": [
+      "Raw batter portion.001"
+    ],
+    "triangles": 320,
+    "vertices": 162,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Trash_Bag_Mesh",
+    "mesh": "Sphere.007",
+    "users": [
+      "Trash_Bag_Mesh"
+    ],
+    "triangles": 268,
+    "vertices": 140,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "RearEntryDoor_HINGE_Mesh",
+    "mesh": "Cube.365",
+    "users": [
+      "RearEntryDoor_HINGE_Mesh"
+    ],
+    "triangles": 264,
+    "vertices": 144,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Bike_Steering_Mesh",
+    "mesh": "Cone.069",
+    "users": [
+      "Bike_Steering_Mesh"
+    ],
+    "triangles": 264,
+    "vertices": 144,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Cleaning_Bucket_Mesh",
+    "mesh": "Bucket",
+    "users": [
+      "Cleaning_Bucket_Mesh"
+    ],
+    "triangles": 256,
+    "vertices": 136,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 1",
+    "mesh": "IceCream_Fill \u2022 1.003",
+    "users": [
+      "IceCream_Fill \u2022 1"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 3",
+    "mesh": "IceCream_Fill \u2022 3.003",
+    "users": [
+      "IceCream_Fill \u2022 3"
+    ],
+    "triangles": 230,
+    "vertices": 132,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 5",
+    "mesh": "IceCream_Fill \u2022 5.003",
+    "users": [
+      "IceCream_Fill \u2022 5"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 6",
+    "mesh": "IceCream_Fill \u2022 6.003",
+    "users": [
+      "IceCream_Fill \u2022 6"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 7",
+    "mesh": "IceCream_Fill \u2022 7.003",
+    "users": [
+      "IceCream_Fill \u2022 7"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 10",
+    "mesh": "IceCream_Fill \u2022 10.003",
+    "users": [
+      "IceCream_Fill \u2022 10"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 1.001",
+    "mesh": "IceCream_Fill \u2022 1.004",
+    "users": [
+      "IceCream_Fill \u2022 1.001"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 3.001",
+    "mesh": "IceCream_Fill \u2022 3.004",
+    "users": [
+      "IceCream_Fill \u2022 3.001"
+    ],
+    "triangles": 230,
+    "vertices": 132,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 32,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 5.001",
+    "mesh": "IceCream_Fill \u2022 5.004",
+    "users": [
+      "IceCream_Fill \u2022 5.001"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 6.001",
+    "mesh": "IceCream_Fill \u2022 6.004",
+    "users": [
+      "IceCream_Fill \u2022 6.001"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 7.001",
+    "mesh": "IceCream_Fill \u2022 7.004",
+    "users": [
+      "IceCream_Fill \u2022 7.001"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 10.001",
+    "mesh": "IceCream_Fill \u2022 10.004",
+    "users": [
+      "IceCream_Fill \u2022 10.001"
+    ],
+    "triangles": 230,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 30,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 2",
+    "mesh": "IceCream_Fill \u2022 2.003",
+    "users": [
+      "IceCream_Fill \u2022 2"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 4",
+    "mesh": "IceCream_Fill \u2022 4.003",
+    "users": [
+      "IceCream_Fill \u2022 4"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 8",
+    "mesh": "IceCream_Fill \u2022 8.003",
+    "users": [
+      "IceCream_Fill \u2022 8"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 9",
+    "mesh": "IceCream_Fill \u2022 9.003",
+    "users": [
+      "IceCream_Fill \u2022 9"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 11",
+    "mesh": "IceCream_Fill \u2022 11.003",
+    "users": [
+      "IceCream_Fill \u2022 11"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 12",
+    "mesh": "IceCream_Fill \u2022 12.003",
+    "users": [
+      "IceCream_Fill \u2022 12"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 2.001",
+    "mesh": "IceCream_Fill \u2022 2.004",
+    "users": [
+      "IceCream_Fill \u2022 2.001"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 4.001",
+    "mesh": "IceCream_Fill \u2022 4.004",
+    "users": [
+      "IceCream_Fill \u2022 4.001"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 8.001",
+    "mesh": "IceCream_Fill \u2022 8.004",
+    "users": [
+      "IceCream_Fill \u2022 8.001"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 9.001",
+    "mesh": "IceCream_Fill \u2022 9.004",
+    "users": [
+      "IceCream_Fill \u2022 9.001"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 11.001",
+    "mesh": "IceCream_Fill \u2022 11.004",
+    "users": [
+      "IceCream_Fill \u2022 11.001"
+    ],
+    "triangles": 229,
+    "vertices": 130,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 29,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCream_Fill \u2022 12.001",
+    "mesh": "IceCream_Fill \u2022 12.004",
+    "users": [
+      "IceCream_Fill \u2022 12.001"
+    ],
+    "triangles": 229,
+    "vertices": 131,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 31,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Serving_Tray_Mesh",
+    "mesh": "Cube.125",
+    "users": [
+      "Serving_Tray_Mesh"
+    ],
+    "triangles": 220,
+    "vertices": 120,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 4,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Broom_Mesh",
+    "mesh": "Cone.041",
+    "users": [
+      "Broom_Mesh"
+    ],
+    "triangles": 220,
+    "vertices": 128,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Toolbox_Mesh",
+    "mesh": "Cube.151",
+    "users": [
+      "Toolbox_Mesh"
+    ],
+    "triangles": 220,
+    "vertices": 120,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Bike_Pedals_AXLE_Mesh",
+    "mesh": "Cone.082",
+    "users": [
+      "Bike_Pedals_AXLE_Mesh"
+    ],
+    "triangles": 220,
+    "vertices": 120,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Baseball_Bat_Mesh",
+    "mesh": "Bat",
+    "users": [
+      "Baseball_Bat_Mesh"
+    ],
+    "triangles": 188,
+    "vertices": 96,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "IceCreamTruck_ROOT_Mesh.001",
+    "mesh": "Cube.370",
+    "users": [
+      "IceCreamTruck_ROOT_Mesh.001"
+    ],
+    "triangles": 176,
+    "vertices": 96,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Mailbox_Mesh",
+    "mesh": "Cube.076",
+    "users": [
+      "Mailbox_Mesh"
+    ],
+    "triangles": 176,
+    "vertices": 96,
+    "materials": 4,
+    "empty_materials": 0,
+    "degenerate": 16,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Wrench_Mesh",
+    "mesh": "Cube.156",
+    "users": [
+      "Wrench_Mesh"
+    ],
+    "triangles": 176,
+    "vertices": 96,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 6,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Dustpan_Mesh",
+    "mesh": "Cube.148",
+    "users": [
+      "Dustpan_Mesh"
+    ],
+    "triangles": 168,
+    "vertices": 92,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Tasting_Spoon_Mesh",
+    "mesh": "Cube.120",
+    "users": [
+      "Tasting_Spoon_Mesh"
+    ],
+    "triangles": 164,
+    "vertices": 86,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 6,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Topping_Jar_Mesh",
+    "mesh": "Cone.039",
+    "users": [
+      "Topping_Jar_Mesh"
+    ],
+    "triangles": 164,
+    "vertices": 88,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 8,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Street_Sign_Mesh",
+    "mesh": "Cone.031",
+    "users": [
+      "Street_Sign_Mesh"
+    ],
+    "triangles": 144,
+    "vertices": 80,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 8,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Napkin_Dispenser_Mesh",
+    "mesh": "Cube.121",
+    "users": [
+      "Napkin_Dispenser_Mesh"
+    ],
+    "triangles": 132,
+    "vertices": 72,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 16,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Traffic_Cone_Mesh",
+    "mesh": "Cube.160",
+    "users": [
+      "Traffic_Cone_Mesh"
+    ],
+    "triangles": 132,
+    "vertices": 72,
+    "materials": 3,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Sidewalk_Straight_Mesh",
+    "mesh": "Cube.033",
+    "users": [
+      "Sidewalk_Straight_Mesh"
+    ],
+    "triangles": 128,
+    "vertices": 80,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Serving_Cup_Mesh",
+    "mesh": "Cup shell",
+    "users": [
+      "Serving_Cup_Mesh"
+    ],
+    "triangles": 124,
+    "vertices": 64,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Ingredient_Carton_Mesh",
+    "mesh": "Cube.116",
+    "users": [
+      "Ingredient_Carton_Mesh"
+    ],
+    "triangles": 96,
+    "vertices": 54,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 8,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "ServiceLedge_ROOT_Mesh",
+    "mesh": "Cube.368",
+    "users": [
+      "ServiceLedge_ROOT_Mesh"
+    ],
+    "triangles": 88,
+    "vertices": 48,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Sidewalk_Corner_Mesh",
+    "mesh": "Cube.041",
+    "users": [
+      "Sidewalk_Corner_Mesh"
+    ],
+    "triangles": 88,
+    "vertices": 48,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Mailbox_Flag_Mesh",
+    "mesh": "Cube.080",
+    "users": [
+      "Mailbox_Flag_Mesh"
+    ],
+    "triangles": 88,
+    "vertices": 48,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Cleaning_Rag_Mesh",
+    "mesh": "Cube.133",
+    "users": [
+      "Cleaning_Rag_Mesh"
+    ],
+    "triangles": 88,
+    "vertices": 48,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Restock_Box_Mesh",
+    "mesh": "Cube.118",
+    "users": [
+      "Restock_Box_Mesh"
+    ],
+    "triangles": 56,
+    "vertices": 32,
+    "materials": 2,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Grass_Cell_Mesh",
+    "mesh": "Cube.032",
+    "users": [
+      "Grass_Cell_Mesh"
+    ],
+    "triangles": 12,
+    "vertices": 8,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Curb_Ramp_Mesh",
+    "mesh": "Sloped curb",
+    "users": [
+      "Curb_Ramp_Mesh"
+    ],
+    "triangles": 12,
+    "vertices": 8,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Park lawn",
+    "mesh": "Cube.184",
+    "users": [
+      "Park lawn"
+    ],
+    "triangles": 12,
+    "vertices": 8,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Park path north south",
+    "mesh": "Cube.185",
+    "users": [
+      "Park path north south"
+    ],
+    "triangles": 12,
+    "vertices": 8,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  },
+  {
+    "name": "Park path east west",
+    "mesh": "Cube.186",
+    "users": [
+      "Park path east west"
+    ],
+    "triangles": 12,
+    "vertices": 8,
+    "materials": 1,
+    "empty_materials": 0,
+    "degenerate": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "modifiers": []
+  }
+]
