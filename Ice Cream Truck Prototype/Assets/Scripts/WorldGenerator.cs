@@ -12,11 +12,12 @@ public class WorldGenerator : MonoBehaviour
     public GameObject grass, park;
     public GameObject boundary;
     public GameObject[] houses, trees;
+    public GameObject[] rocks, shrubs, hills;
     public Transform generatedRoot;
     public List<Hotspot> Hotspots { get; private set; } = new List<Hotspot>();
     public int[,] RoadPorts { get; private set; }
     public int Seed { get; private set; }
-    public float HalfExtent => (Mathf.Clamp(settings.junctionsPerSide | 1, 3, 5) * 2 - 1) * settings.tileSize * .5f;
+    public float HalfExtent => (Mathf.Clamp(settings.junctionsPerSide | 1, 3, 11) * 2 - 1) * settings.tileSize * .5f;
     static readonly Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
     void Awake() { if (generateOnAwake) Generate(settings.randomizeWorldSeed ? Random.Range(1, int.MaxValue) : settings.worldSeed); }
 
@@ -29,7 +30,7 @@ public class WorldGenerator : MonoBehaviour
         }
         Seed = seed;
         var random = new System.Random(seed);
-        int n = Mathf.Clamp(settings.junctionsPerSide | 1, 3, 5), width = n * 2 - 1;
+        int n = Mathf.Clamp(settings.junctionsPerSide | 1, 3, 11), width = n * 2 - 1;
         RoadPorts = new int[width, width];
         var visited = new bool[n, n];
         var stack = new Stack<Vector2Int>();
@@ -58,6 +59,7 @@ public class WorldGenerator : MonoBehaviour
         if (center < width - 1) Connect(new Vector2Int(center, center), 1);
         if (center > 0) Connect(new Vector2Int(center, center), 3);
         Hotspots.Clear();
+        var candidates = new List<Hotspot>();
         for (int x = 0; x < width; x++) for (int z = 0; z < width; z++)
         {
             Vector3 pos = new Vector3((x - center) * settings.tileSize, -.05f, (z - center) * settings.tileSize);
@@ -82,13 +84,22 @@ public class WorldGenerator : MonoBehaviour
                 PlaceTile(isPark ? park : grass, pos, Quaternion.identity);
                 if (!isPark)
                 {
-                    Instantiate(houses[random.Next(houses.Length)], pos + new Vector3(0, .05f, -2), Quaternion.Euler(0, random.Next(4) * 90, 0), generatedRoot);
-                    for (int t = 0; t < 3; t++) Instantiate(trees[random.Next(trees.Length)], pos + new Vector3(t == 0 ? -8 : 8, .05f, -7 + t * 7), Quaternion.identity, generatedRoot);
+                    for (int home = 0; home < 2; home++)
+                        Instantiate(houses[random.Next(houses.Length)], pos + new Vector3(home == 0 ? -4.8f : 4.8f, .05f, -2), Quaternion.Euler(0, 180, 0), generatedRoot);
                 }
-                Hotspots.Add(new Hotspot { position = pos + new Vector3(0, .05f, 8), park = isPark });
+                DressPlot(pos, isPark, random);
+                var candidate = new Hotspot { position = pos + new Vector3(0, .05f, 8), park = isPark };
+                if (x == center + 1 && z == center + 1) candidates.Insert(0, candidate);
+                else candidates.Add(candidate);
             }
         }
         Physics.SyncTransforms();
+        foreach (var candidate in candidates)
+        {
+            if (!Walkable(candidate.position)) continue;
+            if (Hotspots.Exists(area => Vector3.Distance(area.position, candidate.position) < settings.customerAreaSpacing)) continue;
+            Hotspots.Add(candidate);
+        }
         for (int side = 0; side < 4; side++)
         {
             var wall = Instantiate(boundary, generatedRoot);
@@ -96,6 +107,23 @@ public class WorldGenerator : MonoBehaviour
             wall.transform.rotation = Quaternion.Euler(0, side * 90, 0);
             wall.transform.localScale = new Vector3(HalfExtent * 2 + 2, 3, 1);
         }
+    }
+    private void DressPlot(Vector3 position, bool parkPlot, System.Random random)
+    {
+        for (int i = 0; i < (parkPlot ? 2 : 6); i++)
+        {
+            Vector3 point = position + new Vector3(i % 2 == 0 ? -9 : 9, .05f, -8 + i / 2 * 8);
+            var tree = Instantiate(trees[random.Next(trees.Length)], point, Quaternion.Euler(0, random.Next(360), 0), generatedRoot);
+            tree.transform.localScale *= .8f + (float)random.NextDouble() * .45f;
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 point = position + new Vector3(-5 + i * 5, .05f, -9);
+            Instantiate(shrubs[random.Next(shrubs.Length)], point, Quaternion.Euler(0, random.Next(360), 0), generatedRoot);
+        }
+        Instantiate(rocks[random.Next(rocks.Length)], position + new Vector3(0, .05f, -6.5f), Quaternion.Euler(0, random.Next(360), 0), generatedRoot);
+        if (!parkPlot)
+            Instantiate(hills[random.Next(hills.Length)], position + new Vector3(0, -.05f, -9), Quaternion.identity, generatedRoot);
     }
     void PlaceTile(GameObject prefab, Vector3 position, Quaternion rotation)
     {

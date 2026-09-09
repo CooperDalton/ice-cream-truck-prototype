@@ -13,7 +13,7 @@ public class Boombox : PickupItem
     {
         if (player.day.CanPlay && Keyboard.current.qKey.wasPressedThisFrame &&
             (player.Held == this || Vector3.Distance(player.transform.position, transform.position) < settings.reach)) ToggleMusic();
-        music.volume = player.day.CanPlay ? settings.soundVolume * .6f : 0;
+        music.volume = player.day.CanPlay ? settings.soundVolume * .6f * PlayerPrefs.GetFloat("MusicVolume", 1) : 0;
     }
     public void ToggleMusic()
     {

@@ -20,6 +20,9 @@ public class PlayerInteraction : MonoBehaviour
     public bool ManualInput { get; set; }
     public Vector3 HitPoint { get; private set; }
     private Interactable gesture;
+    private WaffleMaker pressedWaffle;
+    private float waffleHoldTime;
+    private bool pouredBatter;
     private float soundCooldown;
     private Vector3 anchorRest;
     private Quaternion anchorRotation;
@@ -42,6 +45,7 @@ public class PlayerInteraction : MonoBehaviour
         if (!day.CanPlay || truck.IsDriving)
         {
             EndGesture();
+            pressedWaffle = null;
             if (day.CanPlay && ePressed) truck.ToggleDriving();
             return;
         }
@@ -59,11 +63,39 @@ public class PlayerInteraction : MonoBehaviour
             if (Target != null) Target.Highlight(true);
         }
         bool usesKeyboard = Target is TruckDoor || Target is TruckSeat;
-        if (Target != null && (usesKeyboard ? ePressed : usePressed))
+        if (usePressed && Target is WaffleMaker waffle)
+        {
+            pressedWaffle = waffle;
+            waffleHoldTime = 0;
+            pouredBatter = false;
+        }
+        if (pressedWaffle != null)
+        {
+            if (Target != pressedWaffle)
+            {
+                EndGesture();
+                pressedWaffle = null;
+            }
+            else
+            {
+                waffleHoldTime += dt;
+                if (held && waffleHoldTime >= .18f && gesture == null && pressedWaffle.CanGesture(this))
+                {
+                    gesture = pressedWaffle;
+                    pouredBatter = true;
+                }
+                if (released)
+                {
+                    if (!pouredBatter) pressedWaffle.Use(this);
+                    pressedWaffle = null;
+                }
+            }
+        }
+        if (Target != null && !(Target is WaffleMaker) && (usesKeyboard ? ePressed : usePressed))
         {
             Target.Use(this);
         }
-        if (held && gesture == null && Target != null && Target.CanGesture(this))
+        if (held && gesture == null && Target != null && !(Target is WaffleMaker) && Target.CanGesture(this))
         {
             Target.Use(this);
             gesture = Target;
@@ -130,7 +162,7 @@ public class PlayerInteraction : MonoBehaviour
     }
     public void Play(AudioClip clip)
     {
-        audioSource.PlayOneShot(clip, settings.soundVolume);
+        audioSource.PlayOneShot(clip, settings.soundVolume * PlayerPrefs.GetFloat("EffectsVolume", 1));
     }
     public void GestureSound(AudioClip clip)
     {

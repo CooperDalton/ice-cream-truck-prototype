@@ -17,6 +17,8 @@ public class Customer : Interactable
     public bool Idle { get; private set; } = true;
     public bool IsChild { get; private set; }
     public bool ParkResident { get; private set; }
+    public bool ServedToday { get; private set; }
+    public int HomeArea { get; private set; }
     public float Cooldown { get; private set; }
     public Vector3 Home { get; private set; }
     private List<Vector3> path;
@@ -38,9 +40,10 @@ public class Customer : Interactable
         block.SetColor("_BaseColor",shirtColor);
         shirt.SetPropertyBlock(block, 0);
     }
-    public void SetHome(Vector3 point, bool child, bool park)
+    public void SetHome(Vector3 point, bool child, bool park, int area)
     {
         Home = point; IsChild = child; ParkResident = park; Idle = true;
+        HomeArea = area;
     }
     public void Follow(List<Vector3> route)
     {
@@ -120,6 +123,7 @@ public class Customer : Interactable
     }
     public override string Prompt(PlayerInteraction player)
     {
+        if (ServedToday) return "Thanks for the ice cream! See you tomorrow.";
         if (Idle) return "Park nearby or play the boombox to attract customers";
         if (Leaving) return "Thanks!";
         if (Manager.Front != this || !Arrived) return "Waiting in line";
@@ -137,8 +141,9 @@ public class Customer : Interactable
         player.hud.ShowMessage("Thank you! +$" + price);
         Manager.Served(this);
     }
-    public void Leave()
+    public void Leave(bool served = false)
     {
+        ServedToday |= served;
         Leaving = true;
         servingStep.SetActive(false);
         interactionCollider.enabled = false;

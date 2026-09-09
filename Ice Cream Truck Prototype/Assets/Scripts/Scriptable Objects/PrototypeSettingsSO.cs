@@ -6,7 +6,7 @@ public class PrototypeSettingsSO : ScriptableObject
     [Header("Day")]
     [Range(0, 23)] public int openingHour = 8;
     [Range(1, 24)] public int closingHour = 18;
-    [Min(.1f)] public float secondsPerGameMinute = 12;
+    [Min(.1f)] public float secondsPerGameMinute = 2;
     public float dayDurationSeconds => (closingHour - openingHour) * 60 * secondsPerGameMinute;
     [Min(0)] public int quota = 100;
     [Min(0)] public int quotaIncreasePerDay = 25;
@@ -56,11 +56,12 @@ public class PrototypeSettingsSO : ScriptableObject
     [Header("Neighborhood")]
     public bool randomizeWorldSeed = true;
     public int worldSeed = 4312;
-    [Range(3, 5)] public int junctionsPerSide = 3;
+    [Range(3, 11)] public int junctionsPerSide = 9;
     [Min(16)] public float tileSize = 24;
     [Range(0, 1)] public float extraRoadChance = .3f;
     [Range(0, 1)] public float parkChance = .35f;
     [Range(1, 12)] public int residentsPerHotspot = 5;
+    [Min(48)] public float customerAreaSpacing = 96;
     [Range(0, 1)] public float parkChildChance = .85f;
     [Range(0, 1)] public float residentialChildChance = .25f;
     [Min(.2f)] public float navigationCellSize = 2;
@@ -71,6 +72,6 @@ public class PrototypeSettingsSO : ScriptableObject
     {
         closingHour = Mathf.Max(openingHour + 1, closingHour);
         secondsPerGameMinute = Mathf.Max(.1f, secondsPerGameMinute);
-        junctionsPerSide = Mathf.Clamp(junctionsPerSide | 1, 3, 5);
+        junctionsPerSide = Mathf.Clamp(junctionsPerSide | 1, 3, 11);
     }
 }

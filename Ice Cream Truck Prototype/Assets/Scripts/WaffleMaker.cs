@@ -54,7 +54,7 @@ public class WaffleMaker : Interactable
     public override string Prompt(PlayerInteraction p)
     {
         if (p.Held != null && p.Held.kind == PickupItem.ItemKind.Batter)
-            return !IsOpen ? "Put down batter and open the lid" : State == CookState.Empty ? "Hold left click to pour batter" : "Batter added • Put down bottle";
+            return !IsOpen ? "Click to open the lid" : State == CookState.Empty ? "Hold left click to pour • Click to close lid" : "Click to close lid • Put down bottle to take waffle";
         if (p.Held != null) return "Put down your item to use the waffle maker";
         if (State == CookState.Cooking) return "Cooking waffle...";
         if (State == CookState.Ready) return IsOpen ? "Click to take the cone" : "Waffle ready • Click to open";
@@ -64,7 +64,15 @@ public class WaffleMaker : Interactable
     }
     public override void Use(PlayerInteraction p)
     {
-        if (p.Held != null) { if (!CanGesture(p)) p.Notify(Prompt(p), true); return; }
+        if (p.Held != null)
+        {
+            if (p.Held.kind == PickupItem.ItemKind.Batter)
+            {
+                ToggleLid(p);
+            }
+            else p.Notify(Prompt(p), true);
+            return;
+        }
         if (State == CookState.Cooking) return;
         if (!IsOpen) { IsOpen = true; p.Play(p.actionSound); return; }
         if (State == CookState.Ready)
@@ -86,6 +94,17 @@ public class WaffleMaker : Interactable
     public override bool CanGesture(PlayerInteraction p)
     {
         return IsOpen && State == CookState.Empty && p.Held != null && p.Held.kind == PickupItem.ItemKind.Batter && (p.stock == null || BatterProgress > 0 || p.stock.Has(RouteStock.Ingredient.Batter));
+    }
+    public void ToggleLid(PlayerInteraction p)
+    {
+        IsOpen = !IsOpen;
+        StopGesture();
+        if (!IsOpen && State == CookState.BatterReady)
+        {
+            State = CookState.Cooking;
+            cookTime = 0;
+        }
+        p.Play(p.actionSound);
     }
     public override void Gesture(PlayerInteraction p, Vector2 delta, float dt)
     {

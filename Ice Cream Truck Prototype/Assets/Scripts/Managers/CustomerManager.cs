@@ -22,16 +22,17 @@ public class CustomerManager : MonoBehaviour
     void Start()
     {
         var random = new System.Random(world.Seed ^ 7521);
-        foreach (var hotspot in world.Hotspots)
+        for (int area = 0; area < world.Hotspots.Count; area++)
         for (int i = 0; i < settings.residentsPerHotspot; i++)
         {
+            var hotspot = world.Hotspots[area];
             Vector3 point = hotspot.position + new Vector3((i % 3 - 1) * 2.5f, 0, i / 3 * 1.5f);
             if (!world.Walkable(point)) continue;
             bool child = random.NextDouble() < (hotspot.park ? settings.parkChildChance : settings.residentialChildChance);
             int variant = (child ? 1 : 0) + (random.Next(2) * 2);
             var resident = Instantiate(customerPrefabs[variant], point, Quaternion.Euler(0, random.Next(360), 0));
             resident.Initialize(this, new List<FlavorSO>(), false);
-            resident.SetHome(point, child, hotspot.park);
+            resident.SetHome(point, child, hotspot.park, area);
             Residents.Add(resident);
         }
         attractionTimer = settings.firstCustomerDelay;
@@ -56,7 +57,7 @@ public class CustomerManager : MonoBehaviour
         foreach (var resident in Residents)
         {
             if (Queue.Count >= queuePoints.Length || !world.Walkable(queuePoints[Queue.Count].position)) break;
-            if (resident.Idle && resident.Cooldown <= 0 && InAttractionRange(resident.transform.position)) JoinQueue(resident);
+            if (resident.Idle && !resident.ServedToday && resident.Cooldown <= 0 && InAttractionRange(resident.transform.position)) JoinQueue(resident);
         }
     }
     public Customer SpawnCustomer()
@@ -66,7 +67,7 @@ public class CustomerManager : MonoBehaviour
     }
     bool JoinQueue(Customer customer)
     {
-        if (!day.CanPlay || !truck.ServiceOpen || Queue.Count >= queuePoints.Length) return false;
+        if (!day.CanPlay || !truck.ServiceOpen || Queue.Count >= queuePoints.Length || customer.ServedToday || !customer.Idle || customer.Cooldown > 0) return false;
         var path = world.Path(customer.transform.position, queuePoints[Queue.Count].position);
         if (path == null) return false;
         var order = new List<FlavorSO>();
@@ -80,7 +81,9 @@ public class CustomerManager : MonoBehaviour
     }
     public void Served(Customer customer)
     {
-        Queue.Remove(customer); customer.Leave(); RepositionQueue();
+        Queue.Remove(customer); customer.Leave(served: true); RepositionQueue();
+        if (Residents.TrueForAll(resident => resident.HomeArea != customer.HomeArea || resident.ServedToday))
+            truck.player.interaction.hud.ShowMessage("Everyone here has been served. Drive to another neighborhood!");
     }
     public void Lose(Customer customer)
     {

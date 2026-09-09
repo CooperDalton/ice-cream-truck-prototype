@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrototypeSettingsSO
   openingHour: 8
   closingHour: 18
-  secondsPerGameMinute: 12
+  secondsPerGameMinute: 2
   quota: 100
   quotaIncreasePerDay: 25
   nextDayDelay: 8
@@ -58,11 +58,12 @@ MonoBehaviour:
   sprinklePrice: 1
   randomizeWorldSeed: 1
   worldSeed: 4312
-  junctionsPerSide: 3
+  junctionsPerSide: 9
   tileSize: 24
   extraRoadChance: 0.3
   parkChance: 0.35
-  residentsPerHotspot: 5
+  residentsPerHotspot: 6
+  customerAreaSpacing: 96
   parkChildChance: 0.85
   residentialChildChance: 0.25
   navigationCellSize: 2

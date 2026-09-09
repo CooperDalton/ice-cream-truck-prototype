@@ -15,6 +15,19 @@ public class PlayerController : MonoBehaviour
     private float fallSpeed;
     private float bobTime;
     public bool ManualInput { get; set; }
+    public const string MouseSensitivityKey = "MouseSensitivity";
+    public float MouseSensitivity { get; private set; }
+
+    private void Awake()
+    {
+        MouseSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(MouseSensitivityKey, settings.mouseSensitivity), .01f, .5f);
+    }
+
+    public void SetMouseSensitivity(float value)
+    {
+        MouseSensitivity = Mathf.Clamp(value, .01f, .5f);
+        PlayerPrefs.SetFloat(MouseSensitivityKey, MouseSensitivity);
+    }
 
     private void Start()
     {
@@ -41,8 +54,8 @@ public class PlayerController : MonoBehaviour
         if (!day.CanPlay) return;
         if (!interaction.Gesturing)
         {
-            transform.Rotate(0, mouse.x * settings.mouseSensitivity, 0);
-            pitch = Mathf.Clamp(pitch - mouse.y * settings.mouseSensitivity, -80, 80);
+            transform.Rotate(0, mouse.x * MouseSensitivity, 0);
+            pitch = Mathf.Clamp(pitch - mouse.y * MouseSensitivity, -80, 80);
             view.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
         if (truck.IsDriving) return;
