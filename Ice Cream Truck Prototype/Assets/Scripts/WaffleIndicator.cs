@@ -8,6 +8,7 @@ public class WaffleIndicator : MonoBehaviour
     public Canvas canvas;
     public GameObject panel;
     public Image ring;
+    public Image burnRing;
     public Image clickIcon;
     public GameObject useKey;
     [SerializeField] private Color idle = new Color(.78f, .8f, .83f);
@@ -23,6 +24,9 @@ public class WaffleIndicator : MonoBehaviour
         bool finished = waffle.State == WaffleMaker.CookState.Ready || waffle.State == WaffleMaker.CookState.BatterReady;
         ring.fillAmount = finished || waffle.State == WaffleMaker.CookState.Burned ? 1 : Mathf.Max(.04f, waffle.Progress);
         ring.color = waffle.State == WaffleMaker.CookState.Burned ? burned : finished ? ready : active ? cooking : idle;
+        burnRing.gameObject.SetActive(waffle.State == WaffleMaker.CookState.Ready || waffle.State == WaffleMaker.CookState.Burned);
+        burnRing.fillAmount = waffle.BurnProgress;
+        burnRing.color = burned;
         clickIcon.gameObject.SetActive(true);
         useKey.SetActive(false);
         clickIcon.color = finished ? ready : Color.white;

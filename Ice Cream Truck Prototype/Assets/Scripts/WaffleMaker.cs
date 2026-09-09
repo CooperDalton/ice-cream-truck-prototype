@@ -16,6 +16,7 @@ public class WaffleMaker : Interactable
     public CookState State { get; private set; }
     public bool IsOpen { get; private set; }
     public float BatterProgress { get; private set; }
+    public float BurnProgress => Mathf.Clamp01((cookTime - settings.cookSeconds) / settings.burnGraceSeconds);
     private float cookTime;
     public override float Progress => State == CookState.Cooking ? cookTime / settings.cookSeconds : BatterProgress;
 

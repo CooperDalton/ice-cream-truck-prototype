@@ -156,7 +156,9 @@ public class WorldGenerator : MonoBehaviour
     }
     public List<Vector3> Path(Vector3 start, Vector3 end)
     {
+        using var sample = PathMarker.Auto();
         start.y = end.y = 0;
+        if (Mathf.Abs(end.x) > HalfExtent || Mathf.Abs(end.z) > HalfExtent || !Walkable(end)) return null;
         if (ClearSegment(start, end)) return new List<Vector3> { end };
         float cell = settings.navigationCellSize;
         Vector2Int origin = Vector2Int.RoundToInt(new Vector2(start.x, start.z) / cell);
@@ -197,4 +199,5 @@ public class WorldGenerator : MonoBehaviour
         }
         return null;
     }
+    static readonly Unity.Profiling.ProfilerMarker PathMarker = new Unity.Profiling.ProfilerMarker("Truck.Navigation");
 }

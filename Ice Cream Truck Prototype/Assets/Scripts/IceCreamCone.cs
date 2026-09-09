@@ -78,8 +78,4 @@ public class IceCreamCone : PickupItem
         if (Holder != null) Holder.Occupant = null;
         Holder = null;
     }
-    public override void ReturnHome(PlayerInteraction player)
-    {
-        player.Notify("Click an empty holder or counter to place the cone");
-    }
 }

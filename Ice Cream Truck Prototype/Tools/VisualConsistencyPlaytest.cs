@@ -48,7 +48,7 @@ public static class VisualConsistencyPlaytest
             Check(Quaternion.Angle(r.player.GetComponent<FloatingHands>().handGrip.rotation,item.grip.rotation)<.1f,"Hand rotation follows "+item.displayName+" grip");
             Check(r.player.GetComponent<FloatingHands>().closedHand.gameObject.activeSelf,"Fingers curl around "+item.displayName);
             await Shot("grip-"+item.kind.ToString().ToLower());
-            if(item==cone){r.interaction.Release();Object.Destroy(cone.gameObject);}else item.ReturnHome(r.interaction);
+            if(item==cone){r.interaction.Release();Object.Destroy(cone.gameObject);}else item.Drop(r.interaction);
         }
         await Frames();Check(!r.player.GetComponent<FloatingHands>().closedHand.gameObject.activeSelf,"Empty hand returns to open pose");
         r.interaction.PickUp(r.scooper);

@@ -51,12 +51,12 @@ public static class ExpansionFollowupPlaytest
         r.player.Teleport(r.truck.transform, r.truck.kitchen.position, r.truck.kitchen.rotation);
         Check(r.interaction.PickUp(r.boombox), "Boombox can be carried", checks);
         r.player.Teleport(null, r.truck.transform.TransformPoint(new Vector3(-5, 0, 0)), Quaternion.identity);
-        r.boombox.ReturnHome(r.interaction);
-        Check(r.interaction.Held == null && r.boombox.transform.parent == null && r.boombox.pickupCollider.enabled, "Boombox can be placed on outside ground", checks);
+        r.boombox.Drop(r.interaction);
+        Check(r.interaction.Held == null && r.boombox.transform.parent == null && !r.boombox.body.isKinematic, "Boombox drops outside with physics", checks);
         r.boombox.ToggleMusic();
         Check(r.boombox.Playing && r.customers.InAttractionRange(r.boombox.transform.position + Vector3.forward * 30), "Placed boombox broadcasts its larger attraction radius", checks);
-        r.interaction.PickUp(r.boombox); r.player.Teleport(r.truck.transform, r.truck.kitchen.position, r.truck.kitchen.rotation); r.boombox.ReturnHome(r.interaction);
-        Check(r.boombox.transform.parent == r.truck.transform, "Boombox returns to truck and follows it", checks);
+        r.interaction.PickUp(r.boombox); r.player.Teleport(r.truck.transform, r.truck.kitchen.position, r.truck.kitchen.rotation); r.boombox.Drop(r.interaction);
+        Check(r.boombox.transform.parent == r.truck.transform && !r.boombox.body.isKinematic, "Boombox drops inside the truck and follows it", checks);
         return Report("expansion-bubble-boombox", checks);
     }
     public static string BeginNextDay()

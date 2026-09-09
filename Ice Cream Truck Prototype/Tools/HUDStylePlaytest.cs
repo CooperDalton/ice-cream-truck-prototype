@@ -92,7 +92,7 @@ public static class HUDStylePlaytest
         r.waffle.Use(r.interaction);
         r.interaction.PickUp(r.batter);
         r.waffle.Gesture(r.interaction, Vector2.zero, r.day.settings.pourSeconds);
-        r.waffle.StopGesture(); r.batter.ReturnHome(r.interaction);
+        r.waffle.StopGesture(); r.batter.Drop(r.interaction);
         await Frames();
         Check(indicator.ring.fillAmount == 1 && indicator.ring.color.g > indicator.ring.color.r, "Filled batter displays green ring");
         r.waffle.Use(r.interaction); r.waffle.Advance(r.day.settings.cookSeconds * .5f);

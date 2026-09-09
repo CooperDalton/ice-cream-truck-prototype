@@ -54,7 +54,7 @@ public static class TruckInteractionPlaytest
             r.interaction.PickUp(r.batter);
             await Task.Delay(100);
             Check(!indicator.useKey.activeSelf && indicator.clickIcon.gameObject.activeInHierarchy, "Pouring shows mouse hold icon");
-            r.batter.ReturnHome(r.interaction);
+            r.batter.Drop(r.interaction);
             r.interaction.PickUp(r.scooper); r.scooper.EmptyScoop();
             Aim(r.tubs[0]);
             for (int i = 0; i < 10; i++) r.interaction.ProcessInput(false, true, false, false, new Vector2(0, i % 2 == 0 ? 20 : -20), .02f);
@@ -98,7 +98,7 @@ public static class TruckInteractionPlaytest
             InputSystem.QueueStateEvent(keyboard, new KeyboardState());
             await Task.Delay(50);
             r.interaction.ManualInput = true;
-            r.scooper.ReturnHome(r.interaction);
+            r.scooper.Drop(r.interaction);
             r.player.Teleport(r.truck.transform, r.truck.transform.TransformPoint(new Vector3(-2.6f,.64f,0)), r.truck.transform.rotation);
             Aim(r.truck.rearDoor);r.interaction.ManualInput=false;
             InputSystem.QueueStateEvent(mouse,new MouseState { buttons=1 });await Task.Delay(100);

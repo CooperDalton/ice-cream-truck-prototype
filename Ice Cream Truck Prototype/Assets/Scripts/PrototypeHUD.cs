@@ -44,8 +44,7 @@ public class PrototypeHUD : MonoBehaviour
     {
         dayText.text = "DAY " + DayManager.DayNumber;
         clockText.text = day.ClockLabel;
-        moneyText.text = "$" + day.Earnings;
-        quotaText.text = "of $" + day.Quota + " daily goal";
+        moneyText.text = "$" + day.Earnings + "/" + day.Quota;
         quotaFill.fillAmount = day.Quota == 0 ? 1 : Mathf.Clamp01((float)day.Earnings / day.Quota);
         resultsButtonText.text = day.QuotaMet ? "Next day" : "Try again";
         if (day.CanPlay) messageTime -= Time.deltaTime;

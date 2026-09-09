@@ -111,7 +111,7 @@ public static class ScoopWorldUIPlaytest
         for (int i = 0; i < 90; i++) Input(false, true, 0);
         Input(false, false, 0);
         Check(r.waffle.State == WaffleMaker.CookState.BatterReady, "Pouring still fills the waffle maker");
-        r.batter.ReturnHome(r.interaction);
+        r.batter.Drop(r.interaction);
         r.waffle.Use(r.interaction);
         r.waffle.Advance(r.day.settings.cookSeconds + .1f);
         Check(r.waffle.State == WaffleMaker.CookState.Ready, "Waffle reaches ready state");

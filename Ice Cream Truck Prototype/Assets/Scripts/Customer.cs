@@ -15,6 +15,8 @@ public class Customer : Interactable
     public bool Arrived { get; private set; }
     public CustomerManager Manager { get; private set; }
     public bool Idle { get; private set; } = true;
+    public bool Chasing { get; private set; }
+    public bool FollowingVan { get; private set; }
     public bool IsChild { get; private set; }
     public bool ParkResident { get; private set; }
     public bool ServedToday { get; private set; }
@@ -36,6 +38,7 @@ public class Customer : Interactable
         WantsSprinkles = sprinkles;
         Patience = manager.settings.customerPatience;
         Leaving = false; interactionCollider.enabled = true;
+        Chasing = false;
         shirtColor = Random.ColorHSV(0,1,.35f,.65f,.65f,.95f);
         block.SetColor("_BaseColor",shirtColor);
         shirt.SetPropertyBlock(block, 0);
@@ -53,9 +56,19 @@ public class Customer : Interactable
     public void SetDestination(Vector3 point)
     {
         destination = point;
+        repathTimer = 1;
         var route = Manager.world.Path(transform.position, point);
         if (route != null) Follow(route);
         else { path = null; Arrived = false; }
+    }
+    public void Chase(Vector3 point, bool van)
+    {
+        bool changed = !Chasing || (destination - point).sqrMagnitude > 1;
+        Chasing = true; FollowingVan = van; Idle = false; Leaving = false;
+        Order.Clear(); WantsSprinkles = false;
+        servingStep.SetActive(false);
+        appearance.localPosition = Vector3.zero;
+        if (changed || path == null && repathTimer <= 0) SetDestination(point);
     }
     private void Update()
     {
@@ -91,8 +104,8 @@ public class Customer : Interactable
         }
         if (pathIndex >= path.Count)
         {
-            appearance.localPosition = Vector3.up * (IsChild && !Leaving ? childServingLift : 0);
-            servingStep.SetActive(IsChild && !Leaving && Manager.Front == this); Arrived = true;
+            appearance.localPosition = Vector3.up * (IsChild && !Leaving && !Chasing ? childServingLift : 0);
+            servingStep.SetActive(IsChild && !Leaving && !Chasing && Manager.Front == this); Arrived = true;
             if (Leaving) { Leaving = false; Idle = true; Cooldown = Manager.settings.repeatCustomerDelay; interactionCollider.enabled = true; return; }
             Vector3 look = Manager.serviceLookPoint.position - transform.position; look.y = 0;
             if (look.sqrMagnitude > .001f) transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(look), Mathf.Min(1, dt * 6));
@@ -103,7 +116,7 @@ public class Customer : Interactable
             walkTime += dt * 8;
             appearance.localPosition = Vector3.up * (Mathf.Abs(Mathf.Sin(walkTime)) * .035f);
         }
-        if (!Leaving)
+        if (!Leaving && !Chasing)
         {
             Patience -= dt;
             if (Patience <= 0) Manager.Lose(this);
@@ -124,6 +137,7 @@ public class Customer : Interactable
     public override string Prompt(PlayerInteraction player)
     {
         if (ServedToday) return "Thanks for the ice cream! See you tomorrow.";
+        if (Chasing) return FollowingVan ? "Following the van • Park to take orders" : "Following the music";
         if (Idle) return "Park nearby or play the boombox to attract customers";
         if (Leaving) return "Thanks!";
         if (Manager.Front != this || !Arrived) return "Waiting in line";
@@ -144,6 +158,7 @@ public class Customer : Interactable
     public void Leave(bool served = false)
     {
         ServedToday |= served;
+        Chasing = false;
         Leaving = true;
         servingStep.SetActive(false);
         interactionCollider.enabled = false;

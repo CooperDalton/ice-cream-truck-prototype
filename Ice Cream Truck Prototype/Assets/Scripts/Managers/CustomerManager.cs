@@ -26,8 +26,7 @@ public class CustomerManager : MonoBehaviour
         for (int i = 0; i < settings.residentsPerHotspot; i++)
         {
             var hotspot = world.Hotspots[area];
-            Vector3 point = hotspot.position + new Vector3((i % 3 - 1) * 2.5f, 0, i / 3 * 1.5f);
-            if (!world.Walkable(point)) continue;
+            if (!TryHomePosition(hotspot.position, area, random, out Vector3 point)) continue;
             bool child = random.NextDouble() < (hotspot.park ? settings.parkChildChance : settings.residentialChildChance);
             int variant = (child ? 1 : 0) + (random.Next(2) * 2);
             var resident = Instantiate(customerPrefabs[variant], point, Quaternion.Euler(0, random.Next(360), 0));
@@ -36,6 +35,21 @@ public class CustomerManager : MonoBehaviour
             Residents.Add(resident);
         }
         attractionTimer = settings.firstCustomerDelay;
+    }
+    private bool TryHomePosition(Vector3 center, int area, System.Random random, out Vector3 point)
+    {
+        for (int attempt = 0; attempt < 80; attempt++)
+        {
+            float angle = (float)random.NextDouble() * Mathf.PI * 2;
+            float radius = Mathf.Sqrt((float)random.NextDouble()) * settings.residentSpreadRadius;
+            Vector3 candidate = center + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+            if (!world.Walkable(candidate) || Residents.Exists(c => c.HomeArea == area && (c.Home - candidate).sqrMagnitude < 9)) continue;
+            if (world.Path(candidate, center) == null) continue;
+            point = candidate;
+            return true;
+        }
+        point = center;
+        return false;
     }
     void Update()
     {
@@ -47,17 +61,30 @@ public class CustomerManager : MonoBehaviour
     }
     public bool InAttractionRange(Vector3 point)
     {
-        if (!truck.ServiceOpen) return false;
         return Vector3.Distance(point, serviceLookPoint.position) <= settings.truckAttractionRadius ||
             (boombox.Playing && Vector3.Distance(point, boombox.transform.position) <= settings.boomboxAttractionRadius);
     }
     public void AttractNearby()
     {
-        if (!day.CanPlay || !truck.ServiceOpen) return;
-        foreach (var resident in Residents)
+        if (!day.CanPlay) return;
+        if (!truck.ServiceOpen && Queue.Count > 0) ReleaseQueue(followVan: true);
+        for (int i = 0; i < Residents.Count; i++)
         {
-            if (Queue.Count >= queuePoints.Length || !world.Walkable(queuePoints[Queue.Count].position)) break;
-            if (resident.Idle && !resident.ServedToday && resident.Cooldown <= 0 && InAttractionRange(resident.transform.position)) JoinQueue(resident);
+            var resident = Residents[i];
+            if (resident.ServedToday || resident.Leaving || resident.Cooldown > 0 || !resident.Idle && !resident.Chasing) continue;
+            float vanDistance = Vector3.Distance(resident.transform.position, serviceLookPoint.position);
+            if (truck.ServiceOpen && vanDistance <= settings.customerQueueRadius && JoinQueue(resident)) continue;
+            bool vanNearby = vanDistance <= settings.truckAttractionRadius * (resident.Chasing && resident.FollowingVan ? 2 : 1);
+            bool musicNearby = boombox.Playing && Vector3.Distance(resident.transform.position, boombox.transform.position) <= settings.boomboxAttractionRadius;
+            if (vanNearby) resident.Chase(queuePoints[i % queuePoints.Length].position, van: true);
+            else if (musicNearby)
+            {
+                float angle = i * 2.4f;
+                Vector3 target = boombox.transform.position + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * 3;
+                target.y = 0;
+                resident.Chase(target, van: false);
+            }
+            else if (resident.Chasing) resident.Leave();
         }
     }
     public Customer SpawnCustomer()
@@ -67,7 +94,8 @@ public class CustomerManager : MonoBehaviour
     }
     bool JoinQueue(Customer customer)
     {
-        if (!day.CanPlay || !truck.ServiceOpen || Queue.Count >= queuePoints.Length || customer.ServedToday || !customer.Idle || customer.Cooldown > 0) return false;
+        if (!day.CanPlay || !truck.ServiceOpen || Queue.Count >= queuePoints.Length || customer.ServedToday || !customer.Idle && !customer.Chasing || customer.Cooldown > 0) return false;
+        if (!world.Walkable(queuePoints[Queue.Count].position)) return false;
         var path = world.Path(customer.transform.position, queuePoints[Queue.Count].position);
         if (path == null) return false;
         var order = new List<FlavorSO>();
@@ -89,9 +117,13 @@ public class CustomerManager : MonoBehaviour
     {
         day.RecordLostCustomer(); Queue.Remove(customer); customer.Leave(); RepositionQueue();
     }
-    public void ReleaseQueue()
+    public void ReleaseQueue(bool followVan = false)
     {
-        foreach (var customer in Queue) customer.Leave();
+        for (int i = 0; i < Queue.Count; i++)
+        {
+            if (followVan) Queue[i].Chase(queuePoints[i].position, van: true);
+            else Queue[i].Leave();
+        }
         Queue.Clear();
     }
     void RepositionQueue()

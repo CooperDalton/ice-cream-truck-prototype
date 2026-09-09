@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[DefaultExecutionOrder(-100)]
 public class TruckController : MonoBehaviour
 {
     public PrototypeSettingsSO settings;
@@ -22,7 +23,13 @@ public class TruckController : MonoBehaviour
     public float Speed { get; private set; }
     public bool ManualInput { get; set; }
     public bool automaticRoute;
+    public Vector3 Velocity { get; private set; }
+    public Vector3 Acceleration { get; private set; }
+    public Vector3 AngularVelocity { get; private set; }
+    public Vector3 AngularAcceleration { get; private set; }
+    public float WheelAngle { get; private set; }
     float throttle, steering;
+    float engineInput;
     bool brake;
     Quaternion wheelRest;
     readonly Collider[] overlaps = new Collider[16];
@@ -42,10 +49,23 @@ public class TruckController : MonoBehaviour
     }
     public void Drive(float gas, float turn, bool braking, float dt)
     {
-        if (!day.CanPlay || !IsDriving) { Speed = 0; return; }
-        float target = braking ? 0 : gas * (gas >= 0 ? settings.truckSpeed : settings.reverseSpeed);
-        Speed = Mathf.MoveTowards(Speed, target, (braking || gas == 0 ? settings.braking : settings.acceleration) * dt);
-        float angle = Mathf.Tan(turn * settings.steeringAngle * Mathf.Deg2Rad) * Speed / settings.wheelbase * Mathf.Rad2Deg * dt;
+        if (!day.CanPlay) return;
+        if (!IsDriving) { Speed = 0; UpdateMotion(Vector3.zero, Vector3.zero, dt); return; }
+        gas = Mathf.Clamp(gas, -1, 1);
+        bool changingDirection = gas * Speed < -.05f;
+        engineInput = Mathf.MoveTowards(engineInput, braking || changingDirection ? 0 : gas, settings.throttleResponse * dt);
+        if (braking || changingDirection) Speed = Mathf.MoveTowards(Speed, 0, settings.braking * dt);
+        else
+        {
+            float limit = engineInput >= 0 ? settings.truckSpeed : settings.reverseSpeed;
+            float driveForce = engineInput * settings.acceleration * (1 - Mathf.Clamp01(Mathf.Abs(Speed) / limit));
+            Speed += driveForce * dt;
+            Speed = Mathf.MoveTowards(Speed, 0, (settings.rollingResistance + settings.aerodynamicDrag * Speed * Speed) * dt);
+        }
+        float maxAngle = Mathf.Min(settings.steeringAngle,
+            Mathf.Atan(settings.corneringAcceleration * settings.wheelbase / Mathf.Max(1, Speed * Speed)) * Mathf.Rad2Deg);
+        WheelAngle = Mathf.MoveTowards(WheelAngle, Mathf.Clamp(turn, -1, 1) * maxAngle, settings.steeringResponse * dt);
+        float angle = Mathf.Tan(WheelAngle * Mathf.Deg2Rad) * Speed / settings.wheelbase * Mathf.Rad2Deg * dt;
         Quaternion rotation = transform.rotation * Quaternion.Euler(0, angle, 0);
         Vector3 movement = rotation * Vector3.right * (Speed * dt);
         Vector3 start = transform.TransformPoint(collisionCenter);
@@ -54,18 +74,35 @@ public class TruckController : MonoBehaviour
             out _, transform.rotation, movement.magnitude + .03f, obstacles, QueryTriggerInteraction.Ignore);
         blocked |= Physics.OverlapBoxNonAlloc(position + rotation * collisionCenter, collisionHalfSize, overlaps,
             rotation, obstacles, QueryTriggerInteraction.Ignore) > 0;
-        if (blocked) Speed = 0;
+        if (blocked) { Speed = 0; angle = 0; }
         else
         {
-            if (movement.sqrMagnitude > .000001f && customers.Queue.Count > 0) customers.ReleaseQueue();
+            if (movement.sqrMagnitude > .000001f && customers.Queue.Count > 0) customers.ReleaseQueue(followVan: true);
             transform.SetPositionAndRotation(position, rotation);
         }
         foreach (var wheel in wheels) wheel.Rotate(Vector3.forward, -Speed * dt * 100, Space.Self);
-        steeringWheel.localRotation = wheelRest * Quaternion.Euler(0, 0, -turn * 75);
+        steeringWheel.localRotation = wheelRest * Quaternion.Euler(0, 0, -WheelAngle / settings.steeringAngle * 75);
+        UpdateMotion(transform.right * Speed, Vector3.up * (angle * Mathf.Deg2Rad / dt), dt);
         Physics.SyncTransforms();
+    }
+    void UpdateMotion(Vector3 velocity, Vector3 angularVelocity, float dt)
+    {
+        Acceleration = (velocity - Velocity) / dt;
+        AngularAcceleration = (angularVelocity - AngularVelocity) / dt;
+        Velocity = velocity;
+        AngularVelocity = angularVelocity;
+    }
+    public Vector3 CargoAcceleration(Vector3 point, Vector3 relativeVelocity)
+    {
+        Vector3 offset = point - transform.position;
+        return -Acceleration - Vector3.Cross(AngularAcceleration, offset)
+            - Vector3.Cross(AngularVelocity, Vector3.Cross(AngularVelocity, offset))
+            - 2 * Vector3.Cross(AngularVelocity, relativeVelocity);
     }
     public void FollowRoute(Vector3 position, Quaternion rotation, float speed)
     {
+        float angle = Mathf.DeltaAngle(transform.eulerAngles.y, rotation.eulerAngles.y) * Mathf.Deg2Rad;
+        UpdateMotion(rotation * Vector3.right * speed, Vector3.up * (angle / Time.deltaTime), Time.deltaTime);
         Speed = speed;
         transform.SetPositionAndRotation(position, rotation);
         foreach (var wheel in wheels) wheel.Rotate(Vector3.forward, -speed * Time.deltaTime * 100, Space.Self);

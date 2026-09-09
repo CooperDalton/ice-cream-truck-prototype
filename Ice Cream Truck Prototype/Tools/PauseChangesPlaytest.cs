@@ -36,7 +36,7 @@ public static class PauseChangesPlaytest
         r.waffle.Advance(r.waffle.settings.cookSeconds);
         Click(r.interaction);
         Check(r.waffle.IsOpen && r.waffle.State == WaffleMaker.CookState.Ready, "Ready iron opens with batter held", checks);
-        r.batter.ReturnHome(r.interaction);
+        r.batter.Drop(r.interaction);
         Click(r.interaction);
         Check(r.interaction.Held is IceCreamCone, "Cone can still be collected after putting batter down", checks);
         r.day.TogglePause();

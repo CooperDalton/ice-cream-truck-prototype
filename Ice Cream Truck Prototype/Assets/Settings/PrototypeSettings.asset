@@ -22,14 +22,20 @@ MonoBehaviour:
   sprintMultiplier: 1.65
   sprintFovIncrease: 5
   jumpHeight: 0.65
-  truckSpeed: 10
+  truckSpeed: 14
   reverseSpeed: 4
-  acceleration: 4
-  braking: 12
+  acceleration: 3
+  braking: 5
   steeringAngle: 32
   wheelbase: 4
+  rollingResistance: 0.3
+  aerodynamicDrag: 0.006
+  throttleResponse: 1.5
+  steeringResponse: 65
+  corneringAcceleration: 5
   truckAttractionRadius: 22
-  boomboxAttractionRadius: 38
+  boomboxAttractionRadius: 55
+  customerQueueRadius: 12
   mouseSensitivity: 0.1
   headBob: 1
   bobAmplitude: 0.025
@@ -63,6 +69,7 @@ MonoBehaviour:
   extraRoadChance: 0.3
   parkChance: 0.35
   residentsPerHotspot: 6
+  residentSpreadRadius: 9
   customerAreaSpacing: 96
   parkChildChance: 0.85
   residentialChildChance: 0.25

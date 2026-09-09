@@ -65,9 +65,9 @@ public static class PauseMenuBuilder
             Label(help.transform, "Guide title", "A little help behind the counter", new Vector2(0, 287), new Vector2(680, 50), 30);
             Row(help.transform, 0, "CLICK", "Bake a cone", "Click to open / close the iron with batter in hand.\nHold left click to pour. Close the lid to cook.", "Assets/Art/OrderCone.png");
             Row(help.transform, 1, "HOLD", "Scoop & sprinkle", "Hold left click and move the mouse up / down\nto scoop ice cream or shake sprinkles.", "Assets/Art/OrderScoop.png");
-            Row(help.transform, 2, "CLICK", "Finish & serve", "Click to pick up tools, place cones, or serve.\nRight click returns the item in your hand.", "Assets/Art/OrderPictures/Strawberry.png");
+            Row(help.transform, 2, "CLICK", "Finish & serve", "Click to pick up tools, place cones, or serve.\nQ places on a green preview, or drops from your hand.", "Assets/Art/OrderPictures/Strawberry.png");
             Row(help.transform, 3, "E", "Use the truck", route ? "E opens the rear door. Carry cones on the tray.\nBoard the truck to bank the cash you earned outside." : "E opens doors or takes the driver seat.\nPark, then press E to stand up.", null);
-            Row(help.transform, 4, route ? "M / R" : "Q", route ? "Plan & rescue" : "Music on the road", route ? "M opens the map and stock shop. R calls a rescue stop.\nThe map stays live; this pause menu stops the clocks." : "Q switches music on or off near the boombox.\nClick the boombox to carry it with you.", null);
+            Row(help.transform, 4, route ? "M / R" : "CLICK", route ? "Plan & rescue" : "Music on the road", route ? "M opens the map and stock shop. R calls a rescue stop.\nThe map stays live; this pause menu stops the clocks." : "Click to pick up the boombox and start its music.\nQ puts it down. The music keeps attracting people.", null);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
         }

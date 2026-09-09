@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         float targetFov = settings.fieldOfView + (sprinting ? settings.sprintFovIncrease : 0);
         view.fieldOfView = Mathf.Lerp(view.fieldOfView, targetFov, 1 - Mathf.Exp(-settings.cameraSmoothing * dt));
         if (!day.CanPlay) return;
-        if (!interaction.Gesturing)
+        if (!interaction.LocksMouseLook)
         {
             transform.Rotate(0, mouse.x * MouseSensitivity, 0);
             pitch = Mathf.Clamp(pitch - mouse.y * MouseSensitivity, -80, 80);

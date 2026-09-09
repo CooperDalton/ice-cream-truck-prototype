@@ -76,14 +76,14 @@ public static class ConeTargetingPlaytest
                 }
                 else Check(cone.Flavors.Count == 3 && r.scooper.LoadedFlavor != null, "Full cone rejects fourth scoop without losing it");
             }
-            r.scooper.ReturnHome(p);
+            r.scooper.Drop(p);
             Check(p.PickUp(r.shaker), "Picked up shaker");
             AimCone(p, cone, 3);
             p.ProcessInput(true, true, false, false, Vector2.zero, .02f);
             for (int i = 0; i < 100; i++) p.ProcessInput(false, true, false, false, new Vector2(0, 20), .02f);
             p.ProcessInput(false, false, true, false, Vector2.zero, .02f);
             Check(cone.HasSprinkles, "Sprinkles gesture still works on the visible scoop");
-            r.shaker.ReturnHome(p);
+            r.shaker.Drop(p);
             AimCone(p, cone, 3);
             p.ProcessInput(true, false, false, false, Vector2.zero, .02f);
             Check(p.Held == cone && !cone.pickupCollider.enabled && holder.Occupant == null, "Picking up cone disables collision and clears holder");

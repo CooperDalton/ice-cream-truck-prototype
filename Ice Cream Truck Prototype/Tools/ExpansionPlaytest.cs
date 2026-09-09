@@ -102,12 +102,12 @@ public static class ExpansionPlaytest
         var cone = Object.Instantiate(r.waffle.conePrefab);
         r.interaction.PickUp(r.scooper);
         foreach (var flavor in front.Order) { r.scooper.LoadScoop(flavor); cone.Use(r.interaction); }
-        r.scooper.ReturnHome(r.interaction);
+        r.scooper.Drop(r.interaction);
         if (front.WantsSprinkles)
         {
             r.interaction.PickUp(r.shaker);
             for (int i = 0; i < 100; i++) cone.Gesture(r.interaction, new Vector2(0, 20), .02f);
-            r.shaker.ReturnHome(r.interaction);
+            r.shaker.Drop(r.interaction);
         }
         r.interaction.PickUp(cone);
         r.player.Teleport(r.truck.transform, new Vector3(-1.1f, .68f, .6f), Quaternion.identity);

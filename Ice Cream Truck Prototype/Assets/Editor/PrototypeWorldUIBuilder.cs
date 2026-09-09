@@ -83,6 +83,8 @@ public static class PrototypeWorldUIBuilder
         indicator.panel = background.gameObject;
         indicator.ring = Picture(background.transform, "Progress", Vector2.zero, new Vector2(90, 90), Color.white, r.hud.progressRing.sprite);
         indicator.ring.type = Image.Type.Filled; indicator.ring.fillMethod = Image.FillMethod.Radial360; indicator.ring.fillOrigin = 2;
+        indicator.burnRing = Picture(background.transform, "Burn timer", Vector2.zero, new Vector2(112, 112), new Color(.93f, .25f, .23f), r.hud.progressRing.sprite);
+        indicator.burnRing.type = Image.Type.Filled; indicator.burnRing.fillMethod = Image.FillMethod.Radial360; indicator.burnRing.fillOrigin = 2;
         indicator.clickIcon = Picture(background.transform, "Mouse", Vector2.zero, new Vector2(19, 29), Color.white, AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd"));
         indicator.clickIcon.type = Image.Type.Sliced;
         Picture(indicator.clickIcon.transform, "Left button", new Vector2(-4, 6), new Vector2(5, 9), new Color(.3f,.8f,.52f), null);

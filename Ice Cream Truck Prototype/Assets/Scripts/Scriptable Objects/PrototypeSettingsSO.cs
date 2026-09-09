@@ -23,8 +23,14 @@ public class PrototypeSettingsSO : ScriptableObject
     [Min(.1f)] public float braking = 12;
     [Range(5, 70)] public float steeringAngle = 32;
     [Min(1)] public float wheelbase = 4;
+    [Min(0)] public float rollingResistance = .3f;
+    [Min(0)] public float aerodynamicDrag = .006f;
+    [Min(.1f)] public float throttleResponse = 1.5f;
+    [Min(1)] public float steeringResponse = 65;
+    [Min(.1f)] public float corneringAcceleration = 5;
     [Min(1)] public float truckAttractionRadius = 22;
-    [Min(1)] public float boomboxAttractionRadius = 38;
+    [Min(1)] public float boomboxAttractionRadius = 55;
+    [Min(1)] public float customerQueueRadius = 12;
     [Min(.01f)] public float mouseSensitivity = .10f;
     public bool headBob = true;
     [Range(0, .12f)] public float bobAmplitude = .025f;
@@ -61,6 +67,7 @@ public class PrototypeSettingsSO : ScriptableObject
     [Range(0, 1)] public float extraRoadChance = .3f;
     [Range(0, 1)] public float parkChance = .35f;
     [Range(1, 12)] public int residentsPerHotspot = 5;
+    [Min(3)] public float residentSpreadRadius = 9;
     [Min(48)] public float customerAreaSpacing = 96;
     [Range(0, 1)] public float parkChildChance = .85f;
     [Range(0, 1)] public float residentialChildChance = .25f;
