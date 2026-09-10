@@ -1,0 +1,10 @@
+var g=TycoonGameManager.Instance;var p=g.player;
+var tool=g.looseItems.Single(i=>i.item.kind==TycoonItem.Kind.ImprovedScooper);
+if(!tool.Collect(p))throw new System.Exception("Cannot pick up purchased scooper");
+p.Select(p.inventory.Locate(TycoonItem.Kind.ImprovedScooper));
+var tub=g.Parts(0,TycoonPart.Kind.Tub).First();int stock=tub.contents.amount;
+p.target=tub;p.Use(false);p.Gesture(new UnityEngine.Vector2(0,150),.01f);
+if(p.Held.loadedFlavor!=tub.variant||tub.contents.amount!=stock-1)throw new System.Exception("One swipe upgrade failed");
+string result="Improved scooper: one 150-pixel mouse swipe with 0.01-second input completed one scoop; stock "+stock+" -> "+tub.contents.amount+".";
+System.IO.File.AppendAllText("Library/CodexPlaytests/TycoonOpening.txt","\n"+result);
+return result;

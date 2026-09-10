@@ -1,0 +1,1 @@
+var g=TycoonGameManager.Instance;g.player.Teleport(new UnityEngine.Vector3(15,0,18));g.player.transform.rotation=UnityEngine.Quaternion.Euler(0,95,0);g.player.pitch=4;g.player.view.transform.localRotation=UnityEngine.Quaternion.Euler(4,0,0);UnityEngine.ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/TownSquare.png");return "Town square view.";

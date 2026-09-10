@@ -1,0 +1,1 @@
+var g=TycoonGameManager.Instance;g.player.Teleport(new UnityEngine.Vector3(72,0,-2));g.player.transform.rotation=UnityEngine.Quaternion.Euler(0,48,0);g.player.pitch=0;g.player.view.transform.localRotation=UnityEngine.Quaternion.identity;UnityEngine.ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/TownPark.png");return "Park view.";

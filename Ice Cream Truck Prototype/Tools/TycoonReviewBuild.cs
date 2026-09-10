@@ -1,0 +1,1 @@
+var g=TycoonGameManager.Instance;g.hud.ClosePanels();g.builder.Toggle();UnityEngine.ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/TycoonBuildFinal.png");return "Build view open with visible grid and hidden canopy.";

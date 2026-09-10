@@ -1,0 +1,10 @@
+var g=TycoonGameManager.Instance;
+g.CloseDay();g.NextDay();g.level=3;g.cash=500;g.player.manualInput=true;
+if(!g.BuyUpgrade(1,0)||!g.BuyUpgrade(3,0)||!g.BuyUpgrade(2,0))throw new System.Exception("Worker test equipment purchase failed");
+var locker=g.Parts(0,TycoonPart.Kind.Locker).First();g.builder.Place(locker,new UnityEngine.Vector3(3,0,-2),UnityEngine.Quaternion.identity,null);
+locker.storage.slots[0]=new TycoonItem(TycoonItem.Kind.ImprovedScooper);
+locker.storage.slots[1]=new TycoonItem(TycoonItem.Kind.Batter,3);
+locker.storage.slots[2]=new TycoonItem(TycoonItem.Kind.Topping,3,0);
+locker.storage.slots[3]=new TycoonItem(TycoonItem.Kind.Topping,3,1);
+if(!g.Hire(0,0))throw new System.Exception("Worker hiring failed");
+return "Worker fixture ready: bought locker, upgrade and waffle station; hired rookie; issued finite stock via eight-slot locker.";

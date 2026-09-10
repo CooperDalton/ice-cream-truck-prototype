@@ -1,0 +1,7 @@
+const string folder="Assets/Art/Tycoon/Icons/";
+foreach(var path in System.IO.Directory.GetFiles(folder,"*.png")){var importer=(UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);importer.spriteImportMode=UnityEditor.SpriteImportMode.Single;importer.SaveAndReimport();}
+var c=UnityEditor.AssetDatabase.LoadAssetAtPath<TycoonCatalogSO>("Assets/Art/Tycoon/Catalog.asset");
+c.bowlIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"Bowl.png");c.coneIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"Cone.png");
+c.basicIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"BasicScooper.png");c.improvedIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"ImprovedScooper.png");c.batterIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"Batter.png");c.bowlPackIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"BowlPack.png");c.batterPackIcon=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"BatterPack.png");
+c.flavorIcons=Enumerable.Range(0,12).Select(i=>UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"Flavor"+i+".png")).ToArray();c.toppingIcons=Enumerable.Range(0,6).Select(i=>UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Sprite>(folder+"Topping"+i+".png")).ToArray();
+UnityEditor.EditorUtility.SetDirty(c);UnityEditor.AssetDatabase.SaveAssets();return c.flavorIcons.All(i=>i!=null)&&c.bowlIcon!=null;

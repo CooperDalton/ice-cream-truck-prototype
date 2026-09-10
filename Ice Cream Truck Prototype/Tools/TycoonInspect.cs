@@ -1,0 +1,2 @@
+var game=TycoonGameManager.Instance;
+return new { game.cash, game.day, game.level, game.clock, game.notice, player=game.player.transform.position, camera=game.player.view.transform.position, parts=game.parts.Count, workers=game.workers.Count, actors=game.actors.Count, nav=game.navigation.navMeshData!=null, save=TycoonGameManager.SavePath, held=game.catalog.Label(game.player.Held), tubs=game.Parts(0,TycoonPart.Kind.Tub).Select(p=>new {p.variant,p.contents.amount,position=p.transform.position}).ToArray() };

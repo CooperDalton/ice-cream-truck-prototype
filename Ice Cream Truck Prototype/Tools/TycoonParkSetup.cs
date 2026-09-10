@@ -1,0 +1,11 @@
+var g=TycoonGameManager.Instance;g.player.manualInput=true;g.hud.ClosePanels();if(g.builder.active)g.builder.Toggle();g.cash=1200;g.phase=TycoonGameManager.Phase.Preparation;
+g.BuyUpgrade(6,0);g.BuyUpgrade(1,1);g.BuyUpgrade(2,1);
+var locker=g.Parts(1,TycoonPart.Kind.Locker).Single();locker.storage.slots[0]=new TycoonItem(TycoonItem.Kind.ImprovedScooper);locker.storage.slots[1]=new TycoonItem(TycoonItem.Kind.Bowls,12);
+locker.storage.slots[2]=new TycoonItem(TycoonItem.Kind.Topping,15,4);locker.storage.slots[3]=new TycoonItem(TycoonItem.Kind.Topping,15,5);
+foreach(var tub in g.Parts(1,TycoonPart.Kind.Tub))tub.contents.amount=6;
+var cold=g.Parts(1,TycoonPart.Kind.ColdStorage).Single();cold.storage.slots[0]=new TycoonItem(TycoonItem.Kind.Tub,24,0);cold.storage.slots[1]=new TycoonItem(TycoonItem.Kind.Tub,24,1);
+g.Hire(1,1);var worker=g.workers.Single();if(!worker.ValidateLayout())throw new System.Exception(worker.status);
+g.OpenDay();foreach(var site in g.sites)site.open=false;
+var customer=UnityEngine.Object.Instantiate(g.catalog.customerPrefab,g.sites[1].queuePoint.position,UnityEngine.Quaternion.identity);customer.game=g;customer.site=1;customer.order=new TycoonOrder{id=g.nextId++,flavors=new[]{0,1},toppings=(1<<4)|(1<<5),patience=180};g.sites[1].queue.Add(customer);g.actors.Add(customer);
+System.IO.File.WriteAllText("Library/CodexPlaytests/TycoonPark.txt","Park purchased and experienced employee hired. Start revenue zero. Two tubs at six portions, cold storage holds two full refills. Customer wants nuts and whipped cream.\n");
+return "Park employee serving a double bowl with nuts and whipped cream; testing proactive refill and return of partial tubs.";

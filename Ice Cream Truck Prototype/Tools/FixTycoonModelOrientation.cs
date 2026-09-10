@@ -1,0 +1,5 @@
+var catalog=UnityEditor.AssetDatabase.LoadAssetAtPath<TycoonCatalogSO>("Assets/Art/Tycoon/Catalog.asset");
+string signPath=UnityEditor.AssetDatabase.GetAssetPath(catalog.partPrefabs[6]);var sign=UnityEditor.PrefabUtility.LoadPrefabContents(signPath);sign.GetComponent<TycoonPart>().signModel=sign.transform.GetChild(0);UnityEditor.PrefabUtility.SaveAsPrefabAsset(sign,signPath);UnityEditor.PrefabUtility.UnloadPrefabContents(sign);
+string coldPath=UnityEditor.AssetDatabase.GetAssetPath(catalog.partPrefabs[5]);var cold=UnityEditor.PrefabUtility.LoadPrefabContents(coldPath);
+foreach(var renderer in cold.GetComponentsInChildren<UnityEngine.Renderer>())renderer.transform.localRotation=UnityEngine.Quaternion.identity;
+cold.transform.GetChild(0).localRotation=UnityEngine.Quaternion.Euler(0,180,0);UnityEditor.PrefabUtility.SaveAsPrefabAsset(cold,coldPath);UnityEditor.PrefabUtility.UnloadPrefabContents(cold);UnityEditor.AssetDatabase.SaveAssets();return "Sign rotates its model root; cold rack faces its worker access point.";

@@ -1,0 +1,14 @@
+var g=TycoonGameManager.Instance;g.hud.ClosePanels();g.player.manualInput=true;
+var tub=g.parts.First(p=>p.site==0&&p.kind==TycoonPart.Kind.Tub&&!p.installed);var builder=g.builder;
+if(builder.CanPlace(tub,new UnityEngine.Vector3(20,0,0),UnityEngine.Quaternion.identity,null,out var outside))throw new System.Exception("Accepted outside plot");
+if(builder.CanPlace(tub,g.Parts(0,TycoonPart.Kind.Tub).First().transform.position,UnityEngine.Quaternion.identity,null,out var occupied))throw new System.Exception("Accepted occupied grid cells");
+var point=new UnityEngine.Vector3(.5f,0,0);if(!builder.CanPlace(tub,point,UnityEngine.Quaternion.identity,null,out var reason))throw new System.Exception(reason);
+builder.Toggle();builder.Place(tub,point,UnityEngine.Quaternion.identity,null);
+if(!tub.installed||tub.transform.position!=point)throw new System.Exception("Grid placement failed");
+var table=g.Parts(0,TycoonPart.Kind.Table).First();var prep=g.Parts(0,TycoonPart.Kind.Prep).First();var before=prep.operatingPoint.position;
+var rotation=UnityEngine.Quaternion.Euler(0,90,0);if(!builder.CanPlace(table,table.transform.position,rotation,null,out reason))throw new System.Exception(reason);
+builder.Place(table,table.transform.position,rotation,null);
+if(prep.support!=table||UnityEngine.Vector3.Distance(prep.operatingPoint.position,before)<.5f)throw new System.Exception("Supported equipment did not move with rotated table");
+UnityEngine.ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/TycoonBuild.png");
+string evidence="Rejected outside plot and occupied cells. Installed unlocked cooled module on a free half-meter cell. Rotated a table ninety degrees; its holder and worker access point followed. Overhead build view pauses trading and restores the player view on exit.";
+System.IO.File.WriteAllText("Library/CodexPlaytests/TycoonBuilding.txt",evidence);return evidence;

@@ -1,0 +1,3 @@
+var g=TycoonGameManager.Instance;g.builder.Toggle();g.cash=1000;g.BuyUpgrade(5,0);g.BuyUpgrade(4,0);
+g.player.Teleport(new UnityEngine.Vector3(7,0,9));var direction=g.sites[0].origin.position+UnityEngine.Vector3.up*1.3f-g.player.view.transform.position;g.player.transform.rotation=UnityEngine.Quaternion.Euler(0,UnityEngine.Quaternion.LookRotation(direction).eulerAngles.y,0);g.player.view.transform.rotation=UnityEngine.Quaternion.LookRotation(direction);
+UnityEngine.ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/TycoonKioskFinal.png");return g.sites[0].kiosk.activeSelf&&g.bike.largeCargoModel.activeSelf;
