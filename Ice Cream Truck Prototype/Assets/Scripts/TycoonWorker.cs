@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class TycoonWorker : MonoBehaviour
 {
-    public enum Step { Idle, Supplies, GetBowl, GoIron, Pour, Close, Cook, Open, TakeCone, Place, GoTub, Scoop, Deposit, Topping, Take, Serve, Refill, ReturnRefill }
+    public enum Step { Idle, Supplies, GetBowl, GoIron, Pour, Close, Cook, Open, TakeCone, Place, GoTub, Scoop, Deposit, Topping, Take, Serve, Refill, ReturnRefill, TakeOrder }
     public TycoonGameManager game;
     public TycoonActor actor;
     public TycoonPart locker, prep, iron, target;
@@ -24,10 +24,10 @@ public class TycoonWorker : MonoBehaviour
     public TycoonActor Customer => game.sites[site].queue.FirstOrDefault(c => c.order.id == ticketId);
     public bool ValidateLayout()
     {
-        if (!game.Parts(site, TycoonPart.Kind.Prep).Any()) { status = "A preparation spot is missing."; return false; }
+        if (!game.parts.Any(p => p.site == site && p.installed && p.TableSurface)) { status = "A table for preparing bowls is missing."; return false; }
         var path = new NavMeshPath();
         var filter = new NavMeshQueryFilter { agentTypeID = actor.agent.agentTypeID, areaMask = NavMesh.AllAreas };
-        foreach (var part in game.parts.Where(p => p.site == site && p.installed && (p.kind == TycoonPart.Kind.Tub || p.kind == TycoonPart.Kind.Prep || p == locker || p.kind == TycoonPart.Kind.Iron || p.kind == TycoonPart.Kind.ServingCounter)))
+        foreach (var part in game.parts.Where(p => p.site == site && p.installed && (p.kind == TycoonPart.Kind.Tub || p.kind == TycoonPart.Kind.Prep || p == locker || p.kind == TycoonPart.Kind.Iron || p.TableSurface)))
         {
             if (!NavMesh.SamplePosition(part.operatingPoint.position, out var standing, .3f, filter) || !NavMesh.CalculatePath(transform.position, standing.position, filter, path) || path.status != NavMeshPathStatus.PathComplete)
             { status = "Blocked access: move " + part.kind + " or clear the aisle."; return false; }
@@ -40,6 +40,7 @@ public class TycoonWorker : MonoBehaviour
         actor.agent.speed = new[] { 1.3f, 1.5f, 1.7f }[tier];
         if (!onDuty || game.phase != TycoonGameManager.Phase.Trading) { status = "Off duty"; actor.RestHands(); return; }
         if (driver && game.truck.DriveRoute(this)) return;
+        if (!locker.installed) { status = "Waiting for assigned locker to be placed"; actor.agent.ResetPath(); return; }
         if (step != Step.Idle && Customer == null) { ResetTicket(); return; }
         Tick(Time.deltaTime);
     }
@@ -48,14 +49,22 @@ public class TycoonWorker : MonoBehaviour
         if (step == Step.Idle)
         {
             actor.RestHands();
-            var customer = game.sites[site].queue.FirstOrDefault(c => c.order.owner == "" && c.ReadyToOrder);
+            var customer = game.sites[site].queue.FirstOrDefault(c => c.order.owner == "" && c.order.stage == TycoonOrder.Stage.Pickup) ?? game.sites[site].queue.FirstOrDefault(c => c.order.owner == "" && c.ReadyToOrder);
             if (customer == null) { status = "Waiting for an order"; return; }
-            prep = game.Parts(site, TycoonPart.Kind.Prep).FirstOrDefault(p => p.claimedBy == "" && p.contents == null);
+            prep = customer.order.cone ? game.Parts(site, TycoonPart.Kind.Prep).FirstOrDefault(p => p.claimedBy == "" && p.contents == null) : game.builder.ReserveBowl(site);
             if (prep == null) { status = "Waiting for a preparation spot"; return; }
             prep.Claim(Owner); customer.order.owner = Owner; ticketId = customer.order.id;
-            scoopIndex = 0; toppingIndex = 0; Go(Step.Supplies); return;
+            scoopIndex = 0; toppingIndex = 0; Go(customer.order.stage == TycoonOrder.Stage.Ordering ? Step.TakeOrder : Step.Supplies); return;
         }
         var order = Customer.order;
+        if (step == Step.TakeOrder)
+        {
+            status = "Taking customer order";
+            if (!actor.Walk(game.sites[site].registerOperatingPoint.position)) return;
+            progress += dt;
+            if (progress >= .6f && Customer.TakeOrder()) Go(Step.Supplies);
+            return;
+        }
         if (step == Step.Supplies)
         {
             status = "Collecting tools and supplies from locker";
@@ -111,13 +120,13 @@ public class TycoonWorker : MonoBehaviour
         }
         if (step == Step.Place)
         {
-            status = "Placing serving in holder";
+            status = order.cone ? "Placing cone in holder" : "Placing bowl on table";
             if (!actor.Walk(prep.operatingPoint.position) || !Animate(prep, .6f / HandleSpeed, dt)) return;
             prep.contents = carrying; carrying = null; actor.Hold(null); Go(Step.GoTub); return;
         }
         if (step == Step.GoTub)
         {
-            if (prep.contents == null) { status = "Serving missing from assigned holder"; return; }
+            if (prep.contents == null) { status = "Serving missing from preparation spot"; return; }
             target = game.Parts(site, TycoonPart.Kind.Tub).FirstOrDefault(p => p.variant == order.flavors[scoopIndex] && p.Available(Owner));
             if (target == null) { status = "Waiting for ice cream tub"; return; }
             bool refill = inventory.Locate(TycoonItem.Kind.Tub,target.variant)>=0 || game.Parts(site,TycoonPart.Kind.ColdStorage).Any(r=>r.storage.Locate(TycoonItem.Kind.Tub,target.variant)>=0);
@@ -159,13 +168,16 @@ public class TycoonWorker : MonoBehaviour
             status = "Picking up completed order";
             if (!Animate(prep, .6f / HandleSpeed, dt)) return;
             if (prep.contents == null || !prep.contents.Matches(order)) { status = "Serving does not match ticket"; return; }
-            carrying = prep.contents; prep.contents = null; actor.Hold(carrying); Go(Step.Serve); return;
+            carrying = prep.contents; prep.contents = null;
+            if (prep.kind == TycoonPart.Kind.Bowl) { prep.RemoveBowl(); prep = null; }
+            actor.Hold(carrying); Go(Step.Serve); return;
         }
         if (step == Step.Serve)
         {
             status = "Serving customer";
-            var counter = game.Parts(site, TycoonPart.Kind.ServingCounter).First();
-            if (!actor.Walk(counter.operatingPoint.position) || !Animate(counter, .6f / HandleSpeed, dt)) return;
+            var counter = game.Parts(site, TycoonPart.Kind.ServingCounter).FirstOrDefault();
+            if (counter == null) { status = "Waiting for pickup counter to be placed"; return; }
+            if (!actor.Walk(counter.operatingPoint.position) || !Customer.ReadyForPickup || !Animate(counter, .6f / HandleSpeed, dt)) return;
             game.Pay(Customer, carrying); carrying = null; actor.Hold(null); ResetTicket(); return;
         }
         if (step == Step.Refill)
@@ -215,7 +227,7 @@ public class TycoonWorker : MonoBehaviour
         for (int i = 0; i < inventory.slots.Length; i++)
         {
             var item = inventory.slots[i];
-            if (item != null && item.kind == TycoonItem.Kind.Topping && (order.toppings & (1 << item.variant)) == 0) inventory.Transfer(i, locker.storage, true);
+            if (item != null && item.kind == TycoonItem.Kind.Topping && (order.toppings & (1 << item.variant)) == 0) inventory.Transfer(i, locker.storage);
         }
         if (!Ensure(order.cone ? TycoonItem.Kind.Batter : TycoonItem.Kind.Bowls, 0)) return false;
         for (int i = 0; i < 6; i++) if ((order.toppings & (1 << i)) != 0 && !Ensure(TycoonItem.Kind.Topping, i)) return false;
@@ -253,6 +265,7 @@ public class TycoonWorker : MonoBehaviour
     }
     public void ResetTicket()
     {
+        if (prep != null && prep.kind == TycoonPart.Kind.Bowl && prep.contents == null) { prep.RemoveBowl(); prep = null; }
         foreach (var part in game.parts) if (part.claimedBy == Owner) part.claimedBy = "";
         ticketId = -1; step = Step.Idle; progress = 0;
     }

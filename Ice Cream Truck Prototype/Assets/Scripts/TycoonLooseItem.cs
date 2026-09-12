@@ -16,12 +16,7 @@ public class TycoonLooseItem : MonoBehaviour
     }
     public bool Collect(TycoonPlayer player)
     {
-        if (item.Bulk)
-        {
-            if (player.cargo != null) return false;
-            player.cargo = item;
-        }
-        else if (!player.inventory.Add(item)) return false;
+        if (!player.PickUp(item)) return false;
         game.looseItems.Remove(this); Destroy(gameObject); player.RefreshHeld(); return true;
     }
 }

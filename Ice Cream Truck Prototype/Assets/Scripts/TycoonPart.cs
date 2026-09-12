@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class TycoonPart : MonoBehaviour
 {
-    public enum Kind { Table, Tub, Prep, Iron, Locker, ColdStorage, Sign, ServingCounter, Supplier, Bike, Truck, Plot, Trash, Shelf }
+    public const int ShelfCapacity = 12;
+    public enum Kind { Table, Tub, Prep, Iron, Locker, ColdStorage, Sign, ServingCounter, Supplier, Bike, Truck, Plot, Trash, Shelf, Register, BusinessBoard, Bowl }
     public Kind kind;
     public int catalogIndex, site, id, variant;
     public Vector2 footprint = new Vector2(.5f, .5f);
     public bool tabletop;
+    public float surfaceHeight = .94f;
+    public bool TableSurface => kind == Kind.Table || kind == Kind.ServingCounter;
     public bool installed = true;
     public bool packed;
-    public Transform operatingPoint, handTarget, contentPoint, lid;
+    public Transform operatingPoint, handTarget, contentPoint, lid, queuePoint;
     public Renderer[] fillRenderers;
     public GameObject[] lockerModels;
     public GameObject tubModel;
@@ -28,6 +31,10 @@ public class TycoonPart : MonoBehaviour
     private GameObject contentVisual;
     private string visualState;
     public bool Available(string actor) => claimedBy == "" || claimedBy == actor;
+    public void RemoveBowl()
+    {
+        game.parts.Remove(this); gameObject.SetActive(false); Destroy(gameObject);
+    }
     public bool Claim(string actor)
     {
         if (!Available(actor)) return false;
@@ -79,13 +86,13 @@ public class TycoonPart : MonoBehaviour
     }
     public bool Deposit(TycoonItem tool, string actor)
     {
-        if (kind != Kind.Prep || !Available(actor) || contents == null || tool.loadedFlavor < 0 || contents.scoops.Length >= 2) return false;
+        if ((kind != Kind.Prep && kind != Kind.Bowl) || !Available(actor) || contents == null || tool.loadedFlavor < 0 || contents.scoops.Length >= 2) return false;
         int n = contents.scoops.Length; Array.Resize(ref contents.scoops, n + 1);
         contents.scoops[n] = tool.loadedFlavor; tool.loadedFlavor = -1; game.PreparationSound(game.depositSound,transform.position); return true;
     }
     public bool BeginTopping(TycoonItem topping, string actor)
     {
-        if (kind != Kind.Prep || !Available(actor) || contents == null || contents.scoops.Length == 0 || topping.kind != TycoonItem.Kind.Topping) return false;
+        if ((kind != Kind.Prep && kind != Kind.Bowl) || !Available(actor) || contents == null || contents.scoops.Length == 0 || topping.kind != TycoonItem.Kind.Topping) return false;
         if (contents.pendingTopping == topping.variant) return true;
         if (contents.pendingTopping >= 0 || topping.amount < 1) return false;
         int bit = 1 << topping.variant;
@@ -127,10 +134,12 @@ public class TycoonPart : MonoBehaviour
     {
         return kind switch {
             Kind.Tub => TycoonCatalogSO.FlavorNames[variant] + (contents.amount > 0 ? " / hold click and swipe to scoop, click with a refill tub to top up" : " / empty, needs a refill tub"),
-            Kind.Prep => contents == null ? "Place a bowl or cone here" : "Add a scoop or topping / E to take serving",
+            Kind.Prep => contents == null ? "Place a cone in the holder" : "Add a scoop or topping / E to take serving",
+            Kind.Bowl => "Add a scoop or topping / E to take bowl",
+            Kind.Table => "Place a bowl or equipment on the table",
             Kind.Iron => ironStage switch { 0 => "Hold click with batter to pour", 1 => "Click to close waffle iron", 2 => cookTime < 6 ? "Waffle cooking" : "Click to open waffle iron", 3 => "E to take fresh cone", 5 => "Hold click to finish pouring", _ => "Burned waffle / click to discard" },
             Kind.Locker => "E / staff locker", Kind.ColdStorage => "E / cold storage", Kind.Supplier => "E / buy supplies and equipment",
-            Kind.Sign => "E / open or close this stand", Kind.ServingCounter => "Click with completed order to serve", Kind.Bike => "E / ride bicycle, F / cargo", Kind.Truck => "E / drive truck, F / cargo",
+            Kind.BusinessBoard => "E / business management", Kind.Register => "Take customer orders here", Kind.Sign => "E / open or close this stand", Kind.ServingCounter => "Click with completed order to serve", Kind.Bike => "E / ride bicycle, F / cargo", Kind.Truck => "E / drive truck, F / cargo",
             Kind.Plot => "E / business upgrades", Kind.Trash => "Click / discard held item", _ => "E / storage" };
     }
 }

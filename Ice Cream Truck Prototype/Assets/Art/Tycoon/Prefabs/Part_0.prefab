@@ -518,52 +518,74 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 2, y: 1}
   tabletop: 0
+  surfaceHeight: 0.99999976
+  installed: 1
+  packed: 0
   operatingPoint: {fileID: 6227758215662659920}
   handTarget: {fileID: 5941556701852932128}
   contentPoint: {fileID: 8230895982838549046}
   lid: {fileID: 4689096383125438463}
+  queuePoint: {fileID: 0}
   fillRenderers: []
   lockerModels: []
+  tubModel: {fileID: 0}
+  signModel: {fileID: 0}
   storage:
     slots:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
       toppings: 0
+      pendingTopping: -1
+      toppingProgress: 0
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
       toppings: 0
+      pendingTopping: -1
+      toppingProgress: 0
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
       toppings: 0
+      pendingTopping: -1
+      toppingProgress: 0
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
       toppings: 0
+      pendingTopping: -1
+      toppingProgress: 0
   contents:
     kind: 0
     variant: 0
     amount: 0
+    equipmentId: 0
     loadedFlavor: -1
     cone: 0
     scoops: 
     toppings: 0
+    pendingTopping: -1
+    toppingProgress: 0
   claimedBy: 
   cookTime: 0
+  pourProgress: 0
   ironStage: 0
   support: {fileID: 0}
   game: {fileID: 0}

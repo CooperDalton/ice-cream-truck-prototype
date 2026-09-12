@@ -10,51 +10,38 @@ public class TycoonPlayer : MonoBehaviour
     public CharacterController controller;
     public Transform grip, leftHand, rightHand;
     public TycoonInventory inventory = new TycoonInventory(8);
-    public TycoonItem cargo;
     public int selected;
     public TycoonPart target;
     public TycoonLooseItem looseTarget;
     public TycoonWorker workerTarget;
+    public TycoonActor customerTarget;
     public TycoonVehicle vehicle;
     public float pitch = 18;
     public bool manualInput;
     public string prompt;
     public float gestureProgress;
-    private float fallSpeed, strokeTravel, strokeSign, gestureTime;
-    private int strokes;
+    public const string MouseSensitivityKey = "MouseSensitivity";
+    public float MouseSensitivity { get; private set; }
+    private float fallSpeed, scoopStroke, gestureTime;
     private TycoonPart gestureTarget;
     private bool gestureLookLocked;
     private GameObject heldVisual;
     private string heldState;
-    private int recoveryDelivered;
-    private bool recoveryActive;
     public TycoonItem Held
     {
         get
         {
-            var item = cargo ?? inventory.slots[selected];
+            var item = inventory.slots[selected];
             return item != null && item.kind == TycoonItem.Kind.None ? null : item;
         }
     }
     private void Awake()
     {
-        if (cargo != null && cargo.kind == TycoonItem.Kind.None) cargo = null;
+        MouseSensitivity = Mathf.Clamp(PlayerPrefs.GetFloat(MouseSensitivityKey, .11f), .01f, .5f);
     }
     private void Update()
     {
         RefreshHeld();
-        if (recoveryActive && cargo != null && cargo.kind == TycoonItem.Kind.RecoveryCrate && Vector3.Distance(transform.position, game.pickupPoint.position) < 2)
-        {
-            cargo = null; recoveryDelivered++;
-            game.notice = "Crate delivered to the loading pad.";
-            if (recoveryDelivered == 3)
-            {
-                recoveryActive = false;
-                game.Deliver(new TycoonItem(TycoonItem.Kind.Bowls, 6), game.pickupPoint.position + Vector3.up);
-                game.Deliver(new TycoonItem(TycoonItem.Kind.Tub, 6), game.pickupPoint.position + Vector3.up + Vector3.right * .5f);
-                game.notice = "Recovery job complete. Bowls and vanilla are ready to collect.";
-            }
-        }
         if (manualInput) return;
         var k = Keyboard.current; var m = Mouse.current;
         if (k.escapeKey.wasPressedThisFrame) game.hud.ToggleMenu();
@@ -72,8 +59,8 @@ public class TycoonPlayer : MonoBehaviour
         Vector2 move = new Vector2((k.dKey.isPressed ? 1 : 0) - (k.aKey.isPressed ? 1 : 0), (k.wKey.isPressed ? 1 : 0) - (k.sKey.isPressed ? 1 : 0));
         if (gestureTarget == null && !gestureLookLocked)
         {
-            var delta = m.delta.ReadValue(); transform.Rotate(0, delta.x * .11f, 0);
-            pitch = Mathf.Clamp(pitch - delta.y * .11f, -80, 80); view.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
+            var delta = m.delta.ReadValue(); transform.Rotate(0, delta.x * MouseSensitivity, 0);
+            pitch = Mathf.Clamp(pitch - delta.y * MouseSensitivity, -80, 80); view.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
         if (vehicle != null)
         {
@@ -91,34 +78,66 @@ public class TycoonPlayer : MonoBehaviour
         game.builder.HoldPickup(target, m.rightButton.isPressed, Time.deltaTime);
         if (m.rightButton.isPressed) { CancelGesture(); return; }
         if (k.eKey.wasPressedThisFrame) Use(true);
-        if (k.fKey.wasPressedThisFrame && target != null && (target.kind == TycoonPart.Kind.Bike || target.kind == TycoonPart.Kind.Truck)) game.hud.OpenStorage(target.storage, "Vehicle cargo", true);
+        if (k.fKey.wasPressedThisFrame && target != null && (target.kind == TycoonPart.Kind.Bike || target.kind == TycoonPart.Kind.Truck)) game.hud.OpenStorage(target.storage, "Vehicle cargo");
         if (m.leftButton.wasPressedThisFrame) Use(false);
         if (m.leftButton.isPressed && gestureTarget != null) Gesture(m.delta.ReadValue(), Time.deltaTime);
         if (m.leftButton.wasReleasedThisFrame) CancelGesture();
     }
     public void Aim()
     {
-        target = null; looseTarget = null; workerTarget = null; prompt = "";
+        target = null; looseTarget = null; workerTarget = null; customerTarget = null; prompt = "";
         if (!Physics.Raycast(view.transform.position, view.transform.forward, out var hit, 2.8f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) return;
         target = hit.collider.GetComponentInParent<TycoonPart>();
         looseTarget = hit.collider.GetComponentInParent<TycoonLooseItem>();
         workerTarget = hit.collider.GetComponentInParent<TycoonWorker>();
+        var actor = hit.collider.GetComponentInParent<TycoonActor>();
+        if (actor != null && !actor.worker && !actor.leaving) customerTarget = actor;
         if (target != null) prompt = target.Prompt();
         if (game.builder.CanPack(target, out var packReason)) prompt += " / Hold right-click to pack";
         else if (packReason != "") prompt += " / " + packReason;
         if (looseTarget != null) prompt = "E / pick up " + game.catalog.Label(looseTarget.item);
         if (workerTarget != null) prompt = "E / inspect employee and equipment";
+        if (customerTarget != null) prompt = customerTarget.order.owner != "" ? "Employee is handling this order" : customerTarget.ReadyToOrder ? "E / take order" : customerTarget.ReadyForPickup ? "E / deliver order" : "Customer is joining the queue";
     }
     public void Select(int slot)
     {
         CancelGesture(); selected = slot; RefreshHeld();
     }
+    public bool PickUp(TycoonItem item)
+    {
+        int slot = inventory.FreeSlot;
+        if (item.kind == TycoonItem.Kind.Bowls || item.kind == TycoonItem.Kind.Cone)
+        {
+            int stack = Array.FindIndex(inventory.slots, s => s != null && s.kind == item.kind && s.amount < s.Capacity);
+            if (stack >= 0) slot = stack;
+        }
+        int before = item.amount;
+        bool added = inventory.Add(item);
+        if (added || item.amount < before) Select(slot);
+        return added;
+    }
     public void Use(bool take)
     {
+        if (customerTarget != null)
+        {
+            if (!take || customerTarget.order.owner != "") return;
+            if (customerTarget.ReadyToOrder) customerTarget.TakeOrder();
+            else if (customerTarget.ReadyForPickup)
+            {
+                if (Held == null || !Held.Matches(customerTarget.order)) { game.notice = "Hold the matching completed order to deliver it."; return; }
+                game.Pay(customerTarget, Held); inventory.slots[selected] = null; RefreshHeld();
+            }
+            return;
+        }
         if (Held != null && Held.kind == TycoonItem.Kind.Equipment)
         {
             if (!take) game.builder.PlaceHeld();
             return;
+        }
+        if (!take && Held != null && (Held.kind == TycoonItem.Kind.Bowls || Held.kind == TycoonItem.Kind.Serving && !Held.cone))
+        {
+            bool deliver = target != null && target.kind == TycoonPart.Kind.ServingCounter && game.sites[target.site].queue.Any(c => c.ReadyForPickup && Held.Matches(c.order));
+            if (!deliver) { game.builder.PlaceHeld(); return; }
         }
         if (workerTarget != null && take) { game.hud.OpenEmployee(workerTarget); return; }
         if (looseTarget != null) { if (!looseTarget.Collect(this)) game.notice = "Make room before picking that up."; return; }
@@ -126,7 +145,7 @@ public class TycoonPlayer : MonoBehaviour
         var item = Held;
         if (!target.Available("Player")) { game.notice = "This equipment is being used by " + target.claimedBy; return; }
         if (target.kind == TycoonPart.Kind.Supplier) { game.hud.OpenShop(); return; }
-        if (target.kind == TycoonPart.Kind.Plot) { game.hud.OpenBusiness(target.site); return; }
+        if (target.kind == TycoonPart.Kind.Plot || target.kind == TycoonPart.Kind.BusinessBoard) { game.hud.OpenBusiness(target.site); return; }
         if (target.kind == TycoonPart.Kind.Sign)
         {
             if (!game.sites[target.site].owned) { game.hud.OpenBusiness(target.site); return; }
@@ -137,14 +156,14 @@ public class TycoonPlayer : MonoBehaviour
         if (target.kind == TycoonPart.Kind.Bike || target.kind == TycoonPart.Kind.Truck)
         {
             if (take) (target.kind == TycoonPart.Kind.Bike ? game.bike : game.truck).Enter();
-            else game.hud.OpenStorage(target.storage, "Vehicle cargo", true);
+            else game.hud.OpenStorage(target.storage, "Vehicle cargo");
             return;
         }
         if (target.kind == TycoonPart.Kind.Locker || target.kind == TycoonPart.Kind.ColdStorage || target.kind == TycoonPart.Kind.Shelf)
-        { game.hud.OpenStorage(target.storage, target.kind.ToString(), true); return; }
+        { game.hud.OpenStorage(target.storage, target.kind == TycoonPart.Kind.ColdStorage ? "Cold storage" : target.kind == TycoonPart.Kind.Locker ? "Staff locker" : "Shelf"); return; }
         if (target.kind == TycoonPart.Kind.Trash)
         {
-            if (cargo != null) cargo = null; else inventory.slots[selected] = null;
+            inventory.slots[selected] = null;
             CancelGesture(); return;
         }
         if (target.kind == TycoonPart.Kind.Tub && item != null)
@@ -160,16 +179,20 @@ public class TycoonPlayer : MonoBehaviour
             if (item.Tool && item.loadedFlavor < 0 && target.contents.amount > 0) BeginGesture(target);
             return;
         }
-        if (target.kind == TycoonPart.Kind.Prep)
+        if (target.kind == TycoonPart.Kind.Prep || target.kind == TycoonPart.Kind.Bowl)
         {
             if (take && target.contents != null)
             {
-                if (inventory.Add(target.contents)) { target.contents = null; target.claimedBy = ""; }
+                if (PickUp(target.contents))
+                {
+                    target.contents = null; target.claimedBy = "";
+                    if (target.kind == TycoonPart.Kind.Bowl) { target.RemoveBowl(); target = null; }
+                }
                 else game.notice = "Your inventory is full.";
                 return;
             }
             if (item == null) return;
-            if (target.contents == null && (item.kind == TycoonItem.Kind.Bowls || item.kind == TycoonItem.Kind.Cone || item.kind == TycoonItem.Kind.Serving))
+            if (target.kind == TycoonPart.Kind.Prep && target.contents == null && (item.kind == TycoonItem.Kind.Cone || item.kind == TycoonItem.Kind.Serving && item.cone))
             {
                 target.contents = item.kind == TycoonItem.Kind.Serving ? item : new TycoonItem(TycoonItem.Kind.Serving) { cone = item.kind == TycoonItem.Kind.Cone };
                 if (item.kind == TycoonItem.Kind.Serving) inventory.slots[selected] = null; else inventory.Consume(selected);
@@ -190,13 +213,13 @@ public class TycoonPlayer : MonoBehaviour
             }
             else if (target.ironStage == 1) target.CloseIron("Player");
             else if (target.ironStage == 2) target.OpenIron("Player");
-            else if (target.ironStage == 3 && inventory.FreeSlot >= 0) inventory.Add(target.TakeCone("Player"));
+            else if (target.ironStage == 3 && inventory.FreeSlot >= 0) PickUp(target.TakeCone("Player"));
             else if (target.ironStage == 4) { target.ironStage = 0; target.contents = null; target.claimedBy = ""; }
             return;
         }
         if (target.kind == TycoonPart.Kind.ServingCounter && item != null && item.kind == TycoonItem.Kind.Serving)
         {
-            var customer = game.sites[target.site].queue.FirstOrDefault(c => c.order.owner == "" && c.ReadyToOrder && item.Matches(c.order));
+            var customer = game.sites[target.site].queue.FirstOrDefault(c => c.order.owner == "" && c.ReadyForPickup && item.Matches(c.order));
             if (customer == null) { game.notice = "The serving does not match a waiting order."; return; }
             game.Pay(customer, item); inventory.slots[selected] = null;
         }
@@ -204,23 +227,19 @@ public class TycoonPlayer : MonoBehaviour
     private void BeginGesture(TycoonPart part)
     {
         if (!part.Claim("Player")) return;
-        gestureTarget = part; gestureLookLocked = true; gestureProgress = 0; strokeTravel = 0; strokeSign = 0; strokes = 0; gestureTime = 0;
+        gestureTarget = part; gestureLookLocked = true; gestureProgress = 0; scoopStroke = .5f; gestureTime = 0;
     }
     public void Gesture(Vector2 delta, float dt)
     {
         var item = Held;
         if (gestureTarget.kind == TycoonPart.Kind.Tub)
         {
-            float sign = Mathf.Sign(delta.y);
-            if (Mathf.Abs(delta.y) > .1f)
-            {
-                if (strokeSign != sign) { strokeTravel = 0; strokeSign = sign; }
-                strokeTravel += Mathf.Abs(delta.y);
-                if (strokeTravel >= 140) { strokes++; strokeTravel = 0; }
-            }
-            int needed = item.kind == TycoonItem.Kind.ImprovedScooper ? 1 : 3;
-            gestureProgress = (strokes + strokeTravel / 140) / needed;
-            if (strokes >= needed && gestureTarget.Scoop(item, "Player")) { game.notice = "Scoop ready. Place it in your bowl or cone."; CancelGesture(false); }
+            float previous = scoopStroke;
+            scoopStroke = Mathf.Clamp01(scoopStroke + delta.y / 180);
+            float travel = Mathf.Abs(scoopStroke - previous) * 180;
+            bool improved = item.kind == TycoonItem.Kind.ImprovedScooper;
+            gestureProgress += Mathf.Min(travel / (improved ? 140 : 400), dt / (improved ? .35f : 1));
+            if (gestureProgress >= 1 && gestureTarget.Scoop(item, "Player")) { game.notice = "Scoop ready. Place it in your bowl or cone."; CancelGesture(false); }
         }
         else
         {
@@ -228,7 +247,7 @@ public class TycoonPlayer : MonoBehaviour
             if (moving) gestureTime += dt;
             if (gestureTarget.kind == TycoonPart.Kind.Iron) gestureTarget.pourProgress = Mathf.Clamp01(gestureTime);
             gestureProgress = gestureTime / (item.kind == TycoonItem.Kind.Batter ? 1 : item.variant % 2 == 0 ? 1 : 1.5f);
-            if (gestureTarget.kind == TycoonPart.Kind.Prep) gestureTarget.contents.toppingProgress = Mathf.Clamp01(gestureProgress);
+            if (gestureTarget.kind == TycoonPart.Kind.Prep || gestureTarget.kind == TycoonPart.Kind.Bowl) gestureTarget.contents.toppingProgress = Mathf.Clamp01(gestureProgress);
             if (gestureProgress >= 1)
             {
                 if (gestureTarget.kind == TycoonPart.Kind.Iron) gestureTarget.Pour(item, "Player");
@@ -238,7 +257,13 @@ public class TycoonPlayer : MonoBehaviour
         }
         if (gestureTarget != null)
         {
-            grip.position = Vector3.Lerp(grip.position, gestureTarget.handTarget.position + Vector3.up * Mathf.Sin(strokeTravel / 140 * Mathf.PI) * .08f, .4f);
+            var handPosition = gestureTarget.handTarget.position;
+            if (gestureTarget.kind == TycoonPart.Kind.Tub)
+            {
+                handPosition += gestureTarget.handTarget.forward * ((.5f - scoopStroke) * .20f);
+                handPosition -= grip.TransformVector(new Vector3(0, .035f, -.111f));
+            }
+            grip.position = Vector3.Lerp(grip.position, handPosition, .4f);
             rightHand.position = grip.position;
         }
     }
@@ -253,7 +278,7 @@ public class TycoonPlayer : MonoBehaviour
     {
         if (Held == null) return;
         game.Deliver(Held, view.transform.position + view.transform.forward * .8f);
-        if (cargo != null) cargo = null; else inventory.slots[selected] = null;
+        inventory.slots[selected] = null;
         CancelGesture();
     }
     public void RefreshHeld()
@@ -262,10 +287,10 @@ public class TycoonPlayer : MonoBehaviour
         if (state == heldState) return;
         heldState = state;
         if (heldVisual != null) Destroy(heldVisual);
-        if (Held != null)
+        if (Held != null && Held.kind != TycoonItem.Kind.Equipment)
         {
             heldVisual = game.catalog.Display(Held, grip);
-            if (Held.kind == TycoonItem.Kind.Tub || Held.Bulk || Held.kind == TycoonItem.Kind.Equipment) heldVisual.transform.localScale = Vector3.one * .65f;
+            if (Held.kind == TycoonItem.Kind.Tub || Held.kind == TycoonItem.Kind.Equipment) heldVisual.transform.localScale = Vector3.one * .65f;
 
         }
         ApplyHeldPose();
@@ -280,7 +305,11 @@ public class TycoonPlayer : MonoBehaviour
             grip.localRotation = Quaternion.Euler(25, 180, 0);
             rightHand.localPosition = grip.localPosition + new Vector3(0, 0, -.04f);
         }
-        else if (Held.kind == TycoonItem.Kind.Tub || Held.Bulk || Held.kind == TycoonItem.Kind.Equipment)
+        else if (Held.kind == TycoonItem.Kind.Equipment)
+        {
+            rightHand.localPosition = new Vector3(.3f, -.65f, .45f); leftHand.localPosition = new Vector3(-.3f, -.65f, .45f);
+        }
+        else if (Held.kind == TycoonItem.Kind.Tub)
         {
             grip.localPosition = new Vector3(0, -.32f, .60f);
 
@@ -298,10 +327,9 @@ public class TycoonPlayer : MonoBehaviour
     {
         controller.enabled = false; transform.position = position; controller.enabled = true; fallSpeed = 0;
     }
-    public void StartRecovery()
+    public void SetMouseSensitivity(float value)
     {
-        if (recoveryActive || game.cash >= 6) { game.notice = "The recovery job is available when you cannot afford supplies."; return; }
-        recoveryActive = true; recoveryDelivered = 0;
-        for (int i = 0; i < 3; i++) game.Deliver(new TycoonItem(TycoonItem.Kind.RecoveryCrate), game.pickupPoint.position + new Vector3(7 + i, .5f, 0));
+        MouseSensitivity = Mathf.Clamp(value, .01f, .5f);
+        PlayerPrefs.SetFloat(MouseSensitivityKey, MouseSensitivity);
     }
 }

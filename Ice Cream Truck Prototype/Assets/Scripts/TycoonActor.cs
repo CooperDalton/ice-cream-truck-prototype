@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class TycoonActor : MonoBehaviour
@@ -10,7 +12,20 @@ public class TycoonActor : MonoBehaviour
     public int site;
     public TycoonOrder order;
     public bool leaving;
-    public bool ReadyToOrder => Vector3.Distance(transform.position, game.sites[site].queuePoint.position) < 3.5f;
+    public RectTransform patienceDisplay;
+    public Image patienceBar;
+    public Vector3 QueuePosition
+    {
+        get
+        {
+            var point = order.stage == TycoonOrder.Stage.Ordering ? game.sites[site].queuePoint : game.sites[site].pickupQueuePoint;
+            int index = game.sites[site].queue.Where(a => a.order.stage == order.stage).TakeWhile(a => a != this).Count();
+            return point.position + point.forward * index * .85f;
+        }
+    }
+    public bool AtQueuePosition => Vector3.Distance(transform.position, QueuePosition) < .45f;
+    public bool ReadyToOrder => !leaving && game.Parts(site, TycoonPart.Kind.Register).Any() && order.stage == TycoonOrder.Stage.Ordering && game.sites[site].queue.FirstOrDefault(a => a.order.stage == TycoonOrder.Stage.Ordering) == this && AtQueuePosition;
+    public bool ReadyForPickup => !leaving && game.Parts(site, TycoonPart.Kind.ServingCounter).Any() && order.stage == TycoonOrder.Stage.Pickup && AtQueuePosition;
     private Vector3 leftRest, rightRest, bodyRest;
     private GameObject heldVisual;
     private string heldState;
@@ -28,12 +43,37 @@ public class TycoonActor : MonoBehaviour
             if (!agent.pathPending && agent.remainingDistance < .6f) { game.actors.Remove(this); Destroy(gameObject); }
             return;
         }
-        int index = game.sites[site].queue.IndexOf(this);
-        if (index < 0) return;
-        agent.SetDestination(game.sites[site].queuePoint.position + game.sites[site].queuePoint.forward * index * .8f);
+        agent.SetDestination(QueuePosition);
         if(!agent.pathPending&&agent.remainingDistance<.2f){var facing=game.sites[site].origin.position-transform.position;facing.y=0;transform.rotation=Quaternion.Slerp(transform.rotation,Quaternion.LookRotation(facing),Time.deltaTime*6);}
-        if (order.owner == "" && ReadyToOrder) order.patience -= Time.deltaTime;
-        if (order.patience <= 0) { game.sites[site].lostSales++; Leave(); }
+        TickPatience(Time.deltaTime);
+    }
+    public void TickPatience(float dt)
+    {
+        if (leaving || game.Paused || game.phase != TycoonGameManager.Phase.Trading) return;
+        if (Vector3.Distance(transform.position, QueuePosition) < .65f) order.startedWaiting = true;
+        if (!order.startedWaiting) return;
+        order.patience = Mathf.Max(0, order.patience - dt);
+        if (order.stage == TycoonOrder.Stage.Ordering && order.patience <= 0)
+        {
+            game.sites[site].lostSales++; Leave();
+        }
+    }
+    private void LateUpdate()
+    {
+        if (worker || game == null) return;
+        patienceDisplay.gameObject.SetActive(!leaving && order.startedWaiting);
+        patienceDisplay.rotation = game.player.view.transform.rotation;
+        patienceBar.fillAmount = order.PatienceFraction;
+        patienceBar.color = order.RewardColor;
+    }
+    public bool TakeOrder()
+    {
+        if (!ReadyToOrder || game.Paused || game.phase != TycoonGameManager.Phase.Trading) return false;
+        order.stage = TycoonOrder.Stage.Pickup;
+        order.patienceLimit = game.deliveryPatience; order.patience = order.patienceLimit; order.startedWaiting = true;
+        agent.SetDestination(QueuePosition);
+        game.notice = "Order taken. Deliver it at the pickup counter.";
+        return true;
     }
     public void Leave()
     {

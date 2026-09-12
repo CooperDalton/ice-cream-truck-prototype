@@ -28,11 +28,11 @@ for(int i=0;i<ui.tickets.Length;i++)((UnityEngine.RectTransform)ui.tickets[i].ro
 var header=ui.GetComponentsInChildren<UnityEngine.UI.Image>(true).Single(i=>i.name=="Header");header.color=UnityEngine.Color.clear;
 ui.money.rectTransform.anchoredPosition=new UnityEngine.Vector2(-650,420);ui.money.rectTransform.sizeDelta=new UnityEngine.Vector2(235,42);ui.money.color=new UnityEngine.Color(.23f,.19f,.29f);ui.money.fontSize=27;
 ui.clock.color=ui.money.color;
-ui.dayValue=UnityEngine.Object.Instantiate(ui.money,ui.transform);ui.dayValue.name="Day value";ui.dayValue.rectTransform.anchoredPosition=new UnityEngine.Vector2(-480,420);ui.dayValue.rectTransform.sizeDelta=new UnityEngine.Vector2(60,42);
-ui.levelValue=UnityEngine.Object.Instantiate(ui.dayValue,ui.transform);ui.levelValue.name="Level value";ui.levelValue.rectTransform.anchoredPosition=new UnityEngine.Vector2(-382,420);
+ui.clock.name="Time value";ui.clock.rectTransform.anchoredPosition=new UnityEngine.Vector2(-480,420);ui.clock.rectTransform.sizeDelta=new UnityEngine.Vector2(100,42);
+ui.levelValue=UnityEngine.Object.Instantiate(ui.money,ui.transform);ui.levelValue.name="Level value";ui.levelValue.rectTransform.anchoredPosition=new UnityEngine.Vector2(-382,420);ui.levelValue.rectTransform.sizeDelta=new UnityEngine.Vector2(60,42);
 foreach(var pair in new[]{new{symbol="☀",x=-532f},new{symbol="★",x=-430f}})
 {
-    var icon=UnityEngine.Object.Instantiate(ui.dayValue,ui.transform);icon.name="Status symbol";icon.text=pair.symbol;icon.rectTransform.anchoredPosition=new UnityEngine.Vector2(pair.x,420);icon.rectTransform.sizeDelta=new UnityEngine.Vector2(40,42);icon.color=new UnityEngine.Color(.78f,.47f,.28f);
+    var icon=UnityEngine.Object.Instantiate(ui.money,ui.transform);icon.name="Status symbol";icon.text=pair.symbol;icon.rectTransform.anchoredPosition=new UnityEngine.Vector2(pair.x,420);icon.rectTransform.sizeDelta=new UnityEngine.Vector2(40,42);icon.color=new UnityEngine.Color(.78f,.47f,.28f);
 }
 ui.xpBar.transform.parent.GetComponent<UnityEngine.RectTransform>().sizeDelta=new UnityEngine.Vector2(110,4);ui.xpBar.transform.parent.GetComponent<UnityEngine.RectTransform>().anchoredPosition=new UnityEngine.Vector2(-400,393);
 ui.panel.transform.SetAsLastSibling();UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);UnityEditor.AssetDatabase.SaveAssets();return "Authored illustrated inventory frames, icon-only slots and recipe cards, and removed tutorial HUD text.";

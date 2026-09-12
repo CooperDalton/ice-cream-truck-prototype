@@ -161,6 +161,7 @@ public static class TycoonSceneBuilder
     {
         var root = new GameObject(kind.ToString()); var model = Object.Instantiate(models[visual], root.transform);
         var part = root.AddComponent<TycoonPart>(); part.kind = kind; part.catalogIndex = index; part.footprint = size; part.tabletop = top;
+        if (kind == TycoonPart.Kind.Shelf) part.storage = new TycoonInventory(TycoonPart.ShelfCapacity);
         part.operatingPoint = Point("Operate", root.transform, new Vector3(0, top ? -.94f : 0, -.9f));
         part.handTarget = Point("Hand target", root.transform, new Vector3(0, top ? .13f : 1, 0));
         part.contentPoint = Point("Contents", root.transform, new Vector3(0, kind == TycoonPart.Kind.Prep ? .10f : .15f, 0));
@@ -326,6 +327,16 @@ public static class TycoonSceneBuilder
         var image = Panel(label, parent, pos, size, mint); var button = image.gameObject.AddComponent<Button>(); button.targetGraphic = image;
         Text(label, image.transform, Vector2.zero, size - new Vector2(12,4), 16, plum, TextAnchor.MiddleCenter); return button;
     }
+    private static Slider SliderControl(string name, Transform parent, Vector2 pos, float min, float max, float value)
+    {
+        var background = Panel(name, parent, pos, new Vector2(360,20), new Color(.83f,.87f,.8f));
+        var fillArea = Rect("Fill area", background.transform, Vector2.zero, Vector2.zero); fillArea.anchorMin = Vector2.zero; fillArea.anchorMax = Vector2.one; fillArea.offsetMin = new Vector2(10,5); fillArea.offsetMax = new Vector2(-10,-5);
+        var fill = Panel("Fill", fillArea, Vector2.zero, Vector2.zero, mint); fill.rectTransform.anchorMin = Vector2.zero; fill.rectTransform.anchorMax = Vector2.one; fill.rectTransform.offsetMin = Vector2.zero; fill.rectTransform.offsetMax = Vector2.zero;
+        var handleArea = Rect("Handle area", background.transform, Vector2.zero, Vector2.zero); handleArea.anchorMin = Vector2.zero; handleArea.anchorMax = Vector2.one; handleArea.offsetMin = new Vector2(12,0); handleArea.offsetMax = new Vector2(-12,0);
+        var handle = Panel("Handle", handleArea, Vector2.zero, new Vector2(24,32), pink);
+        var slider = background.gameObject.AddComponent<Slider>(); slider.fillRect = fill.rectTransform; slider.handleRect = handle.rectTransform; slider.targetGraphic = handle; slider.minValue = min; slider.maxValue = max; slider.value = value;
+        return slider;
+    }
     private static Image Bar(string name, Transform parent, Vector2 pos, Vector2 size)
     {
         var background = Panel(name, parent, pos, size, new Color(.69f,.27f,.32f));
@@ -367,12 +378,11 @@ public static class TycoonSceneBuilder
         ui.inventoryPanel = Rect("Inventory", ui.panel.transform, new Vector2(0,-45), new Vector2(1100,490)).gameObject;
         ui.playerSlots = Enumerable.Range(0,8).Select(i => Slot(ui.inventoryPanel.transform, new Vector2(-465 + i%4*155,120-i/4*100), new Vector2(145,90))).ToArray();
         ui.storageSlots = Enumerable.Range(0,12).Select(i => Slot(ui.inventoryPanel.transform, new Vector2(130 + i%3*145,150-i/3*90), new Vector2(135,80))).ToArray();
-        ui.cargoButton = Button("Put carried package in storage", ui.inventoryPanel.transform, new Vector2(-245,-130), new Vector2(420,48));
         ui.shopPanel = Rect("Supplier products", ui.panel.transform, new Vector2(0,-60), new Vector2(1100,500)).gameObject;
-        ui.supplyButtons = new Button[27];
-        for (int i = 0; i < 27; i++)
+        ui.supplyButtons = new Button[22];
+        for (int i = 0; i < 22; i++)
         {
-            string label = i < 12 ? TycoonCatalogSO.FlavorNames[i] + " tub / $" + TycoonCatalogSO.TubPrices[i] : i < 18 ? TycoonCatalogSO.ToppingNames[i-12] + " refill / $" + TycoonCatalogSO.RefillPrices[i-12] : i == 18 ? "Bowl pack / $6" : i == 19 ? "Batter refill / $12" : i == 20 ? "One-swipe scooper / $12" : TycoonCatalogSO.ToppingNames[i-21] + " container / $4";
+            string label = i < 12 ? TycoonCatalogSO.FlavorNames[i] + " tub / $" + TycoonCatalogSO.TubPrices[i] : i < 18 ? TycoonCatalogSO.ToppingNames[i-12] + " / $" + TycoonCatalogSO.RefillPrices[i-12] : i == 18 ? "Bowls / $6" : i == 19 ? "Batter / $12" : i == 20 ? "One-swipe scooper / $12" : "Basic scooper / $6";
             ui.supplyButtons[i] = Button(label, ui.shopPanel.transform, new Vector2(-420+i%4*280,190-i/4*55), new Vector2(264,47));
         }
         ui.businessPanel = Rect("Business controls", ui.panel.transform, new Vector2(0,-100), new Vector2(1100,410)).gameObject;
@@ -389,10 +399,15 @@ public static class TycoonSceneBuilder
         string[] places = { "Home stand", "Wholesale supplier", "Park stand", "Playground stop", "Residential stop", "Your bicycle" };
         ui.destinationButtons = places.Select((s,i) => Button(s, ui.mapPanel.transform, new Vector2(520,180-i*66), new Vector2(240,50))).ToArray();
         ui.menuPanel = Rect("Pause controls", ui.panel.transform, new Vector2(0,-120), new Vector2(900,320)).gameObject;
-        ui.openButton = Button("Open shop", ui.menuPanel.transform, new Vector2(0,50), new Vector2(400,50));
-        ui.saveButton = Button("Save game", ui.menuPanel.transform, new Vector2(0,-10), new Vector2(400,50));
+        Text("Mouse sensitivity", ui.menuPanel.transform, new Vector2(-285,110), new Vector2(300,34), 19, plum);
+        ui.sensitivityValue = Text("Sensitivity value", ui.menuPanel.transform, new Vector2(-70,110), new Vector2(90,34), 18, plum, TextAnchor.MiddleRight); ui.sensitivityValue.text = "1.0x";
+        ui.sensitivitySlider = SliderControl("Mouse sensitivity slider", ui.menuPanel.transform, new Vector2(-225,72), .01f, .5f, .11f);
+        Text("Master volume", ui.menuPanel.transform, new Vector2(-285,10), new Vector2(300,34), 19, plum);
+        ui.volumeValue = Text("Volume value", ui.menuPanel.transform, new Vector2(-70,10), new Vector2(90,34), 18, plum, TextAnchor.MiddleRight); ui.volumeValue.text = "100%";
+        ui.volumeSlider = SliderControl("Master volume slider", ui.menuPanel.transform, new Vector2(-225,-28), 0, 1, 1);
+        ui.openButton = Button("Open shop", ui.menuPanel.transform, new Vector2(255,100), new Vector2(320,46));
+        ui.saveButton = Button("Save game", ui.menuPanel.transform, new Vector2(255,42), new Vector2(320,46));
         ui.nextButton = Button("Continue", ui.panel.transform, new Vector2(0,-260), new Vector2(400,50));
-        ui.recoveryButton = Button("Supplier recovery job", ui.menuPanel.transform, new Vector2(0,-130), new Vector2(400,50));
         ui.panel.SetActive(false);
     }
 }

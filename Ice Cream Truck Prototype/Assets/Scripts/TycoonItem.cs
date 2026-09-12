@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class TycoonItem
 {
-    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, BowlPack, BatterPack, ToppingPack, Serving, RecoveryCrate, Equipment }
+    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, Serving = 11, Equipment }
     public Kind kind;
     public int variant, amount;
     public int equipmentId;
@@ -19,9 +19,8 @@ public class TycoonItem
     {
         this.kind = kind; this.amount = amount; this.variant = variant;
     }
-    public int Capacity => kind switch { Kind.Bowls => 12, Kind.Cone => 4, Kind.Tub => 24, Kind.Batter => 10, Kind.Topping => 15, Kind.BowlPack => 30, Kind.BatterPack => 20, Kind.ToppingPack => 30, _ => 1 };
-    public bool Consumable => kind == Kind.Bowls || kind == Kind.Cone || kind == Kind.Tub || kind == Kind.Batter || kind == Kind.Topping || Bulk;
-    public bool Bulk => kind == Kind.BowlPack || kind == Kind.BatterPack || kind == Kind.ToppingPack || kind == Kind.RecoveryCrate;
+    public int Capacity => kind switch { Kind.Bowls => 12, Kind.Cone => 4, Kind.Tub => 24, Kind.Batter => 10, Kind.Topping => 15, _ => 1 };
+    public bool Consumable => kind == Kind.Bowls || kind == Kind.Cone || kind == Kind.Tub || kind == Kind.Batter || kind == Kind.Topping;
     public bool Tool => kind == Kind.BasicScooper || kind == Kind.ImprovedScooper;
     public bool Disposable => kind != Kind.Batter && kind != Kind.Topping;
     public float Fill => Mathf.Clamp01((float)amount / Capacity);
@@ -52,9 +51,8 @@ public class TycoonInventory : ISerializationCallbackReceiver
     {
         return Array.FindIndex(slots, x => x != null && x.kind == kind && (variant < 0 || x.variant == variant));
     }
-    public bool Add(TycoonItem item, bool bulkAllowed = false)
+    public bool Add(TycoonItem item)
     {
-        if (item.Bulk && !bulkAllowed) return false;
         if (item.kind == TycoonItem.Kind.Bowls || item.kind == TycoonItem.Kind.Cone)
         {
             foreach (var slot in slots)
@@ -69,19 +67,16 @@ public class TycoonInventory : ISerializationCallbackReceiver
         if (index < 0) return false;
         slots[index] = item; return true;
     }
-    public bool Transfer(int index, TycoonInventory destination, bool bulkAllowed = false)
+    public bool Transfer(int index, TycoonInventory destination)
     {
         var item = slots[index];
         if (item == null || item.kind == TycoonItem.Kind.None) return false;
-        if (!destination.Add(item, bulkAllowed)) return false;
+        if (!destination.Add(item)) return false;
         slots[index] = null; return true;
     }
     public static int Refill(TycoonItem source, TycoonItem target)
     {
         bool compatible = source.kind == target.kind && source.variant == target.variant && source.Consumable;
-        compatible |= source.kind == TycoonItem.Kind.BowlPack && target.kind == TycoonItem.Kind.Bowls;
-        compatible |= source.kind == TycoonItem.Kind.BatterPack && target.kind == TycoonItem.Kind.Batter;
-        compatible |= source.kind == TycoonItem.Kind.ToppingPack && target.kind == TycoonItem.Kind.Topping && source.variant == target.variant;
         if (!compatible || ReferenceEquals(source, target)) return 0;
         int moved = Mathf.Min(source.amount, target.Capacity - target.amount);
         source.amount -= moved; target.amount += moved; return moved;
@@ -98,11 +93,21 @@ public class TycoonInventory : ISerializationCallbackReceiver
 [Serializable]
 public class TycoonOrder
 {
+    public enum Stage { Ordering, Pickup }
+    public Stage stage;
+    public bool startedWaiting;
     public int id;
     public bool cone;
     public int[] flavors;
     public int toppings;
-    public float patience = 90;
+    public float patience = 90, patienceLimit = 90;
+    public float PatienceFraction => Mathf.Clamp01(patience / patienceLimit);
+    public Color RewardColor => patience <= 0 ? new Color(.76f,.77f,.72f) : PatienceFraction <= .25f ? new Color(1,.68f,.38f) : PatienceFraction <= .5f ? new Color(.98f,.85f,.40f) : new Color(.43f,.76f,.61f);
+    public float Tip(int site)
+    {
+        float maximum = Price(site) * .4f;
+        return Mathf.Round(maximum * Mathf.Clamp01(PatienceFraction * 2) * 100) / 100;
+    }
     public string owner = "";
     public float Price(int site)
     {
