@@ -277,7 +277,7 @@ public class TycoonPlayer : MonoBehaviour
         if (Held == null) return;
         if (Held.Tool)
         {
-            grip.localRotation = Quaternion.Euler(-25, 180, 0);
+            grip.localRotation = Quaternion.Euler(25, 180, 0);
             rightHand.localPosition = grip.localPosition + new Vector3(0, 0, -.04f);
         }
         else if (Held.kind == TycoonItem.Kind.Tub || Held.Bulk || Held.kind == TycoonItem.Kind.Equipment)
