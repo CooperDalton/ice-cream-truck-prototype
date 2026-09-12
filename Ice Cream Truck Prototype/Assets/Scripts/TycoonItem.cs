@@ -4,9 +4,10 @@ using UnityEngine;
 [Serializable]
 public class TycoonItem
 {
-    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, BowlPack, BatterPack, ToppingPack, Serving, RecoveryCrate }
+    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, BowlPack, BatterPack, ToppingPack, Serving, RecoveryCrate, Equipment }
     public Kind kind;
     public int variant, amount;
+    public int equipmentId;
     public int loadedFlavor = -1;
     public bool cone;
     public int[] scoops = Array.Empty<int>();

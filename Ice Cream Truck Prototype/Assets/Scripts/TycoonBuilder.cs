@@ -1,73 +1,82 @@
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class TycoonBuilder : MonoBehaviour
 {
     public TycoonGameManager game;
-    public bool active;
-    public TycoonPart selected;
     public GameObject preview;
-    public GameObject grid;
-    public Renderer[] buildOccluders;
     public Renderer previewRenderer;
     public Material validMaterial, invalidMaterial;
-    public bool valid;
-    public string reason;
+    public float pickupProgress;
+    private TycoonPart pickupTarget;
+    private bool pickupConsumed;
+    private TycoonPart selected, support;
     private Vector3 proposed;
     private Quaternion rotation;
-    private TycoonPart support;
-    private Vector3 cameraPosition;
-    private Quaternion cameraRotation;
-    public void Toggle()
+    private bool valid;
+
+    public bool CanPack(TycoonPart part, out string reason)
     {
-        active = !active; selected = null; preview.SetActive(false);
-        if (active)
-        {
-            cameraPosition = game.player.view.transform.localPosition; cameraRotation = game.player.view.transform.localRotation;
-            var site = game.sites.Where(s => s.owned).OrderBy(s => Vector3.Distance(s.origin.position, game.player.transform.position)).First();
-            game.player.view.transform.position = site.origin.position + new Vector3(0,8.5f,-4);
-            game.player.view.transform.rotation = Quaternion.Euler(68,0,0);
-            grid.transform.SetPositionAndRotation(site.origin.position+Vector3.up*.04f,site.origin.rotation);
-        }
-        else { game.player.view.transform.localPosition = cameraPosition; game.player.view.transform.localRotation = cameraRotation; }
-        grid.SetActive(active); foreach(var renderer in buildOccluders)renderer.enabled=!active;
-        game.player.grip.gameObject.SetActive(!active);game.player.leftHand.gameObject.SetActive(!active);game.player.rightHand.gameObject.SetActive(!active);
-        game.hud.ClosePanels(); game.notice = active ? "Build: click furniture to move, R to rotate, click a valid grid cell to place. B to finish." : "Layout saved.";
-        if (!active) { game.navigation.BuildNavMesh(); game.Save(); }
+        reason = "";
+        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.ServingCounter)
+            return false;
+        if (game.player.inventory.FreeSlot < 0) { reason = "Make room in your inventory."; return false; }
+        if (!string.IsNullOrEmpty(part.claimedBy)) { reason = "Finish using this equipment first."; return false; }
+        if (game.parts.Any(p => p.support == part)) { reason = "Pack the equipment on top first."; return false; }
+        if (game.workers.Any(w => w.locker == part)) { reason = "Assign the employee to another locker first."; return false; }
+        if (game.phase == TycoonGameManager.Phase.Trading && game.workers.Any(w => w.site == part.site && w.onDuty))
+        { reason = "Wait until the employees finish their shift."; return false; }
+        return true;
     }
-    private void Update()
+    public void HoldPickup(TycoonPart part, bool held, float dt)
     {
-        if (!active || game.hud.AnyPanel) return;
-        var keyboard = Keyboard.current;
-        Vector3 pan = new Vector3((keyboard.dKey.isPressed ? 1 : 0) - (keyboard.aKey.isPressed ? 1 : 0), 0, (keyboard.wKey.isPressed ? 1 : 0) - (keyboard.sKey.isPressed ? 1 : 0));
-        game.player.view.transform.position += pan * Time.unscaledDeltaTime * 8;
-        var mouse = Mouse.current;
-        var ray = game.player.view.ScreenPointToRay(mouse.position.ReadValue());
-        if (!Physics.Raycast(ray, out var hit, 100)) return;
-        if (selected == null)
+        if (!held || game.Paused || game.hud.AnyPanel || game.player.vehicle != null)
         {
-            if (mouse.leftButton.wasPressedThisFrame)
-            {
-                var part = hit.collider.GetComponentInParent<TycoonPart>();
-                if (part != null && part.kind != TycoonPart.Kind.Sign && part.kind != TycoonPart.Kind.ServingCounter && part.kind != TycoonPart.Kind.Supplier && part.kind != TycoonPart.Kind.Plot && part.kind != TycoonPart.Kind.Bike && part.kind != TycoonPart.Kind.Truck)
-                { selected = part; rotation = part.transform.rotation; preview.SetActive(true); }
-            }
-            return;
+            pickupTarget = null; pickupProgress = 0; pickupConsumed = held; return;
         }
-        if (Keyboard.current.rKey.wasPressedThisFrame) rotation *= Quaternion.Euler(0, 90, 0);
-        support = selected.tabletop ? hit.collider.GetComponentInParent<TycoonPart>() : null;
-        var grid = support != null && (support.kind == TycoonPart.Kind.Table || support.kind == TycoonPart.Kind.ServingCounter) ? support.transform : game.sites[selected.site].origin;
-        float cell = selected.tabletop ? .25f : .5f;
+        if (pickupConsumed) return;
+        if (pickupTarget != part) { pickupTarget = part; pickupProgress = 0; }
+        if (!CanPack(part, out var reason)) { pickupProgress = 0; if (reason != "") game.notice = reason; return; }
+        pickupProgress = Mathf.Clamp01(pickupProgress + dt / 1.0f);
+        if (pickupProgress < 1) return;
+        var item = new TycoonItem(TycoonItem.Kind.Equipment, 1, part.catalogIndex) { equipmentId = part.id };
+        game.player.inventory.Add(item);
+        part.transform.SetParent(null, true); part.support = null; part.installed = false; part.packed = true; part.gameObject.SetActive(false);
+        pickupTarget = null; pickupProgress = 0; pickupConsumed = true;
+        game.navigation.BuildNavMesh(); game.Save(); game.notice = game.catalog.Label(item) + " packed.";
+    }
+    public void AimPlacement(bool rotate)
+    {
+        var item = game.player.Held;
+        if (item == null || item.kind != TycoonItem.Kind.Equipment || game.hud.AnyPanel || game.Paused)
+        { selected = null; valid = false; preview.SetActive(false); return; }
+        var part = game.parts.Single(p => p.id == item.equipmentId);
+        if (selected != part) { selected = part; rotation = part.transform.rotation; }
+        if (rotate) rotation *= Quaternion.Euler(0, 90, 0);
+        valid = false; preview.SetActive(false);
+        var view = game.player.view.transform;
+        if (!Physics.Raycast(view.position, view.forward, out var hit, 4, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        { game.player.prompt = "Aim at your plot to place / R rotate"; return; }
+        support = part.tabletop ? hit.collider.GetComponentInParent<TycoonPart>() : null;
+        var grid = support != null && (support.kind == TycoonPart.Kind.Table || support.kind == TycoonPart.Kind.ServingCounter) ? support.transform : game.sites[part.site].origin;
+        float cell = part.tabletop ? .25f : .5f;
         var local = grid.InverseTransformPoint(hit.point);
-        proposed = grid.TransformPoint(new Vector3(Mathf.Round(local.x / cell) * cell, selected.tabletop ? .94f : 0, Mathf.Round(local.z / cell) * cell));
-        valid = CanPlace(selected, proposed, rotation, support, out reason);
-        preview.transform.SetPositionAndRotation(proposed + Vector3.up * .02f, rotation);
-        preview.transform.localScale = new Vector3(selected.footprint.x, .025f, selected.footprint.y);
+        proposed = grid.TransformPoint(new Vector3(Mathf.Round(local.x / cell) * cell, part.tabletop ? .94f : 0, Mathf.Round(local.z / cell) * cell));
+        valid = CanPlace(part, proposed, rotation, support, out var reason);
+        preview.SetActive(true); preview.transform.SetPositionAndRotation(proposed + Vector3.up * .025f, rotation);
+        preview.transform.localScale = new Vector3(part.footprint.x, .025f, part.footprint.y);
         previewRenderer.sharedMaterial = valid ? validMaterial : invalidMaterial;
-        game.notice = valid ? "Click to place / R to rotate" : reason;
-        if (mouse.leftButton.wasPressedThisFrame && valid) Place(selected, proposed, rotation, support);
-        if (mouse.rightButton.wasPressedThisFrame) { selected = null; preview.SetActive(false); }
+        game.player.prompt = valid ? "Click to place / R rotate" : reason;
+    }
+    public void PlaceHeld()
+    {
+        if (!valid || selected == null) return;
+        var part = selected;
+        part.transform.SetParent(support != null ? support.transform : part.site == 2 ? game.truck.transform : null, true);
+        part.transform.SetPositionAndRotation(proposed, rotation); part.support = support; part.installed = true; part.packed = false; part.gameObject.SetActive(true);
+        game.player.inventory.slots[game.player.selected] = null;
+        selected = null; valid = false; preview.SetActive(false);
+        game.navigation.BuildNavMesh(); game.Save(); game.player.RefreshHeld(); game.notice = "Equipment placed.";
     }
     public bool CanPlace(TycoonPart part, Vector3 position, Quaternion rotation, TycoonPart support, out string reason)
     {
@@ -93,12 +102,5 @@ public class TycoonBuilder : MonoBehaviour
             { reason = "These grid cells are occupied."; return false; }
         }
         return true;
-    }
-    public void Place(TycoonPart part, Vector3 position, Quaternion rotation, TycoonPart support)
-    {
-        part.transform.SetParent(support != null ? support.transform : part.site == 2 ? game.truck.transform : null, true);
-        part.transform.SetPositionAndRotation(position, rotation); part.support = support; part.installed = true;
-        selected = null; preview.SetActive(false); game.navigation.BuildNavMesh();
-        foreach (var worker in game.workers) if (!worker.ValidateLayout()) game.notice = worker.status;
     }
 }

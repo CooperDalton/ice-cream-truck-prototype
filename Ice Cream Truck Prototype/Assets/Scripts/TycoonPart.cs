@@ -9,6 +9,7 @@ public class TycoonPart : MonoBehaviour
     public Vector2 footprint = new Vector2(.5f, .5f);
     public bool tabletop;
     public bool installed = true;
+    public bool packed;
     public Transform operatingPoint, handTarget, contentPoint, lid;
     public Renderer[] fillRenderers;
     public GameObject[] lockerModels;

@@ -18,12 +18,12 @@ public class TycoonCatalogSO : ScriptableObject
     public TycoonLooseItem loosePrefab;
     public Material[] flavorMaterials;
     public Sprite bowlIcon, coneIcon, basicIcon, improvedIcon, batterIcon, bowlPackIcon, batterPackIcon;
-    public Sprite[] flavorIcons, toppingIcons;
+    public Sprite[] flavorIcons, toppingIcons, equipmentIcons;
     public Sprite Icon(TycoonItem item)
     {
         if(item==null||item.kind==TycoonItem.Kind.None)return null;
         return item.kind switch {
-            TycoonItem.Kind.Tub=>flavorIcons[item.variant],TycoonItem.Kind.Topping=>toppingIcons[item.variant],TycoonItem.Kind.ToppingPack=>toppingIcons[item.variant],
+            TycoonItem.Kind.Equipment=>equipmentIcons[item.variant],TycoonItem.Kind.Tub=>flavorIcons[item.variant],TycoonItem.Kind.Topping=>toppingIcons[item.variant],TycoonItem.Kind.ToppingPack=>toppingIcons[item.variant],
             TycoonItem.Kind.BasicScooper=>basicIcon,TycoonItem.Kind.ImprovedScooper=>improvedIcon,TycoonItem.Kind.Batter=>batterIcon,
             TycoonItem.Kind.BowlPack=>bowlPackIcon,TycoonItem.Kind.RecoveryCrate=>bowlPackIcon,TycoonItem.Kind.BatterPack=>batterPackIcon,
             TycoonItem.Kind.Cone=>coneIcon,TycoonItem.Kind.Serving=>item.cone?coneIcon:bowlIcon,_=>bowlIcon};
@@ -32,6 +32,7 @@ public class TycoonCatalogSO : ScriptableObject
     {
         if (item == null || item.kind == TycoonItem.Kind.None) return "Empty";
         return item.kind switch {
+            TycoonItem.Kind.Equipment => partPrefabs[item.variant].kind switch { TycoonPart.Kind.ColdStorage => "Cold storage", TycoonPart.Kind.Prep => "Prep station", TycoonPart.Kind.Tub => "Ice cream tub", _ => partPrefabs[item.variant].kind.ToString() },
             TycoonItem.Kind.Tub => FlavorNames[item.variant], TycoonItem.Kind.Topping => ToppingNames[item.variant],
             TycoonItem.Kind.ToppingPack => ToppingNames[item.variant] + " refill", TycoonItem.Kind.Bowls => "Bowls",
             TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "One-swipe scooper",
@@ -41,6 +42,7 @@ public class TycoonCatalogSO : ScriptableObject
     public GameObject Model(TycoonItem item)
     {
         return item.kind switch {
+            TycoonItem.Kind.Equipment => bowlPack,
             TycoonItem.Kind.Tub => tubs[item.variant], TycoonItem.Kind.Topping => toppings[item.variant], TycoonItem.Kind.ToppingPack => toppingPacks[item.variant],
             TycoonItem.Kind.BasicScooper => basicScooper, TycoonItem.Kind.ImprovedScooper => improvedScooper, TycoonItem.Kind.Batter => batter,
             TycoonItem.Kind.BatterPack => batterPack, TycoonItem.Kind.BowlPack => bowlPack, TycoonItem.Kind.RecoveryCrate => bowlPack,

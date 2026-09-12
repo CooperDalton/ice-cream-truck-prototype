@@ -26,6 +26,7 @@ public class TycoonVehicle : MonoBehaviour
     {
         if (truck && (!game.sites[2].owned || game.workers.Exists(w => w.driver && w.onDuty))) { game.notice = "The truck is unavailable while its driver is on duty."; return; }
         if (truck && game.sites[2].queue.Count > 0) { game.notice = "Finish the waiting orders before moving the truck."; return; }
+        game.player.CancelGesture();
         game.player.vehicle = this; game.player.controller.enabled = false;
         game.player.transform.SetParent(seat, false); game.player.transform.localPosition = Vector3.zero; game.player.transform.localRotation = Quaternion.identity;
         if (truck) game.sites[2].open = false;

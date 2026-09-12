@@ -29,11 +29,6 @@ public static class TycoonPictureAuthoring
             ui.tickets[i].flavors=Enumerable.Range(0,2).Select(j=>Image("Flavor",panel.transform,new Vector2(-70+j*60,10),new Vector2(56,56),Color.white)).ToArray();
             ui.tickets[i].toppings=Enumerable.Range(0,2).Select(j=>Image("Topping",panel.transform,new Vector2(60+j*65,10),new Vector2(56,56),Color.white)).ToArray();
         }
-        game.builder.grid=new GameObject("Placement grid");var mat=AssetDatabase.LoadAssetAtPath<Material>("Assets/Art/Tycoon/Materials/Build_preview.mat");
-        for(int x=-10;x<=10;x++)Line(game.builder.grid.transform,new Vector3(x*.5f,0,-3),new Vector3(x*.5f,0,3),mat);
-        for(int z=-6;z<=6;z++)Line(game.builder.grid.transform,new Vector3(-5,0,z*.5f),new Vector3(5,0,z*.5f),mat);
-        game.builder.grid.SetActive(false);
-        game.builder.buildOccluders=game.sites.Take(2).SelectMany(s=>s.canopy.GetComponentsInChildren<Renderer>().Concat(s.kiosk.GetComponentsInChildren<Renderer>())).Concat(game.truck.GetComponentsInChildren<Renderer>(true).Where(r=>r.transform.parent.name=="Toon truck shell")).ToArray();
         ui.panel.transform.SetAsLastSibling();EditorUtility.SetDirty(catalog);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
     }
     private static Sprite Render(GameObject prefab,string name)
@@ -55,9 +50,5 @@ public static class TycoonPictureAuthoring
     private static Text Text(Text source,string name,Transform parent,Vector2 position,Vector2 size,int fontSize)
     {
         var text=Object.Instantiate(source,parent);text.name=name;text.rectTransform.anchoredPosition=position;text.rectTransform.sizeDelta=size;text.fontSize=fontSize;text.alignment=TextAnchor.MiddleLeft;return text;
-    }
-    private static void Line(Transform parent,Vector3 a,Vector3 b,Material material)
-    {
-        var root=new GameObject("Grid line");root.transform.SetParent(parent,false);var line=root.AddComponent<LineRenderer>();line.useWorldSpace=false;line.positionCount=2;line.SetPositions(new[]{a,b});line.widthMultiplier=.012f;line.sharedMaterial=material;line.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
     }
 }

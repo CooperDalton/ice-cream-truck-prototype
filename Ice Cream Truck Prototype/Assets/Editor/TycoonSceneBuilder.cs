@@ -213,14 +213,14 @@ public static class TycoonSceneBuilder
         for (int i = 0; i < 3; i++) { game.sites[i].origin = Point(game.sites[i].name + " plot", null, sites[i]); game.sites[i].queuePoint = Point("Queue entrance", null, sites[i] + new Vector3(0,0,3)); }
         MakeEnvironment(); MakePlayer();
         SetupSite(0, true); SetupSite(1, false); SetupSite(2, false);
-        game.supplier = Point("Supplier destination", null, new Vector3(32,0,-28)); game.pickupPoint = Point("Supplier pickup", null, new Vector3(29,1,-25));
+        game.supplier = Point("Supplier destination", null, new Vector3(32,0,-28)); game.pickupPoint = Point("Supplier pickup", null, new Vector3(29,1.6f,-25));
         Model("Supplier storefront", game.supplier.position); Model("Pickup shelf", new Vector3(29,0,-25));
         var supplier = Model("Supplier terminal", new Vector3(33,0,-24)); AddTarget(supplier, TycoonPart.Kind.Supplier, 0);
         game.truckStops = new[] { Point("Playground stop", null, new Vector3(62,0,-12)), Point("Residential stop", null, new Vector3(5,0,46)) };
         foreach (var stop in game.truckStops) Block("Selling stop", stop.position - Vector3.up * .015f, new Vector3(7,.04f,5), pink);
         game.bike = MakeVehicle(false, new Vector3(-4,0,-3)); game.truck = MakeVehicle(true, sites[2]); game.truck.gameObject.SetActive(false);
         game.builder = systems.AddComponent<TycoonBuilder>(); game.builder.game = game;
-        game.builder.preview = Block("Build preview", Vector3.zero, Vector3.one, mint); Object.DestroyImmediate(game.builder.preview.GetComponent<Collider>());
+        game.builder.preview = Block("Equipment placement preview", Vector3.zero, Vector3.one, mint); Object.DestroyImmediate(game.builder.preview.GetComponent<Collider>());
         game.builder.previewRenderer = game.builder.preview.GetComponent<Renderer>(); game.builder.validMaterial = game.builder.previewRenderer.sharedMaterial;
         var invalid = new Material(Shader.Find("Ice Cream/Toon")); invalid.SetColor("_BaseColor", Color.red); AssetDatabase.CreateAsset(invalid, Root + "Materials/InvalidPlacement.mat"); game.builder.invalidMaterial = invalid; game.builder.preview.SetActive(false);
         MakeHUD();
@@ -293,6 +293,11 @@ public static class TycoonSceneBuilder
         var actor = character.GetComponent<TycoonActor>();
         player.leftHand = Object.Instantiate(actor.leftHand.gameObject, player.view.transform).transform; player.leftHand.localPosition = new Vector3(-.25f,-.29f,.49f);
         player.rightHand = Object.Instantiate(actor.rightHand.gameObject, player.view.transform).transform; player.rightHand.localPosition = new Vector3(.24f,-.29f,.49f);
+        foreach (var hand in new[] { player.leftHand, player.rightHand })
+        {
+            var mesh = hand.GetComponentInChildren<MeshRenderer>();
+            mesh.transform.localPosition -= hand.InverseTransformPoint(mesh.bounds.center);
+        }
         Object.DestroyImmediate(character);
     }
     private static TycoonVehicle MakeVehicle(bool isTruck, Vector3 position)
@@ -348,7 +353,7 @@ public static class TycoonSceneBuilder
         ui.reticle = Text("+", canvas.transform, Vector2.zero, new Vector2(40,40), 24, plum, TextAnchor.MiddleCenter).gameObject;
         ui.orders = Text("Orders", canvas.transform, new Vector2(574,72), new Vector2(385,445), 18, plum, TextAnchor.UpperLeft);
         ui.hotbar = Enumerable.Range(0,8).Select(i => Slot(canvas.transform, new Vector2(-406+i*116,-386), new Vector2(108,74))).ToArray();
-        Text("WASD move   E interact   Tab inventory   B build   M map   Q drop", canvas.transform, new Vector2(0,-438), new Vector2(1200,23), 16, plum, TextAnchor.MiddleCenter);
+        Text("WASD move   E interact   Tab inventory   Hold right-click to pack   M map   Q drop", canvas.transform, new Vector2(0,-438), new Vector2(1200,23), 16, plum, TextAnchor.MiddleCenter);
         var mini = Panel("Minimap", canvas.transform, new Vector2(-667,244), new Vector2(200,200), cream);
         Panel("Street", mini.transform, Vector2.zero, new Vector2(180,12), new Color(.6f,.6f,.65f));
         ui.miniMarker = Panel("You", mini.transform, Vector2.zero, new Vector2(10,10), pink).rectTransform;
@@ -384,9 +389,9 @@ public static class TycoonSceneBuilder
         string[] places = { "Home stand", "Wholesale supplier", "Park stand", "Playground stop", "Residential stop", "Your bicycle" };
         ui.destinationButtons = places.Select((s,i) => Button(s, ui.mapPanel.transform, new Vector2(520,180-i*66), new Vector2(240,50))).ToArray();
         ui.menuPanel = Rect("Pause controls", ui.panel.transform, new Vector2(0,-120), new Vector2(900,320)).gameObject;
-        ui.openButton = Button("Open the trading day", ui.menuPanel.transform, new Vector2(0,50), new Vector2(400,50));
-        ui.saveButton = Button("Save campaign", ui.menuPanel.transform, new Vector2(0,-10), new Vector2(400,50));
-        ui.nextButton = Button("Prepare next day", ui.menuPanel.transform, new Vector2(0,-70), new Vector2(400,50));
+        ui.openButton = Button("Open shop", ui.menuPanel.transform, new Vector2(0,50), new Vector2(400,50));
+        ui.saveButton = Button("Save game", ui.menuPanel.transform, new Vector2(0,-10), new Vector2(400,50));
+        ui.nextButton = Button("Continue", ui.panel.transform, new Vector2(0,-260), new Vector2(400,50));
         ui.recoveryButton = Button("Supplier recovery job", ui.menuPanel.transform, new Vector2(0,-130), new Vector2(400,50));
         ui.panel.SetActive(false);
     }

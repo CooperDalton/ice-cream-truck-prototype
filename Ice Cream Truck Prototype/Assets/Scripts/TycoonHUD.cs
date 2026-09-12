@@ -14,7 +14,12 @@ public class TycoonHUD : MonoBehaviour
     public Text resultsText;
     public Text dayValue, levelValue;
     public GameObject reticle;
-    public Image xpBar, useBar;
+    public Image xpBar, useBar, pickupRing;
+    public RectTransform moneyDisplay, salePopup;
+    public CanvasGroup salePopupGroup;
+    public Text salePopupAmount;
+    private Vector2 salePopupOrigin;
+    private float saleAge = 2, saleTotal;
     public Image targetStockBar;
     public GameObject panel, inventoryPanel, shopPanel, businessPanel, mapPanel, menuPanel;
     public SlotView[] hotbar, playerSlots, storageSlots;
@@ -40,6 +45,9 @@ public class TycoonHUD : MonoBehaviour
     private float mapZoom=1;
     private void Start()
     {
+        salePopupOrigin = salePopup.anchoredPosition;
+        salePopup.gameObject.SetActive(false);
+        game.SaleCompleted += ShowSale;
         closeButton.onClick.AddListener(ClosePanels);
         openButton.onClick.AddListener(() => { ClosePanels(); game.OpenDay(); });
         saveButton.onClick.AddListener(() => { game.Save(); game.notice = "Game saved."; });
@@ -52,28 +60,52 @@ public class TycoonHUD : MonoBehaviour
             game.notice = "Assigned locker changed. Its position is marked on the minimap."; waypoint = inspectedWorker.locker.transform.position; hasWaypoint = true;
         });
         newGameButton.onClick.AddListener(() => {
-            if (!confirmingNewGame) { confirmingNewGame = true; panelText.text = "Start a new business? Click New campaign again to replace this campaign."; return; }
+            if (!confirmingNewGame) { confirmingNewGame = true; panelText.text = "Start a new game? Click New game again to replace your saved game."; return; }
             game.restartRequested = true; System.IO.File.Delete(TycoonGameManager.SavePath); Time.timeScale = 1; UnityEngine.SceneManagement.SceneManager.LoadScene("IceCreamTycoon");
         });
         quitButton.onClick.AddListener(() => { game.Save(); Application.Quit(); });
-        for (int i = 0; i < supplyButtons.Length; i++) { int index = i; supplyButtons[i].onClick.AddListener(() => game.PurchaseSupply(index)); }
-        for (int i = 0; i < upgradeButtons.Length; i++) { int index = i; upgradeButtons[i].onClick.AddListener(() => game.BuyUpgrade(index, businessSite)); }
+        for (int i = 0; i < supplyButtons.Length; i++) { int index = i; supplyButtons[i].onClick.AddListener(() => { game.PurchaseSupply(index); panelText.text = game.notice; }); }
+        for (int i = 0; i < upgradeButtons.Length; i++) { int index = i; upgradeButtons[i].onClick.AddListener(() => { game.BuyUpgrade(index, businessSite); panelText.text = game.notice; }); }
         for (int i = 0; i < hireButtons.Length; i++) { int index = i; hireButtons[i].onClick.AddListener(() => game.Hire(Mathf.Min(index, 2), index == 3 ? 2 : businessSite, index == 3)); }
         for (int i = 0; i < hotbar.Length; i++) { int index = i; hotbar[i].button.onClick.AddListener(() => game.player.Select(index)); playerSlots[i].button.onClick.AddListener(() => ClickPlayer(index)); }
         for (int i = 0; i < storageSlots.Length; i++) { int index = i; storageSlots[i].button.onClick.AddListener(() => ClickStorage(index)); }
         for (int i = 0; i < destinationButtons.Length; i++) { int index = i; destinationButtons[i].onClick.AddListener(() => { waypoint = Location(index); hasWaypoint = true; game.notice = "Destination marked."; }); mapButtons[i].onClick.AddListener(()=>{waypoint=Location(index);hasWaypoint=true;game.notice="Destination marked.";}); }
         ClosePanels();
     }
+    private void OnDestroy()
+    {
+        game.SaleCompleted -= ShowSale;
+    }
+    private void ShowSale(object sender, TycoonGameManager.SaleEventArgs sale)
+    {
+        if (saleAge >= 1.4f) saleTotal = 0;
+        saleTotal += sale.amount; saleAge = 0;
+        salePopupAmount.text = "+$" + saleTotal.ToString("0.##");
+        salePopup.anchoredPosition = salePopupOrigin;
+        salePopupGroup.alpha = 1; salePopup.gameObject.SetActive(true);
+    }
     private void Update()
     {
+        saleAge += Time.unscaledDeltaTime;
+        moneyDisplay.localScale = Vector3.one * (1 + .09f * Mathf.Sin(Mathf.Clamp01(saleAge / .3f) * Mathf.PI));
+        if (salePopup.gameObject.activeSelf)
+        {
+            salePopup.anchoredPosition = salePopupOrigin + Vector2.up * (42 * Mathf.Clamp01(saleAge / 1.4f));
+            salePopup.localScale = Vector3.one * (1 + .16f * Mathf.Sin(Mathf.Clamp01(saleAge / .25f) * Mathf.PI));
+            salePopupGroup.alpha = 1 - Mathf.Clamp01((saleAge - .85f) / .55f);
+            if (saleAge >= 1.4f) salePopup.gameObject.SetActive(false);
+        }
         money.text = "$" + game.cash.ToString("0.##");dayValue.text=game.day.ToString();levelValue.text=game.level.ToString();
         int minute = 600 + Mathf.FloorToInt(game.clock);
         clock.text = (minute / 60).ToString("00") + ":" + (minute % 60).ToString("00");
         float threshold = TycoonCatalogSO.Thresholds[Mathf.Min(game.level, 6)];
         xpBar.fillAmount = game.level >= 7 ? 1 : (game.xp - TycoonCatalogSO.Thresholds[game.level - 1]) / (threshold - TycoonCatalogSO.Thresholds[game.level - 1]);
+        pickupRing.fillAmount = game.builder.pickupProgress;
+        pickupRing.transform.parent.gameObject.SetActive(game.builder.pickupProgress > 0 && !AnyPanel);
+        prompt.text = AnyPanel ? "" : game.player.prompt;
         useBar.fillAmount = game.player.gestureProgress;
-        useBar.transform.parent.gameObject.SetActive(game.player.gestureProgress>0&&!AnyPanel&&!game.builder.active);
-        bool stockTarget = !AnyPanel && !game.builder.active && game.player.target != null && game.player.target.contents != null && game.player.target.contents.Consumable;
+        useBar.transform.parent.gameObject.SetActive(game.player.gestureProgress>0&&!AnyPanel);
+        bool stockTarget = !AnyPanel && game.player.target != null && game.player.target.contents != null && game.player.target.contents.Consumable;
         targetStockBar.transform.parent.gameObject.SetActive(stockTarget);
         if (stockTarget) targetStockBar.fillAmount = game.player.target.contents.Fill;
         for (int i = 0; i < supplyButtons.Length; i++) supplyButtons[i].interactable = i < 12 ? i < game.FlavorCount : i < 18 ? i - 12 < game.ToppingCount : i < 21 || i >= 27 || i - 21 < game.ToppingCount;
@@ -91,7 +123,7 @@ public class TycoonHUD : MonoBehaviour
         var visibleOrders=game.sites.SelectMany(s=>s.queue).OrderBy(c=>Vector3.Distance(game.sites[c.site].origin.position,game.player.transform.position)).Take(tickets.Length).ToArray();
         for(int i=0;i<tickets.Length;i++)
         {
-            var customer=i<visibleOrders.Length?visibleOrders[i]:null;var card=tickets[i];card.root.SetActive(customer!=null&&!AnyPanel&&!game.builder.active);
+            var customer=i<visibleOrders.Length?visibleOrders[i]:null;var card=tickets[i];card.root.SetActive(customer!=null&&!AnyPanel);
             if(customer==null)continue;
             var order=customer.order;card.title.text="$"+order.Price(customer.site).ToString("0.##");
             card.container.sprite=order.cone?game.catalog.coneIcon:game.catalog.bowlIcon;
@@ -106,12 +138,16 @@ public class TycoonHUD : MonoBehaviour
         }
         if (game.phase == TycoonGameManager.Phase.Results)
         {
-            panel.SetActive(true); menuPanel.SetActive(true); menuOpen = true; panelTitle.text = "Day complete"; panelText.gameObject.SetActive(false);resultsText.gameObject.SetActive(true);resultsText.text=confirmingNewGame ? "Start a new business? Click New campaign again to replace this campaign." : game.results; nextButton.gameObject.SetActive(true);
+            if (!resultsText.gameObject.activeSelf) ClosePanels();
+            panel.SetActive(true); menuPanel.SetActive(false); menuOpen = true;
+            panelTitle.text = "Day complete"; panelText.gameObject.SetActive(false);
+            resultsText.gameObject.SetActive(true); resultsText.text = game.results;
+            closeButton.gameObject.SetActive(false); nextButton.gameObject.SetActive(true);
         }
         openButton.interactable=game.phase==TycoonGameManager.Phase.Preparation;
         miniMarker.parent.gameObject.SetActive(!AnyPanel);
         waypointText.gameObject.SetActive(false);
-        reticle.SetActive(!AnyPanel&&!game.builder.active);
+        reticle.SetActive(!AnyPanel);
         miniMarker.anchoredPosition = Vector2.zero;
         fullMarker.anchoredPosition = MapPoint(game.player.transform.position, 470);
         miniMarker.localRotation = Quaternion.Euler(0, 0, -game.player.transform.eulerAngles.y);
@@ -147,6 +183,8 @@ public class TycoonHUD : MonoBehaviour
     }
     private void Show(SlotView slot, TycoonItem item, bool selected)
     {
+        slot.label.gameObject.SetActive(item != null && item.kind == TycoonItem.Kind.Equipment);
+        slot.label.text = item != null && item.kind == TycoonItem.Kind.Equipment ? game.catalog.Label(item) : "";
         slot.icon.sprite=game.catalog.Icon(item);slot.icon.gameObject.SetActive(slot.icon.sprite!=null);
         slot.bar.transform.parent.gameObject.SetActive(item != null && item.Consumable);
         slot.bar.fillAmount = item == null ? 0 : item.Fill;
@@ -156,6 +194,7 @@ public class TycoonHUD : MonoBehaviour
     public void ClosePanels()
     {
         panel.SetActive(false); inventoryPanel.SetActive(false); shopPanel.SetActive(false); businessPanel.SetActive(false); mapPanel.SetActive(false); menuPanel.SetActive(false);
+        closeButton.gameObject.SetActive(true);
         menuOpen = false; transferSelection = -1; nextButton.gameObject.SetActive(false); inspectedWorker = null; assignLockerButton.gameObject.SetActive(false); confirmingNewGame = false;panelText.gameObject.SetActive(true);resultsText.gameObject.SetActive(false);
     }
     public void ToggleMenu()
@@ -181,7 +220,7 @@ public class TycoonHUD : MonoBehaviour
     }
     public void OpenShop()
     {
-        ClosePanels(); panel.SetActive(true); shopPanel.SetActive(true); panelTitle.text = "Wholesale supplies"; panelText.text = "";
+        ClosePanels(); panel.SetActive(true); shopPanel.SetActive(true); panelTitle.text = "Wholesale supplies"; panelText.text = "Scoopers go into your hotbar. Collect other supplies from the pickup shelf beside the shop.";
     }
     public void OpenEmployee(TycoonWorker worker)
     {

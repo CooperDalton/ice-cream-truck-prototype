@@ -40,7 +40,7 @@ public class TycoonGameManager : MonoBehaviour
     public Phase phase;
     public float cash, xp, clock, salesToday, wagesToday;
     public int day = 1, level = 1, sales, nextId = 1;
-    public bool Paused => loadingCampaign || hud.menuOpen || builder.active || phase == Phase.Results;
+    public bool Paused => loadingCampaign || hud.menuOpen || phase == Phase.Results;
     public int FlavorCount => level >= 6 ? 12 : level >= 4 ? 8 : level >= 2 ? 4 : 2;
     public int ToppingCount => level >= 7 ? 6 : level >= 5 ? 4 : level >= 3 ? 2 : 0;
     public string notice = "Open your stand to meet the first customer.";
@@ -176,9 +176,20 @@ public class TycoonGameManager : MonoBehaviour
         else if (product < 27) { int v = product - 21; if (v >= ToppingCount) return false; item = new TycoonItem(TycoonItem.Kind.Topping, 0, v); price = 4; }
         else if (product == 27) { item = new TycoonItem(TycoonItem.Kind.Batter,0); price = 4; }
         else { item = new TycoonItem(TycoonItem.Kind.BasicScooper); price = 6; }
+        if (item.Tool && player.inventory.FreeSlot < 0) { notice = "Hotbar full. Free a slot before buying a scooper. You have not been charged."; return false; }
         if (!Spend(price)) return false;
-        Deliver(item, pickupPoint.position + Vector3.up * .4f + UnityEngine.Random.insideUnitSphere * .1f);
-        notice = "Purchase ready on the supplier pickup shelf."; return true;
+        if (item.Tool)
+        {
+            int slot = player.inventory.FreeSlot;
+            player.inventory.Add(item);
+            notice = catalog.Label(item) + " added to hotbar slot " + (slot + 1) + ". Press " + (slot + 1) + " to equip it.";
+        }
+        else
+        {
+            Deliver(item, pickupPoint.position + Vector3.up * .4f + UnityEngine.Random.insideUnitSphere * .1f);
+            notice = catalog.Label(item) + " ready on the pickup shelf beside Scoop Supply. Close this menu and press E to collect it.";
+        }
+        return true;
     }
     public bool BuyUpgrade(int choice, int site)
     {
@@ -186,8 +197,11 @@ public class TycoonGameManager : MonoBehaviour
         var origin = sites[site].origin.position;
         if (choice == 0)
         {
+            int slot = player.inventory.FreeSlot;
+            if (slot < 0) { notice = "Hotbar full. Free a slot before buying a scooper. You have not been charged."; return false; }
             if (!Spend(12)) return false;
-            Deliver(new TycoonItem(TycoonItem.Kind.ImprovedScooper), origin + new Vector3(.6f, 1.2f, 0));
+            player.inventory.Add(new TycoonItem(TycoonItem.Kind.ImprovedScooper));
+            notice = "One swipe scooper added to hotbar slot " + (slot + 1) + ". Press " + (slot + 1) + " to equip it.";
         }
         if (choice == 1)
         {
@@ -241,7 +255,7 @@ public class TycoonGameManager : MonoBehaviour
             int index = choice - 8;
             if (!Spend(new[] { 24,12,36,18,48,20 }[index])) return false;
             var part = AddPart(new[] { 0,2,5,1,3,8 }[index],site,origin + new Vector3(-5,0,-3));
-            part.installed = false; notice = "Furniture delivered beside the plot. Press B to place it.";
+            part.installed = false; notice = "Furniture delivered beside the plot. Hold right-click to pack it, then select it to place.";
         }
         RefreshBusinessModels(); navigation.BuildNavMesh(); feedback.PlayOneShot(upgradeSound,.45f); return true;
     }
