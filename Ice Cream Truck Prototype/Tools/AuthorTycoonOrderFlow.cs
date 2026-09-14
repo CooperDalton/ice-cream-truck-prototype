@@ -95,13 +95,28 @@ public static class AuthorTycoonOrderFlow
             card.ingredients.anchoredPosition = new Vector2(0,-17); card.root.SetActive(false);
         }
         hud.salePopupBackground = hud.salePopup.GetComponent<Image>();
-        hud.salePopup.sizeDelta = new Vector2(224,80);
+        hud.salePopup.sizeDelta = new Vector2(224,56);
         ((RectTransform)hud.salePopup.GetChild(0)).anchoredPosition = new Vector2(-77,0);
-        hud.salePopupAmount.rectTransform.anchoredPosition = new Vector2(23,15);
+        hud.salePopupAmount.rectTransform.anchoredPosition = new Vector2(23,0);
         hud.salePopupAmount.rectTransform.sizeDelta = new Vector2(146,34);
         if (hud.salePopupTip == null) hud.salePopupTip = Object.Instantiate(hud.salePopupAmount,hud.salePopup);
-        hud.salePopupTip.name = "Tip reward"; hud.salePopupTip.text = "+$2.40 tip"; hud.salePopupTip.fontSize = 19;
-        hud.salePopupTip.rectTransform.anchoredPosition = new Vector2(23,-17);
+        if (hud.salePopupTipBackground == null)
+        {
+            var tipBox = new GameObject("Tip reward box",typeof(RectTransform),typeof(Image));
+            tipBox.transform.SetParent(hud.salePopup,false);
+            hud.salePopupTipBackground = tipBox.GetComponent<Image>();
+        }
+        hud.salePopupTipBackground.sprite = hud.salePopupBackground.sprite;
+        hud.salePopupTipBackground.type = Image.Type.Sliced;
+        hud.salePopupTipBackground.color = hud.salePopupBackground.color;
+        hud.salePopupTipBackground.raycastTarget = false;
+        hud.salePopupTipBackground.rectTransform.sizeDelta = new Vector2(224,48);
+        hud.salePopupTipBackground.rectTransform.anchoredPosition = new Vector2(0,60);
+        hud.salePopupTip.rectTransform.SetParent(hud.salePopupTipBackground.transform,false);
+        hud.salePopupTip.name = "Tip reward"; hud.salePopupTip.text = "+$2.40 tip"; hud.salePopupTip.fontSize = 22;
+        hud.salePopupTip.alignment = TextAnchor.MiddleCenter;
+        hud.salePopupTip.rectTransform.anchoredPosition = Vector2.zero;
+        hud.salePopupTip.rectTransform.sizeDelta = new Vector2(200,34);
         EditorUtility.SetDirty(game); EditorUtility.SetDirty(hud);
         game.navigation.BuildNavMesh();
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();

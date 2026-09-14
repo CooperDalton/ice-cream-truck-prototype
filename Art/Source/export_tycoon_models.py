@@ -17,6 +17,9 @@ for entry in entries:
     if '--cottages' in sys.argv and not entry['name'].startswith('Neighborhood cottage'):continue
     if '--waffle' in sys.argv and entry['name']!='Waffle iron':continue
     if '--truck' in sys.argv and entry['name']!='Ice cream truck':continue
+    if '--canopy' in sys.argv and entry['name']!='Pop up canopy':continue
+    if '--supplier' in sys.argv and entry['name'] not in {'Supplier storefront','Open closed sign'}:continue
+    if '--shelf' in sys.argv and entry['name']!='Pickup shelf':continue
     bpy.context.window.scene=source;bpy.context.view_layer.update()
     root=bpy.data.objects[entry['root']];col=bpy.data.collections[entry['collection']]
     if entry['name']=='Waffle iron':
@@ -54,6 +57,6 @@ for entry in entries:
     report.append(dict(name=entry['name'],file=filename,meshes=len(copies)))
     for obj in copies:bpy.data.objects.remove(obj,do_unlink=True)
     bpy.data.objects.remove(wrapper,do_unlink=True)
-if '--cottages' not in sys.argv and '--waffle' not in sys.argv and '--truck' not in sys.argv:
+if not any(flag in sys.argv for flag in ('--cottages', '--waffle', '--truck', '--canopy', '--supplier', '--shelf')):
     (OUT.parent/'Models.json').write_text(json.dumps(dict(models=report,materials=[dict(name=k,color=v) for k,v in mats.items()]),indent=2))
 print('TYCOON_EXPORTED',len(report))

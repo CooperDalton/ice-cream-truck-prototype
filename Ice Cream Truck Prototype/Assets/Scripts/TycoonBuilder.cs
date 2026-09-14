@@ -28,7 +28,8 @@ public class TycoonBuilder : MonoBehaviour
     public bool CanPack(TycoonPart part, out string reason)
     {
         reason = "";
-        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
+        if (game.tutorial.FirstDay || part != null && part.rewardDelivery) return false;
+        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
             return false;
         if (game.player.inventory.FreeSlot < 0) { reason = "Make room in your inventory."; return false; }
         if (game.parts.Any(p => (p == part || p.transform.IsChildOf(part.transform)) && !string.IsNullOrEmpty(p.claimedBy))) { reason = "Finish using this equipment first."; return false; }
@@ -93,7 +94,9 @@ public class TycoonBuilder : MonoBehaviour
         float cell = part.tabletop ? .25f : .5f;
         var local = grid.InverseTransformPoint(hit.point);
         float height = support != null ? support.surfaceHeight : local.y;
-        proposed = grid.TransformPoint(new Vector3(Mathf.Round(local.x / cell) * cell, height, Mathf.Round(local.z / cell) * cell));
+        var snapped = SnapToGrid(local, part.footprint, Quaternion.Inverse(grid.rotation) * rotation, cell);
+        snapped.y = height;
+        proposed = grid.TransformPoint(snapped);
         bool surfaceValid = hit.normal.y > .65f && (part.tabletop ? support != null : Mathf.Abs(local.y) < .2f);
         string reason = part.tabletop ? "Choose a table to place this." : "Aim at the ground within your plot.";
         if (surfaceValid)
@@ -105,6 +108,17 @@ public class TycoonBuilder : MonoBehaviour
         preview.SetActive(true); preview.transform.SetPositionAndRotation(proposed, rotation); preview.transform.localScale = Vector3.one;
         foreach (var renderer in ghostRenderers) renderer.sharedMaterial = valid ? validMaterial : invalidMaterial;
         game.player.prompt = valid ? bowl ? "Click to place one bowl" : "Click to place / R rotate" : reason;
+    }
+    public static Vector3 SnapToGrid(Vector3 point, Vector2 footprint, Quaternion rotation, float cell)
+    {
+        var size = rotation * new Vector3(footprint.x, 0, footprint.y);
+        var half = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.z)) * .5f;
+        // Snap the footprint's lower edges. Odd cell counts keep a cell-centered pivot;
+        // even cell counts put the pivot on a grid line so both outer edges line up.
+        return new Vector3(
+            Mathf.Floor((point.x - half.x) / cell + .5f) * cell + half.x,
+            point.y,
+            Mathf.Floor((point.z - half.y) / cell + .5f) * cell + half.y);
     }
     private void ShowGrid(Transform surface, Vector2 size, float height, float cell)
     {
@@ -147,8 +161,8 @@ public class TycoonBuilder : MonoBehaviour
     public TycoonPart ReserveBowl(int site)
     {
         foreach (var table in game.parts.Where(p => p.site == site && p.installed && p.TableSurface))
-            for (float x = -table.footprint.x / 2 + .25f; x < table.footprint.x / 2; x += .25f)
-                for (float z = -table.footprint.y / 2 + .25f; z < table.footprint.y / 2; z += .25f)
+            for (float x = -table.footprint.x / 2 + .125f; x < table.footprint.x / 2; x += .25f)
+                for (float z = -table.footprint.y / 2 + .125f; z < table.footprint.y / 2; z += .25f)
                 {
                     var position = table.transform.TransformPoint(new Vector3(x, table.surfaceHeight, z));
                     if (CanPlace(bowlPrefab, position, table.transform.rotation, table, out _)) return CreateBowl(table, position, null);
@@ -157,20 +171,23 @@ public class TycoonBuilder : MonoBehaviour
     }
     public bool CanPlace(TycoonPart part, Vector3 position, Quaternion rotation, TycoonPart support, out string reason)
     {
+        if (!game.tutorial.AllowsPlacement(part, position, rotation, support, out reason)) return false;
         reason = "";
         Vector3 size = rotation * new Vector3(part.footprint.x, 0, part.footprint.y);
         size = new Vector3(Mathf.Abs(size.x), .5f, Mathf.Abs(size.z));
         int siteIndex = part.kind == TycoonPart.Kind.Bowl && support != null ? support.site : part.site;
         var site = game.sites[siteIndex]; var offset = site.origin.InverseTransformPoint(position);
         var plotSize = Quaternion.Inverse(site.origin.rotation) * rotation * new Vector3(part.footprint.x,0,part.footprint.y);
-        if (!site.owned || Mathf.Abs(offset.x) + Mathf.Abs(plotSize.x) / 2 > site.plotSize.x / 2 || Mathf.Abs(offset.z) + Mathf.Abs(plotSize.z) / 2 > site.plotSize.y / 2)
+        // Transforming cell edges through a rotation can put them a few float units outside the surface.
+        const float edgeTolerance = .0001f;
+        if (!site.owned || Mathf.Abs(offset.x) + Mathf.Abs(plotSize.x) / 2 > site.plotSize.x / 2 + edgeTolerance || Mathf.Abs(offset.z) + Mathf.Abs(plotSize.z) / 2 > site.plotSize.y / 2 + edgeTolerance)
         { reason = "Place within the owned plot."; return false; }
         if (part.tabletop)
         {
             if (support == null || !support.TableSurface || !support.installed || support.site != siteIndex) { reason = "Choose a table at this business."; return false; }
             var relative = support.transform.InverseTransformPoint(position);
             var topSize = Quaternion.Inverse(support.transform.rotation) * rotation * new Vector3(part.footprint.x,0,part.footprint.y);
-            if (Mathf.Abs(relative.x) + Mathf.Abs(topSize.x) / 2 > support.footprint.x / 2 || Mathf.Abs(relative.z) + Mathf.Abs(topSize.z) / 2 > support.footprint.y / 2) { reason = "Equipment must fit on the tabletop."; return false; }
+            if (Mathf.Abs(relative.x) + Mathf.Abs(topSize.x) / 2 > support.footprint.x / 2 + edgeTolerance || Mathf.Abs(relative.z) + Mathf.Abs(topSize.z) / 2 > support.footprint.y / 2 + edgeTolerance) { reason = "Equipment must fit on the tabletop."; return false; }
         }
         foreach (var other in game.parts.Where(p => p != part && p != support && p.site == siteIndex && p.installed && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Plot && p.tabletop == part.tabletop && (!part.tabletop || p.support == support) && !p.transform.IsChildOf(part.transform)))
         {

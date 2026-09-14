@@ -797,20 +797,26 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 0.5, y: 0.5}
   tabletop: 0
+  surfaceHeight: 0.94
   installed: 1
+  packed: 0
   operatingPoint: {fileID: 1356579381374586784}
   handTarget: {fileID: 4222411112873951989}
   contentPoint: {fileID: 6047318644504580326}
   lid: {fileID: 5808165990015498020}
+  queuePoint: {fileID: 0}
   fillRenderers:
   - {fileID: 5643324254038400662}
   lockerModels: []
   tubModel: {fileID: 5077303321181340520}
+  signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -820,6 +826,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -829,6 +836,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -838,6 +846,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -848,6 +857,7 @@ MonoBehaviour:
     kind: 5
     variant: 0
     amount: 0
+    equipmentId: 0
     loadedFlavor: -1
     cone: 0
     scoops: 
@@ -879,8 +889,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.95, z: 0.5}
-  m_Center: {x: 0, y: 0.475, z: 0}
+  m_Size: {x: 0.4900024, y: 0.95099986, z: 0.48599917}
+  m_Center: {x: -0.000000014901161, y: 0.4754999, z: -0.00000008940697}
 --- !u!1 &8569396526642337524
 GameObject:
   m_ObjectHideFlags: 0

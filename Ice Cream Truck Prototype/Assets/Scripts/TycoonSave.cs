@@ -26,12 +26,13 @@ public static class TycoonSave
         public WorkerData[] workers;
         public CustomerData[] customers;
         public LooseData[] loose;
+        public TycoonTutorial.Progress tutorial;
     }
     [Serializable] private class SiteData { public bool owned, open, expanded; public Vector2 size; public float revenue, spawn; public int lost, demand; }
     [Serializable] private class PartData
     {
         public int id, prefab, site, variant, support, ironStage;
-        public bool installed, packed;
+        public bool installed, packed, rewardDelivery;
         public Vector3 position; public Quaternion rotation;
         public TycoonInventory storage; public TycoonItem contents; public string owner; public float cook, pour;
     }
@@ -45,7 +46,7 @@ public static class TycoonSave
         public TycoonItem carrying;
     }
     [Serializable] private class CustomerData { public int site; public TycoonOrder order; public Vector3 position; }
-    [Serializable] private class LooseData { public TycoonItem item; public Vector3 position; }
+    [Serializable] private class LooseData { public TycoonItem item; public Vector3 position; public int supplySlot = -1; public bool levelReward; }
     public static void Write(TycoonGameManager game)
     {
         var d = new Data { cash = game.cash, xp = game.xp, clock = game.clock, salesToday = game.salesToday, wagesToday = game.wagesToday, day = game.day, level = game.level, sales = game.sales, nextId = game.nextId, phase = (int)game.phase, completed = game.completed, results = game.results,
@@ -53,10 +54,11 @@ public static class TycoonSave
             bikePosition = game.bike.transform.position, bikeRotation = game.bike.transform.rotation, bike = game.bike.cargo,
             truckPosition = game.truck.transform.position, truckRotation = game.truck.transform.rotation, truck = game.truck.cargo, truckStop = game.truck.routeStop, truckOperating = game.truck.operatingToday, routeComplete = game.truck.routeComplete, truckDemand = game.truck.demand, travelStage = game.truck.travelStage };
         d.sites = game.sites.Select(s => new SiteData { owned = s.owned, open = s.open, expanded = s.expanded, size = s.plotSize, revenue = s.revenue, spawn = s.spawnTimer, lost = s.lostSales, demand = s.stopDemand }).ToArray();
-        d.parts = game.parts.Where(p => p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Supplier && p.kind != TycoonPart.Kind.Plot).Select(p => new PartData { id = p.id, prefab = p.catalogIndex, site = p.site, variant = p.variant, installed = p.installed, packed = p.packed, support = p.support == null ? 0 : p.support.id, position = p.transform.position, rotation = p.transform.rotation, storage = p.storage, contents = p.contents, owner = p.claimedBy, cook = p.cookTime, pour = p.pourProgress, ironStage = p.ironStage }).ToArray();
+        d.tutorial = game.tutorial.progress;
+        d.parts = game.parts.Where(p => p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Supplier && p.kind != TycoonPart.Kind.Plot).Select(p => new PartData { id = p.id, prefab = p.catalogIndex, site = p.site, variant = p.variant, installed = p.installed, packed = p.packed, rewardDelivery = p.rewardDelivery, support = p.support == null ? 0 : p.support.id, position = p.transform.position, rotation = p.transform.rotation, storage = p.storage, contents = p.contents, owner = p.claimedBy, cook = p.cookTime, pour = p.pourProgress, ironStage = p.ironStage }).ToArray();
         d.workers = game.workers.Select(w => new WorkerData { id = w.employeeId, tier = w.tier, site = w.site, startDay = w.startDay, ticket = w.ticketId, scoop = w.scoopIndex, topping = w.toppingIndex, step = (int)w.step, locker = w.locker.id, prep = w.prep == null ? 0 : w.prep.id, iron = w.iron == null ? 0 : w.iron.id, target = w.target == null ? 0 : w.target.id, onDuty = w.onDuty, driver = w.driver, progress = w.progress, position = w.transform.position, inventory = w.inventory, carrying = w.carrying }).ToArray();
         d.customers = game.actors.Where(a => !a.worker && !a.leaving).Select(a => new CustomerData { site = a.site, order = a.order, position = a.transform.position }).ToArray();
-        d.loose = game.looseItems.Where(l => l != null).Select(l => new LooseData { item = l.item, position = l.transform.position }).ToArray();
+        d.loose = game.looseItems.Where(l => l != null).Select(l => new LooseData { item = l.item, position = l.transform.position, supplySlot = l.supplySlot, levelReward = l.levelReward }).ToArray();
         string temp = TycoonGameManager.SavePath + ".tmp";
         File.WriteAllText(temp, JsonUtility.ToJson(d, true));
         if (File.Exists(TycoonGameManager.SavePath)) File.Replace(temp, TycoonGameManager.SavePath, TycoonGameManager.SavePath + ".bak");
@@ -88,15 +90,17 @@ public static class TycoonSave
         foreach (var p in d.parts)
         {
             var part = game.AddPart(p.prefab, p.site, p.position); part.id = p.id; part.transform.rotation = p.rotation;
-            part.variant = p.variant; part.storage = p.storage; part.contents = p.contents != null && p.contents.kind != TycoonItem.Kind.None ? p.contents : null; part.claimedBy = p.owner == "Player" ? "" : p.owner; part.cookTime = p.cook; part.pourProgress = p.pour; part.ironStage = p.ironStage; part.installed = p.installed; part.packed = p.packed; part.gameObject.SetActive(!p.packed); map.Add(p.id, part);
+            part.variant = p.variant; part.storage = p.storage; part.contents = p.contents != null && p.contents.kind != TycoonItem.Kind.None ? p.contents : null; part.claimedBy = p.owner == "Player" ? "" : p.owner; part.cookTime = p.cook; part.pourProgress = p.pour; part.ironStage = p.ironStage; part.installed = p.installed; part.packed = p.packed; part.rewardDelivery = p.rewardDelivery; part.gameObject.SetActive(!p.packed); map.Add(p.id, part);
             if (part.kind == TycoonPart.Kind.Shelf) Array.Resize(ref part.storage.slots, TycoonPart.ShelfCapacity);
+            if (part.kind == TycoonPart.Kind.Sign) part.transform.SetPositionAndRotation(game.sites[p.site].signMount.position, game.sites[p.site].signMount.rotation);
         }
         foreach (var p in d.parts) if (p.support != 0)
         {
             map[p.id].support = map[p.support]; map[p.id].transform.SetParent(map[p.support].transform, true);
             if (map[p.id].kind == TycoonPart.Kind.Bowl) map[p.id].operatingPoint.position = map[p.support].operatingPoint.position;
         }
-        foreach (var worker in game.workers) Object.Destroy(worker.gameObject);
+        foreach (var actor in game.actors) Object.Destroy(actor.gameObject);
+        foreach (var site in game.sites) site.queue.Clear();
         game.workers.Clear(); game.actors.Clear();
         foreach (var w in d.workers)
         {
@@ -113,8 +117,10 @@ public static class TycoonSave
             game.sites[c.site].queue.Add(actor); game.actors.Add(actor);
         }
         foreach (var loose in game.looseItems.ToArray()) Object.Destroy(loose.gameObject);
-        foreach (var loose in d.loose) game.Deliver(loose.item, loose.position);
+        game.looseItems.Clear();
+        foreach (var loose in d.loose) game.Deliver(loose.item, loose.supplySlot >= 0 ? game.supplyPickupPoints[loose.supplySlot].position : loose.position, loose.supplySlot, loose.levelReward);
         game.nextId = d.nextId; game.truck.gameObject.SetActive(game.sites[2].owned);
+        game.tutorial.Restore(d.tutorial);
         game.StartCoroutine(RestoreNavigation(game));
         game.notice = "Campaign restored.";
     }

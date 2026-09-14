@@ -362,16 +362,19 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 1, y: 0.5}
   tabletop: 0
+  surfaceHeight: 0.94
   installed: 1
   packed: 0
   operatingPoint: {fileID: 826054966186824923}
   handTarget: {fileID: 7383193088500562790}
   contentPoint: {fileID: 1522700234189214914}
   lid: {fileID: 8318855276154257124}
+  queuePoint: {fileID: 0}
   fillRenderers: []
   lockerModels: []
   tubModel: {fileID: 0}
   signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
@@ -530,8 +533,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 1.0049915, y: 1.7599995, z: 0.53500044}
+  m_Center: {x: 0, y: 0.87999976, z: 0.015000522}
 --- !u!114 &7199349113171497097
 MonoBehaviour:
   m_ObjectHideFlags: 0

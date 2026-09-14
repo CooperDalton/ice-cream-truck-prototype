@@ -17,7 +17,7 @@ public static class AuthorTycoonPlacement
         var g = scene.GetRootGameObjects()[0].GetComponent<TycoonGameManager>();
         var b = g.builder; var catalog = g.catalog;
         if (!AssetDatabase.IsValidFolder(Folder)) AssetDatabase.CreateFolder("Assets/Art/Tycoon", "Placement");
-        b.validMaterial = Material("Valid", "Ice Cream/Placement Ghost", new Color(1,1,1,.72f));
+        b.validMaterial = Material("Valid", "Ice Cream/Placement Ghost", new Color(.15f,1,.25f,.72f));
         b.invalidMaterial = Material("Invalid", "Ice Cream/Placement Ghost", new Color(1,.12f,.12f,.65f));
         var gridMaterial = Material("Grid", "Ice Cream/Placement Grid", Color.white);
         var bowlVisual = new GameObject("Bowl visual");

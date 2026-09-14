@@ -205,7 +205,8 @@ def storage(slots,cold=True):
         for y in [-.23,.23]:box('Rack upright',(x,y,h/2),(.045,.045,h),mint,.014)
     for j in range(rows+1):box('Rack shelf',(0,0,.14+j*.36),(1,.5,.04),cream,.012)
     box('Rack header',(0,-.255,h+.04),(1,.055,.16),mint,.02)
-    text_label('Rack name','COLD STOCK' if cold else 'PICKUP',(0,-.286,h+.04),.075,cream)
+    if cold:
+        text_label('Rack name','COLD STOCK',(0,-.286,h+.04),.075,cream)
     for i in range(slots):
         x=-.24+(i%2)*.48;z=.165+(i//2)*.36
         anchor('PACKAGE_'+str(i+1),(x,0,z))

@@ -258,6 +258,7 @@ MonoBehaviour:
   lockerModels: []
   tubModel: {fileID: 0}
   signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
@@ -718,10 +719,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 680878363096022650, guid: 59f0b315a25d94ea7b7574ea628e1be3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3365493550622587732}
   m_SourcePrefab: {fileID: 100100000, guid: 59f0b315a25d94ea7b7574ea628e1be3, type: 3}
 --- !u!4 &6362553666553678056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4529052964953689882, guid: 59f0b315a25d94ea7b7574ea628e1be3, type: 3}
   m_PrefabInstance: {fileID: 7392159015460145138}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8062795964360063368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 680878363096022650, guid: 59f0b315a25d94ea7b7574ea628e1be3, type: 3}
+  m_PrefabInstance: {fileID: 7392159015460145138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3365493550622587732
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8062795964360063368}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.76, y: 0.32500005, z: 0.19}
+  m_Center: {x: 0, y: 0.16250002, z: 0}

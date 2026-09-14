@@ -99,6 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4025092636236099504}
+  - component: {fileID: 6622551509258693542}
   m_Layer: 0
   m_Name: Lid
   m_TagString: Untagged
@@ -126,6 +127,27 @@ Transform:
   - {fileID: 3162786484463227782}
   m_Father: {fileID: 3423564676959198276}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6622551509258693542
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977724215695263666}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.47, y: 0.104500085, z: 0.53850025}
+  m_Center: {x: 0, y: 0.032749996, z: 0.22425011}
 --- !u!1 &1290244077264240030
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,19 +687,25 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 0.5, y: 0.75}
   tabletop: 1
+  surfaceHeight: 0.94
   installed: 1
+  packed: 0
   operatingPoint: {fileID: 7197228709133939885}
   handTarget: {fileID: 5843831606373481968}
   contentPoint: {fileID: 2658368632646954430}
   lid: {fileID: 4025092636236099504}
+  queuePoint: {fileID: 0}
   fillRenderers: []
   lockerModels: []
   tubModel: {fileID: 0}
+  signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -687,6 +715,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -696,6 +725,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -705,6 +735,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -715,6 +746,7 @@ MonoBehaviour:
     kind: 0
     variant: 0
     amount: 0
+    equipmentId: 0
     loadedFlavor: -1
     cone: 0
     scoops: 
@@ -746,8 +778,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.22, z: 0.75}
-  m_Center: {x: 0, y: 0.11, z: 0}
+  m_Size: {x: 0.47399998, y: 0.19449992, z: 0.48899955}
+  m_Center: {x: 0, y: 0.09774994, z: -0.007499844}
 --- !u!1 &5423971388574810586
 GameObject:
   m_ObjectHideFlags: 0

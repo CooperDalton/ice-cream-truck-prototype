@@ -13,7 +13,7 @@ public class TycoonGameManager : MonoBehaviour
     {
         public string name;
         public bool owned, open, expanded;
-        public Transform origin, queuePoint, pickupQueuePoint, registerOperatingPoint;
+        public Transform origin, queuePoint, pickupQueuePoint, registerOperatingPoint, signMount;
         public GameObject canopy, kiosk, registerCounter;
         public Transform paving;
         public Vector2 plotSize = new Vector2(8, 6);
@@ -26,6 +26,7 @@ public class TycoonGameManager : MonoBehaviour
     public TycoonPlayer player;
     public TycoonHUD hud;
     public TycoonBuilder builder;
+    public TycoonTutorial tutorial;
     public TycoonVehicle bike, truck;
     public NavMeshSurface navigation;
     public AudioSource feedback;
@@ -33,6 +34,9 @@ public class TycoonGameManager : MonoBehaviour
     public Site[] sites;
     public Transform[] spawnPoints, truckStops;
     public Transform supplier, pickupPoint;
+    public Transform rewardDeliveryOrigin;
+    public Transform[] supplyPickupPoints;
+    public GameObject supplierBuilding;
     public List<TycoonPart> parts = new List<TycoonPart>();
     public List<TycoonWorker> workers = new List<TycoonWorker>();
     public List<TycoonActor> actors = new List<TycoonActor>();
@@ -63,10 +67,7 @@ public class TycoonGameManager : MonoBehaviour
         if (File.Exists(SavePath)) TycoonSave.Load(this);
         else
         {
-            player.inventory.slots[0] = new TycoonItem(TycoonItem.Kind.BasicScooper);
-            player.inventory.slots[1] = new TycoonItem(TycoonItem.Kind.Bowls, 12);
-            foreach (var tub in Parts(0, TycoonPart.Kind.Tub)) tub.contents = new TycoonItem(TycoonItem.Kind.Tub,12,tub.variant);
-            Parts(0, TycoonPart.Kind.Shelf).First().storage.slots[0] = new TycoonItem(TycoonItem.Kind.Bowls, 4);
+            tutorial.BeginNewGame();
         }
         RefreshBusinessModels(); player.RefreshHeld();
     }
@@ -74,6 +75,7 @@ public class TycoonGameManager : MonoBehaviour
     {
         Time.timeScale = Paused ? 0 : 1;
         if (Paused || phase != Phase.Trading) return;
+        if (tutorial.FirstDay) return;
         clock += Time.deltaTime;
         foreach (var site in sites)
         {
@@ -95,6 +97,7 @@ public class TycoonGameManager : MonoBehaviour
     public void OpenDay()
     {
         if (phase != Phase.Preparation) return;
+        if (!tutorial.CanOpen) { notice = "Follow the highlight"; return; }
         foreach (var worker in workers)
         {
             if (worker.startDay <= day && cash >= worker.Wage && !worker.ValidateLayout()) { notice = worker.status; return; }
@@ -109,7 +112,9 @@ public class TycoonGameManager : MonoBehaviour
         truck.BeginDay();
         if (sites[2].owned && cash >= 12) { cash -= 12; wagesToday += 12; truck.operatingToday = true; }
         sites[0].open = true; sites[1].open = sites[1].owned && workers.Any(w => w.site == 1 && w.onDuty); sites[2].open = truck.AtStop && truck.operatingToday;
-        notice = "Open for business."; if (sales < 2) Spawn(0); Save();
+        notice = "Open for business.";
+        if (tutorial.FirstDay) tutorial.SpawnCustomer(); else if (sales < 2) Spawn(0);
+        Save();
     }
     public void CloseDay()
     {
@@ -118,10 +123,11 @@ public class TycoonGameManager : MonoBehaviour
         foreach (var worker in workers) if (worker.driver) truck.ReleaseDriver(worker);
         foreach (var actor in actors.ToArray()) if (!actor.worker && !actor.leaving) actor.Leave();
         foreach (var site in sites) site.open = false;
+        tutorial.PrepareDayEnd();
         int previous = level;
         while (level < 7 && xp >= TycoonCatalogSO.Thresholds[level]) { level++; Reward(level); }
         results = "Day " + day + " complete\nSales $" + salesToday.ToString("0.##") + "\nWages and vehicle $" + wagesToday.ToString("0.##") + "\nCash $" + cash.ToString("0.##") + "\nLost sales " + sites.Sum(s => s.lostSales);
-        if (level > previous) results += "\nBusiness level " + level + ": new ingredients delivered at home.";
+        if (level > previous) results += "\nBusiness level " + level + ": new ingredients unlocked.";
         if (!completed && sites.All(s => s.owned) && workers.Any(w => w.site == 0 && w.onDuty) && workers.Any(w => w.site == 1 && w.onDuty) && workers.Any(w => w.driver && w.onDuty))
         { completed = true; results += "\nYour ice cream business runs across the town! Continue expanding your layout or keep trading."; }
         Save();
@@ -131,6 +137,7 @@ public class TycoonGameManager : MonoBehaviour
     {
         day++; phase = Phase.Preparation; clock = 0;
         foreach (var worker in workers) { worker.onDuty = false; worker.ResetTicket(); }
+        tutorial.BeginShopping();
         notice = "Preparation time. Stock supplies and check staff before opening."; hud.menuOpen = false; Save();
     }
     private void Reward(int newLevel)
@@ -141,16 +148,18 @@ public class TycoonGameManager : MonoBehaviour
         {
             for (int i = first; i < first + count; i++)
             {
-                var tub = AddPart(1, 0, sites[0].origin.position + new Vector3(-5 + (i % 4) * .6f, 0, -4 - i / 4));
-                tub.variant = i; tub.contents = new TycoonItem(TycoonItem.Kind.Tub, 0, i); tub.installed = false;
-                Deliver(new TycoonItem(TycoonItem.Kind.Tub, 24, i), sites[0].origin.position + new Vector3(3, .4f, -2 + (i - first) * .5f));
+                int slot = i - 2;
+                var position = rewardDeliveryOrigin.TransformPoint(new Vector3(slot % 2 * 1.2f, 0, -slot / 2 * 1.2f));
+                var tub = AddPart(1, 0, position);
+                tub.variant = i; tub.contents = new TycoonItem(TycoonItem.Kind.Tub, 0, i); tub.installed = false; tub.rewardDelivery = true;
+                Deliver(new TycoonItem(TycoonItem.Kind.Tub, 24, i), position + rewardDeliveryOrigin.right * .6f + Vector3.up * .03f, levelReward: true);
             }
-            notice = "New flavor tubs delivered. Install their supplies before opening.";
+            notice = "New flavors delivered to your base.";
         }
         else
         {
             int start = newLevel == 3 ? 0 : newLevel == 5 ? 2 : 4;
-            for (int i = start; i < start + 2; i++) Deliver(new TycoonItem(TycoonItem.Kind.Topping, 15, i), sites[0].origin.position + new Vector3(3, .5f, -1 + i * .3f));
+            for (int i = start; i < start + 2; i++) Deliver(new TycoonItem(TycoonItem.Kind.Topping, 30, i), rewardDeliveryOrigin.TransformPoint(new Vector3(i % 2 * .6f, .03f, -6 - i / 2 * .6f)), levelReward: true);
         }
     }
     public TycoonPart AddPart(int index, int site, Vector3 position)
@@ -167,10 +176,12 @@ public class TycoonGameManager : MonoBehaviour
         }
         return part;
     }
-    public void Deliver(TycoonItem item, Vector3 point)
+    public void Deliver(TycoonItem item, Vector3 point, int supplySlot = -1, bool levelReward = false)
     {
         var loose = Instantiate(catalog.loosePrefab, point, Quaternion.identity);
-        loose.game = this; loose.item = item; looseItems.Add(loose);
+        loose.game = this; loose.item = item; loose.supplySlot = supplySlot; loose.levelReward = levelReward;
+        loose.body.isKinematic = supplySlot >= 0 || levelReward;
+        looseItems.Add(loose);
     }
     public bool PurchaseSupply(int product)
     {
@@ -182,21 +193,21 @@ public class TycoonGameManager : MonoBehaviour
         else if (product == 19) { item = new TycoonItem(TycoonItem.Kind.Batter, 20); price = 12; }
         else if (product == 20) { item = new TycoonItem(TycoonItem.Kind.ImprovedScooper); price = 12; }
         else { item = new TycoonItem(TycoonItem.Kind.BasicScooper); price = 6; }
-        var purchase = new TycoonInventory(player.inventory.slots.Length);
-        for (int i = 0; i < purchase.slots.Length; i++)
-        {
-            var slot = player.inventory.slots[i];
-            if (slot != null && slot.kind != TycoonItem.Kind.None) purchase.slots[i] = slot.Copy();
-        }
+        var available = Enumerable.Range(0, supplyPickupPoints.Length).Where(i => !looseItems.Any(l => l.supplySlot == i)).ToArray();
+        int stacks = Mathf.CeilToInt((float)item.amount / item.Capacity);
+        if (available.Length < stacks) { notice = "Collect items from the counter to make room. You have not been charged."; return false; }
+        if (!Spend(price)) return false;
+        int delivery = 0;
         for (int remaining = item.amount; remaining > 0;)
         {
             var stack = item.Copy(); stack.amount = Mathf.Min(remaining, item.Capacity);
             remaining -= stack.amount;
-            if (!purchase.Add(stack)) { notice = "Not enough hotbar space. You have not been charged."; return false; }
+            int slot = available[delivery++];
+            Deliver(stack, supplyPickupPoints[slot].position, slot);
         }
-        if (!Spend(price)) return false;
-        player.inventory = purchase; player.RefreshHeld();
-        notice = catalog.Label(item) + " ×" + item.amount + " added to your hotbar.";
+        notice = "Ready on the collection counter.";
+        tutorial.Purchased(product);
+        Save();
         return true;
     }
     public bool BuyUpgrade(int choice, int site)
@@ -209,7 +220,7 @@ public class TycoonGameManager : MonoBehaviour
             if (slot < 0) { notice = "Hotbar full. Free a slot before buying a scooper. You have not been charged."; return false; }
             if (!Spend(12)) return false;
             player.inventory.Add(new TycoonItem(TycoonItem.Kind.ImprovedScooper));
-            notice = "One swipe scooper added to hotbar slot " + (slot + 1) + ". Press " + (slot + 1) + " to equip it.";
+            notice = "High quality scooper added to hotbar slot " + (slot + 1) + ". Press " + (slot + 1) + " to equip it.";
         }
         if (choice == 1)
         {

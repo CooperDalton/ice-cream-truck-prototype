@@ -81,7 +81,7 @@ public static class TycoonSceneBuilder
         catalog.partPrefabs = new[] {
             PartPrefab(0, TycoonPart.Kind.Table, "Prep table", new Vector2(2,1), false),
             PartPrefab(1, TycoonPart.Kind.Tub, "Vanilla tub", new Vector2(.5f,.5f), true),
-            PartPrefab(2, TycoonPart.Kind.Prep, "Cone holder", new Vector2(.5f,.5f), true),
+            PartPrefab(2, TycoonPart.Kind.Prep, "Cone holder", new Vector2(.25f,.25f), true),
             PartPrefab(3, TycoonPart.Kind.Iron, "Waffle iron", new Vector2(.5f,.75f), true),
             PartPrefab(4, TycoonPart.Kind.Locker, "4 slot locker", new Vector2(1,.5f), false),
             PartPrefab(5, TycoonPart.Kind.ColdStorage, "4 slot cold rack", new Vector2(1,.5f), false),
@@ -256,7 +256,7 @@ public static class TycoonSceneBuilder
     {
         var origin = game.sites[site].origin.position;
         Block("Stand paving " + site, origin - Vector3.up * .01f, new Vector3(8,.04f,6), cream);
-        if (site < 2) Model("Pop up canopy", origin + new Vector3(0,0,.5f));
+        if (site < 2) Model("Pop up canopy", origin);
         var table = PlacePart(0, site, origin + new Vector3(0,0,0));
         for (int i = 0; i < 2; i++)
         {
@@ -360,6 +360,9 @@ public static class TycoonSceneBuilder
         ui.prompt = Text("Interaction", canvas.transform, new Vector2(0,-270), new Vector2(960,70), 21, plum, TextAnchor.MiddleCenter);
         ui.heldLabel = Text("Held item", canvas.transform, new Vector2(0,-327), new Vector2(700,35), 19, plum, TextAnchor.MiddleCenter);
         ui.useBar = Bar("Preparation", canvas.transform, new Vector2(0,-302), new Vector2(220,6));
+        var preparationBar = (RectTransform)ui.useBar.transform.parent;
+        preparationBar.anchorMin = preparationBar.anchorMax = new Vector2(.5f, 0);
+        preparationBar.anchoredPosition = new Vector2(0, 205);
         ui.targetStockBar = Bar("Target stock", canvas.transform, new Vector2(0,-230), new Vector2(120,7));
         ui.reticle = Text("+", canvas.transform, Vector2.zero, new Vector2(40,40), 24, plum, TextAnchor.MiddleCenter).gameObject;
         ui.orders = Text("Orders", canvas.transform, new Vector2(574,72), new Vector2(385,445), 18, plum, TextAnchor.UpperLeft);
@@ -382,11 +385,11 @@ public static class TycoonSceneBuilder
         ui.supplyButtons = new Button[22];
         for (int i = 0; i < 22; i++)
         {
-            string label = i < 12 ? TycoonCatalogSO.FlavorNames[i] + " tub / $" + TycoonCatalogSO.TubPrices[i] : i < 18 ? TycoonCatalogSO.ToppingNames[i-12] + " / $" + TycoonCatalogSO.RefillPrices[i-12] : i == 18 ? "Bowls / $6" : i == 19 ? "Batter / $12" : i == 20 ? "One-swipe scooper / $12" : "Basic scooper / $6";
+            string label = i < 12 ? TycoonCatalogSO.FlavorNames[i] + " tub / $" + TycoonCatalogSO.TubPrices[i] : i < 18 ? TycoonCatalogSO.ToppingNames[i-12] + " / $" + TycoonCatalogSO.RefillPrices[i-12] : i == 18 ? "Bowls / $6" : i == 19 ? "Batter / $12" : i == 20 ? "High quality scooper / $12" : "Basic scooper / $6";
             ui.supplyButtons[i] = Button(label, ui.shopPanel.transform, new Vector2(-420+i%4*280,190-i/4*55), new Vector2(264,47));
         }
         ui.businessPanel = Rect("Business controls", ui.panel.transform, new Vector2(0,-100), new Vector2(1100,410)).gameObject;
-        string[] labels = { "One-swipe scooper / $12", "Small locker / $24", "Upgrade locker", "Waffle station / $90", "Bicycle cargo / $48", "Expand kiosk / $160", "Park stand / $250", "Ice cream truck / $600" };
+        string[] labels = { "High quality scooper / $12", "Small locker / $24", "Upgrade locker", "Waffle station / $90", "Bicycle cargo / $48", "Expand kiosk / $160", "Park stand / $250", "Ice cream truck / $600" };
         ui.upgradeButtons = labels.Select((s,i) => Button(s, ui.businessPanel.transform, new Vector2(-410+i%4*275,80-i/4*60), new Vector2(262,50))).ToArray();
         string[] hires = { "Rookie / $60 + $24 daily", "Experienced / $90 + $42 daily", "Expert / $140 + $66 daily", "Driver / $120 + $60 daily" };
         ui.hireButtons = hires.Select((s,i) => Button(s, ui.businessPanel.transform, new Vector2(-410+i%4*275,-80), new Vector2(262,60))).ToArray();

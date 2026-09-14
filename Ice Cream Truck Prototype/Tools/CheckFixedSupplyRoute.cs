@@ -1,0 +1,31 @@
+// Run in Play Mode after loading a backed-up campaign.
+var game = TycoonGameManager.Instance;
+var tutorial = game.tutorial;
+game.player.manualInput = true; game.restartRequested = true;
+game.hud.ClosePanels(); tutorial.progress.step = TycoonTutorial.Step.Supplier;
+var arrows = tutorial.supplyRouteArrows;
+var original = arrows.Select(a => a.position).ToArray();
+var checks = new System.Collections.Generic.List<string>();
+void Check(bool condition, string message) { if (!condition) throw new System.Exception(message); checks.Add(message); }
+float streetZ = game.hud.roadCenters[0].z;
+game.player.Teleport(new Vector3(game.sites[0].origin.position.x - 1, 0, streetZ));
+game.player.view.transform.rotation = Quaternion.LookRotation(new Vector3(1, -.17f, 0));
+tutorial.SendMessage("LateUpdate");
+Check(tutorial.supplyRoute.activeSelf && arrows.Length > 10, "Fixed route contains separate visible arrows");
+var firstLocal = game.sites[0].origin.InverseTransformPoint(arrows[0].position);
+Check(Mathf.Abs(firstLocal.x - .75f) < .01f && firstLocal.z > .75f && firstLocal.z < 3 && Vector3.Dot(arrows[0].forward, game.sites[0].origin.forward) > .99f, "Route starts inside the shop aisle and points out to the street");
+Check(arrows.Any(a => Mathf.Abs(a.position.z - streetZ) < .01f && Vector3.Dot(a.forward, Vector3.right) > .99f), "Route turns along the street center toward supplies");
+Check(Vector3.Distance(arrows.Last().position, tutorial.supplyDestination.position) < 3 && Vector3.Dot(arrows.Last().forward, (tutorial.supplyDestination.position - arrows.Last().position).normalized) > .5f, "Arrows turn through the doorway toward the tablet");
+Check(tutorial.worldCue.gameObject.activeSelf && tutorial.destinationCaption.text == "Buy Supplies", "Yellow destination arrow and Buy Supplies label remain visible");
+System.IO.Directory.CreateDirectory("Library/CodexPlaytests");
+ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/FixedStreetArrows.png");
+game.player.Teleport(game.player.transform.position + Vector3.forward * 3);
+tutorial.SendMessage("LateUpdate");
+Check(arrows.Select(a => a.position).SequenceEqual(original), "Moving the player does not move or recalculate the route");
+game.hud.OpenShop(); tutorial.SendMessage("LateUpdate");
+Check(!tutorial.supplyRoute.activeSelf, "Ground arrows hide while shopping");
+game.hud.ClosePanels(); tutorial.SendMessage("LateUpdate");
+Check(tutorial.supplyRoute.activeSelf && arrows.Select(a => a.position).SequenceEqual(original), "Closing the shop restores the same fixed route");
+game.player.Teleport(new Vector3(game.sites[0].origin.position.x - 1, 0, streetZ));
+System.IO.File.WriteAllText("Library/CodexPlaytests/FixedStreetArrowsChecks.txt", "PASS\n" + string.Join("\n", checks));
+return string.Join("\n", checks);

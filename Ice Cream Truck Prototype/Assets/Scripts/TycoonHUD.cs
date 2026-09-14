@@ -21,13 +21,15 @@ public class TycoonHUD : MonoBehaviour
     public RectTransform moneyDisplay, salePopup;
     public CanvasGroup salePopupGroup;
     public Text salePopupAmount, salePopupTip;
-    public Image salePopupBackground;
+    public Image salePopupBackground, salePopupTipBackground;
     private Vector2 salePopupOrigin;
     private float saleAge = 2, saleTotal, saleTipTotal;
     public Image targetStockBar;
     public GameObject panel, inventoryPanel, shopPanel, businessPanel, mapPanel, menuPanel;
     public GameObject shelfPanel, personalInventoryPanel;
     public SlotView[] inventorySlots;
+    public Image inventoryDragIcon;
+    private int dragSource = -1;
     public Button inventoryCloseButton;
     public SlotView[] shelfSlots;
     public Text shelfStatus;
@@ -39,6 +41,10 @@ public class TycoonHUD : MonoBehaviour
     public Button shelfCloseButton;
     public SlotView[] hotbar, playerSlots, storageSlots;
     public Button[] supplyButtons, upgradeButtons, hireButtons;
+    public Button[] supplyCategoryButtons;
+    public GameObject[] supplyCategoryPanels, supplyLocks;
+    public CanvasGroup[] supplyCardContents;
+    public int SupplyCategory { get; private set; }
     public Button closeButton, openButton, saveButton, nextButton;
     public Button assignLockerButton, newGameButton, quitButton;
     public Slider sensitivitySlider, volumeSlider;
@@ -89,6 +95,7 @@ public class TycoonHUD : MonoBehaviour
         });
         quitButton.onClick.AddListener(() => { game.Save(); Application.Quit(); });
         for (int i = 0; i < supplyButtons.Length; i++) { int index = i; supplyButtons[i].onClick.AddListener(() => { game.PurchaseSupply(index); panelText.text = game.notice; }); }
+        for (int i = 0; i < supplyCategoryButtons.Length; i++) { int index = i; supplyCategoryButtons[i].onClick.AddListener(() => SelectSupplyCategory(index)); }
         for (int i = 0; i < upgradeButtons.Length; i++) { int index = i; upgradeButtons[i].onClick.AddListener(() => { game.BuyUpgrade(index, businessSite); panelText.text = game.notice; }); }
         for (int i = 0; i < hireButtons.Length; i++) { int index = i; hireButtons[i].onClick.AddListener(() => game.Hire(Mathf.Min(index, 2), index == 3 ? 2 : businessSite, index == 3)); }
         for (int i = 0; i < hotbar.Length; i++) { int index = i; hotbar[i].button.onClick.AddListener(() => { if (shelfPanel.activeSelf) ClickPlayer(index); else game.player.Select(index); }); playerSlots[i].button.onClick.AddListener(() => ClickPlayer(index)); }
@@ -126,6 +133,7 @@ public class TycoonHUD : MonoBehaviour
         salePopupAmount.text = "+$" + saleTotal.ToString("0.##");
         salePopupTip.text = "+$" + saleTipTotal.ToString("0.00") + " tip";
         salePopupBackground.color = sale.color;
+        salePopupTipBackground.color = sale.color;
         salePopup.anchoredPosition = salePopupOrigin;
         salePopupGroup.alpha = 1; salePopup.gameObject.SetActive(true);
     }
@@ -150,13 +158,19 @@ public class TycoonHUD : MonoBehaviour
         clock.text = ((hour + 11) % 12 + 1) + ":" + (minute % 60).ToString("00") + (hour < 12 ? " AM" : " PM");
         pickupRing.fillAmount = game.builder.pickupProgress;
         pickupRing.transform.parent.gameObject.SetActive(game.builder.pickupProgress > 0 && !AnyPanel);
-        prompt.text = AnyPanel ? "" : game.player.prompt;
+        prompt.text = AnyPanel || game.tutorial.Active && !game.tutorial.Practicing ? "" : game.player.prompt;
         useBar.fillAmount = game.player.gestureProgress;
-        useBar.transform.parent.gameObject.SetActive(game.player.gestureProgress>0&&!AnyPanel);
-        bool stockTarget = !AnyPanel && game.player.target != null && game.player.target.contents != null && game.player.target.contents.Consumable;
+        useBar.transform.parent.gameObject.SetActive((game.player.Scooping || game.player.gestureProgress > 0) && !AnyPanel);
+        bool stockTarget = !AnyPanel && !game.player.Scooping && game.player.target != null && game.player.target.contents != null && game.player.target.contents.Consumable;
         targetStockBar.transform.parent.gameObject.SetActive(stockTarget);
         if (stockTarget) targetStockBar.fillAmount = game.player.target.contents.Fill;
-        for (int i = 0; i < supplyButtons.Length; i++) supplyButtons[i].interactable = i < 12 ? i < game.FlavorCount : i < 18 ? i - 12 < game.ToppingCount : true;
+        for (int i = 0; i < supplyButtons.Length; i++)
+        {
+            bool unlocked = i < 12 ? i < game.FlavorCount : i < 18 ? i - 12 < game.ToppingCount : true;
+            supplyButtons[i].interactable = unlocked;
+            supplyLocks[i].SetActive(!unlocked);
+            supplyCardContents[i].alpha = unlocked ? 1 : .4f;
+        }
         for (int i = 0; i < 8; i++) { Show(hotbar[i], game.player.inventory.slots[i], i == game.player.selected); Show(playerSlots[i], game.player.inventory.slots[i], i == transferSelection); }
         for (int i = 0; i < inventorySlots.Length; i++) Show(inventorySlots[i], game.player.inventory.slots[i], i == transferSelection);
         foreach (var slot in hotbar) slot.button.interactable = !AnyPanel || shelfPanel.activeSelf && !WorkerInventoryLocked;
@@ -235,8 +249,8 @@ public class TycoonHUD : MonoBehaviour
     }
     private void Show(SlotView slot, TycoonItem item, bool selected)
     {
-        slot.label.gameObject.SetActive(item != null && (item.kind == TycoonItem.Kind.Equipment || item.Consumable));
-        slot.label.text = item != null && item.kind == TycoonItem.Kind.Equipment ? game.catalog.Label(item) : item != null && item.Consumable ? item.amount.ToString() : "";
+        slot.label.gameObject.SetActive(item != null && item.Consumable);
+        slot.label.text = item != null && item.Consumable ? item.amount.ToString() : "";
         slot.icon.sprite=game.catalog.Icon(item);slot.icon.gameObject.SetActive(slot.icon.sprite!=null);
         slot.bar.transform.parent.gameObject.SetActive(item != null && item.Consumable);
         slot.bar.fillAmount = item == null ? 0 : item.Fill;
@@ -245,6 +259,7 @@ public class TycoonHUD : MonoBehaviour
     }
     public void ClosePanels()
     {
+        EndInventoryDrag();
         daySummary.gameObject.SetActive(false);
         panel.SetActive(false); shelfPanel.SetActive(false); personalInventoryPanel.SetActive(false); inventoryPanel.SetActive(false); shopPanel.SetActive(false); businessPanel.SetActive(false); mapPanel.SetActive(false); menuPanel.SetActive(false);
         closeButton.gameObject.SetActive(true);
@@ -285,7 +300,17 @@ public class TycoonHUD : MonoBehaviour
     }
     public void OpenShop()
     {
-        ClosePanels(); panel.SetActive(true); shopPanel.SetActive(true); panelTitle.text = "Wholesale supplies"; panelText.text = "Purchases go straight into your hotbar.";
+        ClosePanels(); panel.SetActive(true); shopPanel.SetActive(true); panelTitle.text = "Wholesale supplies"; panelText.text = "";
+        SelectSupplyCategory(0);
+    }
+    public void SelectSupplyCategory(int category)
+    {
+        SupplyCategory = category;
+        for (int i = 0; i < supplyCategoryPanels.Length; i++)
+        {
+            supplyCategoryPanels[i].SetActive(i == category);
+            supplyCategoryButtons[i].GetComponent<Image>().color = i == category ? new Color(.38f, .7f, .6f) : new Color(.85f, .89f, .78f);
+        }
     }
     public void OpenEmployee(TycoonWorker worker)
     {
@@ -301,6 +326,7 @@ public class TycoonHUD : MonoBehaviour
     }
     private void ClickPlayer(int index)
     {
+        if (game.tutorial.Active) { game.player.Select(index); return; }
         if (WorkerInventoryLocked) return;
         if (storage != null)
         {
@@ -319,8 +345,34 @@ public class TycoonHUD : MonoBehaviour
         else { game.player.inventory.slots[index] = source; game.player.inventory.slots[transferSelection] = target; }
         transferSelection = -1; game.player.Select(index);
     }
+    public bool BeginInventoryDrag(int index)
+    {
+        var item = game.player.inventory.slots[index];
+        if (item == null || item.kind == TycoonItem.Kind.None) return false;
+        dragSource = index; transferSelection = -1;
+        game.player.CancelGesture();
+        inventoryDragIcon.sprite = game.catalog.Icon(item);
+        inventoryDragIcon.transform.SetAsLastSibling();
+        inventoryDragIcon.gameObject.SetActive(true);
+        return true;
+    }
+    public void DropInventoryItem(int index)
+    {
+        if (dragSource < 0 || dragSource == index) return;
+        var slots = game.player.inventory.slots;
+        (slots[dragSource], slots[index]) = (slots[index], slots[dragSource]);
+        int selected = game.player.selected;
+        game.player.Select(selected == dragSource ? index : selected == index ? dragSource : selected);
+        EndInventoryDrag(); game.Save();
+    }
+    public void EndInventoryDrag()
+    {
+        dragSource = -1;
+        inventoryDragIcon.gameObject.SetActive(false);
+    }
     private void ClickStorage(int index)
     {
+        if (game.tutorial.Active) return;
         if (WorkerInventoryLocked) return;
         var item = storage.slots[index];
         if (item == null) return;

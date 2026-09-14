@@ -826,6 +826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2909418125441289250}
+  - component: {fileID: 3768432218354842972}
   m_Layer: 0
   m_Name: 8_slot_locker(Clone)
   m_TagString: Untagged
@@ -849,6 +850,27 @@ Transform:
   - {fileID: 5427005420112395833}
   m_Father: {fileID: 1482589394139685763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3768432218354842972
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285647686170213414}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.4424996, z: 0.5520003}
+  m_Center: {x: 0, y: 0.72124976, z: 0.026000112}
 --- !u!1 &5339006837394532067
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +911,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5316446075451053172}
+  - component: {fileID: 5790219252560090906}
   m_Layer: 0
   m_Name: 12_slot_locker(Clone)
   m_TagString: Untagged
@@ -912,6 +935,27 @@ Transform:
   - {fileID: 6638642815939865011}
   m_Father: {fileID: 1482589394139685763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5790219252560090906
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464393957693981969}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.0424995, z: 0.55200046}
+  m_Center: {x: 0, y: 1.0212497, z: 0.025999993}
 --- !u!1 &5596952461706717571
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9170047866776065259}
+  - component: {fileID: 1307924935030225424}
   m_Layer: 0
   m_Name: 4_slot_locker(Clone)
   m_TagString: Untagged
@@ -944,6 +989,27 @@ Transform:
   - {fileID: 8295832546647463548}
   m_Father: {fileID: 1482589394139685763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1307924935030225424
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596952461706717571}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.84249985, z: 0.5520003}
+  m_Center: {x: 0, y: 0.4212499, z: 0.026000082}
 --- !u!1 &5768154452414365416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,7 +1301,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1482589394139685763}
   - component: {fileID: 1001462305030518674}
-  - component: {fileID: 2192752115255306523}
   - component: {fileID: 8990700920135139319}
   m_Layer: 0
   m_Name: Part_4
@@ -1285,22 +1350,28 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 1, y: 0.5}
   tabletop: 0
+  surfaceHeight: 0.94
   installed: 1
+  packed: 0
   operatingPoint: {fileID: 8601380046586634608}
   handTarget: {fileID: 1317653665066957406}
   contentPoint: {fileID: 4130428066319629135}
   lid: {fileID: 4963345748219085305}
+  queuePoint: {fileID: 0}
   fillRenderers: []
   lockerModels:
   - {fileID: 5596952461706717571}
   - {fileID: 5285647686170213414}
   - {fileID: 5464393957693981969}
   tubModel: {fileID: 0}
+  signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -1310,6 +1381,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -1319,6 +1391,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -1328,6 +1401,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -1338,6 +1412,7 @@ MonoBehaviour:
     kind: 0
     variant: 0
     amount: 0
+    equipmentId: 0
     loadedFlavor: -1
     cone: 0
     scoops: 
@@ -1350,27 +1425,6 @@ MonoBehaviour:
   ironStage: 0
   support: {fileID: 0}
   game: {fileID: 0}
---- !u!65 &2192752115255306523
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7557482893834040427}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &8990700920135139319
 MonoBehaviour:
   m_ObjectHideFlags: 0

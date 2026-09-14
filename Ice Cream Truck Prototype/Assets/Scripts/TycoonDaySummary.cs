@@ -38,6 +38,7 @@ public class TycoonDaySummary : MonoBehaviour
         cash.text = "$" + game.cash.ToString("0.00");
         missed.text = game.sites.Sum(s => s.lostSales).ToString();
         startXP = Mathf.Max(0, game.xp - game.salesToday);
+        if (game.tutorial.progress.step == TycoonTutorial.Step.DaySummary) startXP = 0;
         shownXP = startXP; startLevel = 1;
         while (startLevel < game.level && startXP >= TycoonCatalogSO.Thresholds[startLevel]) startLevel++;
         DisplayedLevel = startLevel;

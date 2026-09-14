@@ -13,11 +13,13 @@ public class TycoonPart : MonoBehaviour
     public bool TableSurface => kind == Kind.Table || kind == Kind.ServingCounter;
     public bool installed = true;
     public bool packed;
+    public bool rewardDelivery;
     public Transform operatingPoint, handTarget, contentPoint, lid, queuePoint;
     public Renderer[] fillRenderers;
     public GameObject[] lockerModels;
     public GameObject tubModel;
     public Transform signModel;
+    public TextMesh[] signLabels;
     private TycoonTubVisual tubVisual;
     private int shownFlavor = -1;
     public TycoonInventory storage = new TycoonInventory(4);
@@ -56,7 +58,12 @@ public class TycoonPart : MonoBehaviour
     }
     public void RefreshVisual()
     {
-        if (kind == Kind.Sign) signModel.localRotation = Quaternion.Euler(0,game.sites[site].open ? 0 : 180,0);
+        if (kind == Kind.Sign)
+            foreach (var label in signLabels)
+            {
+                label.text = game.sites[site].open ? "OPEN" : "CLOSED";
+                label.GetComponent<Renderer>().enabled = Vector3.Dot(label.transform.forward, game.player.view.transform.position - label.transform.position) < 0;
+            }
         if (kind == Kind.Locker) RefreshLocker();
         if (kind == Kind.Tub && contents != null)
         {
@@ -132,6 +139,7 @@ public class TycoonPart : MonoBehaviour
     }
     public string Prompt()
     {
+        if (rewardDelivery) return "E / collect " + TycoonCatalogSO.FlavorNames[variant] + " holder";
         return kind switch {
             Kind.Tub => TycoonCatalogSO.FlavorNames[variant] + (contents.amount > 0 ? " / hold click and swipe to scoop, click with a refill tub to top up" : " / empty, needs a refill tub"),
             Kind.Prep => contents == null ? "Place a cone in the holder" : "Add a scoop or topping / E to take serving",
@@ -141,5 +149,13 @@ public class TycoonPart : MonoBehaviour
             Kind.Locker => "E / staff locker", Kind.ColdStorage => "E / cold storage", Kind.Supplier => "E / buy supplies and equipment",
             Kind.BusinessBoard => "E / business management", Kind.Register => "Take customer orders here", Kind.Sign => "E / open or close this stand", Kind.ServingCounter => "Click with completed order to serve", Kind.Bike => "E / ride bicycle, F / cargo", Kind.Truck => "E / drive truck, F / cargo",
             Kind.Plot => "E / business upgrades", Kind.Trash => "Click / discard held item", _ => "E / storage" };
+    }
+    public void CollectReward(TycoonPlayer player)
+    {
+        var item = new TycoonItem(TycoonItem.Kind.Equipment, 1, catalogIndex) { equipmentId = id };
+        if (!player.PickUp(item)) { game.notice = "Make room in your inventory."; return; }
+        rewardDelivery = false; packed = true; installed = false; gameObject.SetActive(false);
+        game.tutorial.progress.rewardDeliverySeen = true;
+        game.navigation.BuildNavMesh(); game.Save(); player.RefreshHeld();
     }
 }

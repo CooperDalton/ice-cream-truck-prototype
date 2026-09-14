@@ -396,20 +396,25 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 1, y: 0.5}
   tabletop: 0
+  surfaceHeight: 0.94
   installed: 1
+  packed: 0
   operatingPoint: {fileID: 5205868686157217712}
   handTarget: {fileID: 9151833405081051345}
   contentPoint: {fileID: 7900500744302509212}
   lid: {fileID: 7228916480160607734}
+  queuePoint: {fileID: 0}
   fillRenderers: []
   lockerModels: []
   tubModel: {fileID: 0}
   signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -419,6 +424,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -428,6 +434,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -437,6 +444,7 @@ MonoBehaviour:
     - kind: 0
       variant: 0
       amount: 0
+      equipmentId: 0
       loadedFlavor: -1
       cone: 0
       scoops: 
@@ -447,6 +455,7 @@ MonoBehaviour:
     kind: 0
     variant: 0
     amount: 0
+    equipmentId: 0
     loadedFlavor: -1
     cone: 0
     scoops: 
@@ -478,8 +487,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 1.0050219, y: 1.0399997, z: 0.54014885}
+  m_Center: {x: 0, y: 0.51999986, z: -0.017574728}
 --- !u!114 &7292246932501802425
 MonoBehaviour:
   m_ObjectHideFlags: 0

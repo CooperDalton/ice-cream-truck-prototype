@@ -24,6 +24,7 @@ public class TycoonPlayer : MonoBehaviour
     public float MouseSensitivity { get; private set; }
     private float fallSpeed, scoopStroke, gestureTime;
     private TycoonPart gestureTarget;
+    public bool Scooping => gestureTarget != null && gestureTarget.kind == TycoonPart.Kind.Tub;
     private bool gestureLookLocked;
     private GameObject heldVisual;
     private string heldState;
@@ -50,7 +51,6 @@ public class TycoonPlayer : MonoBehaviour
         bool unlocked = game.hud.AnyPanel || game.phase == TycoonGameManager.Phase.Results;
         Cursor.lockState = unlocked ? CursorLockMode.None : CursorLockMode.Locked; Cursor.visible = unlocked;
         if (unlocked || game.loadingCampaign) { CancelGesture(); game.builder.HoldPickup(null, false, 0); game.builder.AimPlacement(false); return; }
-        if (k.nKey.wasPressedThisFrame && game.phase == TycoonGameManager.Phase.Preparation) game.OpenDay();
         if (k.f5Key.wasPressedThisFrame) { game.Save(); game.notice = "Game saved."; }
         if (k.qKey.wasPressedThisFrame) Drop();
         for (int i = 0; i < 8; i++) if (k[(Key)((int)Key.Digit1 + i)].wasPressedThisFrame) Select(i);
@@ -118,6 +118,7 @@ public class TycoonPlayer : MonoBehaviour
     }
     public void Use(bool take)
     {
+        if (!game.tutorial.AllowsUse(target, customerTarget, take)) return;
         if (customerTarget != null)
         {
             if (!take || customerTarget.order.owner != "") return;
@@ -129,6 +130,17 @@ public class TycoonPlayer : MonoBehaviour
             }
             return;
         }
+        if (target != null && target.kind == TycoonPart.Kind.Sign)
+        {
+            if (!take) return;
+            if (!game.sites[target.site].owned) { game.hud.OpenBusiness(target.site); return; }
+            if (game.phase == TycoonGameManager.Phase.Preparation) game.OpenDay();
+            else { game.sites[target.site].open = !game.sites[target.site].open; game.Save(); }
+            return;
+        }
+        if (target != null && target.kind == TycoonPart.Kind.Supplier) { game.hud.OpenShop(); return; }
+        if (target != null && target.rewardDelivery) { if (take) target.CollectReward(this); return; }
+        if (looseTarget != null && take) { if (!looseTarget.Collect(this)) game.notice = "Make room before picking that up."; return; }
         if (Held != null && Held.kind == TycoonItem.Kind.Equipment)
         {
             if (!take) game.builder.PlaceHeld();
@@ -144,15 +156,7 @@ public class TycoonPlayer : MonoBehaviour
         if (target == null) return;
         var item = Held;
         if (!target.Available("Player")) { game.notice = "This equipment is being used by " + target.claimedBy; return; }
-        if (target.kind == TycoonPart.Kind.Supplier) { game.hud.OpenShop(); return; }
         if (target.kind == TycoonPart.Kind.Plot || target.kind == TycoonPart.Kind.BusinessBoard) { game.hud.OpenBusiness(target.site); return; }
-        if (target.kind == TycoonPart.Kind.Sign)
-        {
-            if (!game.sites[target.site].owned) { game.hud.OpenBusiness(target.site); return; }
-            if (game.phase == TycoonGameManager.Phase.Preparation) game.OpenDay();
-            else { game.sites[target.site].open = !game.sites[target.site].open; game.notice = game.sites[target.site].open ? "Stand open" : "Stand closed for a supply run"; }
-            return;
-        }
         if (target.kind == TycoonPart.Kind.Bike || target.kind == TycoonPart.Kind.Truck)
         {
             if (take) (target.kind == TycoonPart.Kind.Bike ? game.bike : game.truck).Enter();
@@ -276,10 +280,12 @@ public class TycoonPlayer : MonoBehaviour
     }
     public void Drop()
     {
-        if (Held == null) return;
+        if (game.tutorial.FirstDay && !game.tutorial.Practicing) return;
+        if (Held == null || Held.kind == TycoonItem.Kind.None) return;
         game.Deliver(Held, view.transform.position + view.transform.forward * .8f);
         inventory.slots[selected] = null;
         CancelGesture();
+        RefreshHeld(); game.Save();
     }
     public void RefreshHeld()
     {

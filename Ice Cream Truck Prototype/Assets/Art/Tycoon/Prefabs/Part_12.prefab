@@ -233,6 +233,7 @@ MonoBehaviour:
   variant: 0
   footprint: {x: 0.5, y: 0.5}
   tabletop: 0
+  surfaceHeight: 0.94
   installed: 1
   packed: 0
   operatingPoint: {fileID: 2593170825994413341}
@@ -244,6 +245,7 @@ MonoBehaviour:
   lockerModels: []
   tubModel: {fileID: 0}
   signModel: {fileID: 0}
+  signLabels: []
   storage:
     slots:
     - kind: 0
@@ -314,6 +316,7 @@ GameObject:
   - component: {fileID: 6759586291986311651}
   - component: {fileID: 9160781671712701790}
   - component: {fileID: 6071578909185605891}
+  - component: {fileID: 7119012416505241324}
   m_Layer: 0
   m_Name: Board leg
   m_TagString: Untagged
@@ -393,6 +396,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7119012416505241324
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3990004936404418855}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000001, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5077945586298322520
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +459,7 @@ GameObject:
   - component: {fileID: 4875945737585804635}
   - component: {fileID: 6763983546461854558}
   - component: {fileID: 6664000296403764543}
+  - component: {fileID: 4657501384715408729}
   m_Layer: 0
   m_Name: Board leg
   m_TagString: Untagged
@@ -514,6 +539,27 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4657501384715408729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234787322892404496}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000001, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7827909466691128474
 GameObject:
   m_ObjectHideFlags: 0

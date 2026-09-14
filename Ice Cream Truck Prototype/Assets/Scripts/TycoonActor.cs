@@ -50,6 +50,7 @@ public class TycoonActor : MonoBehaviour
     public void TickPatience(float dt)
     {
         if (leaving || game.Paused || game.phase != TycoonGameManager.Phase.Trading) return;
+        if (game.tutorial.GuidesCustomer(this)) return;
         if (Vector3.Distance(transform.position, QueuePosition) < .65f) order.startedWaiting = true;
         if (!order.startedWaiting) return;
         order.patience = Mathf.Max(0, order.patience - dt);

@@ -35,7 +35,7 @@ public class TycoonCatalogSO : ScriptableObject
             TycoonItem.Kind.Equipment => partPrefabs[item.variant].kind switch { TycoonPart.Kind.ColdStorage => "Cold storage", TycoonPart.Kind.Prep => "Prep station", TycoonPart.Kind.Tub => "Ice cream tub", TycoonPart.Kind.BusinessBoard => "Business board", TycoonPart.Kind.Register => "Order counter", TycoonPart.Kind.ServingCounter => "Pickup counter", _ => partPrefabs[item.variant].kind.ToString() },
             TycoonItem.Kind.Tub => FlavorNames[item.variant], TycoonItem.Kind.Topping => ToppingNames[item.variant],
             TycoonItem.Kind.Bowls => "Bowls",
-            TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "One-swipe scooper",
+            TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "High quality scooper",
             TycoonItem.Kind.Serving => (item.cone ? "Cone" : "Bowl") + (item.scoops.Length > 0 ? " / " + FlavorNames[item.scoops[0]] : ""), _ => item.kind.ToString() };
     }
     public GameObject Model(TycoonItem item)
