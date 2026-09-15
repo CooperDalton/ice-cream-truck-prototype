@@ -113,7 +113,7 @@ public class TycoonGameManager : MonoBehaviour
         if (sites[2].owned && cash >= 12) { cash -= 12; wagesToday += 12; truck.operatingToday = true; }
         sites[0].open = true; sites[1].open = sites[1].owned && workers.Any(w => w.site == 1 && w.onDuty); sites[2].open = truck.AtStop && truck.operatingToday;
         notice = "Open for business.";
-        if (tutorial.FirstDay) tutorial.SpawnCustomer(); else if (sales < 2) Spawn(0);
+        if (tutorial.FirstDay) tutorial.SpawnCustomer(); else Spawn(0, true);
         Save();
     }
     public void CloseDay()
@@ -189,10 +189,12 @@ public class TycoonGameManager : MonoBehaviour
         TycoonItem item; float price;
         if (product < 12) { if (product >= FlavorCount) return false; item = new TycoonItem(TycoonItem.Kind.Tub, 24, product); price = TycoonCatalogSO.TubPrices[product]; }
         else if (product < 18) { int v = product - 12; if (v >= ToppingCount) return false; item = new TycoonItem(TycoonItem.Kind.Topping, 30, v); price = TycoonCatalogSO.RefillPrices[v]; }
-        else if (product == 18) { item = new TycoonItem(TycoonItem.Kind.Bowls, 30); price = 6; }
+        else if (product == 18) { item = new TycoonItem(TycoonItem.Kind.Bowls, 12); price = 3; }
         else if (product == 19) { item = new TycoonItem(TycoonItem.Kind.Batter, 20); price = 12; }
         else if (product == 20) { item = new TycoonItem(TycoonItem.Kind.ImprovedScooper); price = 12; }
-        else { item = new TycoonItem(TycoonItem.Kind.BasicScooper); price = 6; }
+        else if (product == 21) { item = new TycoonItem(TycoonItem.Kind.BasicScooper); price = 6; }
+        else if (product == 22) { item = new TycoonItem(TycoonItem.Kind.ElectricScooper); price = 36; }
+        else return false;
         var available = Enumerable.Range(0, supplyPickupPoints.Length).Where(i => !looseItems.Any(l => l.supplySlot == i)).ToArray();
         int stacks = Mathf.CeilToInt((float)item.amount / item.Capacity);
         if (available.Length < stacks) { notice = "Collect items from the counter to make room. You have not been charged."; return false; }
@@ -210,22 +212,28 @@ public class TycoonGameManager : MonoBehaviour
         Save();
         return true;
     }
+    private void DeliverEquipment(int index, int site)
+    {
+        var delivery = site == 0 ? rewardDeliveryOrigin : sites[site].origin;
+        for (int slot = 0; ; slot++)
+        {
+            var point = delivery.TransformPoint(new Vector3(slot % 4 * 1.4f, 0, -slot / 4 * 1.4f));
+            if (parts.Any(p => !p.packed && Vector3.Distance(p.transform.position, point) < 1.2f) || looseItems.Any(l => Vector3.Distance(l.transform.position, point) < 1.2f)) continue;
+            var part = AddPart(index, site, point); part.installed = false;
+            return;
+        }
+    }
     public bool BuyUpgrade(int choice, int site)
     {
         if (!sites[site].owned && choice != 6) { notice = "Purchase this location first."; return false; }
-        var origin = sites[site].origin.position;
         if (choice == 0)
         {
-            int slot = player.inventory.FreeSlot;
-            if (slot < 0) { notice = "Hotbar full. Free a slot before buying a scooper. You have not been charged."; return false; }
-            if (!Spend(12)) return false;
-            player.inventory.Add(new TycoonItem(TycoonItem.Kind.ImprovedScooper));
-            notice = "High quality scooper added to hotbar slot " + (slot + 1) + ". Press " + (slot + 1) + " to equip it.";
+            notice = "Buy scoopers from the supply shop."; return false;
         }
         if (choice == 1)
         {
             if (!Spend(24)) return false;
-            AddPart(4, site, origin + new Vector3(3, 0, -2)).transform.rotation = Quaternion.Euler(0,180,0);
+            DeliverEquipment(4, site);
         }
         if (choice == 2)
         {
@@ -236,12 +244,7 @@ public class TycoonGameManager : MonoBehaviour
         }
         if (choice == 3)
         {
-            if (Parts(site, TycoonPart.Kind.Iron).Any()) { notice = "Waffle equipment is already installed."; return false; }
-            if (!Spend(90)) return false;
-            var table = AddPart(0, site, origin + new Vector3(2, 0, 0));
-            var iron = AddPart(3, site, table.transform.position + new Vector3(0, .94f, 0)); iron.support = table; iron.transform.SetParent(table.transform, true);
-            Deliver(new TycoonItem(TycoonItem.Kind.Batter, 10), origin + new Vector3(2, 1.2f, -.4f));
-            Deliver(new TycoonItem(TycoonItem.Kind.Batter, 10), origin + new Vector3(2, 1.2f, .4f));
+            notice = "Buy a waffle iron and place it on a table."; return false;
         }
         if (choice == 4)
         {
@@ -252,8 +255,8 @@ public class TycoonGameManager : MonoBehaviour
         {
             if (sites[site].expanded || !Spend(160)) return false;
             sites[site].expanded = true; sites[site].plotSize.x += 2;
-            AddPart(0, site, origin + new Vector3(-6, 0, 0)).installed=false; AddPart(5, site, origin + new Vector3(-6, 0, 2)).installed=false;
-            notice="Kiosk expanded. Place the extra table and cold rack delivered beside the plot.";
+            DeliverEquipment(0, site); DeliverEquipment(5, site);
+            notice="Kiosk expanded. Place the extra table and cold rack delivered behind the shop.";
         }
         if (choice == 6)
         {
@@ -273,8 +276,7 @@ public class TycoonGameManager : MonoBehaviour
         {
             int index = choice - 8;
             if (!Spend(new[] { 24,12,36,18,48,20 }[index])) return false;
-            var part = AddPart(new[] { 0,2,5,1,3,8 }[index],site,origin + new Vector3(-5,0,-3));
-            part.installed = false; notice = "Furniture delivered beside the plot. Hold right-click to pack it, then select it to place.";
+            DeliverEquipment(new[] { 0,2,5,1,3,8 }[index], site); notice = "Furniture delivered behind the shop. Hold right-click to pack it, then select it to place.";
         }
         RefreshBusinessModels(); navigation.BuildNavMesh(); feedback.PlayOneShot(upgradeSound,.45f); return true;
     }
@@ -306,13 +308,14 @@ public class TycoonGameManager : MonoBehaviour
     }
     public TycoonOrder GenerateOrder(int site)
     {
-        int[] flavors = site == 0 ? Enumerable.Range(0, FlavorCount).ToArray() : Parts(site, TycoonPart.Kind.Tub).Select(p => p.variant).Where(v => v < FlavorCount).Distinct().Take(4).ToArray();
+        int[] flavors = Parts(site, TycoonPart.Kind.Tub).Select(p => p.variant).Where(v => v < FlavorCount).Distinct().ToArray();
         if (flavors.Length == 0) flavors = new[] { 0 };
         bool tutorial = site == 0 && sales < 2;
-        int scoops = sales < 6 ? 1 : site == 2 || UnityEngine.Random.value > .7f ? 2 : 1;
+        bool cone = !tutorial && Parts(site, TycoonPart.Kind.Iron).Any() && Parts(site, TycoonPart.Kind.Prep).Any() && UnityEngine.Random.value < .45f;
+        int scoops = sales < 6 ? 1 : UnityEngine.Random.Range(1, cone ? 3 : 4);
         var order = new TycoonOrder { id = nextId++, flavors = new int[scoops], patience = orderPatience, patienceLimit = orderPatience };
-        for (int i = 0; i < scoops; i++) order.flavors[i] = tutorial ? sales : flavors[UnityEngine.Random.Range(0, flavors.Length)];
-        order.cone = !tutorial && Parts(site, TycoonPart.Kind.Iron).Any() && Parts(site, TycoonPart.Kind.Prep).Any() && UnityEngine.Random.value < .45f;
+        for (int i = 0; i < scoops; i++) order.flavors[i] = tutorial && flavors.Contains(sales) ? sales : flavors[UnityEngine.Random.Range(0, flavors.Length)];
+        order.cone = cone;
         if (ToppingCount > 0 && !tutorial && UnityEngine.Random.value < .6f)
         {
             order.toppings |= 1 << UnityEngine.Random.Range(0, ToppingCount);
@@ -320,15 +323,18 @@ public class TycoonGameManager : MonoBehaviour
         }
         return order;
     }
-    private void Spawn(int site)
+    private void Spawn(int site, bool opening = false)
     {
         var business = sites[site];
         if (site == 0 && sales == 0 && business.queue.Count > 0) { business.spawnTimer = 2; return; }
         business.spawnTimer = (site == 0 ? business.expanded ? 10 : 14 : 16) * UnityEngine.Random.Range(.8f, 1.2f);
         if (business.queue.Count >= (business.expanded ? 6 : 4) || actors.Count >= 24 || (site == 2 && (!truck.AtStop || truck.demand[truck.routeStop] <= 0))) return;
         var point = spawnPoints.OrderBy(p => Vector3.Distance(p.position, business.queuePoint.position)).FirstOrDefault(p => { var v = player.view.WorldToViewportPoint(p.position); return v.z < 0 || v.x < 0 || v.x > 1 || v.y < 0 || v.y > 1; });
-        if (point == null) { business.spawnTimer = 2; return; }
-        Vector3 position = site == 0 && sales < 2 ? business.queuePoint.position + Vector3.right * 4 : point.position;
+        if (point == null && !opening) { business.spawnTimer = 2; return; }
+        Vector3 position = opening ? business.queuePoint.position : site == 0 && sales < 2 ? business.queuePoint.position + Vector3.right * 4 : point.position;
+        if (!UnityEngine.AI.NavMesh.SamplePosition(position, out var spawn, 2, UnityEngine.AI.NavMesh.AllAreas)) return;
+        position = spawn.position;
+        if (!Parts(site, TycoonPart.Kind.Tub).Any()) return;
         var order = GenerateOrder(site);
         foreach (int flavor in order.flavors)
         {

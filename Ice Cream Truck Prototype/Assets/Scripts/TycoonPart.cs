@@ -93,7 +93,7 @@ public class TycoonPart : MonoBehaviour
     }
     public bool Deposit(TycoonItem tool, string actor)
     {
-        if ((kind != Kind.Prep && kind != Kind.Bowl) || !Available(actor) || contents == null || tool.loadedFlavor < 0 || contents.scoops.Length >= 2) return false;
+        if ((kind != Kind.Prep && kind != Kind.Bowl) || !Available(actor) || contents == null || tool.loadedFlavor < 0 || contents.scoops.Length >= (contents.cone ? 2 : 3)) return false;
         int n = contents.scoops.Length; Array.Resize(ref contents.scoops, n + 1);
         contents.scoops[n] = tool.loadedFlavor; tool.loadedFlavor = -1; game.PreparationSound(game.depositSound,transform.position); return true;
     }
@@ -141,11 +141,11 @@ public class TycoonPart : MonoBehaviour
     {
         if (rewardDelivery) return "E / collect " + TycoonCatalogSO.FlavorNames[variant] + " holder";
         return kind switch {
-            Kind.Tub => TycoonCatalogSO.FlavorNames[variant] + (contents.amount > 0 ? " / hold click and swipe to scoop, click with a refill tub to top up" : " / empty, needs a refill tub"),
+            Kind.Tub => TycoonCatalogSO.FlavorNames[variant] + (contents.amount > 0 ? "" : " / Empty"),
             Kind.Prep => contents == null ? "Place a cone in the holder" : "Add a scoop or topping / E to take serving",
             Kind.Bowl => "Add a scoop or topping / E to take bowl",
             Kind.Table => "Place a bowl or equipment on the table",
-            Kind.Iron => ironStage switch { 0 => "Hold click with batter to pour", 1 => "Click to close waffle iron", 2 => cookTime < 6 ? "Waffle cooking" : "Click to open waffle iron", 3 => "E to take fresh cone", 5 => "Hold click to finish pouring", _ => "Burned waffle / click to discard" },
+            Kind.Iron => ironStage switch { 0 => "Hold click with batter to pour", 1 => "E / close waffle iron", 2 => cookTime < 6 ? "Waffle cooking" : "E / open waffle iron", 3 => "E to take fresh cone", 5 => "Hold click to finish pouring", _ => "Burned waffle / click to discard" },
             Kind.Locker => "E / staff locker", Kind.ColdStorage => "E / cold storage", Kind.Supplier => "E / buy supplies and equipment",
             Kind.BusinessBoard => "E / business management", Kind.Register => "Take customer orders here", Kind.Sign => "E / open or close this stand", Kind.ServingCounter => "Click with completed order to serve", Kind.Bike => "E / ride bicycle, F / cargo", Kind.Truck => "E / drive truck, F / cargo",
             Kind.Plot => "E / business upgrades", Kind.Trash => "Click / discard held item", _ => "E / storage" };

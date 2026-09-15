@@ -128,7 +128,8 @@ public class TycoonWorker : MonoBehaviour
         {
             if (prep.contents == null) { status = "Serving missing from preparation spot"; return; }
             target = game.Parts(site, TycoonPart.Kind.Tub).FirstOrDefault(p => p.variant == order.flavors[scoopIndex] && p.Available(Owner));
-            if (target == null) { status = "Waiting for ice cream tub"; return; }
+            if (target == null) { status = "Place an available " + TycoonCatalogSO.FlavorNames[order.flavors[scoopIndex]] + " holder"; actor.RestHands(); return; }
+            status = "Walking to " + TycoonCatalogSO.FlavorNames[target.variant];
             bool refill = inventory.Locate(TycoonItem.Kind.Tub,target.variant)>=0 || game.Parts(site,TycoonPart.Kind.ColdStorage).Any(r=>r.storage.Locate(TycoonItem.Kind.Tub,target.variant)>=0);
             if (target.contents.amount == 0 || (target.contents.amount<=6 && refill)) { Go(Step.Refill); return; }
             if (!target.Claim(Owner) || !actor.Walk(target.operatingPoint.position)) return;
@@ -137,7 +138,7 @@ public class TycoonWorker : MonoBehaviour
         if (step == Step.Scoop)
         {
             status = "Scooping " + TycoonCatalogSO.FlavorNames[target.variant];
-            var tool = Tool(); float strokes = tool.kind == TycoonItem.Kind.ImprovedScooper ? 1 : 3;
+            var tool = Tool(); float strokes = tool.ScoopDuration * 3;
             if (!Animate(target, strokes / ScoopSpeed, dt, true)) return;
             if (!target.Scoop(tool, Owner)) { Go(Step.GoTub); return; }
             actor.Hold(tool); Go(Step.Deposit); return;
@@ -212,16 +213,15 @@ public class TycoonWorker : MonoBehaviour
     }
     private bool Supply(TycoonOrder order)
     {
-        int tool = inventory.Locate(TycoonItem.Kind.ImprovedScooper);
-        if (tool < 0) tool = inventory.Locate(TycoonItem.Kind.BasicScooper);
-        int upgrade = locker.storage.Locate(TycoonItem.Kind.ImprovedScooper);
-        if (tool >= 0 && inventory.slots[tool].kind == TycoonItem.Kind.BasicScooper && upgrade >= 0)
+        int tool = System.Array.FindIndex(inventory.slots, i => i != null && i.Tool);
+        int upgrade = Enumerable.Range(0, locker.storage.slots.Length).Where(i => locker.storage.slots[i] != null && locker.storage.slots[i].Tool).OrderByDescending(i => locker.storage.slots[i].ToolTier).DefaultIfEmpty(-1).First();
+        if (tool >= 0 && upgrade >= 0 && inventory.slots[tool].ToolTier < locker.storage.slots[upgrade].ToolTier)
         {
             var basic = inventory.slots[tool]; inventory.slots[tool] = locker.storage.slots[upgrade]; locker.storage.slots[upgrade] = basic;
         }
         if (tool < 0)
         {
-            int source = upgrade >= 0 ? upgrade : locker.storage.Locate(TycoonItem.Kind.BasicScooper);
+            int source = upgrade;
             if (source < 0 || !locker.storage.Transfer(source, inventory)) { status = "Put a scooper in the assigned locker"; return false; }
         }
         for (int i = 0; i < inventory.slots.Length; i++)
@@ -261,7 +261,7 @@ public class TycoonWorker : MonoBehaviour
     }
     private void Go(Step next)
     {
-        step = next; progress = 0;
+        step = next; progress = 0; actor.RestHands();
     }
     public void ResetTicket()
     {

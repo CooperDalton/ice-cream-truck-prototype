@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class TycoonItem
 {
-    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, Serving = 11, Equipment }
+    public enum Kind { None, Bowls, Cone, BasicScooper, ImprovedScooper, Tub, Batter, Topping, Serving = 11, Equipment, ElectricScooper }
     public Kind kind;
     public int variant, amount;
     public int equipmentId;
@@ -21,7 +21,10 @@ public class TycoonItem
     }
     public int Capacity => kind switch { Kind.Bowls => 12, Kind.Cone => 4, Kind.Tub => 24, Kind.Batter => 10, Kind.Topping => 15, _ => 1 };
     public bool Consumable => kind == Kind.Bowls || kind == Kind.Cone || kind == Kind.Tub || kind == Kind.Batter || kind == Kind.Topping;
-    public bool Tool => kind == Kind.BasicScooper || kind == Kind.ImprovedScooper;
+    public bool Tool => kind == Kind.BasicScooper || kind == Kind.ImprovedScooper || kind == Kind.ElectricScooper;
+    public float ScoopDuration => kind == Kind.ElectricScooper ? .2f : kind == Kind.ImprovedScooper ? .65f : 1;
+    public float ScoopTravel => kind == Kind.ElectricScooper ? 60 : kind == Kind.ImprovedScooper ? 260 : 400;
+    public int ToolTier => kind == Kind.ElectricScooper ? 2 : kind == Kind.ImprovedScooper ? 1 : 0;
     public bool Disposable => kind != Kind.Batter && kind != Kind.Topping;
     public float Fill => Mathf.Clamp01((float)amount / Capacity);
     public TycoonItem Copy()
@@ -95,7 +98,7 @@ public class TycoonOrder
 {
     public enum Stage { Ordering, Pickup }
     public Stage stage;
-    public bool startedWaiting;
+    public bool startedWaiting, joinedQueue;
     public int id;
     public bool cone;
     public int[] flavors;
@@ -111,7 +114,7 @@ public class TycoonOrder
     public string owner = "";
     public float Price(int site)
     {
-        float price = flavors.Length == 1 ? 6 : 9;
+        float price = 8 + (flavors.Length - 1) * 3;
         foreach (int flavor in flavors) price += TycoonCatalogSO.Premiums[flavor];
         for (int i = 0; i < 6; i++) if ((toppings & (1 << i)) != 0) price += TycoonCatalogSO.ToppingPremiums[i];
         return price + (cone ? 4 : 0) + (site == 1 ? 1 : site == 2 ? 3 : 0);

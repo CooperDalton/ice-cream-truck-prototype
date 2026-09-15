@@ -7,12 +7,13 @@ public class TycoonInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandle
     public TycoonHUD hud;
     public Button button;
     public int index;
+    public bool storageSlot;
     private bool dragging;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left || !button.IsInteractable()) return;
-        dragging = hud.BeginInventoryDrag(index);
+        dragging = hud.BeginInventoryDrag(index, storageSlot);
         if (!dragging) return;
         eventData.eligibleForClick = false;
         OnDrag(eventData);
@@ -28,7 +29,7 @@ public class TycoonInventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         if (eventData.button != PointerEventData.InputButton.Left || !button.IsInteractable() || eventData.pointerDrag == null) return;
         var source = eventData.pointerDrag.GetComponent<TycoonInventorySlot>();
-        if (source != null && source.hud == hud && source.dragging) hud.DropInventoryItem(index);
+        if (source != null && source.hud == hud && source.dragging) hud.DropInventoryItem(index, storageSlot);
     }
     public void OnEndDrag(PointerEventData eventData)
     {

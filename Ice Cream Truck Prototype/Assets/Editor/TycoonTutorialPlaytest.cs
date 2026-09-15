@@ -65,6 +65,12 @@ public static class TycoonTutorialPlaytest
                 customer.TickPatience(500); Check(!customer.leaving && customer.order.patience > 0, "Tutorial customer waits for the player");
                 Aim(customer.transform.position + Vector3.up * 1.4f, customer.transform.position + Vector3.back * 2);
                 Check(player.customerTarget == customer, "Raycast targets the customer");
+                if (order == 0)
+                {
+                    game.hud.SendMessage("Update"); tutorial.SendMessage("LateUpdate");
+                    Check(game.hud.prompt.text.Contains("E") && tutorial.input.text == "E", "First customer shows E in both the aiming prompt and tutorial cue");
+                    await Shot("TutorialFirstCustomerE");
+                }
                 player.Use(true); tutorial.Tick();
                 Check(customer.order.stage == TycoonOrder.Stage.Pickup && (order == 0 ? tutorial.progress.step == TycoonTutorial.Step.SelectBowls : tutorial.Practicing), "E takes the order");
                 if (order == 0) await Shot("Tutorial02BowlSlot");
@@ -108,13 +114,28 @@ public static class TycoonTutorialPlaytest
             await Shot("Tutorial04LevelUp");
             Check(!tutorial.buttonHighlight.gameObject.activeSelf && !tutorial.instructionPanel.gameObject.activeSelf, "Results have no Next day highlight or Continue prompt");
             game.hud.daySummary.continueButton.onClick.Invoke();
-            Check(game.day == 2 && tutorial.progress.step == TycoonTutorial.Step.Supplier, "Continue starts day-two shopping");
+            Check(game.day == 2 && tutorial.progress.step == TycoonTutorial.Step.InstallRewards, "Continue starts reward placement before shopping");
             Check(game.cash >= 36, "Day-two budget covers vanilla, chocolate and improved scooper");
-            var reward = game.parts.First(p => p.rewardDelivery);
             Check(game.parts.Count(p => p.rewardDelivery) == 2 && game.looseItems.Count(l => l.levelReward) == 2, "First level-up includes both new holders and full tubs at base");
-            Aim(reward.transform.position + Vector3.up * .8f, reward.transform.position + Vector3.forward * 1.6f);
-            player.Use(true);
-            Check(reward.packed && tutorial.progress.rewardDeliverySeen, "Collecting the first reward dismisses its delivery highlight");
+            for (int flavor = 2; flavor < 4; flavor++)
+            {
+                var reward = game.parts.Single(p => p.rewardDelivery && p.variant == flavor);
+                Check(reward.transform.position.z < game.sites[0].origin.position.z - 3, "Rewards are behind the shop");
+                Aim(reward.transform.position + Vector3.up * .8f, reward.transform.position + Vector3.forward * 1.6f);
+                player.Use(true); Check(reward.packed, "E collects flavor holder " + flavor);
+                var position = game.sites[0].origin.position + new Vector3(1.25f + (flavor - 2) * .5f, 0, .25f);
+                Aim(position, position + Vector3.right * 1.3f); player.Use(false); tutorial.Tick();
+                Check(reward.installed, "Place reward holder " + flavor + ": " + player.prompt);
+            }
+            Check(tutorial.progress.step == TycoonTutorial.Step.FillRewards, "Both placed holders advance to loading ice cream");
+            foreach (var delivery in game.looseItems.Where(l => l.levelReward).ToArray())
+            {
+                Check(delivery.Collect(player), "Collect free ice cream");
+                var holder = game.Parts(0, TycoonPart.Kind.Tub).Single(p => p.variant == delivery.item.variant);
+                Aim(holder.handTarget.position, holder.transform.position + Vector3.right * 1.3f);
+                player.Use(false); tutorial.Tick(); Check(holder.contents.amount == 24, "Fill new flavor holder");
+            }
+            Check(tutorial.progress.step == TycoonTutorial.Step.Supplier, "Buying supplies starts after both rewards are loaded");
             player.Teleport(tutorial.playerSpawn.position); await Task.Delay(500);
             Check(tutorial.destinationPanel.gameObject.activeSelf && tutorial.destinationCaption.text == "Buy Supplies" && !tutorial.instructionPanel.gameObject.activeSelf, "Buy Supplies is centered without a key or icon gap");
             Check(tutorial.supplyRoute.activeSelf && tutorial.supplyRouteArrows.Length >= 2, "Fixed street arrows lead from the shop to the supplier");
@@ -149,7 +170,11 @@ public static class TycoonTutorialPlaytest
                 Check(tub.contents.amount == 24, "Refill flavor " + flavor);
             }
             player.Select(player.inventory.Locate(TycoonItem.Kind.ImprovedScooper)); tutorial.Tick();
-            Check(!tutorial.Active && tutorial.progress.step == TycoonTutorial.Step.Complete, "Selecting the better scooper completes onboarding");
+            Check(tutorial.progress.step == TycoonTutorial.Step.ReopenDay, "Selecting the better scooper guides opening once more");
+            var sign = game.Parts(0, TycoonPart.Kind.Sign).Single();
+            Aim(sign.transform.position, sign.transform.position + new Vector3(0, -1.88f, -1.2f));
+            player.Use(true); tutorial.Tick();
+            Check(!tutorial.Active && game.sites[0].queue.Count == 1, "E opens day two, completes onboarding and immediately spawns a customer");
             game.Save(); TycoonSave.Load(game); await WaitForLoad();
             Check(!tutorial.Active, "Completed tutorial stays completed on resume");
             Result = "PASS\n" + string.Join("\n", evidence);

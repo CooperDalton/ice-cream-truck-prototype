@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TycoonTutorial : MonoBehaviour
 {
-    public enum Step { Inactive, PlaceEquipment, OpenDay, TakeOrder, SelectBowls, PlaceBowl, SelectScooper, Scoop, Deposit, TakeBowl, Serve, FinishDay, DaySummary, Supplier, BuyVanilla, BuyChocolate, BuyScooper, ReturnHome, RefillVanilla, RefillChocolate, EquipScooper, Complete, Practice, CollectSupplies }
+    public enum Step { Inactive, PlaceEquipment, OpenDay, TakeOrder, SelectBowls, PlaceBowl, SelectScooper, Scoop, Deposit, TakeBowl, Serve, FinishDay, DaySummary, Supplier, BuyVanilla, BuyChocolate, BuyScooper, ReturnHome, RefillVanilla, RefillChocolate, EquipScooper, Complete, Practice, CollectSupplies, InstallRewards, FillRewards, ReopenDay }
     [Serializable] public class Progress
     {
         public Step step;
@@ -33,7 +33,7 @@ public class TycoonTutorial : MonoBehaviour
     public bool Active => progress.step != Step.Inactive && progress.step != Step.Complete;
     public bool FirstDay => Active && game.day == 1 && (progress.step <= Step.FinishDay || Practicing);
     public bool Practicing => progress.step == Step.Practice;
-    public bool CanOpen => !Active || progress.step == Step.OpenDay;
+    public bool CanOpen => !Active || progress.step == Step.OpenDay || progress.step == Step.ReopenDay;
     public TycoonPart[] Equipment { get; private set; } = Array.Empty<TycoonPart>();
     public TycoonActor Customer { get; private set; }
     private float age;
@@ -94,7 +94,7 @@ public class TycoonTutorial : MonoBehaviour
             throw new InvalidOperationException("Tutorial order counter needs a reachable queue point.");
         Customer = Instantiate(game.catalog.customerPrefab, hit.position, Quaternion.identity);
         Customer.game = game; Customer.site = 0;
-        Customer.order = new TycoonOrder { id = game.nextId++, flavors = new[] { progress.served % 2 }, patience = game.orderPatience, patienceLimit = game.orderPatience };
+        Customer.order = new TycoonOrder { id = game.nextId++, flavors = new[] { progress.served % 2 }, patience = game.orderPatience, patienceLimit = game.orderPatience, joinedQueue = true };
         Customer.agent.Warp(hit.position);
         site.queue.Add(Customer); game.actors.Add(Customer); progress.customerOrderId = Customer.order.id;
         Advance(progress.served == 0 ? Step.TakeOrder : Step.Practice);
@@ -126,7 +126,7 @@ public class TycoonTutorial : MonoBehaviour
     public void BeginShopping()
     {
         if (progress.step != Step.DaySummary) return;
-        progress.step = Step.Supplier; age = 0;
+        progress.step = Step.InstallRewards; age = 0;
     }
     public void Purchased(int product)
     {
@@ -139,7 +139,7 @@ public class TycoonTutorial : MonoBehaviour
     private void Update()
     {
         if (!Active || game.loadingCampaign) return;
-        if (!game.Paused) { age += Time.deltaTime; Tick(); }
+        if (!game.Paused) age += Time.deltaTime;
     }
     public void Tick()
     {
@@ -182,6 +182,15 @@ public class TycoonTutorial : MonoBehaviour
             case Step.FinishDay:
                 if (age >= 2.5f) game.CloseDay();
                 break;
+            case Step.InstallRewards:
+                if (Enumerable.Range(2, 2).All(flavor => game.Parts(0, TycoonPart.Kind.Tub).Any(p => p.variant == flavor))) Advance(Step.FillRewards);
+                break;
+            case Step.FillRewards:
+                if (Enumerable.Range(2, 2).All(flavor => game.Parts(0, TycoonPart.Kind.Tub).Any(p => p.variant == flavor && p.contents.amount == p.contents.Capacity))) Advance(Step.Supplier);
+                break;
+            case Step.ReopenDay:
+                if (game.phase == TycoonGameManager.Phase.Trading) Advance(Step.Complete);
+                break;
             case Step.Supplier:
                 if (game.hud.shopPanel.activeInHierarchy) Advance(Step.BuyVanilla);
                 break;
@@ -207,7 +216,7 @@ public class TycoonTutorial : MonoBehaviour
                 if (Equipment[4].contents.amount == Equipment[4].contents.Capacity) Advance(Step.EquipScooper);
                 break;
             case Step.EquipScooper:
-                if (held != null && held.kind == TycoonItem.Kind.ImprovedScooper) Advance(Step.Complete);
+                if (held != null && held.kind == TycoonItem.Kind.ImprovedScooper) Advance(Step.ReopenDay);
                 break;
         }
     }
@@ -217,8 +226,9 @@ public class TycoonTutorial : MonoBehaviour
     }
     private void LateUpdate()
     {
+        if (Active && !game.loadingCampaign && !game.Paused) Tick();
         var reward = !progress.rewardDeliverySeen && game.level > 1 ? game.parts.FirstOrDefault(p => p.rewardDelivery) : null;
-        bool showReward = reward != null && game.phase != TycoonGameManager.Phase.Results;
+        bool showReward = reward != null && progress.step != Step.InstallRewards && progress.step != Step.FillRewards && game.phase != TycoonGameManager.Phase.Results;
         uiRoot.SetActive((Active && !Practicing || showReward) && !game.hud.menuOpen && !game.loadingCampaign);
         foreach (var ghost in placementGhosts) ghost.SetActive(false);
         bowlGhost.SetActive(false); focusMesh.gameObject.SetActive(false);
@@ -254,6 +264,7 @@ public class TycoonTutorial : MonoBehaviour
                 key = "Click"; action = "Place"; icon = game.catalog.equipmentIcons[part.catalogIndex];
                 break;
             case Step.OpenDay:
+            case Step.ReopenDay:
                 point = game.sites[0].signMount.position + Vector3.up * .4f; world = true;
                 key = "E"; action = "Open shop"; break;
             case Step.TakeOrder:
@@ -280,6 +291,27 @@ public class TycoonTutorial : MonoBehaviour
                 if (progress.step == Step.Deposit) slot = Array.FindIndex(inventory.slots, i => i != null && i.Tool && i.loadedFlavor >= 0);
                 break;
             case Step.FinishDay: action = "Day complete"; break;
+            case Step.InstallRewards:
+                var holder = game.parts.First(p => p.site == 0 && p.kind == TycoonPart.Kind.Tub && (p.variant == 2 || p.variant == 3) && !p.installed);
+                if (holder.packed)
+                {
+                    slot = Array.FindIndex(inventory.slots, i => i != null && i.equipmentId == holder.id);
+                    key = "Click"; action = "Place " + TycoonCatalogSO.FlavorNames[holder.variant] + " holder";
+                }
+                else { focus = holder; key = "E"; action = "Collect holder"; }
+                icon = game.catalog.tubIcons[holder.variant];
+                break;
+            case Step.FillRewards:
+                var emptyHolder = game.Parts(0, TycoonPart.Kind.Tub).First(p => (p.variant == 2 || p.variant == 3) && p.contents.amount < p.contents.Capacity);
+                slot = inventory.Locate(TycoonItem.Kind.Tub, emptyHolder.variant);
+                if (slot >= 0) { focus = emptyHolder; key = "Click"; action = "Fill " + TycoonCatalogSO.FlavorNames[emptyHolder.variant]; }
+                else
+                {
+                    var refill = game.looseItems.First(l => l.levelReward && l.item.kind == TycoonItem.Kind.Tub && l.item.variant == emptyHolder.variant);
+                    point = refill.transform.position + Vector3.up * .35f; world = true; key = "E"; action = "Collect ice cream";
+                }
+                icon = game.catalog.tubIcons[emptyHolder.variant];
+                break;
             case Step.Supplier:
             case Step.BuyVanilla:
             case Step.BuyChocolate:

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -18,6 +19,14 @@ public static class TycoonInventoryDragAuthoring
                 var drag = slot.button.GetComponent<TycoonInventorySlot>();
                 if (drag == null) drag = slot.button.gameObject.AddComponent<TycoonInventorySlot>();
                 drag.hud = hud; drag.button = slot.button; drag.index = i;
+            }
+        foreach (var view in hud.storageViews.Concat(new[] { hud.employeeStorageView }))
+            for (int i = 0; i < view.slots.Length; i++)
+            {
+                var slot = view.slots[i];
+                var drag = slot.button.GetComponent<TycoonInventorySlot>();
+                if (drag == null) drag = slot.button.gameObject.AddComponent<TycoonInventorySlot>();
+                drag.hud = hud; drag.button = slot.button; drag.index = i; drag.storageSlot = true;
             }
         if (hud.inventoryDragIcon == null)
         {

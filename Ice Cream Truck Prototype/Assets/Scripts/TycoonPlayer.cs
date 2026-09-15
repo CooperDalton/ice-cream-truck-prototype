@@ -93,8 +93,7 @@ public class TycoonPlayer : MonoBehaviour
         var actor = hit.collider.GetComponentInParent<TycoonActor>();
         if (actor != null && !actor.worker && !actor.leaving) customerTarget = actor;
         if (target != null) prompt = target.Prompt();
-        if (game.builder.CanPack(target, out var packReason)) prompt += " / Hold right-click to pack";
-        else if (packReason != "") prompt += " / " + packReason;
+
         if (looseTarget != null) prompt = "E / pick up " + game.catalog.Label(looseTarget.item);
         if (workerTarget != null) prompt = "E / inspect employee and equipment";
         if (customerTarget != null) prompt = customerTarget.order.owner != "" ? "Employee is handling this order" : customerTarget.ReadyToOrder ? "E / take order" : customerTarget.ReadyForPickup ? "E / deliver order" : "Customer is joining the queue";
@@ -138,9 +137,17 @@ public class TycoonPlayer : MonoBehaviour
             else { game.sites[target.site].open = !game.sites[target.site].open; game.Save(); }
             return;
         }
-        if (target != null && target.kind == TycoonPart.Kind.Supplier) { game.hud.OpenShop(); return; }
+        if (target != null && target.kind == TycoonPart.Kind.Supplier) { if (take) game.hud.OpenShop(); return; }
         if (target != null && target.rewardDelivery) { if (take) target.CollectReward(this); return; }
         if (looseTarget != null && take) { if (!looseTarget.Collect(this)) game.notice = "Make room before picking that up."; return; }
+        if (target != null && target.kind == TycoonPart.Kind.Trash)
+        {
+            if (!take && Held != null && Held.kind != TycoonItem.Kind.Equipment)
+            {
+                CancelGesture(); inventory.slots[selected] = null; RefreshHeld(); game.Save();
+            }
+            return;
+        }
         if (Held != null && Held.kind == TycoonItem.Kind.Equipment)
         {
             if (!take) game.builder.PlaceHeld();
@@ -152,24 +159,19 @@ public class TycoonPlayer : MonoBehaviour
             if (!deliver) { game.builder.PlaceHeld(); return; }
         }
         if (workerTarget != null && take) { game.hud.OpenEmployee(workerTarget); return; }
-        if (looseTarget != null) { if (!looseTarget.Collect(this)) game.notice = "Make room before picking that up."; return; }
+        if (looseTarget != null) return;
         if (target == null) return;
         var item = Held;
         if (!target.Available("Player")) { game.notice = "This equipment is being used by " + target.claimedBy; return; }
-        if (target.kind == TycoonPart.Kind.Plot || target.kind == TycoonPart.Kind.BusinessBoard) { game.hud.OpenBusiness(target.site); return; }
+        if (target.kind == TycoonPart.Kind.Plot || target.kind == TycoonPart.Kind.BusinessBoard) { if (take) game.hud.OpenBusiness(target.site); return; }
         if (target.kind == TycoonPart.Kind.Bike || target.kind == TycoonPart.Kind.Truck)
         {
             if (take) (target.kind == TycoonPart.Kind.Bike ? game.bike : game.truck).Enter();
-            else game.hud.OpenStorage(target.storage, "Vehicle cargo");
+
             return;
         }
         if (target.kind == TycoonPart.Kind.Locker || target.kind == TycoonPart.Kind.ColdStorage || target.kind == TycoonPart.Kind.Shelf)
-        { game.hud.OpenStorage(target.storage, target.kind == TycoonPart.Kind.ColdStorage ? "Cold storage" : target.kind == TycoonPart.Kind.Locker ? "Staff locker" : "Shelf"); return; }
-        if (target.kind == TycoonPart.Kind.Trash)
-        {
-            inventory.slots[selected] = null;
-            CancelGesture(); return;
-        }
+        { if (take) game.hud.OpenStorage(target.storage, target.kind == TycoonPart.Kind.ColdStorage ? "Cold storage" : target.kind == TycoonPart.Kind.Locker ? "Staff locker" : "Shelf"); return; }
         if (target.kind == TycoonPart.Kind.Tub && item != null)
         {
             if (item.kind == TycoonItem.Kind.Tub)
@@ -215,9 +217,9 @@ public class TycoonPlayer : MonoBehaviour
                 if (target.ironStage == 0) target.BeginPour(item, "Player");
                 BeginGesture(target); gestureTime = target.pourProgress;
             }
-            else if (target.ironStage == 1) target.CloseIron("Player");
-            else if (target.ironStage == 2) target.OpenIron("Player");
-            else if (target.ironStage == 3 && inventory.FreeSlot >= 0) PickUp(target.TakeCone("Player"));
+            else if (take && target.ironStage == 1) target.CloseIron("Player");
+            else if (take && target.ironStage == 2) target.OpenIron("Player");
+            else if (take && target.ironStage == 3 && inventory.FreeSlot >= 0) PickUp(target.TakeCone("Player"));
             else if (target.ironStage == 4) { target.ironStage = 0; target.contents = null; target.claimedBy = ""; }
             return;
         }
@@ -241,8 +243,7 @@ public class TycoonPlayer : MonoBehaviour
             float previous = scoopStroke;
             scoopStroke = Mathf.Clamp01(scoopStroke + delta.y / 180);
             float travel = Mathf.Abs(scoopStroke - previous) * 180;
-            bool improved = item.kind == TycoonItem.Kind.ImprovedScooper;
-            gestureProgress += Mathf.Min(travel / (improved ? 140 : 400), dt / (improved ? .35f : 1));
+            gestureProgress += Mathf.Min(travel / item.ScoopTravel, dt / item.ScoopDuration);
             if (gestureProgress >= 1 && gestureTarget.Scoop(item, "Player")) { game.notice = "Scoop ready. Place it in your bowl or cone."; CancelGesture(false); }
         }
         else

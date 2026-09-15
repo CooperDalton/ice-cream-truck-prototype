@@ -19,13 +19,13 @@ public class TycoonActor : MonoBehaviour
         get
         {
             var point = order.stage == TycoonOrder.Stage.Ordering ? game.sites[site].queuePoint : game.sites[site].pickupQueuePoint;
-            int index = game.sites[site].queue.Where(a => a.order.stage == order.stage).TakeWhile(a => a != this).Count();
+            int index = game.sites[site].queue.Where(a => a.order.stage == order.stage && a.order.joinedQueue).TakeWhile(a => a != this).Count();
             return point.position + point.forward * index * .85f;
         }
     }
     public bool AtQueuePosition => Vector3.Distance(transform.position, QueuePosition) < .45f;
-    public bool ReadyToOrder => !leaving && game.Parts(site, TycoonPart.Kind.Register).Any() && order.stage == TycoonOrder.Stage.Ordering && game.sites[site].queue.FirstOrDefault(a => a.order.stage == TycoonOrder.Stage.Ordering) == this && AtQueuePosition;
-    public bool ReadyForPickup => !leaving && game.Parts(site, TycoonPart.Kind.ServingCounter).Any() && order.stage == TycoonOrder.Stage.Pickup && AtQueuePosition;
+    public bool ReadyToOrder => !leaving && order.joinedQueue && game.Parts(site, TycoonPart.Kind.Register).Any() && order.stage == TycoonOrder.Stage.Ordering && game.sites[site].queue.FirstOrDefault(a => a.order.stage == TycoonOrder.Stage.Ordering && a.order.joinedQueue) == this && AtQueuePosition;
+    public bool ReadyForPickup => !leaving && order.joinedQueue && game.Parts(site, TycoonPart.Kind.ServingCounter).Any() && order.stage == TycoonOrder.Stage.Pickup && AtQueuePosition;
     private Vector3 leftRest, rightRest, bodyRest;
     private GameObject heldVisual;
     private string heldState;
@@ -43,15 +43,24 @@ public class TycoonActor : MonoBehaviour
             if (!agent.pathPending && agent.remainingDistance < .6f) { game.actors.Remove(this); Destroy(gameObject); }
             return;
         }
+        JoinQueue();
         agent.SetDestination(QueuePosition);
         if(!agent.pathPending&&agent.remainingDistance<.2f){var facing=game.sites[site].origin.position-transform.position;facing.y=0;transform.rotation=Quaternion.Slerp(transform.rotation,Quaternion.LookRotation(facing),Time.deltaTime*6);}
         TickPatience(Time.deltaTime);
+    }
+    public void JoinQueue()
+    {
+        if (order.joinedQueue || !AtQueuePosition) return;
+        // Only customers who have arrived own a slot. Keep their arrival order stable.
+        var queue = game.sites[site].queue;
+        queue.Remove(this); queue.Add(this);
+        order.joinedQueue = true;
     }
     public void TickPatience(float dt)
     {
         if (leaving || game.Paused || game.phase != TycoonGameManager.Phase.Trading) return;
         if (game.tutorial.GuidesCustomer(this)) return;
-        if (Vector3.Distance(transform.position, QueuePosition) < .65f) order.startedWaiting = true;
+        if (order.joinedQueue && AtQueuePosition) order.startedWaiting = true;
         if (!order.startedWaiting) return;
         order.patience = Mathf.Max(0, order.patience - dt);
         if (order.stage == TycoonOrder.Stage.Ordering && order.patience <= 0)
@@ -70,8 +79,8 @@ public class TycoonActor : MonoBehaviour
     public bool TakeOrder()
     {
         if (!ReadyToOrder || game.Paused || game.phase != TycoonGameManager.Phase.Trading) return false;
-        order.stage = TycoonOrder.Stage.Pickup;
-        order.patienceLimit = game.deliveryPatience; order.patience = order.patienceLimit; order.startedWaiting = true;
+        order.stage = TycoonOrder.Stage.Pickup; order.joinedQueue = false;
+        order.patienceLimit = game.deliveryPatience; order.patience = order.patienceLimit; order.startedWaiting = false;
         agent.SetDestination(QueuePosition);
         game.notice = "Order taken. Deliver it at the pickup counter.";
         return true;

@@ -44,8 +44,11 @@ public class TycoonVehicle : MonoBehaviour
     }
     public void Drive(Vector2 input, float dt)
     {
-        speed = Mathf.MoveTowards(speed, input.y * (truck ? 12 : 8), dt * 7);
-        transform.Rotate(0, input.x * speed * dt * 7, 0);
+        float targetSpeed = input.y * (truck ? 12 : input.y < 0 ? 3 : 6);
+        float acceleration = !truck && (input.y == 0 || speed * input.y < 0) ? 12 : 7;
+        speed = Mathf.MoveTowards(speed, targetSpeed, dt * acceleration);
+        float steering = truck ? speed * 7 : Mathf.Clamp01(Mathf.Abs(speed) / 1.5f) * Mathf.Sign(speed) * 95;
+        transform.Rotate(0, input.x * steering * dt, 0);
         Vector3 delta = (truck ? transform.right : transform.forward) * speed * dt;
         bool blocked = false;
         foreach (var hit in Physics.SphereCastAll(transform.position + Vector3.up * (truck ? 1.8f : .65f), truck ? 1.3f : .3f, delta.normalized, delta.magnitude + (truck ? 3 : .3f), ~0, QueryTriggerInteraction.Ignore))

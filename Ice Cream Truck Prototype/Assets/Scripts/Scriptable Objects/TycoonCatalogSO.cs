@@ -18,6 +18,8 @@ public class TycoonCatalogSO : ScriptableObject
     public GameObject[] placementPreviews;
     public TycoonLooseItem loosePrefab;
     public Material[] flavorMaterials;
+    public GameObject electricScooper;
+    public Sprite electricIcon;
     public Sprite bowlIcon, coneIcon, basicIcon, improvedIcon, batterIcon, bowlPackIcon, batterPackIcon;
     public Sprite[] flavorIcons, tubIcons, toppingIcons, equipmentIcons;
     public Sprite Icon(TycoonItem item)
@@ -25,7 +27,7 @@ public class TycoonCatalogSO : ScriptableObject
         if(item==null||item.kind==TycoonItem.Kind.None)return null;
         return item.kind switch {
             TycoonItem.Kind.Equipment=>equipmentIcons[item.variant],TycoonItem.Kind.Tub=>tubIcons[item.variant],TycoonItem.Kind.Topping=>toppingIcons[item.variant],
-            TycoonItem.Kind.BasicScooper=>basicIcon,TycoonItem.Kind.ImprovedScooper=>improvedIcon,TycoonItem.Kind.Batter=>batterIcon,
+            TycoonItem.Kind.BasicScooper=>basicIcon,TycoonItem.Kind.ImprovedScooper=>improvedIcon,TycoonItem.Kind.ElectricScooper=>electricIcon,TycoonItem.Kind.Batter=>batterIcon,
             TycoonItem.Kind.Cone=>coneIcon,TycoonItem.Kind.Serving=>item.cone?coneIcon:bowlIcon,_=>bowlIcon};
     }
     public string Label(TycoonItem item)
@@ -35,7 +37,7 @@ public class TycoonCatalogSO : ScriptableObject
             TycoonItem.Kind.Equipment => partPrefabs[item.variant].kind switch { TycoonPart.Kind.ColdStorage => "Cold storage", TycoonPart.Kind.Prep => "Prep station", TycoonPart.Kind.Tub => "Ice cream tub", TycoonPart.Kind.BusinessBoard => "Business board", TycoonPart.Kind.Register => "Order counter", TycoonPart.Kind.ServingCounter => "Pickup counter", _ => partPrefabs[item.variant].kind.ToString() },
             TycoonItem.Kind.Tub => FlavorNames[item.variant], TycoonItem.Kind.Topping => ToppingNames[item.variant],
             TycoonItem.Kind.Bowls => "Bowls",
-            TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "High quality scooper",
+            TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "High quality scooper", TycoonItem.Kind.ElectricScooper => "Electric scooper",
             TycoonItem.Kind.Serving => (item.cone ? "Cone" : "Bowl") + (item.scoops.Length > 0 ? " / " + FlavorNames[item.scoops[0]] : ""), _ => item.kind.ToString() };
     }
     public GameObject Model(TycoonItem item)
@@ -43,7 +45,7 @@ public class TycoonCatalogSO : ScriptableObject
         return item.kind switch {
             TycoonItem.Kind.Equipment => bowlPack,
             TycoonItem.Kind.Tub => tubs[item.variant], TycoonItem.Kind.Topping => toppings[item.variant],
-            TycoonItem.Kind.BasicScooper => basicScooper, TycoonItem.Kind.ImprovedScooper => improvedScooper, TycoonItem.Kind.Batter => batter,
+            TycoonItem.Kind.BasicScooper => basicScooper, TycoonItem.Kind.ImprovedScooper => improvedScooper, TycoonItem.Kind.ElectricScooper => electricScooper, TycoonItem.Kind.Batter => batter,
             TycoonItem.Kind.Cone => cone, TycoonItem.Kind.Serving => item.cone ? cone : bowl, _ => bowl };
     }
     public GameObject Display(TycoonItem item, Transform parent)

@@ -29,7 +29,7 @@ public class TycoonBuilder : MonoBehaviour
     {
         reason = "";
         if (game.tutorial.FirstDay || part != null && part.rewardDelivery) return false;
-        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
+        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Trash || part.kind == TycoonPart.Kind.BusinessBoard || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
             return false;
         if (game.player.inventory.FreeSlot < 0) { reason = "Make room in your inventory."; return false; }
         if (game.parts.Any(p => (p == part || p.transform.IsChildOf(part.transform)) && !string.IsNullOrEmpty(p.claimedBy))) { reason = "Finish using this equipment first."; return false; }

@@ -38,9 +38,10 @@ public static class TycoonPictureAuthoring
         catalog.tubIcons=catalog.tubs.Select((p,i)=>Render(p,"Tub"+i,1.3f)).ToArray();
         EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();
     }
-    private static Sprite Render(GameObject prefab,string name,float elevation=.6f)
+    public static Sprite Render(GameObject prefab,string name,float elevation=.6f)
     {
         string path=Folder+name+".png";var root=Object.Instantiate(prefab,new Vector3(0,200,0),Quaternion.Euler(0,180,0));
+        root.SetActive(true);
         foreach(var t in root.GetComponentsInChildren<Transform>())t.gameObject.layer=31;
         var renderers=root.GetComponentsInChildren<Renderer>();var bounds=renderers[0].bounds;foreach(var r in renderers)bounds.Encapsulate(r.bounds);
         var camera=new GameObject("Icon camera").AddComponent<Camera>();camera.cullingMask=1<<31;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.clear;camera.orthographic=true;camera.orthographicSize=bounds.extents.magnitude*1.08f;camera.nearClipPlane=.01f;camera.farClipPlane=20;

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class TycoonHUD : MonoBehaviour
 {
-    [Serializable] public class SlotView { public Button button; public Text label; public Image bar, frame, icon; }
+    [Serializable] public class SlotView { public Button button; public Text label; public Image bar, frame, icon; public Image[] scoops = Array.Empty<Image>(); }
     [Serializable] public class StorageView { public GameObject root; public Text title, status; public SlotView[] slots; public Button close; }
     [Serializable] public class OrderView { public GameObject root; public Text title, description; public Image container, coin, reward; public Image[] flavors, toppings; public RectTransform ingredients; }
     public OrderView[] tickets;
@@ -21,7 +21,7 @@ public class TycoonHUD : MonoBehaviour
     public RectTransform moneyDisplay, salePopup;
     public CanvasGroup salePopupGroup;
     public Text salePopupAmount, salePopupTip;
-    public Image salePopupBackground, salePopupTipBackground;
+    public Image salePopupBackground, salePopupTipBackground, salePopupTipCoin;
     private Vector2 salePopupOrigin;
     private float saleAge = 2, saleTotal, saleTipTotal;
     public Image targetStockBar;
@@ -30,6 +30,7 @@ public class TycoonHUD : MonoBehaviour
     public SlotView[] inventorySlots;
     public Image inventoryDragIcon;
     private int dragSource = -1;
+    private TycoonInventory dragInventory;
     public Button inventoryCloseButton;
     public SlotView[] shelfSlots;
     public Text shelfStatus;
@@ -86,8 +87,9 @@ public class TycoonHUD : MonoBehaviour
         for (int i = 0; i < inventorySlots.Length; i++) { int index = i; inventorySlots[i].button.onClick.AddListener(() => ClickPlayer(index)); }
         assignLockerButton.onClick.AddListener(() => {
             var lockers = game.Parts(inspectedWorker.site, TycoonPart.Kind.Locker).ToArray();
+            if (lockers.Length < 2) return;
             inspectedWorker.locker = lockers[(Array.IndexOf(lockers, inspectedWorker.locker) + 1) % lockers.Length];
-            game.notice = "Assigned locker changed. Its position is marked on the minimap."; waypoint = inspectedWorker.locker.transform.position; hasWaypoint = true;
+            game.notice = "Assigned locker changed. Its position is marked on the minimap."; waypoint = inspectedWorker.locker.transform.position; hasWaypoint = true; game.Save();
         });
         newGameButton.onClick.AddListener(() => {
             if (!confirmingNewGame) { confirmingNewGame = true; panelText.text = "Start a new game? Click New game again to replace your saved game."; return; }
@@ -158,7 +160,7 @@ public class TycoonHUD : MonoBehaviour
         clock.text = ((hour + 11) % 12 + 1) + ":" + (minute % 60).ToString("00") + (hour < 12 ? " AM" : " PM");
         pickupRing.fillAmount = game.builder.pickupProgress;
         pickupRing.transform.parent.gameObject.SetActive(game.builder.pickupProgress > 0 && !AnyPanel);
-        prompt.text = AnyPanel || game.tutorial.Active && !game.tutorial.Practicing ? "" : game.player.prompt;
+        prompt.text = AnyPanel ? "" : game.tutorial.Active && !game.tutorial.Practicing && game.player.customerTarget == null ? "" : game.player.prompt;
         useBar.fillAmount = game.player.gestureProgress;
         useBar.transform.parent.gameObject.SetActive((game.player.Scooping || game.player.gestureProgress > 0) && !AnyPanel);
         bool stockTarget = !AnyPanel && !game.player.Scooping && game.player.target != null && game.player.target.contents != null && game.player.target.contents.Consumable;
@@ -182,7 +184,7 @@ public class TycoonHUD : MonoBehaviour
                 activeStorageView.slots[i].button.interactable = !WorkerInventoryLocked;
             }
             if (inspectedWorker != null)
-                employeeDetails.text = new[] { "Rookie", "Experienced", "Expert" }[inspectedWorker.tier] + " · $" + inspectedWorker.Wage + "/day\nScoop " + inspectedWorker.ScoopSpeed.ToString("0.##") + "× · Pour " + inspectedWorker.PourSpeed.ToString("0.##") + "× · Finish " + inspectedWorker.FinishSpeed.ToString("0.##") + "×\n" + (WorkerInventoryLocked ? "On duty · Inventory available after the shift" : inspectedWorker.status);
+                employeeDetails.text = new[] { "Rookie", "Experienced", "Expert" }[inspectedWorker.tier] + " · $" + inspectedWorker.Wage + "/day\nScoop " + inspectedWorker.ScoopSpeed.ToString("0.##") + "× · Pour " + inspectedWorker.PourSpeed.ToString("0.##") + "× · Finish " + inspectedWorker.FinishSpeed.ToString("0.##") + "×\n" + inspectedWorker.status + "\nLocker " + inspectedWorker.locker.id + " supplies this carried inventory." + (WorkerInventoryLocked ? " Edit after the shift." : " Stock tools, bowls, batter and toppings in the locker.");
         }
         for (int i = 0; i < storageSlots.Length; i++)
         {
@@ -192,7 +194,8 @@ public class TycoonHUD : MonoBehaviour
         bool workerLocked = WorkerInventoryLocked;
         foreach (var slot in playerSlots) slot.button.interactable = !workerLocked;
         foreach (var slot in storageSlots) slot.button.interactable = !workerLocked;
-        assignLockerButton.interactable = !workerLocked;
+        assignLockerButton.interactable = inspectedWorker != null && !workerLocked && game.Parts(inspectedWorker.site, TycoonPart.Kind.Locker).Count() > 1;
+        if (inspectedWorker != null) assignLockerButton.GetComponentInChildren<Text>().text = game.Parts(inspectedWorker.site, TycoonPart.Kind.Locker).Count() > 1 ? "Change locker" : "Only one locker";
         orders.text = string.Join("\n\n", game.sites.SelectMany((s, i) => s.queue.Where(c => c.order.stage == TycoonOrder.Stage.Pickup).Take(2).Select(c => s.name + " / $" + c.order.Price(i).ToString("0.##") + "\n" + c.order.Description + (c.order.owner == "" ? "" : "\n" + c.order.owner))));
         var visibleOrders=game.sites.SelectMany(s=>s.queue).Where(c=>c.order.stage==TycoonOrder.Stage.Pickup).OrderBy(c=>Vector3.Distance(game.sites[c.site].origin.position,game.player.transform.position)).Take(tickets.Length).ToArray();
         for(int i=0;i<tickets.Length;i++)
@@ -201,7 +204,7 @@ public class TycoonHUD : MonoBehaviour
             if(customer==null)continue;
             var order=customer.order;card.title.text=order.Price(customer.site).ToString("0.##");
             card.container.sprite=order.cone?game.catalog.coneIcon:game.catalog.bowlIcon;
-            for(int j=0;j<2;j++){card.flavors[j].gameObject.SetActive(j<order.flavors.Length);if(j<order.flavors.Length)card.flavors[j].sprite=game.catalog.flavorIcons[order.flavors[j]];}
+            for(int j=0;j<card.flavors.Length;j++){card.flavors[j].gameObject.SetActive(j<order.flavors.Length);if(j<order.flavors.Length)card.flavors[j].sprite=game.catalog.flavorIcons[order.flavors[j]];}
             var toppings=Enumerable.Range(0,6).Where(t=>(order.toppings&(1<<t))!=0).ToArray();
             for(int j=0;j<2;j++){card.toppings[j].gameObject.SetActive(j<toppings.Length);if(j<toppings.Length)card.toppings[j].sprite=game.catalog.toppingIcons[toppings[j]];}
         }
@@ -252,6 +255,12 @@ public class TycoonHUD : MonoBehaviour
         slot.label.gameObject.SetActive(item != null && item.Consumable);
         slot.label.text = item != null && item.Consumable ? item.amount.ToString() : "";
         slot.icon.sprite=game.catalog.Icon(item);slot.icon.gameObject.SetActive(slot.icon.sprite!=null);
+        for (int i = 0; i < slot.scoops.Length; i++)
+        {
+            bool filled = item != null && item.kind == TycoonItem.Kind.Serving && i < item.scoops.Length;
+            slot.scoops[i].gameObject.SetActive(filled);
+            if (filled) slot.scoops[i].sprite = game.catalog.flavorIcons[item.scoops[i]];
+        }
         slot.bar.transform.parent.gameObject.SetActive(item != null && item.Consumable);
         slot.bar.fillAmount = item == null ? 0 : item.Fill;
         slot.frame.color = selected ? new Color(1,.79f,.88f,1) : new Color(1,1,1,item==null?.34f:.86f);
@@ -263,7 +272,7 @@ public class TycoonHUD : MonoBehaviour
         daySummary.gameObject.SetActive(false);
         panel.SetActive(false); shelfPanel.SetActive(false); personalInventoryPanel.SetActive(false); inventoryPanel.SetActive(false); shopPanel.SetActive(false); businessPanel.SetActive(false); mapPanel.SetActive(false); menuPanel.SetActive(false);
         closeButton.gameObject.SetActive(true);
-        menuOpen = false; transferSelection = -1; nextButton.gameObject.SetActive(false); inspectedWorker = null; assignLockerButton.gameObject.SetActive(false); confirmingNewGame = false;panelText.gameObject.SetActive(true);resultsText.gameObject.SetActive(false);
+        storage = null; menuOpen = false; transferSelection = -1; nextButton.gameObject.SetActive(false); inspectedWorker = null; assignLockerButton.gameObject.SetActive(false); confirmingNewGame = false;panelText.gameObject.SetActive(true);resultsText.gameObject.SetActive(false);
     }
     public void ToggleMenu()
     {
@@ -326,7 +335,7 @@ public class TycoonHUD : MonoBehaviour
     }
     private void ClickPlayer(int index)
     {
-        if (game.tutorial.Active) { game.player.Select(index); return; }
+        if (game.tutorial.FirstDay && !game.tutorial.Practicing) { game.player.Select(index); return; }
         if (WorkerInventoryLocked) return;
         if (storage != null)
         {
@@ -345,9 +354,11 @@ public class TycoonHUD : MonoBehaviour
         else { game.player.inventory.slots[index] = source; game.player.inventory.slots[transferSelection] = target; }
         transferSelection = -1; game.player.Select(index);
     }
-    public bool BeginInventoryDrag(int index)
+    public bool BeginInventoryDrag(int index, bool fromStorage = false)
     {
-        var item = game.player.inventory.slots[index];
+        if (WorkerInventoryLocked) return false;
+        dragInventory = fromStorage ? storage : game.player.inventory;
+        var item = dragInventory.slots[index];
         if (item == null || item.kind == TycoonItem.Kind.None) return false;
         dragSource = index; transferSelection = -1;
         game.player.CancelGesture();
@@ -356,23 +367,31 @@ public class TycoonHUD : MonoBehaviour
         inventoryDragIcon.gameObject.SetActive(true);
         return true;
     }
-    public void DropInventoryItem(int index)
+    public void DropInventoryItem(int index, bool toStorage = false)
     {
-        if (dragSource < 0 || dragSource == index) return;
-        var slots = game.player.inventory.slots;
-        (slots[dragSource], slots[index]) = (slots[index], slots[dragSource]);
+        if (dragSource < 0 || WorkerInventoryLocked) return;
+        var destination = toStorage ? storage : game.player.inventory;
+        if (dragInventory == destination && dragSource == index) return;
+        var source = dragInventory.slots[dragSource]; var target = destination.slots[index];
+        if (source != null && target != null && TycoonInventory.Refill(source, target) > 0)
+        {
+            if (source.amount == 0 && source.Disposable) dragInventory.slots[dragSource] = null;
+        }
+        else (dragInventory.slots[dragSource], destination.slots[index]) = (target, source);
         int selected = game.player.selected;
-        game.player.Select(selected == dragSource ? index : selected == index ? dragSource : selected);
+        if (dragInventory == game.player.inventory && destination == dragInventory)
+            game.player.Select(selected == dragSource ? index : selected == index ? dragSource : selected);
+        else game.player.RefreshHeld();
         EndInventoryDrag(); game.Save();
     }
     public void EndInventoryDrag()
     {
-        dragSource = -1;
+        dragSource = -1; dragInventory = null;
         inventoryDragIcon.gameObject.SetActive(false);
     }
     private void ClickStorage(int index)
     {
-        if (game.tutorial.Active) return;
+        if (game.tutorial.FirstDay && !game.tutorial.Practicing) return;
         if (WorkerInventoryLocked) return;
         var item = storage.slots[index];
         if (item == null) return;
