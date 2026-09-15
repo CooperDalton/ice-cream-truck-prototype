@@ -95,7 +95,7 @@ public class TycoonPlayer : MonoBehaviour
         if (target != null) prompt = target.Prompt();
 
         if (looseTarget != null) prompt = "E / pick up " + game.catalog.Label(looseTarget.item);
-        if (workerTarget != null) prompt = "E / inspect employee and equipment";
+        if (workerTarget != null) prompt = "E / employee inventory\n" + workerTarget.status;
         if (customerTarget != null) prompt = customerTarget.order.owner != "" ? "Employee is handling this order" : customerTarget.ReadyToOrder ? "E / take order" : customerTarget.ReadyForPickup ? "E / deliver order" : "Customer is joining the queue";
     }
     public void Select(int slot)

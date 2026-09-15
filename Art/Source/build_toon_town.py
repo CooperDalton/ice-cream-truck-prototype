@@ -126,8 +126,8 @@ for i in range(8):
     mesh('Picket point',[(x-.105,-.11,1.1),(x+.105,-.11,1.1),(x,-.11,1.26),(x-.105,-.01,1.1),(x+.105,-.01,1.1),(x,-.01,1.26)],[(0,1,2),(3,5,4),(0,3,4,1),(1,4,5,2),(2,5,3,0)],cream,.02)
 
 start('Street_bin',[.65,.65])
-lathe('Bin body',[(0,0),(.27,0),(.31,.85),(.34,.87),(.34,.95),(.28,1.03)],mint,segments=20)
-lathe('Dark opening',[(0,1.04),(.20,1.04)],dark,segments=20)
+lathe('Bin body',[(.27,0),(.31,.85),(.34,.87),(.34,.95),(.28,1.03),(.255,1.01),(.31,.94),(.31,.89),(.285,.87),(.245,.05),(.27,0)],mint,segments=20)
+lathe('Dark opening',[(0,.10),(.25,.10)],dark,segments=20)
 for i in range(10):
     a=i*math.tau/10;branch('Bin rib',(.28*math.cos(a),.28*math.sin(a),.1),(.30*math.cos(a),.30*math.sin(a),.8),.015,.015,cream)
 

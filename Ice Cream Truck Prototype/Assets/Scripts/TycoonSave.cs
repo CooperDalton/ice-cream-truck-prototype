@@ -38,7 +38,8 @@ public static class TycoonSave
     }
     [Serializable] private class WorkerData
     {
-        public int id, tier, site, startDay, ticket, scoop, topping, step, locker, prep, iron, target;
+        public int id, tier, site, startDay, ticket, scoop, topping, step, locker, prep, iron, target, resumeStep, neededSupply, neededVariant;
+        public bool allowEmptySupply;
         public bool onDuty, driver;
         public float progress;
         public Vector3 position;
@@ -56,7 +57,7 @@ public static class TycoonSave
         d.sites = game.sites.Select(s => new SiteData { owned = s.owned, open = s.open, expanded = s.expanded, size = s.plotSize, revenue = s.revenue, spawn = s.spawnTimer, lost = s.lostSales, demand = s.stopDemand }).ToArray();
         d.tutorial = game.tutorial.progress;
         d.parts = game.parts.Where(p => p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Supplier && p.kind != TycoonPart.Kind.Plot && p.kind != TycoonPart.Kind.Trash && p.kind != TycoonPart.Kind.BusinessBoard).Select(p => new PartData { id = p.id, prefab = p.catalogIndex, site = p.site, variant = p.variant, installed = p.installed, packed = p.packed, rewardDelivery = p.rewardDelivery, support = p.support == null ? 0 : p.support.id, position = p.transform.position, rotation = p.transform.rotation, storage = p.storage, contents = p.contents, owner = p.claimedBy, cook = p.cookTime, pour = p.pourProgress, ironStage = p.ironStage }).ToArray();
-        d.workers = game.workers.Select(w => new WorkerData { id = w.employeeId, tier = w.tier, site = w.site, startDay = w.startDay, ticket = w.ticketId, scoop = w.scoopIndex, topping = w.toppingIndex, step = (int)w.step, locker = w.locker.id, prep = w.prep == null ? 0 : w.prep.id, iron = w.iron == null ? 0 : w.iron.id, target = w.target == null ? 0 : w.target.id, onDuty = w.onDuty, driver = w.driver, progress = w.progress, position = w.transform.position, inventory = w.inventory, carrying = w.carrying }).ToArray();
+        d.workers = game.workers.Select(w => new WorkerData { id = w.employeeId, tier = w.tier, site = w.site, startDay = w.startDay, ticket = w.ticketId, scoop = w.scoopIndex, topping = w.toppingIndex, step = (int)w.step, resumeStep = (int)w.resumeStep, neededSupply = (int)w.neededSupply, neededVariant = w.neededVariant, allowEmptySupply = w.allowEmptySupply, locker = w.locker.id, prep = w.prep == null ? 0 : w.prep.id, iron = w.iron == null ? 0 : w.iron.id, target = w.target == null ? 0 : w.target.id, onDuty = w.onDuty, driver = w.driver, progress = w.progress, position = w.transform.position, inventory = w.inventory, carrying = w.carrying }).ToArray();
         d.customers = game.actors.Where(a => !a.worker && !a.leaving).Select(a => new CustomerData { site = a.site, order = a.order, position = a.transform.position }).ToArray();
         d.loose = game.looseItems.Where(l => l != null).Select(l => new LooseData { item = l.item, position = l.transform.position, supplySlot = l.supplySlot, levelReward = l.levelReward }).ToArray();
         string temp = TycoonGameManager.SavePath + ".tmp";
@@ -108,7 +109,7 @@ public static class TycoonSave
         {
             var actor = Object.Instantiate(game.catalog.workerPrefab, w.position, Quaternion.identity); actor.game = game; actor.site = w.site; actor.worker = true;
             var worker = actor.GetComponent<TycoonWorker>(); worker.game = game; worker.actor = actor; worker.site = w.site; worker.tier = w.tier; worker.employeeId = w.id;
-            worker.startDay = w.startDay; worker.ticketId = w.ticket; worker.scoopIndex = w.scoop; worker.toppingIndex = w.topping; worker.step = (TycoonWorker.Step)w.step;
+            worker.startDay = w.startDay; worker.ticketId = w.ticket; worker.scoopIndex = w.scoop; worker.toppingIndex = w.topping; worker.step = (TycoonWorker.Step)w.step; worker.resumeStep = (TycoonWorker.Step)w.resumeStep; worker.neededSupply = (TycoonItem.Kind)w.neededSupply; worker.neededVariant = w.neededVariant; worker.allowEmptySupply = w.allowEmptySupply;
             worker.locker = map[w.locker]; worker.prep = w.prep == 0 ? null : map[w.prep]; worker.iron = w.iron == 0 ? null : map[w.iron]; worker.target = w.target == 0 ? null : map[w.target];
             worker.onDuty = w.onDuty; worker.driver = w.driver; worker.progress = w.progress; worker.inventory = w.inventory; worker.carrying = w.carrying;
             game.workers.Add(worker); game.actors.Add(actor);

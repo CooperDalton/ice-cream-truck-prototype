@@ -18,7 +18,7 @@ public static class TycoonPlaythroughAuthoring
         Undo.RegisterFullObjectHierarchyUndo(hud.gameObject, "Playthrough UI");
         game.rewardDeliveryOrigin.position = game.sites[0].origin.TransformPoint(new Vector3(-2.5f, 0, -4.5f));
         var board = game.parts.Single(p => p.site == 0 && p.kind == TycoonPart.Kind.BusinessBoard);
-        board.transform.SetPositionAndRotation(game.sites[0].origin.TransformPoint(new Vector3(3, 0, -2.5f)), Quaternion.identity);
+        board.transform.SetPositionAndRotation(game.sites[0].origin.TransformPoint(new Vector3(3, 0, -3.8f)), Quaternion.Euler(0, 180, 0));
         if (!game.parts.Any(p => p.site == 0 && p.kind == TycoonPart.Kind.Trash))
         {
             var trash = (GameObject)PrefabUtility.InstantiatePrefab(catalog.partPrefabs[9].gameObject);
@@ -77,6 +77,7 @@ public static class TycoonPlaythroughAuthoring
         hud.employeeDetails.rectTransform.sizeDelta = new Vector2(556, 96);
         hud.employeeDetails.rectTransform.anchoredPosition = new Vector2(0, 146);
         hud.employeeDetails.fontSize = 16;
+        hud.employeeDetails.supportRichText = true;
         var active = new[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
         hud.upgradeButtons[0].gameObject.SetActive(false); hud.upgradeButtons[3].gameObject.SetActive(false);
         string[] names = { "Locker", "Locker capacity", "Bike cargo", "Expand shop", "Park stand", "Ice cream truck", "Table", "Cone holder", "Cold storage", "Tub holder", "Waffle iron", "Shelf" };
