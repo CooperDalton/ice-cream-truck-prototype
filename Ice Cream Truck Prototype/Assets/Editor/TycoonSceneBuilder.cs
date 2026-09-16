@@ -82,9 +82,9 @@ public static class TycoonSceneBuilder
             PartPrefab(0, TycoonPart.Kind.Table, "Prep table", new Vector2(2,1), false),
             PartPrefab(1, TycoonPart.Kind.Tub, "Vanilla tub", new Vector2(.5f,.5f), true),
             PartPrefab(2, TycoonPart.Kind.Prep, "Cone holder", new Vector2(.25f,.25f), true),
-            PartPrefab(3, TycoonPart.Kind.Iron, "Waffle iron", new Vector2(.5f,.75f), true),
+            PartPrefab(3, TycoonPart.Kind.Iron, "Waffle iron", new Vector2(.5f,.5f), true),
             PartPrefab(4, TycoonPart.Kind.Locker, "4 slot locker", new Vector2(1,.5f), false),
-            PartPrefab(5, TycoonPart.Kind.ColdStorage, "4 slot cold rack", new Vector2(1,.5f), false),
+            PartPrefab(5, TycoonPart.Kind.Shelf, "Pickup shelf", new Vector2(1,.5f), false),
             PartPrefab(6, TycoonPart.Kind.Sign, "Open closed sign", new Vector2(.5f,.5f), false),
             PartPrefab(7, TycoonPart.Kind.ServingCounter, "Service counter", new Vector2(2,1), false),
             PartPrefab(8, TycoonPart.Kind.Shelf, "Pickup shelf", new Vector2(1,.5f), false),
@@ -219,7 +219,7 @@ public static class TycoonSceneBuilder
         var supplier = Model("Supplier terminal", new Vector3(33,0,-24)); AddTarget(supplier, TycoonPart.Kind.Supplier, 0);
         game.truckStops = new[] { Point("Playground stop", null, new Vector3(62,0,-12)), Point("Residential stop", null, new Vector3(5,0,46)) };
         foreach (var stop in game.truckStops) Block("Selling stop", stop.position - Vector3.up * .015f, new Vector3(7,.04f,5), pink);
-        game.bike = MakeVehicle(false, new Vector3(-4,0,-3)); game.truck = MakeVehicle(true, sites[2]); game.truck.gameObject.SetActive(false);
+        game.bike = MakeVehicle(false, new Vector3(2,0,5)); game.truck = MakeVehicle(true, sites[2]); game.truck.gameObject.SetActive(false);
         game.builder = systems.AddComponent<TycoonBuilder>(); game.builder.game = game;
         game.builder.preview = Block("Equipment placement preview", Vector3.zero, Vector3.one, mint); Object.DestroyImmediate(game.builder.preview.GetComponent<Collider>());
         game.builder.previewRenderer = game.builder.preview.GetComponent<Renderer>(); game.builder.validMaterial = game.builder.previewRenderer.sharedMaterial;

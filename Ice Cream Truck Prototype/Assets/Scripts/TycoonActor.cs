@@ -113,6 +113,7 @@ public class TycoonActor : MonoBehaviour
     }
     public void RestHands()
     {
+        grip.localRotation = Quaternion.Slerp(grip.localRotation, Quaternion.identity, .2f);
         rightHand.localPosition = Vector3.Lerp(rightHand.localPosition, rightRest, .2f);
         leftHand.localPosition = Vector3.Lerp(leftHand.localPosition, leftRest, .2f);
     }

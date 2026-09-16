@@ -11,6 +11,7 @@ public class TycoonHUD : MonoBehaviour
     [Serializable] public class OrderView { public GameObject root; public Text title, description; public Image container, coin, reward; public Image[] flavors, toppings; public RectTransform ingredients; }
     public OrderView[] tickets;
     public TycoonGameManager game;
+    public TycoonAdminMenu adminMenu;
     public Text money, clock, notice, prompt, orders, heldLabel, panelTitle, panelText, waypointText;
     public Text resultsText;
     public TycoonDaySummary daySummary;
@@ -57,9 +58,10 @@ public class TycoonHUD : MonoBehaviour
     public RectTransform[] miniRoads;
     public Vector3[] roadCenters;
     public bool menuOpen;
-    public bool AnyPanel => panel.activeSelf || shelfPanel.activeSelf || personalInventoryPanel.activeSelf || daySummary.gameObject.activeSelf;
+    public bool AnyPanel => adminMenu.panel.activeSelf || panel.activeSelf || shelfPanel.activeSelf || personalInventoryPanel.activeSelf || daySummary.gameObject.activeSelf;
     private TycoonInventory storage;
     private int businessSite, transferSelection = -1;
+    private string businessNotice = "";
     private Vector3 waypoint;
     private bool hasWaypoint;
     private TycoonWorker inspectedWorker;
@@ -98,8 +100,8 @@ public class TycoonHUD : MonoBehaviour
         quitButton.onClick.AddListener(() => { game.Save(); Application.Quit(); });
         for (int i = 0; i < supplyButtons.Length; i++) { int index = i; supplyButtons[i].onClick.AddListener(() => { game.PurchaseSupply(index); panelText.text = game.notice; }); }
         for (int i = 0; i < supplyCategoryButtons.Length; i++) { int index = i; supplyCategoryButtons[i].onClick.AddListener(() => SelectSupplyCategory(index)); }
-        for (int i = 0; i < upgradeButtons.Length; i++) { int index = i; upgradeButtons[i].onClick.AddListener(() => { game.BuyUpgrade(index, businessSite); panelText.text = game.notice; }); }
-        for (int i = 0; i < hireButtons.Length; i++) { int index = i; hireButtons[i].onClick.AddListener(() => game.Hire(Mathf.Min(index, 2), index == 3 ? 2 : businessSite, index == 3)); }
+        for (int i = 0; i < upgradeButtons.Length; i++) { int index = i; upgradeButtons[i].onClick.AddListener(() => { game.BuyUpgrade(index, businessSite); businessNotice = game.notice; }); }
+        for (int i = 0; i < hireButtons.Length; i++) { int index = i; hireButtons[i].onClick.AddListener(() => { game.Hire(Mathf.Min(index, 2), index == 3 ? 2 : businessSite, index == 3); businessNotice = game.notice; }); }
         for (int i = 0; i < hotbar.Length; i++) { int index = i; hotbar[i].button.onClick.AddListener(() => { if (shelfPanel.activeSelf) ClickPlayer(index); else game.player.Select(index); }); playerSlots[i].button.onClick.AddListener(() => ClickPlayer(index)); }
         for (int i = 0; i < storageSlots.Length; i++) { int index = i; storageSlots[i].button.onClick.AddListener(() => ClickStorage(index)); }
         foreach (var view in storageViews.Concat(new[] { employeeStorageView }))
@@ -184,8 +186,8 @@ public class TycoonHUD : MonoBehaviour
                 activeStorageView.slots[i].button.interactable = true;
             }
             if (inspectedWorker != null)
-                employeeDetails.text = "<b><size=21><color=" + (inspectedWorker.Blocked ? "#98412D" : "#285D52") + ">" + inspectedWorker.status + "</color></size></b>\n"
-                    + new[] { "Rookie", "Experienced", "Expert" }[inspectedWorker.tier] + " · $" + inspectedWorker.Wage + "/day · Locker " + inspectedWorker.locker.id
+                employeeDetails.text = (inspectedWorker.status == "" ? "" : "<b><size=21><color=" + (inspectedWorker.Blocked ? "#98412D" : "#285D52") + ">" + inspectedWorker.status + "</color></size></b>\n")
+                    + new[] { "Rookie", "Experienced", "Expert" }[inspectedWorker.tier] + " · $" + inspectedWorker.Wage + "/day · Assigned " + inspectedWorker.locker.storage.slots.Length + "-slot locker"
                     + "\nEdit carried items here anytime. Stock spare supplies in the locker.";
         }
         for (int i = 0; i < storageSlots.Length; i++)
@@ -212,7 +214,7 @@ public class TycoonHUD : MonoBehaviour
         if (businessPanel.activeSelf)
         {
             var site = game.sites[businessSite];
-            panelText.text = site.name + " / $" + site.revenue.ToString("0.##") + " today / " + (site.open ? "Open" : "Closed") + "\n" + string.Join("\n", game.workers.Where(w => w.site == businessSite).Take(2).Select(w => w.Owner + " / $" + w.Wage + " daily / " + w.status));
+            panelText.text = site.name + " / $" + site.revenue.ToString("0.##") + " today / " + (site.open ? "Open" : "Closed") + "\n" + (businessNotice != "" ? businessNotice : string.Join("\n", game.workers.Where(w => w.site == businessSite).Take(2).Select(w => w.Owner + " / $" + w.Wage + " daily" + (w.status == "" ? "" : " / " + w.status))));
         }
         openButton.interactable=game.phase==TycoonGameManager.Phase.Preparation;
         miniMarker.parent.gameObject.SetActive(!AnyPanel);
@@ -329,10 +331,11 @@ public class TycoonHUD : MonoBehaviour
         activeStorageView.root.SetActive(true); activeStorageView.title.text = worker.Owner;
         shelfStatus = activeStorageView.status; shelfStatus.text = "";
         inspectedWorker = worker; assignLockerButton.gameObject.SetActive(true);
+        waypoint = worker.locker.transform.position; hasWaypoint = true;
     }
     public void OpenBusiness(int site)
     {
-        ClosePanels(); businessSite = site; panel.SetActive(true); businessPanel.SetActive(true); panelTitle.text = game.sites[site].name + " / business";
+        ClosePanels(); businessSite = site; businessNotice = ""; panel.SetActive(true); businessPanel.SetActive(true); panelTitle.text = game.sites[site].name + " / business";
     }
     private void ClickPlayer(int index)
     {

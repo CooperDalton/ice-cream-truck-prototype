@@ -45,6 +45,14 @@ public class TycoonPlayer : MonoBehaviour
         RefreshHeld();
         if (manualInput) return;
         var k = Keyboard.current; var m = Mouse.current;
+        if (k.pKey.wasPressedThisFrame) game.hud.adminMenu.Toggle();
+        if (game.hud.adminMenu.panel.activeSelf)
+        {
+            if (k.escapeKey.wasPressedThisFrame) game.hud.adminMenu.Toggle();
+            Cursor.lockState = CursorLockMode.None; Cursor.visible = true;
+            CancelGesture(); game.builder.HoldPickup(null, false, 0); game.builder.AimPlacement(false);
+            return;
+        }
         if (k.escapeKey.wasPressedThisFrame) game.hud.ToggleMenu();
         if (k.mKey.wasPressedThisFrame) game.hud.ToggleMap();
         if (k.tabKey.wasPressedThisFrame) game.hud.ToggleInventory();
@@ -105,7 +113,7 @@ public class TycoonPlayer : MonoBehaviour
     public bool PickUp(TycoonItem item)
     {
         int slot = inventory.FreeSlot;
-        if (item.kind == TycoonItem.Kind.Bowls || item.kind == TycoonItem.Kind.Cone)
+        if (item.kind == TycoonItem.Kind.Bowls)
         {
             int stack = Array.FindIndex(inventory.slots, s => s != null && s.kind == item.kind && s.amount < s.Capacity);
             if (stack >= 0) slot = stack;
@@ -170,8 +178,8 @@ public class TycoonPlayer : MonoBehaviour
 
             return;
         }
-        if (target.kind == TycoonPart.Kind.Locker || target.kind == TycoonPart.Kind.ColdStorage || target.kind == TycoonPart.Kind.Shelf)
-        { if (take) game.hud.OpenStorage(target.storage, target.kind == TycoonPart.Kind.ColdStorage ? "Cold storage" : target.kind == TycoonPart.Kind.Locker ? "Staff locker" : "Shelf"); return; }
+        if (target.kind == TycoonPart.Kind.Locker || target.kind == TycoonPart.Kind.Shelf)
+        { if (take) game.hud.OpenStorage(target.storage, target.kind == TycoonPart.Kind.Locker ? target.storage.slots.Length + "-slot staff locker" : "Shelf"); return; }
         if (target.kind == TycoonPart.Kind.Tub && item != null)
         {
             if (item.kind == TycoonItem.Kind.Tub)
@@ -268,12 +276,20 @@ public class TycoonPlayer : MonoBehaviour
                 handPosition += gestureTarget.handTarget.forward * ((.5f - scoopStroke) * .20f);
                 handPosition -= grip.TransformVector(new Vector3(0, .035f, -.111f));
             }
+            else if (gestureTarget.kind == TycoonPart.Kind.Iron)
+            {
+                grip.rotation = Quaternion.Slerp(grip.rotation, view.transform.rotation * Quaternion.Euler(105, 0, 35 + Mathf.Sin(Time.time * 18) * 7.5f), 1 - Mathf.Exp(-10 * dt));
+                handPosition += view.transform.right * .16f + Vector3.up * .27f - grip.TransformVector(TycoonWaffleFeedback.BottleNozzle);
+                rightHand.rotation = grip.rotation;
+                gestureTarget.waffleFeedback.PourFrom(grip);
+            }
             grip.position = Vector3.Lerp(grip.position, handPosition, .4f);
             rightHand.position = grip.position;
         }
     }
     public void CancelGesture(bool releaseLook = true)
     {
+        if (gestureTarget != null && gestureTarget.kind == TycoonPart.Kind.Iron) gestureTarget.waffleFeedback.StopPour();
         if (gestureTarget != null && gestureTarget.claimedBy == "Player") gestureTarget.claimedBy = "";
         gestureTarget = null; gestureProgress = 0;
         if(releaseLook)gestureLookLocked=false;
@@ -305,6 +321,7 @@ public class TycoonPlayer : MonoBehaviour
     private void ApplyHeldPose()
     {
         grip.localPosition = new Vector3(.24f, -.28f, .55f); grip.localRotation = Quaternion.identity;
+        rightHand.localRotation = Quaternion.identity;
         rightHand.localPosition = new Vector3(.24f, -.32f, .54f); leftHand.localPosition = new Vector3(-.24f, -.35f, .50f);
         if (Held == null) return;
         if (Held.Tool)

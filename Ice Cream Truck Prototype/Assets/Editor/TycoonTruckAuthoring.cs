@@ -50,8 +50,8 @@ public static class TycoonTruckAuthoring
         var table = Part(game,7,new Vector3(-1.5f,.58f,1.1f));
         var prep = Part(game,2,new Vector3(-2,1.52f,1.1f)); prep.support = table; prep.transform.SetParent(table.transform,true);
         var iron = Part(game,3,new Vector3(-.9f,1.52f,1.1f)); iron.support = table; iron.transform.SetParent(table.transform,true);
-        var locker = Part(game,4,new Vector3(0,.58f,-1.2f)); locker.transform.localRotation = Quaternion.Euler(0,180,0); locker.storage = new TycoonInventory(8); locker.RefreshLocker();
-        var cold = Part(game,5,new Vector3(-3.15f,.58f,-.85f)); cold.transform.localRotation = Quaternion.Euler(0,-90,0);
+        var locker = Part(game,14,new Vector3(0,.58f,-1.2f)); locker.transform.localRotation = Quaternion.Euler(0,180,0); locker.storage = new TycoonInventory(8); locker.RefreshLocker();
+        var shelf = Part(game,8,new Vector3(-3.15f,.58f,-.85f)); shelf.transform.localRotation = Quaternion.Euler(0,-90,0);
         var sign = Part(game,6,new Vector3(-.05f,.58f,1.25f));
         truck.gameObject.SetActive(false); game.navigation.BuildNavMesh();
         EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();

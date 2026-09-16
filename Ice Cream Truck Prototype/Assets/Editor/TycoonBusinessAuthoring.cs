@@ -6,6 +6,42 @@ using Object=UnityEngine.Object;
 
 public static class TycoonBusinessAuthoring
 {
+    public static Sprite ExpansionIcon(TycoonGameManager.Site site)
+    {
+        var preview = new GameObject("Expanded shop preview");
+        try
+        {
+            var canopy = Object.Instantiate(site.canopy, preview.transform);
+            canopy.transform.localPosition = Vector3.zero; canopy.transform.localRotation = Quaternion.identity;
+            canopy.SetActive(true);
+            var floor = Object.Instantiate(site.paving.gameObject, preview.transform).transform;
+            floor.localPosition = new Vector3(0, -.01f, -1); floor.localRotation = Quaternion.identity;
+            floor.localScale = new Vector3(8, .04f, 8);
+            return TycoonPictureAuthoring.Render(preview, "UpgradeKiosk");
+        }
+        finally { Object.DestroyImmediate(preview); }
+    }
+
+    [MenuItem("Ice Cream/Update expansion and movable bin")]
+    public static void UpdateExpansionAndBin()
+    {
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        var game = scene.GetRootGameObjects()[0].GetComponent<TycoonGameManager>();
+        game.RefreshBusinessModels();
+        ExpansionIcon(game.sites[0]);
+        var button = game.hud.upgradeButtons[5];
+        button.GetComponentsInChildren<UnityEngine.UI.Text>(true).Single(t => t.text == "Expand shop" || t.text == "Expand shop · 4 rows").text = "Expand shop · 4 rows";
+        var bin = game.catalog.partPrefabs[9];
+        var mesh = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Art/Tycoon/Placement/Mesh_9.asset");
+        var pieces = bin.GetComponentsInChildren<MeshFilter>().SelectMany(f => Enumerable.Range(0, f.sharedMesh.subMeshCount).Select(i => new CombineInstance
+        { mesh = f.sharedMesh, subMeshIndex = i, transform = bin.transform.worldToLocalMatrix * f.transform.localToWorldMatrix })).ToArray();
+        mesh.Clear(); mesh.CombineMeshes(pieces); EditorUtility.SetDirty(mesh);
+        TycoonPictureAuthoring.Render(bin.gameObject, "Equipment9");
+        game.navigation.BuildNavMesh();
+        EditorUtility.SetDirty(game); AssetDatabase.SaveAssets();
+        EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene);
+    }
+
     public static void Apply()
     {
         var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var roots=scene.GetRootGameObjects();var game=roots.SelectMany(o=>o.GetComponents<TycoonGameManager>()).Single();
@@ -14,10 +50,6 @@ public static class TycoonBusinessAuthoring
         {
             var site=game.sites[i];site.canopy=roots.Where(o=>PrefabUtility.GetCorrespondingObjectFromSource(o)==canopy).OrderBy(o=>Vector3.Distance(o.transform.position,site.origin.position)).First();
             site.paving=roots.Single(o=>o.name=="Stand paving "+i).transform;
-            site.kiosk=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Art/Tycoon/Prefabs/Expanded_kiosk_shell.prefab"));
-            site.kiosk.transform.position=site.origin.position+new Vector3(0,-.16f,0);site.kiosk.transform.localScale=new Vector3(2.5f,1,2);
-            var rear=new GameObject("Kiosk back collision");rear.transform.SetParent(site.kiosk.transform,false);rear.transform.localPosition=new Vector3(0,1.37f,-1.45f);var box=rear.AddComponent<BoxCollider>();box.size=new Vector3(4,.0f+2.58f,.1f);
-            site.kiosk.SetActive(false);
         }
         var bike=game.bike;PrefabUtility.UnpackPrefabInstance(bike.gameObject,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
         foreach(var renderer in bike.GetComponentsInChildren<Renderer>(true).ToArray())Object.DestroyImmediate(renderer.gameObject);

@@ -19,8 +19,8 @@ public class TycoonItem
     {
         this.kind = kind; this.amount = amount; this.variant = variant;
     }
-    public int Capacity => kind switch { Kind.Bowls => 12, Kind.Cone => 4, Kind.Tub => 24, Kind.Batter => 10, Kind.Topping => 15, _ => 1 };
-    public bool Consumable => kind == Kind.Bowls || kind == Kind.Cone || kind == Kind.Tub || kind == Kind.Batter || kind == Kind.Topping;
+    public int Capacity => kind switch { Kind.Bowls => 12, Kind.Tub => 24, Kind.Batter => 10, Kind.Topping => 15, _ => 1 };
+    public bool Consumable => kind == Kind.Bowls || kind == Kind.Tub || kind == Kind.Batter || kind == Kind.Topping;
     public bool Tool => kind == Kind.BasicScooper || kind == Kind.ImprovedScooper || kind == Kind.ElectricScooper;
     public float ScoopDuration => kind == Kind.ElectricScooper ? .2f : kind == Kind.ImprovedScooper ? .65f : 1;
     public float ScoopTravel => kind == Kind.ElectricScooper ? 60 : kind == Kind.ImprovedScooper ? 260 : 400;
@@ -56,7 +56,7 @@ public class TycoonInventory : ISerializationCallbackReceiver
     }
     public bool Add(TycoonItem item)
     {
-        if (item.kind == TycoonItem.Kind.Bowls || item.kind == TycoonItem.Kind.Cone)
+        if (item.kind == TycoonItem.Kind.Bowls)
         {
             foreach (var slot in slots)
             {

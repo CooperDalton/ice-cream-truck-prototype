@@ -54,11 +54,11 @@ public static class TycoonSupplyMenuAuthoring
                 button.targetGraphic=background;var colors=button.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(.8f,1,.86f);colors.pressedColor=new Color(.57f,.84f,.68f);colors.disabledColor=new Color(.93f,.93f,.89f);button.colors=colors;
                 var content=new GameObject("Product",typeof(RectTransform),typeof(CanvasGroup));content.transform.SetParent(button.transform,false);
                 ((RectTransform)content.transform).sizeDelta=rect.sizeDelta;hud.supplyCardContents[product]=content.GetComponent<CanvasGroup>();
-                Sprite icon=product<12?catalog.tubIcons[product]:product<18?catalog.toppingIcons[product-12]:product==18?catalog.bowlPackIcon:product==19?catalog.batterPackIcon:product==20?catalog.improvedIcon:product==22?catalog.electricIcon:catalog.basicIcon;
+                Sprite icon=product<12?catalog.tubIcons[product]:product<18?catalog.toppingIcons[product-12]:product==18?catalog.bowlPackIcon:product==19?catalog.batterIcon:product==20?catalog.improvedIcon:product==22?catalog.electricIcon:catalog.basicIcon;
                 var picture=Picture("Icon",content.transform,new Vector2(0,large?30:29),Vector2.one*(large?144:92),Color.white,icon);
                 picture.type=Image.Type.Simple;picture.preserveAspect=true;
-                string name=product<12?TycoonCatalogSO.FlavorNames[product]:product<18?TycoonCatalogSO.ToppingNames[product-12]:product==18?"12 bowls · 1 stack":product==19?"Batter":product==20?"High quality scooper":product==22?"Electric scooper":"Basic scooper";
-                float price=product<12?TycoonCatalogSO.TubPrices[product]:product<18?TycoonCatalogSO.RefillPrices[product-12]:product==18?3:product==21?6:product==22?36:12;
+                string name=product<12?TycoonCatalogSO.FlavorNames[product]:product<18?TycoonCatalogSO.ToppingNames[product-12]:product==18?"12 bowls · 1 stack":product==19?"Batter · 1 bottle":product==20?"High quality scooper":product==22?"Electric scooper":"Basic scooper";
+                float price=product<12?TycoonCatalogSO.TubPrices[product]:product<18?TycoonCatalogSO.RefillPrices[product-12]:product==18?3:product==19||product==21?6:product==22?36:12;
                 button.name=name+" supply card";
                 Text("Name",content.transform,new Vector2(0,large?-58:-30),new Vector2(rect.sizeDelta.x-12,28),name,large?23:19);
                 Text("Price",content.transform,new Vector2(0,large?-94:-62),new Vector2(rect.sizeDelta.x-12,30),"$"+price.ToString("0.##"),large?26:23).fontStyle=FontStyle.Bold;

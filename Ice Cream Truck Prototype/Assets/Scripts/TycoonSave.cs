@@ -56,7 +56,7 @@ public static class TycoonSave
             truckPosition = game.truck.transform.position, truckRotation = game.truck.transform.rotation, truck = game.truck.cargo, truckStop = game.truck.routeStop, truckOperating = game.truck.operatingToday, routeComplete = game.truck.routeComplete, truckDemand = game.truck.demand, travelStage = game.truck.travelStage };
         d.sites = game.sites.Select(s => new SiteData { owned = s.owned, open = s.open, expanded = s.expanded, size = s.plotSize, revenue = s.revenue, spawn = s.spawnTimer, lost = s.lostSales, demand = s.stopDemand }).ToArray();
         d.tutorial = game.tutorial.progress;
-        d.parts = game.parts.Where(p => p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Supplier && p.kind != TycoonPart.Kind.Plot && p.kind != TycoonPart.Kind.Trash && p.kind != TycoonPart.Kind.BusinessBoard).Select(p => new PartData { id = p.id, prefab = p.catalogIndex, site = p.site, variant = p.variant, installed = p.installed, packed = p.packed, rewardDelivery = p.rewardDelivery, support = p.support == null ? 0 : p.support.id, position = p.transform.position, rotation = p.transform.rotation, storage = p.storage, contents = p.contents, owner = p.claimedBy, cook = p.cookTime, pour = p.pourProgress, ironStage = p.ironStage }).ToArray();
+        d.parts = game.parts.Where(p => p.kind != TycoonPart.Kind.Bike && p.kind != TycoonPart.Kind.Truck && p.kind != TycoonPart.Kind.Supplier && p.kind != TycoonPart.Kind.Plot && p.kind != TycoonPart.Kind.BusinessBoard).Select(p => new PartData { id = p.id, prefab = p.catalogIndex, site = p.site, variant = p.variant, installed = p.installed, packed = p.packed, rewardDelivery = p.rewardDelivery, support = p.support == null ? 0 : p.support.id, position = p.transform.position, rotation = p.transform.rotation, storage = p.storage, contents = p.contents, owner = p.claimedBy, cook = p.cookTime, pour = p.pourProgress, ironStage = p.ironStage }).ToArray();
         d.workers = game.workers.Select(w => new WorkerData { id = w.employeeId, tier = w.tier, site = w.site, startDay = w.startDay, ticket = w.ticketId, scoop = w.scoopIndex, topping = w.toppingIndex, step = (int)w.step, resumeStep = (int)w.resumeStep, neededSupply = (int)w.neededSupply, neededVariant = w.neededVariant, allowEmptySupply = w.allowEmptySupply, locker = w.locker.id, prep = w.prep == null ? 0 : w.prep.id, iron = w.iron == null ? 0 : w.iron.id, target = w.target == null ? 0 : w.target.id, onDuty = w.onDuty, driver = w.driver, progress = w.progress, position = w.transform.position, inventory = w.inventory, carrying = w.carrying }).ToArray();
         d.customers = game.actors.Where(a => !a.worker && !a.leaving).Select(a => new CustomerData { site = a.site, order = a.order, position = a.transform.position }).ToArray();
         d.loose = game.looseItems.Where(l => l != null).Select(l => new LooseData { item = l.item, position = l.transform.position, supplySlot = l.supplySlot, levelReward = l.levelReward }).ToArray();
@@ -84,14 +84,14 @@ public static class TycoonSave
         }
         foreach (var part in game.parts.ToArray())
         {
-            if (part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Trash || part.kind == TycoonPart.Kind.BusinessBoard) continue;
+            if (part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.BusinessBoard) continue;
             game.parts.Remove(part); Object.Destroy(part.gameObject);
         }
         var map = new Dictionary<int, TycoonPart>();
         foreach (var p in d.parts)
         {
             var kind = game.catalog.partPrefabs[p.prefab].kind;
-            if (kind == TycoonPart.Kind.Trash || kind == TycoonPart.Kind.BusinessBoard) continue;
+            if (kind == TycoonPart.Kind.BusinessBoard) continue;
             var part = game.AddPart(p.prefab, p.site, p.position); part.id = p.id; part.transform.rotation = p.rotation;
             part.variant = p.variant; part.storage = p.storage; part.contents = p.contents != null && p.contents.kind != TycoonItem.Kind.None ? p.contents : null; part.claimedBy = p.owner == "Player" ? "" : p.owner; part.cookTime = p.cook; part.pourProgress = p.pour; part.ironStage = p.ironStage; part.installed = p.installed; part.packed = p.packed; part.rewardDelivery = p.rewardDelivery; part.gameObject.SetActive(!p.packed); map.Add(p.id, part);
             if (part.kind == TycoonPart.Kind.Shelf) Array.Resize(ref part.storage.slots, TycoonPart.ShelfCapacity);

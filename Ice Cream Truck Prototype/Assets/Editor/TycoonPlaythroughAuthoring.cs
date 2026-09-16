@@ -78,16 +78,16 @@ public static class TycoonPlaythroughAuthoring
         hud.employeeDetails.rectTransform.anchoredPosition = new Vector2(0, 146);
         hud.employeeDetails.fontSize = 16;
         hud.employeeDetails.supportRichText = true;
-        var active = new[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-        hud.upgradeButtons[0].gameObject.SetActive(false); hud.upgradeButtons[3].gameObject.SetActive(false);
-        string[] names = { "Locker", "Locker capacity", "Bike cargo", "Expand shop", "Park stand", "Ice cream truck", "Table", "Cone holder", "Cold storage", "Tub holder", "Waffle iron", "Shelf" };
-        string[] prices = { "$24", "$48 / $88", "$48", "$160", "$250", "$600", "$24", "$12", "$36", "$18", "$48", "$20" };
-        int[] icons = { 4, 4, 8, 0, 6, 7, 0, 2, 5, 1, 3, 8 };
+        var active = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13 };
+        hud.upgradeButtons[0].gameObject.SetActive(false); hud.upgradeButtons[10].gameObject.SetActive(false);
+        string[] names = { "4-slot locker", "8-slot locker", "12-slot locker", "Bike cargo", "Expand shop · 4 rows", "Park stand", "Ice cream truck", "Table", "Cone holder", "Tub holder", "Waffle iron", "Shelf" };
+        string[] prices = { "$24", "$48", "$88", "$48", "$160", "$250", "$600", "$24", "$12", "$18", "$48", "$20" };
+        int[] icons = { 4, 14, 15, 8, 0, 6, 7, 0, 2, 1, 3, 8 };
         var businessIcons = icons.Select(i => catalog.equipmentIcons[i]).ToArray();
-        businessIcons[2] = TycoonPictureAuthoring.Render(game.bike.smallCargoModel, "UpgradeBike");
-        businessIcons[3] = TycoonPictureAuthoring.Render(game.sites[0].kiosk, "UpgradeKiosk");
-        businessIcons[4] = TycoonPictureAuthoring.Render(game.sites[1].canopy, "UpgradePark");
-        businessIcons[5] = TycoonPictureAuthoring.Render(game.truck.gameObject, "UpgradeTruck");
+        businessIcons[3] = TycoonPictureAuthoring.Render(game.bike.smallCargoModel, "UpgradeBike");
+        businessIcons[4] = TycoonBusinessAuthoring.ExpansionIcon(game.sites[0]);
+        businessIcons[5] = TycoonPictureAuthoring.Render(game.sites[1].canopy, "UpgradePark");
+        businessIcons[6] = TycoonPictureAuthoring.Render(game.truck.gameObject, "UpgradeTruck");
         var panelRect = (RectTransform)hud.businessPanel.transform;
         panelRect.anchoredPosition = new Vector2(0, -25); panelRect.sizeDelta = new Vector2(1100, 460);
         for (int i = 0; i < active.Length; i++)

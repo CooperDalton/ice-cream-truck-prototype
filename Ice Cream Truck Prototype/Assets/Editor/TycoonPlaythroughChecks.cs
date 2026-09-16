@@ -36,7 +36,7 @@ public static class TycoonPlaythroughChecks
         passed.Add("shelf drag both directions, rearrange, cancel, partial merge, three-scoop hotbar");
         h.ClosePanels(); p.inventory = new TycoonInventory(8); p.Select(0);
         p.customerTarget = null; p.looseTarget = null; p.workerTarget = null;
-        foreach (var kind in new[] { TycoonPart.Kind.Supplier, TycoonPart.Kind.BusinessBoard, TycoonPart.Kind.Locker, TycoonPart.Kind.Shelf, TycoonPart.Kind.ColdStorage })
+        foreach (var kind in new[] { TycoonPart.Kind.Supplier, TycoonPart.Kind.BusinessBoard, TycoonPart.Kind.Locker, TycoonPart.Kind.Shelf })
         {
             p.target = g.parts.First(t => t.kind == kind && t.installed); h.ClosePanels();
             p.Use(false); Check(!h.AnyPanel, kind + " ignores click");
@@ -74,7 +74,7 @@ public static class TycoonPlaythroughChecks
         p.Teleport(g.supplier.position); g.cash = 1000;
         Check(g.PurchaseSupply(18) && g.cash == 997 && g.looseItems.Count == 1 && g.looseItems[0].item.amount == 12, "One $3 bowl stack");
         Check(g.PurchaseSupply(22) && g.looseItems.Last().item.kind == TycoonItem.Kind.ElectricScooper, "Electric scooper supply purchase");
-        float cash = g.cash; Check(!g.BuyUpgrade(0, 0) && !g.BuyUpgrade(3, 0) && g.cash == cash, "Duplicate tool and waffle bundle removed");
+        float cash = g.cash; Check(!g.BuyUpgrade(0, 0) && !g.BuyUpgrade(10, 0) && g.cash == cash, "Duplicate tool and cold storage removed");
         int partCount = g.parts.Count; Check(g.BuyUpgrade(12, 0), "Buy standalone waffle iron");
         var iron = g.parts.Last(); Check(g.parts.Count == partCount + 1 && iron.kind == TycoonPart.Kind.Iron && !iron.installed && iron.support == null, "Only the placeable iron delivered");
         Check(iron.transform.position.z < g.sites[0].origin.position.z - 3, "Equipment delivered behind shop");

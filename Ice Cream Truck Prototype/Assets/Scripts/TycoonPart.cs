@@ -4,7 +4,7 @@ using UnityEngine;
 public class TycoonPart : MonoBehaviour
 {
     public const int ShelfCapacity = 12;
-    public enum Kind { Table, Tub, Prep, Iron, Locker, ColdStorage, Sign, ServingCounter, Supplier, Bike, Truck, Plot, Trash, Shelf, Register, BusinessBoard, Bowl }
+    public enum Kind { Table, Tub, Prep, Iron, Locker, Sign = 6, ServingCounter, Supplier, Bike, Truck, Plot, Trash, Shelf, Register, BusinessBoard, Bowl }
     public Kind kind;
     public int catalogIndex, site, id, variant;
     public Vector2 footprint = new Vector2(.5f, .5f);
@@ -15,6 +15,7 @@ public class TycoonPart : MonoBehaviour
     public bool packed;
     public bool rewardDelivery;
     public Transform operatingPoint, handTarget, contentPoint, lid, queuePoint;
+    public TycoonWaffleFeedback waffleFeedback;
     public Renderer[] fillRenderers;
     public GameObject[] lockerModels;
     public GameObject tubModel;
@@ -74,12 +75,12 @@ public class TycoonPart : MonoBehaviour
             tubVisual.SetFill(contents.Fill);
             handTarget.localPosition = new Vector3(0, .9f - (1 - contents.Fill) * .075f, 0);
         }
-        if (kind == Kind.Iron) lid.localRotation = Quaternion.Euler(ironStage == 2 ? 0 : -105, 0, 0);
+        if (kind == Kind.Iron) return;
         string state = contents == null ? "" : JsonUtility.ToJson(contents);
         if (state == visualState || kind == Kind.Tub) return;
         visualState = state;
         if (contentVisual != null) Destroy(contentVisual);
-        if (contents != null) contentVisual = kind == Kind.Iron ? Instantiate(game.catalog.flatWaffle, contentPoint) : game.catalog.Display(contents, contentPoint);
+        if (contents != null) contentVisual = game.catalog.Display(contents, contentPoint);
     }
     public void RefreshLocker()
     {
@@ -146,9 +147,9 @@ public class TycoonPart : MonoBehaviour
             Kind.Bowl => "Add a scoop or topping / E to take bowl",
             Kind.Table => "Place a bowl or equipment on the table",
             Kind.Iron => ironStage switch { 0 => "Hold click with batter to pour", 1 => "E / close waffle iron", 2 => cookTime < 6 ? "Waffle cooking" : "E / open waffle iron", 3 => "E to take fresh cone", 5 => "Hold click to finish pouring", _ => "Burned waffle / click to discard" },
-            Kind.Locker => "E / staff locker", Kind.ColdStorage => "E / cold storage", Kind.Supplier => "E / buy supplies and equipment",
+            Kind.Locker => "E / staff locker", Kind.Supplier => "E / buy supplies and equipment",
             Kind.BusinessBoard => "E / business management", Kind.Register => "Take customer orders here", Kind.Sign => "E / open or close this stand", Kind.ServingCounter => "Click with completed order to serve", Kind.Bike => "E / ride bicycle, F / cargo", Kind.Truck => "E / drive truck, F / cargo",
-            Kind.Plot => "E / business upgrades", Kind.Trash => "Click / discard held item", _ => "E / storage" };
+            Kind.Plot => "E / business upgrades", Kind.Trash => "Click / discard held item · Hold right-click / move bin", _ => "E / storage" };
     }
     public void CollectReward(TycoonPlayer player)
     {

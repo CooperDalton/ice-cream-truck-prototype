@@ -29,7 +29,7 @@ public class TycoonBuilder : MonoBehaviour
     {
         reason = "";
         if (game.tutorial.FirstDay || part != null && part.rewardDelivery) return false;
-        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.Trash || part.kind == TycoonPart.Kind.BusinessBoard || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
+        if (part == null || part.packed || !game.sites[part.site].owned || part.kind == TycoonPart.Kind.Sign || part.kind == TycoonPart.Kind.Bowl || part.kind == TycoonPart.Kind.Supplier || part.kind == TycoonPart.Kind.Plot || part.kind == TycoonPart.Kind.BusinessBoard || part.kind == TycoonPart.Kind.Bike || part.kind == TycoonPart.Kind.Truck)
             return false;
         if (game.player.inventory.FreeSlot < 0) { reason = "Make room in your inventory."; return false; }
         if (game.parts.Any(p => (p == part || p.transform.IsChildOf(part.transform)) && !string.IsNullOrEmpty(p.claimedBy))) { reason = "Finish using this equipment first."; return false; }
@@ -103,7 +103,7 @@ public class TycoonBuilder : MonoBehaviour
         {
             if (!part.tabletop) proposed.y = site.origin.position.y;
             valid = CanPlace(part, proposed, rotation, support, out reason);
-            ShowGrid(grid, support != null ? support.footprint : site.plotSize, support != null ? support.surfaceHeight + .008f : .035f, cell);
+            ShowGrid(grid, support != null ? support.footprint : site.plotSize, support != null ? support.surfaceHeight + .008f : .035f, cell, support != null ? Vector3.zero : site.PlotOffset);
         }
         preview.SetActive(true); preview.transform.SetPositionAndRotation(proposed, rotation); preview.transform.localScale = Vector3.one;
         foreach (var renderer in ghostRenderers) renderer.sharedMaterial = valid ? validMaterial : invalidMaterial;
@@ -120,10 +120,10 @@ public class TycoonBuilder : MonoBehaviour
             point.y,
             Mathf.Floor((point.z - half.y) / cell + .5f) * cell + half.y);
     }
-    private void ShowGrid(Transform surface, Vector2 size, float height, float cell)
+    private void ShowGrid(Transform surface, Vector2 size, float height, float cell, Vector3 offset)
     {
         gridRenderer.gameObject.SetActive(true);
-        gridRenderer.transform.SetPositionAndRotation(surface.TransformPoint(Vector3.up * height), surface.rotation);
+        gridRenderer.transform.SetPositionAndRotation(surface.TransformPoint(offset + Vector3.up * height), surface.rotation);
         gridRenderer.transform.localScale = new Vector3(size.x, 1, size.y);
         gridProperties.SetVector("_GridSize", new Vector4(size.x, size.y, 0, 0));
         gridProperties.SetFloat("_CellSize", cell); gridRenderer.SetPropertyBlock(gridProperties);
@@ -176,7 +176,7 @@ public class TycoonBuilder : MonoBehaviour
         Vector3 size = rotation * new Vector3(part.footprint.x, 0, part.footprint.y);
         size = new Vector3(Mathf.Abs(size.x), .5f, Mathf.Abs(size.z));
         int siteIndex = part.kind == TycoonPart.Kind.Bowl && support != null ? support.site : part.site;
-        var site = game.sites[siteIndex]; var offset = site.origin.InverseTransformPoint(position);
+        var site = game.sites[siteIndex]; var offset = site.origin.InverseTransformPoint(position) - site.PlotOffset;
         var plotSize = Quaternion.Inverse(site.origin.rotation) * rotation * new Vector3(part.footprint.x,0,part.footprint.y);
         // Transforming cell edges through a rotation can put them a few float units outside the surface.
         const float edgeTolerance = .0001f;

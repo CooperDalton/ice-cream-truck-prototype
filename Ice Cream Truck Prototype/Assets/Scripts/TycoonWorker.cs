@@ -48,11 +48,11 @@ public class TycoonWorker : MonoBehaviour
         if (!onDuty || game.phase != TycoonGameManager.Phase.Trading)
         {
             Blocked = true;
-            status = startDay > game.day ? "Starts on day " + startDay : game.phase != TycoonGameManager.Phase.Trading ? "Shop closed. Open the shop to start the shift." : "Off duty: the daily wage was not paid.";
+            status = startDay > game.day ? "Starts on day " + startDay : game.phase != TycoonGameManager.Phase.Trading ? "" : "Off duty: the daily wage was not paid.";
             actor.RestHands(); return;
         }
         if (driver && game.truck.DriveRoute(this)) return;
-        if (!locker.installed) { Wait("Place assigned locker " + locker.id + " to start work."); return; }
+        if (!locker.installed) { Wait("Place the assigned locker to start work."); return; }
         Tick(Time.deltaTime);
     }
     public void Tick(float dt)
@@ -113,8 +113,11 @@ public class TycoonWorker : MonoBehaviour
             if (!Walk(iron.operatingPoint.position, "waffle iron")) return;
             status = "Pouring waffle batter"; actor.Hold(batter);
             if (iron.ironStage == 0) iron.BeginPour(batter, Owner);
-            iron.pourProgress = Mathf.Clamp01(progress * PourSpeed);
-            if (!Animate(iron, 1 / PourSpeed, dt)) return;
+            progress += dt; iron.pourProgress = Mathf.Clamp01(progress * PourSpeed);
+            actor.grip.localRotation = Quaternion.Slerp(actor.grip.localRotation, Quaternion.Euler(105, 0, Mathf.Sin(Time.time * 18) * 7.5f), 1 - Mathf.Exp(-10 * dt));
+            actor.Reach(iron.handTarget.position + Vector3.up * .18f - actor.grip.TransformVector(TycoonWaffleFeedback.BottleNozzle), progress, false);
+            iron.waffleFeedback.PourFrom(actor.grip);
+            if (progress < 1 / PourSpeed) return;
             if (!iron.Pour(batter, Owner)) { Wait("Waffle iron changed. Clear it before preparing another cone."); return; }
             actor.Hold(null); Go(Step.Close); return;
         }
@@ -160,7 +163,7 @@ public class TycoonWorker : MonoBehaviour
                 Wait(game.Parts(site, TycoonPart.Kind.Tub).Any(p => p.variant == order.flavors[scoopIndex]) ? flavor + " holder is in use by someone else." : "Place and fill the " + flavor + " holder for this order."); return;
             }
             status = "Walking to " + TycoonCatalogSO.FlavorNames[target.variant];
-            bool refill = inventory.Locate(TycoonItem.Kind.Tub,target.variant)>=0 || game.Parts(site,TycoonPart.Kind.ColdStorage).Any(r=>r.storage.Locate(TycoonItem.Kind.Tub,target.variant)>=0);
+            bool refill = inventory.Locate(TycoonItem.Kind.Tub,target.variant)>=0 || game.Parts(site,TycoonPart.Kind.Shelf).Any(r=>r.storage.Locate(TycoonItem.Kind.Tub,target.variant)>=0);
             if (target.contents.amount == 0 || (target.contents.amount<=6 && refill)) { Go(Step.Refill); return; }
             if (!target.Claim(Owner) || !Walk(target.operatingPoint.position, "ice cream holder")) return;
             actor.Hold(Tool()); Go(Step.Scoop); return;
@@ -234,10 +237,10 @@ public class TycoonWorker : MonoBehaviour
         {
             int slot=inventory.Locate(TycoonItem.Kind.Tub,target.variant);
             if (slot < 0) { actor.Hold(null); Go(Step.GoTub); return; }
-            var rack=game.Parts(site,TycoonPart.Kind.ColdStorage).FirstOrDefault(r=>r.storage.FreeSlot>=0);
-            if(rack==null){Wait("Make room in cold storage for the remaining refill.");return;}
-            status="Returning remaining ice cream to cold storage";actor.Hold(inventory.slots[slot]);
-            if(!Walk(rack.operatingPoint.position, "cold storage")||!Animate(rack,.6f/HandleSpeed,dt))return;
+            var rack=game.Parts(site,TycoonPart.Kind.Shelf).FirstOrDefault(r=>r.storage.FreeSlot>=0);
+            if(rack==null){Wait("Make room in shelf storage for the remaining refill.");return;}
+            status="Returning remaining ice cream to shelf storage";actor.Hold(inventory.slots[slot]);
+            if(!Walk(rack.operatingPoint.position, "shelf storage")||!Animate(rack,.6f/HandleSpeed,dt))return;
             inventory.Transfer(slot,rack.storage);actor.Hold(null);Go(Step.GoTub);
         }
     }
@@ -270,11 +273,11 @@ public class TycoonWorker : MonoBehaviour
         bool Matches(TycoonItem i) => i != null && (neededSupply == TycoonItem.Kind.BasicScooper ? i.Tool : i.kind == neededSupply && i.variant == neededVariant) && (i.amount > 0 || allowEmptySupply);
         if (inventory.slots.Any(Matches)) { Go(resumeStep); return; }
         string label = neededSupply == TycoonItem.Kind.BasicScooper ? "a scooper" : game.catalog.Label(new TycoonItem(neededSupply, 1, neededVariant));
-        var source = locker.storage.slots.Any(Matches) ? locker : neededSupply == TycoonItem.Kind.Tub ? game.Parts(site, TycoonPart.Kind.ColdStorage).FirstOrDefault(p => p.storage.slots.Any(Matches)) : null;
-        if (source == null) { Wait("Need " + label + ". Add it to this inventory or " + (neededSupply == TycoonItem.Kind.Tub ? "cold storage." : "locker " + locker.id + ".")); return; }
+        var source = locker.storage.slots.Any(Matches) ? locker : neededSupply == TycoonItem.Kind.Tub ? game.Parts(site, TycoonPart.Kind.Shelf).FirstOrDefault(p => p.storage.slots.Any(Matches)) : null;
+        if (source == null) { Wait("Need " + label + ". Add it to this inventory or " + (neededSupply == TycoonItem.Kind.Tub ? "shelf storage." : "the assigned locker.")); return; }
         var refillTarget = inventory.slots.FirstOrDefault(i => i != null && i.kind == neededSupply && i.variant == neededVariant && i.Consumable && i.amount < i.Capacity);
         if (refillTarget == null && inventory.FreeSlot < 0) { Wait("Inventory full. Free a slot for " + label + "."); return; }
-        if (!Walk(source.operatingPoint.position, source == locker ? "locker " + locker.id : "cold storage")) return;
+        if (!Walk(source.operatingPoint.position, source == locker ? "assigned locker" : "shelf storage")) return;
         int slot = System.Array.FindIndex(source.storage.slots, i => Matches(i));
         if (refillTarget != null)
         {
@@ -312,7 +315,7 @@ public class TycoonWorker : MonoBehaviour
         if (tool < 0)
         {
             int source = upgrade;
-            if (source < 0) { status = "Need a scooper. Add one here or to locker " + locker.id + "."; return false; }
+            if (source < 0) { status = "Need a scooper. Add one here or to the assigned locker."; return false; }
             if (!locker.storage.Transfer(source, inventory)) { status = "Inventory full. Free a slot for a scooper."; return false; }
         }
         for (int i = 0; i < inventory.slots.Length; i++)
@@ -334,11 +337,11 @@ public class TycoonWorker : MonoBehaviour
             else if (kind == TycoonItem.Kind.Bowls && inventory.FreeSlot >= 0) inventory.slots[inventory.FreeSlot] = new TycoonItem(kind, 0);
             slot = inventory.Locate(kind, variant);
         }
-        if (slot < 0) { status = inventory.FreeSlot < 0 ? "Inventory full. Free a slot for supplies." : "Need " + game.catalog.Label(new TycoonItem(kind, 1, variant)) + ". Add it here or to locker " + locker.id + "."; return false; }
+        if (slot < 0) { status = inventory.FreeSlot < 0 ? "Inventory full. Free a slot for supplies." : "Need " + game.catalog.Label(new TycoonItem(kind, 1, variant)) + ". Add it here or to the assigned locker."; return false; }
         var item = inventory.slots[slot];
         foreach (var source in locker.storage.slots) if (source != null) TycoonInventory.Refill(source, item);
         for (int i = 0; i < locker.storage.slots.Length; i++) if (locker.storage.slots[i] != null && locker.storage.slots[i].amount == 0 && locker.storage.slots[i].Disposable) locker.storage.slots[i] = null;
-        if (item.amount == 0) { status = "Need " + game.catalog.Label(item) + ". Refill this inventory or locker " + locker.id + "."; return false; }
+        if (item.amount == 0) { status = "Need " + game.catalog.Label(item) + ". Refill this inventory or the assigned locker."; return false; }
         return true;
     }
     private TycoonItem Tool()

@@ -34,7 +34,7 @@ public class TycoonCatalogSO : ScriptableObject
     {
         if (item == null || item.kind == TycoonItem.Kind.None) return "Empty";
         return item.kind switch {
-            TycoonItem.Kind.Equipment => partPrefabs[item.variant].kind switch { TycoonPart.Kind.ColdStorage => "Cold storage", TycoonPart.Kind.Prep => "Prep station", TycoonPart.Kind.Tub => "Ice cream tub", TycoonPart.Kind.BusinessBoard => "Business board", TycoonPart.Kind.Register => "Order counter", TycoonPart.Kind.ServingCounter => "Pickup counter", _ => partPrefabs[item.variant].kind.ToString() },
+            TycoonItem.Kind.Equipment => partPrefabs[item.variant].kind switch { TycoonPart.Kind.Locker => partPrefabs[item.variant].storage.slots.Length + "-slot locker", TycoonPart.Kind.Prep => "Prep station", TycoonPart.Kind.Tub => "Ice cream tub", TycoonPart.Kind.BusinessBoard => "Business board", TycoonPart.Kind.Register => "Order counter", TycoonPart.Kind.ServingCounter => "Pickup counter", _ => partPrefabs[item.variant].kind.ToString() },
             TycoonItem.Kind.Tub => FlavorNames[item.variant], TycoonItem.Kind.Topping => ToppingNames[item.variant],
             TycoonItem.Kind.Bowls => "Bowls",
             TycoonItem.Kind.BasicScooper => "Basic scooper", TycoonItem.Kind.ImprovedScooper => "High quality scooper", TycoonItem.Kind.ElectricScooper => "Electric scooper",

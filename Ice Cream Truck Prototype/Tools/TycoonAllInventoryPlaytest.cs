@@ -20,11 +20,11 @@ public static class TycoonAllInventoryPlaytest
     {
         var g=TycoonGameManager.Instance;var p=g.player;var h=g.hud;g.restartRequested=true;p.manualInput=true;h.ClosePanels();g.phase=TycoonGameManager.Phase.Preparation;
         p.inventory=new TycoonInventory(8);p.Select(0);p.customerTarget=null;p.workerTarget=null;p.looseTarget=null;
-        var cold=g.Parts(0,TycoonPart.Kind.ColdStorage).First();cold.storage=new TycoonInventory(4);cold.storage.slots[0]=new TycoonItem(TycoonItem.Kind.Tub,24,1);
+        var cold=g.Parts(0,TycoonPart.Kind.Shelf).First();cold.storage=new TycoonInventory(12);cold.storage.slots[0]=new TycoonItem(TycoonItem.Kind.Tub,24,1);
         p.target=cold;p.Use(true);Refresh(h);
-        Check(h.shelfPanel.activeSelf&&!h.panel.activeSelf&&!h.inventoryPanel.activeSelf&&h.storageViews.Single(v=>v.root.activeSelf).title.text=="Cold storage","Cold storage uses compact panel and readable title");
-        await Task.Delay(100);ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/ColdStorageCompact.png");await Task.Delay(100);
-        var cases=new[]{new {inventory=cold.storage,title="Cold storage"},new {inventory=g.bike.cargo,title="Bicycle cargo"},new {inventory=new TycoonInventory(8),title="Staff locker"},new {inventory=g.truck.cargo,title="Truck cargo"},new {inventory=g.Parts(0,TycoonPart.Kind.Shelf).First().storage,title="Shelf"}};
+        Check(h.shelfPanel.activeSelf&&!h.panel.activeSelf&&!h.inventoryPanel.activeSelf&&h.storageViews.Single(v=>v.root.activeSelf).title.text=="Shelf","Shelf uses compact panel and readable title");
+        await Task.Delay(100);ScreenCapture.CaptureScreenshot("Library/CodexPlaytests/ShelfCompact.png");await Task.Delay(100);
+        var cases=new[]{new {inventory=cold.storage,title="Shelf"},new {inventory=g.bike.cargo,title="Bicycle cargo"},new {inventory=new TycoonInventory(8),title="Staff locker"},new {inventory=g.truck.cargo,title="Truck cargo"},new {inventory=g.Parts(0,TycoonPart.Kind.Shelf).First().storage,title="Shelf"}};
         var evidence=new List<string>();
         foreach(var c in cases)
         {

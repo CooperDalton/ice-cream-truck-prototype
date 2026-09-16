@@ -14,9 +14,10 @@ public class TycoonGameManager : MonoBehaviour
         public string name;
         public bool owned, open, expanded;
         public Transform origin, queuePoint, pickupQueuePoint, registerOperatingPoint, signMount;
-        public GameObject canopy, kiosk, registerCounter;
+        public GameObject canopy, registerCounter;
         public Transform paving;
         public Vector2 plotSize = new Vector2(8, 6);
+        public Vector3 PlotOffset => expanded ? Vector3.back : Vector3.zero;
         public float revenue, spawnTimer = 5;
         public int lostSales, stopDemand = 7;
         [NonSerialized] public List<TycoonActor> queue = new List<TycoonActor>();
@@ -45,7 +46,7 @@ public class TycoonGameManager : MonoBehaviour
     public float cash, xp, clock, salesToday, wagesToday;
     public float orderPatience = 90, deliveryPatience = 120;
     public int day = 1, level = 1, sales, nextId = 1;
-    public bool Paused => loadingCampaign || hud.menuOpen || phase == Phase.Results;
+    public bool Paused => loadingCampaign || hud.adminMenu.panel.activeSelf || hud.menuOpen || phase == Phase.Results;
     public int FlavorCount => level >= 6 ? 12 : level >= 4 ? 8 : level >= 2 ? 4 : 2;
     public int ToppingCount => level >= 7 ? 6 : level >= 5 ? 4 : level >= 3 ? 2 : 0;
     public string notice = "Open your stand to meet the first customer.";
@@ -98,10 +99,6 @@ public class TycoonGameManager : MonoBehaviour
     {
         if (phase != Phase.Preparation) return;
         if (!tutorial.CanOpen) { notice = "Follow the highlight"; return; }
-        foreach (var worker in workers)
-        {
-            if (worker.startDay <= day && cash >= worker.Wage && !worker.ValidateLayout()) { notice = worker.status; return; }
-        }
         clock = 0; salesToday = 0; wagesToday = 0; phase = Phase.Trading;
         foreach (var site in sites) { site.revenue = 0; site.lostSales = 0; site.spawnTimer = 5; site.stopDemand = 7; }
         foreach (var worker in workers)
@@ -190,7 +187,7 @@ public class TycoonGameManager : MonoBehaviour
         if (product < 12) { if (product >= FlavorCount) return false; item = new TycoonItem(TycoonItem.Kind.Tub, 24, product); price = TycoonCatalogSO.TubPrices[product]; }
         else if (product < 18) { int v = product - 12; if (v >= ToppingCount) return false; item = new TycoonItem(TycoonItem.Kind.Topping, 30, v); price = TycoonCatalogSO.RefillPrices[v]; }
         else if (product == 18) { item = new TycoonItem(TycoonItem.Kind.Bowls, 12); price = 3; }
-        else if (product == 19) { item = new TycoonItem(TycoonItem.Kind.Batter, 20); price = 12; }
+        else if (product == 19) { item = new TycoonItem(TycoonItem.Kind.Batter, 10); price = 6; }
         else if (product == 20) { item = new TycoonItem(TycoonItem.Kind.ImprovedScooper); price = 12; }
         else if (product == 21) { item = new TycoonItem(TycoonItem.Kind.BasicScooper); price = 6; }
         else if (product == 22) { item = new TycoonItem(TycoonItem.Kind.ElectricScooper); price = 36; }
@@ -230,48 +227,44 @@ public class TycoonGameManager : MonoBehaviour
         {
             notice = "Buy scoopers from the supply shop."; return false;
         }
-        if (choice == 1)
+        if (choice >= 1 && choice <= 3)
         {
-            if (!Spend(24)) return false;
-            DeliverEquipment(4, site);
-        }
-        if (choice == 2)
-        {
-            var locker = Parts(site, TycoonPart.Kind.Locker).FirstOrDefault(p => p.storage.slots.Length < 12);
-            if (locker == null) { notice = "Place a locker first."; return false; }
-            if (!Spend(locker.storage.slots.Length == 4 ? 48 : 88)) return false;
-            Array.Resize(ref locker.storage.slots, locker.storage.slots.Length + 4); locker.RefreshLocker();
-        }
-        if (choice == 3)
-        {
-            notice = "Buy a waffle iron and place it on a table."; return false;
+            if (!Spend(new[] { 24, 48, 88 }[choice - 1])) return false;
+            DeliverEquipment(new[] { 4, 14, 15 }[choice - 1], site);
+            notice = (choice * 4) + "-slot locker delivered behind the shop. Place it before hiring an employee.";
         }
         if (choice == 4)
         {
-            if (bike.cargo.slots.Length == 8 || !Spend(48)) return false;
+            if (bike.cargo.slots.Length == 8) { notice = "Bicycle cargo is already upgraded."; return false; }
+            if (!Spend(48)) return false;
             Array.Resize(ref bike.cargo.slots, 8);
+            notice = "Bicycle cargo upgraded to 8 slots.";
         }
         if (choice == 5)
         {
-            if (sites[site].expanded || !Spend(160)) return false;
-            sites[site].expanded = true; sites[site].plotSize.x += 2;
-            DeliverEquipment(0, site); DeliverEquipment(5, site);
-            notice="Kiosk expanded. Place the extra table and cold rack delivered behind the shop.";
+            if (sites[site].expanded) { notice = "This shop is already expanded."; return false; }
+            if (!Spend(160)) return false;
+            sites[site].expanded = true;
+            DeliverEquipment(0, site); DeliverEquipment(8, site);
+            notice="Shop expanded four rows backward. Place the extra table and shelf in the new space.";
         }
         if (choice == 6)
         {
-            if (sites[1].owned || !Spend(250)) return false;
+            if (sites[1].owned) { notice = "You already own the park stand."; return false; }
+            if (!Spend(250)) return false;
             sites[1].owned = true; Deliver(new TycoonItem(TycoonItem.Kind.ImprovedScooper), sites[1].origin.position + Vector3.up);
+            notice = "Park stand purchased. Stock it before opening.";
         }
         if (choice == 7)
         {
-            if (sites[2].owned) return false;
+            if (sites[2].owned) { notice = "You already own the truck."; return false; }
             if (!sites[0].expanded || workers.Count == 0) { notice = "Expand the home kiosk and hire an employee first."; return false; }
             if (!Spend(600)) return false;
             sites[2].owned = true; truck.gameObject.SetActive(true);
             foreach (var part in parts.Where(p => p.site == 2)) part.gameObject.SetActive(true);
             notice = "Truck purchased. Stock its kitchen and cargo before the next day.";
         }
+        if (choice == 10) { notice = "Use a shelf for spare supplies."; return false; }
         if (choice >= 8)
         {
             int index = choice - 8;
@@ -282,7 +275,8 @@ public class TycoonGameManager : MonoBehaviour
     }
     public bool Hire(int tier, int site, bool driver = false)
     {
-        if (!sites[site].owned || (driver && !sites[2].owned)) return false;
+        if (driver && !sites[2].owned) { notice = "Buy the truck before hiring a driver."; return false; }
+        if (!sites[site].owned) { notice = "Purchase this location before hiring an employee."; return false; }
         if (driver && workers.Any(w => w.driver)) { notice = "The truck already has a driver."; return false; }
         var locker = Parts(site, TycoonPart.Kind.Locker).FirstOrDefault();
         if (locker == null) { notice = "Buy and place a staff locker first."; return false; }
@@ -364,7 +358,9 @@ public class TycoonGameManager : MonoBehaviour
     {
         for (int i=0;i<2;i++)
         {
-            sites[i].canopy.SetActive(!sites[i].expanded); sites[i].kiosk.SetActive(sites[i].expanded);
+            sites[i].canopy.SetActive(true);
+            sites[i].plotSize = new Vector2(8, sites[i].expanded ? 8 : 6);
+            sites[i].paving.position = sites[i].origin.TransformPoint(sites[i].PlotOffset + Vector3.down * .01f);
             sites[i].paving.localScale = new Vector3(sites[i].plotSize.x,.04f,sites[i].plotSize.y);
         }
         bike.smallCargoModel.SetActive(bike.cargo.slots.Length==4); bike.largeCargoModel.SetActive(bike.cargo.slots.Length==8);
