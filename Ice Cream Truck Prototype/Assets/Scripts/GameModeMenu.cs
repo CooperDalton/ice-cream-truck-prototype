@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class GameModeMenu : MonoBehaviour
 {
     public bool mainMenu;
-    public Button freeDriveButton, parkRouteButton;
+    public Button freeDriveButton, parkRouteButton, tycoonButton;
     public static GameModeMenu Instance { get; private set; }
     private void Awake()
     {
@@ -14,6 +14,7 @@ public class GameModeMenu : MonoBehaviour
     private void Start()
     {
         if (!mainMenu) return;
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -26,6 +27,11 @@ public class GameModeMenu : MonoBehaviour
     {
         RouteGameManager.BeginRun();
         SceneManager.LoadScene("ParkRoute");
+    }
+    public void Tycoon()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("IceCreamTycoon");
     }
     public void ReturnToMenu()
     {

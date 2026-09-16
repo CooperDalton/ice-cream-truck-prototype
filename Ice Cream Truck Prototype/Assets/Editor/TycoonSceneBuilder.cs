@@ -227,7 +227,7 @@ public static class TycoonSceneBuilder
         MakeHUD();
         game.navigation.BuildNavMesh();
         EditorSceneManager.SaveScene(scene, path);
-        var scenes = EditorBuildSettings.scenes.ToList(); scenes.RemoveAll(s => s.path == path); scenes.Insert(0, new EditorBuildSettingsScene(path, true)); EditorBuildSettings.scenes = scenes.ToArray();
+        var scenes = EditorBuildSettings.scenes.ToList(); scenes.RemoveAll(s => s.path == path); scenes.Insert(scenes.FindIndex(s => s.path == "Assets/Scenes/MainMenu.unity") + 1, new EditorBuildSettingsScene(path, true)); EditorBuildSettings.scenes = scenes.ToArray();
         AssetDatabase.SaveAssets(); Debug.Log("TYCOON_SCENE_READY");
     }
     private static void MakeEnvironment()
