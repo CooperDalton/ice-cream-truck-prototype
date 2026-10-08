@@ -50,6 +50,18 @@ All Blender models belong in the master scene at `Ice Cream Truck Prototype/Asse
 - Save Game-view screenshots under `Library/CodexPlaytests/`.
 - Never claim a gameplay flow was tested without reporting the observed input, before/after state or screenshots, and console result.
 
+## Zombie Ice Cream Truck (Quantum) project
+
+- The multiplayer zombie demo is a separate Unity project in `Zombie Ice Cream Truck/` (Unity 6000.3.12f1, Photon Quantum 3.0.14, URP, Input System only). The tycoon prototype stays in `Ice Cream Truck Prototype/`.
+- Simulation code lives in `Assets/QuantumUser/Simulation/ZombieTruck/` and follows Quantum's rules instead of the Unity rules above: systems are stateless, all game state is declared in `.qtn` files, math uses `FP`/`FPVector3`, no `UnityEngine` types, events are Quantum DSL `event`s and signals (not `EventHandler`), and tunable data lives in Quantum `AssetObject` classes (no `SO` suffix) next to the systems.
+- Unity-side (view) code stays in `Assets/Scripts` and subscribes with `QuantumCallback.Subscribe` / `QuantumEvent.Subscribe`; it never changes game state.
+- After editing a `.qtn` file, run `Zombie Ice Cream Truck/Tools/codegen.sh`: it parks user C# outside `Assets` while Quantum codegen runs (C# that references not-yet-generated types would otherwise block the batch run) and restores it. Never park files in the project's `Temp/` folder; Unity deletes it.
+- `ZombieTruckSceneBuilder.Build` (Tools > Zombie Truck > Build Prototype Scene) regenerates every entity and effect prefab from the PS1 art in `Assets/Art/PS1`, plus `ZombieTruckSettings`, `SurvivorController`, the gameplay scene, the HUD and the online menu setup; change values there, not by hand in the generated assets. `Tools > Zombie Truck > Reimport PS1 Art` reapplies `PS1ArtPostprocessor` rules. The art itself is exported by `Art/Tools/zombie-styles/export_unity.py` (with `manifest.json` listing every socket in Unity coordinates).
+- Headless play-test: `Unity -batchmode -projectPath "<project>" -executeMethod Playtest.Run -logFile <log>` (no `-quit`). `PLAYTEST_SCENARIO` picks the flow: `drive` (default), `kitchen` (ammo loop), `showcase` (two local players, roof shooting, auto-driven run-overs, a crash), `depot` (auto-drives area 1 to the depot, buys an upgrade, rolls out), `cab` (seat and cab walking). It drives the game through virtual input devices and writes full-frame captures (game plus HUD), recorded frame sequences under `frames/` (turn into GIFs with ffmpeg) and a state log to `Library/CodexPlaytests/`.
+- `FxGallery.Capture` (Tools > Zombie Truck > Capture FX Gallery) renders every effect prefab at three moments into `Library/CodexPlaytests/fx_gallery.png`; the builder also writes top-down chunk collider maps to `Library/CodexPlaytests/colliders/`.
+- Generated assets: `Art/Tools/zombie-styles/fx_sprites.py` writes the particle atlas and HUD sprites to `Assets/Art/Sprites`, and `Art/Tools/zombie-styles/sfx_synth.py` synthesizes every sound and the music-box jingle to `Assets/Audio`. Rerun them instead of editing the outputs by hand.
+- On this Linux machine, headless `unity run` needs `DISPLAY=:0` (and `WAYLAND_DISPLAY=wayland-1`). PS1 art source scripts for the demo are in `Art/Tools/zombie-styles/`.
+
 ## Agents.md
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.

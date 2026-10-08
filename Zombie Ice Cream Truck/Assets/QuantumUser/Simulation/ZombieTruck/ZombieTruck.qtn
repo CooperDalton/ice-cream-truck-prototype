@@ -1,0 +1,257 @@
+#define PLAYER_COUNT 4
+#pragma max_players PLAYER_COUNT
+
+input {
+  FPVector2 Move;
+  FP Yaw;
+  FP Pitch;
+  FP Gesture;
+  Byte Slot;
+  button Jump;
+  button Fire;
+  button Aim;
+  button Interact;
+  button Drop;
+  button Reload;
+  button Sprint;
+}
+
+enum ItemKind : Byte {
+  None, ScoopPistol, SundaeShotgun, SprinkleSMG, LongSpoon, ConeLauncher, BananaHarpoon,
+  Scooper, Pint, Scoop, SprinkleJar, SecondScoop,
+  MilkCrate, SugarSack, CocoaBag, StrawberryBasket, MintBundle, Tub
+}
+
+enum Flavor : Byte {
+  None, Vanilla, Chocolate, Strawberry, Mint
+}
+
+// Count means: stack size for scoops, scoops in a pint or tub, rounds loaded in a gun.
+struct Item {
+  ItemKind Kind;
+  Flavor Flavor;
+  Int32 Count;
+}
+
+component PlayerLink {
+  player_ref Player;
+}
+
+component Survivor {
+  array<Item>[6] Hotbar;
+  Int32 Selected;
+  Item Carried;
+  FP Health;
+  bool Dead;
+  FP YawOffset;
+  FP Pitch;
+  entity_ref Standing;
+  bool Driving;
+  Int32 TurretSeat;
+  FP FireCooldown;
+  FP DropHeld;
+  FP WorkProgress;
+  entity_ref WorkTarget;
+  entity_ref LookTarget;
+}
+
+singleton component Truck {
+  FP Speed;
+  FP Steer;
+  player_ref Driver;
+  Int32 HopperRounds;
+  Flavor HopperFlavor;
+  FP TurretCooldown;
+  Int32 PlowLevel;
+  bool Spikes;
+  bool Armor;
+  bool Turret;
+  bool SecondTurret;
+  bool BigHopper;
+  bool Engine;
+}
+
+// Entities that ride the truck at a fixed spot (stations, items resting on it, zombies clinging to it).
+component Attached {
+  FPVector3 LocalPosition;
+  FPQuaternion LocalRotation;
+}
+
+enum StationKind : Byte {
+  Churn, Freezer, Counter, GunRack, Hopper, Bell, Turret, GunCrate, Shop, DepotExit
+}
+
+enum UpgradeKind : Byte {
+  None, Plow, Spikes, Armor, Turret, SecondTurret, BigHopper, Engine, SecondScoop
+}
+
+component Station {
+  StationKind Kind;
+  array<Item>[4] Slots;
+  Int32 Milk;
+  Int32 Sugar;
+  Flavor Flavoring;
+  bool Open;
+  UpgradeKind Upgrade;
+  Int32 Price;
+  Int32 Index;
+}
+
+component Pickup {
+  Item Item;
+  FPVector3 Velocity;
+  bool Resting;
+}
+
+component Projectile {
+  Flavor Flavor;
+  FPVector3 Velocity;
+  player_ref Owner;
+  FP Age;
+  FP Radius;
+}
+
+enum ZombieKind : Byte {
+  Walker, Sprinter, Bloater
+}
+
+enum ZombieState : Byte {
+  Chasing, Climbing, OnTruck, Dead
+}
+
+component Zombie {
+  ZombieKind Kind;
+  ZombieState State;
+  Int32 Health;
+  FP Timer;
+  FP FrozenTimer;
+  FP AttackCooldown;
+  FPVector3 Velocity;
+}
+
+enum ChunkKind : Byte {
+  Straight, Rural, CurveLeft, CurveRight, Junction, Broken, Dairy, GasStation, Garden, Wreck, Depot
+}
+
+component RoadChunk {
+  Int32 Index;
+  ChunkKind Kind;
+}
+
+// Stations and pickups placed by a road chunk; removed together with it.
+component ChunkOwned {
+  Int32 Chunk;
+}
+
+enum GamePhase : Byte {
+  Driving, Depot, Wiped
+}
+
+global {
+  GamePhase Phase;
+  FP PhaseTimer;
+  Int32 Area;
+  Int32 Money;
+  Int32 Kills;
+  FP SpawnTimer;
+  Int32 NextChunk;
+  Int32 TruckChunk;
+  Int32 AreaStartChunk;
+  FPVector3 RoadEnd;
+  FP RoadHeading;
+  entity_ref DepotChunk;
+}
+
+event ShotFired {
+  player_ref Player;
+  ItemKind Gun;
+  Flavor Flavor;
+  FPVector3 From;
+  FPVector3 To;
+}
+
+event ZombieHit {
+  player_ref Player;
+  entity_ref Zombie;
+  FPVector3 Point;
+  bool Headshot;
+  Flavor Flavor;
+}
+
+event ZombieKilled {
+  player_ref Player;
+  entity_ref Zombie;
+  ZombieKind Kind;
+  FPVector3 Position;
+  FPVector3 Impulse;
+  bool Headshot;
+  bool RunOver;
+  Flavor Flavor;
+  Int32 Reward;
+}
+
+event Explosion {
+  FPVector3 Position;
+  FP Radius;
+  Flavor Flavor;
+  bool Bloater;
+}
+
+event TruckCrashed {
+  FPVector3 Position;
+  FP Speed;
+}
+
+event GunEmpty {
+  player_ref Player;
+}
+
+event Reloaded {
+  player_ref Player;
+  Flavor Flavor;
+}
+
+event Thrown {
+  player_ref Player;
+  FPVector3 Position;
+}
+
+event TipEarned {
+  FPVector3 Position;
+  Int32 Amount;
+}
+
+event SurvivorHurt {
+  player_ref Player;
+  FP Health;
+}
+
+event SurvivorDied {
+  player_ref Player;
+}
+
+event SurvivorRevived {
+  player_ref Player;
+}
+
+event StationUsed {
+  entity_ref Station;
+  StationKind Kind;
+}
+
+event ItemPickedUp {
+  player_ref Player;
+  ItemKind Kind;
+  FPVector3 Position;
+}
+
+event Purchased {
+  UpgradeKind Upgrade;
+  Int32 Price;
+  FPVector3 Position;
+}
+
+event PhaseChanged {
+  GamePhase Phase;
+  Int32 Area;
+}

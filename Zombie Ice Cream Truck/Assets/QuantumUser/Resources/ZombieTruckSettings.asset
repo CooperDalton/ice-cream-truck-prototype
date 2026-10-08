@@ -1,0 +1,9274 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef5833497b583c96b0e0a2ce3080ae5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Simulation::Quantum.ZombieTruckSettings
+  Identifier:
+    Path: QuantumUser/Resources/ZombieTruckSettings
+    Guid:
+      Value: 366043364563494081
+  TruckPrototype:
+    Id:
+      Value: 1524504286878224568
+  SurvivorPrototypes:
+  - Id:
+      Value: 1388309986525101151
+  - Id:
+      Value: 1311705023074385436
+  - Id:
+      Value: 1334268064056635070
+  - Id:
+      Value: 1398644461303497965
+  ZombiePrototypes:
+  - Id:
+      Value: 1368033482265530514
+  - Id:
+      Value: 1305590240837836969
+  - Id:
+      Value: 1468470435046077718
+  ItemPrototypes:
+  - Id:
+      Value: 0
+  - Id:
+      Value: 1387736797815481725
+  - Id:
+      Value: 1377188912946379203
+  - Id:
+      Value: 1509650000164754395
+  - Id:
+      Value: 1485950862212858318
+  - Id:
+      Value: 1495285667144761013
+  - Id:
+      Value: 1355673573598046720
+  - Id:
+      Value: 1359005240328135874
+  - Id:
+      Value: 1382047744677416981
+  - Id:
+      Value: 1410286570561569437
+  - Id:
+      Value: 1473241715573181523
+  - Id:
+      Value: 1308767681985755033
+  - Id:
+      Value: 1312377850428802851
+  - Id:
+      Value: 1272766188173516719
+  - Id:
+      Value: 1452948486822095670
+  - Id:
+      Value: 1526121856415637944
+  - Id:
+      Value: 1452146054857008981
+  - Id:
+      Value: 1380029545812009150
+  StationPrototypes:
+  - Id:
+      Value: 1411696995059253546
+  - Id:
+      Value: 1446146283959448727
+  - Id:
+      Value: 1343914359615122374
+  - Id:
+      Value: 1344532945643743141
+  - Id:
+      Value: 1443212095850516561
+  - Id:
+      Value: 1323905017429288978
+  - Id:
+      Value: 1350840933659060823
+  - Id:
+      Value: 1492124879205992137
+  - Id:
+      Value: 1409011908579388950
+  - Id:
+      Value: 1512264924421726508
+  ChunkPrototypes:
+  - Id:
+      Value: 1529225809683291483
+  - Id:
+      Value: 1350616650215408442
+  - Id:
+      Value: 1510069361485334543
+  - Id:
+      Value: 1266878363847446793
+  - Id:
+      Value: 1307542846798118921
+  - Id:
+      Value: 1273850026304606347
+  - Id:
+      Value: 1489406349302605359
+  - Id:
+      Value: 1356164998390201841
+  - Id:
+      Value: 1426694073623804643
+  - Id:
+      Value: 1516181569112157253
+  - Id:
+      Value: 1520805499149648763
+  ProjectilePrototype:
+    Id:
+      Value: 1462329716509708224
+  SurvivorController:
+    Id:
+      Value: 273702182162451031
+  WalkSpeed:
+    RawValue: 262144
+  SprintSpeed:
+    RawValue: 458752
+  EyeHeight:
+    RawValue: 98304
+  InteractRange:
+    RawValue: 98304
+  ReachDistance:
+    RawValue: 196608
+  MaxHealth:
+    RawValue: 6553600
+  ThrowHoldTime:
+    RawValue: 16384
+  ThrowSpeedMin:
+    RawValue: 393216
+  ThrowSpeedMax:
+    RawValue: 983040
+  GestureRate:
+    RawValue: 655
+  TruckMaxSpeed:
+    RawValue: 1310720
+  EngineBonusSpeed:
+    RawValue: 393216
+  TruckReverseSpeed:
+    RawValue: 393216
+  TruckAcceleration:
+    RawValue: 393216
+  TruckBraking:
+    RawValue: 917504
+  TruckDrag:
+    RawValue: 13107
+  TruckMaxSteer:
+    RawValue: 1966080
+  TruckWheelbase:
+    RawValue: 229376
+  RunOverSpeed:
+    RawValue: 393216
+  RunOverSlowdown:
+    RawValue: 32768
+  CrowdSlowdown:
+    RawValue: 196608
+  BloaterSlowdown:
+    RawValue: 49152
+  ClimbMaxSpeed:
+    RawValue: 786432
+  CrashBounce:
+    RawValue: 16384
+  CrashMinSpeed:
+    RawValue: 196608
+  TruckColliders:
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 42598
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 6553
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 13107
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 203161
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 62259
+      Z:
+        RawValue: 186777
+    Extents:
+      X:
+        RawValue: 72089
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+  - Center:
+      X:
+        RawValue: 73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -145817
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 47513
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 80936
+      Z:
+        RawValue: -52428
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 31784
+      Z:
+        RawValue: 45875
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 177274
+      Z:
+        RawValue: -52428
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 10158
+      Z:
+        RawValue: 45875
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 73728
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 80281
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 152043
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: -52101
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 19333
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: 52101
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 19333
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 175636
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 11796
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: -52428
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 52428
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 180551
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 29491
+      Y:
+        RawValue: 6881
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: 7536
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 146472
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -185794
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 7536
+  - Center:
+      X:
+        RawValue: -22937
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -158597
+    Extents:
+      X:
+        RawValue: 52428
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 19660
+  - Center:
+      X:
+        RawValue: 71434
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -158597
+    Extents:
+      X:
+        RawValue: 3932
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 19660
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 73400
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: 152043
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 60587
+      Y:
+        RawValue: 89343
+      Z:
+        RawValue: -31457
+    Extents:
+      X:
+        RawValue: 18644
+      Y:
+        RawValue: 40191
+      Z:
+        RawValue: 32112
+  TruckHalfSize:
+    X:
+      RawValue: 85196
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 209715
+  RoofHeight:
+    RawValue: 191365
+  DriverSeat:
+    X:
+      RawValue: 36044
+    Y:
+      RawValue: 30801
+    Z:
+      RawValue: 91750
+  CabStand:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: 98304
+  LadderBottom:
+    X:
+      RawValue: 34734
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: -144179
+  HatchTop:
+    X:
+      RawValue: 48496
+    Y:
+      RawValue: 193331
+    Z:
+      RawValue: -117964
+  RearInside:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: -163840
+  RearOutside:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 3276
+    Z:
+      RawValue: -235929
+  TurretStands:
+  - X:
+      RawValue: 0
+    Y:
+      RawValue: 192675
+    Z:
+      RawValue: -85196
+  - X:
+      RawValue: -19660
+    Y:
+      RawValue: 192675
+    Z:
+      RawValue: -176947
+  TurretMuzzles:
+  - X:
+      RawValue: 0
+    Y:
+      RawValue: 224788
+    Z:
+      RawValue: 33423
+  - X:
+      RawValue: -19660
+    Y:
+      RawValue: 224788
+    Z:
+      RawValue: -64880
+  TruckStations:
+  - Chunk: 0
+    IsStation: 1
+    Station: 0
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 47841
+      Y:
+        RawValue: 49152
+      Z:
+        RawValue: 36044
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: -13644
+      Y:
+        RawValue: 47513
+      Z:
+        RawValue: 6553
+    HalfSize:
+      X:
+        RawValue: 34212
+      Y:
+        RawValue: 47513
+      Z:
+        RawValue: 28180
+  - Chunk: 0
+    IsStation: 1
+    Station: 1
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -49807
+      Y:
+        RawValue: 49151
+      Z:
+        RawValue: -145489
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 32276
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 39321
+      Y:
+        RawValue: 32276
+      Z:
+        RawValue: 21299
+  - Chunk: 0
+    IsStation: 1
+    Station: 2
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -51118
+      Y:
+        RawValue: 49151
+      Z:
+        RawValue: -52428
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 38146
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 47185
+      Y:
+        RawValue: 38146
+      Z:
+        RawValue: 20316
+  - Chunk: 0
+    IsStation: 1
+    Station: 3
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 59637
+      Y:
+        RawValue: 49151
+      Z:
+        RawValue: -104857
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 60293
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 29491
+      Y:
+        RawValue: 60293
+      Z:
+        RawValue: 11468
+  - Chunk: 0
+    IsStation: 1
+    Station: 4
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -71434
+      Y:
+        RawValue: 49152
+      Z:
+        RawValue: 26214
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 104529
+      Z:
+        RawValue: 13654
+    HalfSize:
+      X:
+        RawValue: 21626
+      Y:
+        RawValue: 35717
+      Z:
+        RawValue: 13654
+  - Chunk: 0
+    IsStation: 1
+    Station: 5
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 191365
+      Z:
+        RawValue: -81920
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 36039
+      Z:
+        RawValue: 9502
+    HalfSize:
+      X:
+        RawValue: 9972
+      Y:
+        RawValue: 36039
+      Z:
+        RawValue: 17367
+  - Chunk: 0
+    IsStation: 1
+    Station: 6
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 199229
+      Z:
+        RawValue: -29491
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 17989
+    HalfSize:
+      X:
+        RawValue: 26302
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 47546
+  - Chunk: 0
+    IsStation: 1
+    Station: 6
+    Item: 0
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -19660
+      Y:
+        RawValue: 199229
+      Z:
+        RawValue: -127795
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 17989
+    HalfSize:
+      X:
+        RawValue: 26302
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 47546
+  HopperCapacity: 120
+  RoundsPerScoop: 15
+  Zombies:
+  - Health: 2
+    Speed:
+      RawValue: 85196
+    Damage:
+      RawValue: 655360
+    AttackInterval:
+      RawValue: 65536
+    Reward: 5
+    HeadHeight:
+      RawValue: 93061
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 57671
+      Z:
+        RawValue: 19660
+  - Health: 1
+    Speed:
+      RawValue: 340787
+    Damage:
+      RawValue: 524288
+    AttackInterval:
+      RawValue: 45875
+    Reward: 5
+    HeadHeight:
+      RawValue: 78643
+    HalfSize:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 49152
+      Z:
+        RawValue: 19660
+  - Health: 5
+    Speed:
+      RawValue: 58982
+    Damage:
+      RawValue: 1310720
+    AttackInterval:
+      RawValue: 91750
+    Reward: 15
+    HeadHeight:
+      RawValue: 111411
+    HalfSize:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 39321
+  SpawnInterval:
+    RawValue: 49152
+  SpawnIntervalPerArea:
+    RawValue: 6554
+  SprinterChance:
+    RawValue: 13107
+  BloaterChance:
+    RawValue: 3277
+  ChancePerArea:
+    RawValue: 6554
+  MaxZombies: 45
+  SpawnHalfWidth:
+    RawValue: 589824
+  DespawnBehind:
+    RawValue: 3276800
+  CorpseTime:
+    RawValue: 262144
+  FreezeTime:
+    RawValue: 196608
+  SplashRadius:
+    RawValue: 98304
+  GrenadeRadius:
+    RawValue: 163840
+  BloaterRadius:
+    RawValue: 229376
+  BloaterPlayerDamage:
+    RawValue: 1966080
+  ChocolateTip: 2
+  ChunkLength:
+    RawValue: 1310720
+  AreaChunks: 30
+  ChunksAhead: 10
+  ChunkDespawnBehind:
+    RawValue: 3932160
+  CurveChance:
+    RawValue: 13107
+  WreckChance:
+    RawValue: 6554
+  StopChunks: 080000001000000017000000
+  ChunkContents:
+  - Chunk: 6
+    IsStation: 0
+    Station: 0
+    Item: 12
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -806092
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: 13107
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 6
+    IsStation: 0
+    Station: 0
+    Item: 12
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -806092
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: 85196
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 6
+    IsStation: 1
+    Station: 7
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -786432
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -163840
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 27525
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 15073
+  - Chunk: 7
+    IsStation: 0
+    Station: 0
+    Item: 13
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1323827
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: -281804
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 7
+    IsStation: 0
+    Station: 0
+    Item: 13
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1323827
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: -203161
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 7
+    IsStation: 0
+    Station: 0
+    Item: 14
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1258291
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: -242483
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 7
+    IsStation: 1
+    Station: 7
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1212416
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -98304
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 27525
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 15073
+  - Chunk: 8
+    IsStation: 0
+    Station: 0
+    Item: 15
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -711065
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: -39321
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 8
+    IsStation: 0
+    Station: 0
+    Item: 16
+    Flavor: 0
+    Count: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -711065
+      Y:
+        RawValue: 3276
+      Z:
+        RawValue: 39321
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+  - Chunk: 8
+    IsStation: 1
+    Station: 7
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -753664
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 196608
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 27525
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 15073
+  - Chunk: 9
+    IsStation: 1
+    Station: 7
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -380108
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -229376
+    Yaw:
+      RawValue: 983040
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 27525
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 15073
+  - Chunk: 10
+    IsStation: 1
+    Station: 9
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -720896
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -393216
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 91750
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 39321
+      Y:
+        RawValue: 91750
+      Z:
+        RawValue: 19660
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 1
+    Price: 60
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 655360
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 2
+    Price: 50
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 593100
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 3
+    Price: 50
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 530841
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 7
+    Price: 70
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 468582
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 4
+    Price: 100
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 406323
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 5
+    Price: 150
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 344064
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 6
+    Price: 60
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 281804
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  - Chunk: 10
+    IsStation: 1
+    Station: 8
+    Item: 0
+    Flavor: 0
+    Count: 0
+    Upgrade: 8
+    Price: 40
+    Position:
+      X:
+        RawValue: -1173094
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 219545
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 22937
+  ChunkColliders:
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -507904
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491520
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -262144
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -303104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -212992
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -188416
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 344064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 352256
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 368640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 499712
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 524288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 0
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 106496
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 647168
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 663552
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -237568
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -442368
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -253952
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -221184
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -172032
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -557056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -90112
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -98304
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -40960
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -49152
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 425984
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 614400
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 573440
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 598016
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 1
+    Center:
+      X:
+        RawValue: 589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 630784
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -606368
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -630944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -540832
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -549024
+    Extents:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -450720
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -467104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -434336
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -483488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -417952
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 327519
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524448
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -598176
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -516256
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -401568
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491680
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -565408
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -508064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -499872
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -385184
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 270175
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -319648
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 524127
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -131232
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 32607
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32607
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -319648
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 270175
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 393055
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417631
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 360287
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 425823
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 327519
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 98304
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 458591
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 98304
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 302943
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 483167
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 286559
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 499551
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 130911
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 73567
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 188255
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 524127
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 270175
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450399
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 515935
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450399
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 57183
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 204639
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 40799
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 221023
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -508064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 556895
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 335711
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532319
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 450399
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532319
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -467104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 581471
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -450720
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 581471
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: -483488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614239
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 2
+    Center:
+      X:
+        RawValue: 106335
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614239
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -549024
+    Extents:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 434176
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524448
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 417792
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 483328
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 401408
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491680
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -516256
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 507904
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 565248
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -499872
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 385024
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -270336
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -319648
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -524288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -131232
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32607
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40799
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 270175
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -393216
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417631
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -425984
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -360448
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -458752
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 98304
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 98304
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -483328
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -303104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -286720
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425823
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -131072
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450399
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -270336
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450399
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -188416
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 524127
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -73728
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -204800
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -57344
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -221184
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 515935
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 507904
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 556895
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532319
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -335872
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532319
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 581471
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 581471
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: -106496
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614239
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 3
+    Center:
+      X:
+        RawValue: 483328
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614239
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -565248
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -581632
+    Extents:
+      X:
+        RawValue: 73728
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -557056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -548864
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -565248
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -532480
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -573440
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -516096
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: 311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491520
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: 311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 163840
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 319488
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 327680
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 491520
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 598016
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 4
+    Center:
+      X:
+        RawValue: -581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 630784
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 303104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -393216
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 352256
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 368640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 5
+    Center:
+      X:
+        RawValue: 335872
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1236992
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -606208
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1064960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -589824
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1277952
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -598016
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1155072
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -598016
+    Extents:
+      X:
+        RawValue: 57344
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1024000
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1114112
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -548864
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1089536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 106496
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1875968
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -229376
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1220608
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -229376
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1089536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -458752
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1548288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1138688
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -458752
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1040384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 647168
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 663552
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1204224
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -327680
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -237568
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1171456
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -253952
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -442368
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -253952
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -221184
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -172032
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1097728
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -147456
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1130496
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -139264
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -557056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -90112
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1163264
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -122880
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -98304
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -106496
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -892928
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -57344
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -40960
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -49152
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 425984
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1548288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+    Extents:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1433600
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 172032
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1482752
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 180224
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1376256
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 172032
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1499136
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 172032
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1515520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 172032
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 180224
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -704512
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 229376
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1384448
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 237568
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1433600
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 253952
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -696320
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 319488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1433600
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 434176
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1843200
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 163840
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1662976
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 376832
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1679360
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1638400
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1695744
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1613824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425984
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1294336
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -712704
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1318912
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450560
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1859584
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1597440
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 450560
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1335296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 466944
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1703936
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 466944
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1581056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 458752
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1269760
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1753088
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 466944
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -966656
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1630208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 458752
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1564672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 491520
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -892928
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 57344
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1302528
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -991232
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -827392
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 475136
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1679360
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 499712
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 516096
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1859584
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 516096
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1744896
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 524288
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1712128
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 614400
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 573440
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 589824
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 598016
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1859584
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 622592
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: -1425408
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 622592
+    Extents:
+      X:
+        RawValue: 409600
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 6
+    Center:
+      X:
+        RawValue: 589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 630784
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -507904
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491520
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -704512
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -507904
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -245760
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -262144
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -245760
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1499136
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -212992
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -303104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -212992
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -188416
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1875968
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 196608
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 376832
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -163840
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1892352
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1646592
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -147456
+    Extents:
+      X:
+        RawValue: 221184
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1015808
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -139264
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1753088
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -106496
+    Extents:
+      X:
+        RawValue: 81920
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1441792
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -122880
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1425408
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -106496
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1409024
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -90112
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1392640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -73728
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -57344
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -40960
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -24576
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1441792
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 294912
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1040384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -8192
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -991232
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1908736
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1015808
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1605632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 155648
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 237568
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1040384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 253952
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -991232
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 286720
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1605632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 106496
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1015808
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 344064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 352256
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 368640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1015808
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 442368
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 499712
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 524288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1662976
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 204800
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1400832
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 606208
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1417216
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614400
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1384448
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614400
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 7
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 614400
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 106496
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1163264
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -475136
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 73728
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1581056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 204800
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 647168
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1777664
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -311296
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 163840
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1384448
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -311296
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 163840
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1089536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1343488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -417792
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1368064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 663552
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1318912
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -311296
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -303104
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1359872
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -286720
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -491520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -237568
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -442368
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -253952
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -245760
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -221184
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1343488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -221184
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -450560
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1245184
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -188416
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1081344
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -188416
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1171456
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -163840
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -163840
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -466944
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -172032
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1581056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -155648
+    Extents:
+      X:
+        RawValue: 188416
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -155648
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1024000
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -155648
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -557056
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -90112
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -909312
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 131072
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -786432
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -8192
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -606208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -98304
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -884736
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -729088
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -90112
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -745472
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -73728
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -40960
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -49152
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 425984
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -802816
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -327680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 212992
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1769472
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1646592
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1302528
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1064960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1744896
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 286720
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1662976
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 286720
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1630208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 286720
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1540096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1400832
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 286720
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1327104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1286144
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1179648
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1089536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1040384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 278528
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1531904
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1318912
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1171456
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1646592
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1531904
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1286144
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1073152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1769472
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1662976
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1622016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1548288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1515520
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1417216
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1310720
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1269760
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1089536
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 417792
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1048576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 409600
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 401408
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1761280
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 425984
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1630208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1302528
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1179648
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 434176
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1056768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 434176
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1630208
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1171456
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 548864
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1761280
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1646592
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 548864
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1613824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 548864
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1531904
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 548864
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1409024
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1294336
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1196032
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1155072
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1064960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 540672
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 532480
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 614400
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 573440
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1794048
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 548864
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1400832
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 557056
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1769472
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1286144
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: -1064960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 598016
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 8
+    Center:
+      X:
+        RawValue: 589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 630784
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -581666
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -507904
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -622626
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524288
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -540706
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491520
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -516130
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -491554
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -573474
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -540706
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -565282
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -335872
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -557090
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -319488
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -491554
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -303104
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -450594
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -286720
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -475170
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -262144
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 303069
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -262144
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -483362
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -221184
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -507938
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -24576
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 188416
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -491554
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -73728
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -458786
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -73728
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 106496
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -532514
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 180224
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -417826
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -81920
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -376866
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -122880
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -557090
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 155648
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -385058
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -81920
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -573474
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 131072
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -393250
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -49152
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -589858
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -606242
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -426018
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -450594
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 57344
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -622626
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -475170
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 90112
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -639010
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 114688
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -491554
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 122880
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -458786
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 98304
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -655394
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -819234
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 180224
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -737314
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 196608
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -786466
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -663586
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 212992
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -540706
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 204800
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -704546
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 221184
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 352221
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 327645
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 376797
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: -303138
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 573405
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 516061
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 499712
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 622557
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 524253
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 9
+    Center:
+      X:
+        RawValue: 597981
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565248
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -892928
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -581632
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1007616
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -958464
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -565248
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -892928
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -548864
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -851968
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524288
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -589824
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -507904
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -876544
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524288
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -827392
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -524288
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -540672
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -491520
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -499712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -483328
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -450560
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1810432
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 0
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 311296
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1835008
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -286720
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1482752
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -278528
+    Extents:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1826816
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 294912
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -262144
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1671168
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -237568
+    Extents:
+      X:
+        RawValue: 114688
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1204224
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -196608
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1171456
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -196608
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 65536
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -303104
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -212992
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -188416
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1843200
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -131072
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: -147456
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1900544
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 131072
+    Extents:
+      X:
+        RawValue: 49152
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 81920
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1187840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 139264
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1269760
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 237568
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 40960
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1351680
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 245760
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1302528
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 262144
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -704512
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 262144
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1843200
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 270336
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1597440
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 270336
+    Extents:
+      X:
+        RawValue: 204800
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1523712
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 303104
+    Extents:
+      X:
+        RawValue: 278528
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1409024
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 344064
+    Extents:
+      X:
+        RawValue: 163840
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 344064
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 360448
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 32768
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 319488
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 352256
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 368640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 368640
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1540096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1261568
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 147456
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -311296
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 393216
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 581632
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 507904
+    Extents:
+      X:
+        RawValue: 40960
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 49152
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 516096
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 499712
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 630784
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 8192
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 24576
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 524288
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 532480
+    Extents:
+      X:
+        RawValue: 16384
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: 598016
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 565248
+    Extents:
+      X:
+        RawValue: 24576
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 8192
+  - Chunk: 10
+    Center:
+      X:
+        RawValue: -1392640
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 638976
+    Extents:
+      X:
+        RawValue: 114688
+      Y:
+        RawValue: 85196
+      Z:
+        RawValue: 16384
+  DepotParking:
+    X:
+      RawValue: -917504
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 98304
+  DepotParkRadius:
+    RawValue: 393216
+  WipeResetTime:
+    RawValue: 262144
+  StartingRounds: 16
