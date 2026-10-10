@@ -4,8 +4,19 @@ namespace Quantum
 
     public static partial class DeterministicSystemSetup
     {
+        // The runtime config picks the game mode: the Divorced Dads scene sets DadsSettings, the zombie scene Settings.
         static partial void AddSystemsUser(ICollection<SystemBase> systems, RuntimeConfig gameConfig, SimulationConfig simulationConfig, SystemsConfig systemsConfig)
         {
+            if (gameConfig.DadsSettings.IsValid)
+            {
+                systems.Add(new DadsSetupSystem());
+                systems.Add(new DayCycleSystem());
+                systems.Add(new DadSystem());
+                systems.Add(new VanSystem());
+                systems.Add(new NpcSystem());
+                systems.Add(new GlobSystem());
+                return;
+            }
             systems.Add(new GameSetupSystem());
             systems.Add(new RoadSystem());
             systems.Add(new SurvivorSystem());

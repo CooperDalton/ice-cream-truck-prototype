@@ -42,8 +42,9 @@ public class PS1ArtPostprocessor : AssetPostprocessor
         importer.importLights = false;
         importer.importAnimation = false;
         importer.animationType = ModelImporterAnimationType.None;
-        // ZombieTruckSceneBuilder reads road and stop triangles to generate the chunk colliders.
-        importer.isReadable = assetPath.StartsWith(ArtFolder + "Road/") || assetPath.StartsWith(ArtFolder + "Stops/");
+        // ZombieTruckSceneBuilder reads road and stop triangles to generate the chunk colliders, DivorcedDadsSceneBuilder the
+        // Divorced Dads town blocks.
+        importer.isReadable = assetPath.StartsWith(ArtFolder + "Road/") || assetPath.StartsWith(ArtFolder + "Stops/") || assetPath.StartsWith(ArtFolder + "Dads Town/");
         importer.materialImportMode = ModelImporterMaterialImportMode.ImportViaMaterialDescription;
         importer.materialLocation = ModelImporterMaterialLocation.InPrefab;
     }

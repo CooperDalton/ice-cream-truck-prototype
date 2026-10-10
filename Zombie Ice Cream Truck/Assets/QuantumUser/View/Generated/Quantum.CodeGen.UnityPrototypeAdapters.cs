@@ -50,6 +50,50 @@ namespace Quantum.Prototypes.Unity {
   #endif //;
   
   [System.SerializableAttribute()]
+  public unsafe partial class DadPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.DadPrototype> {
+    public PlayerRef Player;
+    [ArrayLengthAttribute(4)]
+    public Quantum.Prototypes.DadSlotPrototype[] Hotbar = new Quantum.Prototypes.DadSlotPrototype[4];
+    public Int32 Selected;
+    public Quantum.Prototypes.DadSlotPrototype Carried;
+    public FP YawOffset;
+    public FP Pitch;
+    public Quantum.QuantumEntityPrototype Standing;
+    public QBoolean Driving;
+    public QBoolean Turret;
+    public FP FireCooldown;
+    public FP DropHeld;
+    public Quantum.QuantumEntityPrototype LookTarget;
+    public FP Knocked;
+    public FPVector3 Fling;
+    public FP Coughing;
+    public FP Frozen;
+    public FP Busted;
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.DadPrototype prototype);
+    public override Quantum.Prototypes.DadPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.DadPrototype();
+      converter.Convert(this.Player, out result.Player);
+      converter.Convert(this.Hotbar, out result.Hotbar);
+      converter.Convert(this.Selected, out result.Selected);
+      converter.Convert(this.Carried, out result.Carried);
+      converter.Convert(this.YawOffset, out result.YawOffset);
+      converter.Convert(this.Pitch, out result.Pitch);
+      converter.Convert(this.Standing, out result.Standing);
+      converter.Convert(this.Driving, out result.Driving);
+      converter.Convert(this.Turret, out result.Turret);
+      converter.Convert(this.FireCooldown, out result.FireCooldown);
+      converter.Convert(this.DropHeld, out result.DropHeld);
+      converter.Convert(this.LookTarget, out result.LookTarget);
+      converter.Convert(this.Knocked, out result.Knocked);
+      converter.Convert(this.Fling, out result.Fling);
+      converter.Convert(this.Coughing, out result.Coughing);
+      converter.Convert(this.Frozen, out result.Frozen);
+      converter.Convert(this.Busted, out result.Busted);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
   public unsafe partial class SurvivorPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SurvivorPrototype> {
     [ArrayLengthAttribute(6)]
     public Quantum.Prototypes.ItemPrototype[] Hotbar = new Quantum.Prototypes.ItemPrototype[6];
@@ -85,6 +129,38 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.WorkProgress, out result.WorkProgress);
       converter.Convert(this.WorkTarget, out result.WorkTarget);
       converter.Convert(this.LookTarget, out result.LookTarget);
+      ConvertUser(converter, ref result);
+      return result;
+    }
+  }
+  [System.SerializableAttribute()]
+  public unsafe partial class VanPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.VanPrototype> {
+    public FP Speed;
+    public FP Steer;
+    public PlayerRef Driver;
+    public QBoolean Jingle;
+    public FP Honk;
+    public FP Bell;
+    public FP BellCooldown;
+    public Int32 HopperRounds;
+    public Quantum.QEnum8<Treat> HopperTreat;
+    public FP Shake;
+    [ArrayLengthAttribute(6)]
+    public Quantum.QuantumEntityPrototype[] Queue = new Quantum.QuantumEntityPrototype[6];
+    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.VanPrototype prototype);
+    public override Quantum.Prototypes.VanPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
+      var result = new Quantum.Prototypes.VanPrototype();
+      converter.Convert(this.Speed, out result.Speed);
+      converter.Convert(this.Steer, out result.Steer);
+      converter.Convert(this.Driver, out result.Driver);
+      converter.Convert(this.Jingle, out result.Jingle);
+      converter.Convert(this.Honk, out result.Honk);
+      converter.Convert(this.Bell, out result.Bell);
+      converter.Convert(this.BellCooldown, out result.BellCooldown);
+      converter.Convert(this.HopperRounds, out result.HopperRounds);
+      converter.Convert(this.HopperTreat, out result.HopperTreat);
+      converter.Convert(this.Shake, out result.Shake);
+      converter.Convert(this.Queue, out result.Queue);
       ConvertUser(converter, ref result);
       return result;
     }

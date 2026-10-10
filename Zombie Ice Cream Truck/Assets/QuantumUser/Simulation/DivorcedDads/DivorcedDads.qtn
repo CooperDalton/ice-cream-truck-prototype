@@ -1,0 +1,384 @@
+// Divorced Dads: a separate game mode in its own scene. It shares only the input struct with the zombie mode
+// (ZombieTruck.qtn); every component, enum and event here is its own.
+
+enum Treat : Byte {
+  None, Mud, Strawberry, Coffee, RockyRoad, GoldLeaf
+}
+
+// Items from MudBucket onward are bulky ingredients: carried in both hands instead of the hotbar.
+enum DadItem : Byte {
+  None, Cone, ScoopPistol, SundaeShotgun,
+  MudBucket, StrawberryBasket, IcedCoffee, NutSack, GoldLeaf
+}
+
+// Count means: scoops on a cone, shots left in a gun. Cones stack scoops bottom to top; guns use Scoops[0] as the
+// loaded flavor.
+struct DadSlot {
+  DadItem Kind;
+  Int32 Count;
+  array<Treat>[3] Scoops;
+}
+
+component Dad {
+  player_ref Player;
+  array<DadSlot>[4] Hotbar;
+  Int32 Selected;
+  DadSlot Carried;
+  FP YawOffset;
+  FP Pitch;
+  entity_ref Standing;
+  bool Driving;
+  bool Turret;
+  FP FireCooldown;
+  FP DropHeld;
+  entity_ref LookTarget;
+  FP Knocked;
+  FPVector3 Fling;
+  FP Coughing;
+  FP Frozen;
+  FP Busted;
+}
+
+enum DayPhase : Byte {
+  Morning, Day, Dusk, Night, Collection, Won, Repo
+}
+
+singleton component Van {
+  FP Speed;
+  FP Steer;
+  player_ref Driver;
+  bool Jingle;
+  FP Honk;
+  FP Bell;
+  FP BellCooldown;
+  Int32 HopperRounds;
+  Treat HopperTreat;
+  FP Shake;
+  array<entity_ref>[6] Queue;
+}
+
+singleton component DadsRun {
+  DayPhase Phase;
+  Int32 Day;
+  FP Clock;
+  FP PhaseTimer;
+  Int32 Money;
+  Int32 Debt;
+  Int32 Carry;
+  Int32 Due;
+  Int32 Paid;
+  Int32 Strikes;
+  FP Heat;
+  Int32 ConeSize;
+  bool Loudspeaker;
+  bool Minigun;
+  bool Shotgun;
+  bool Pistol;
+  Int32 Permits;
+  Int32 KidsFed;
+  Int32 Earned;
+  FP SpawnTimer;
+  FP CopTimer;
+  bool FatKidSpawned;
+}
+
+// Entities that ride the van at a fixed spot (kitchen fixtures, dropped items resting on it).
+component Riding {
+  FPVector3 LocalPosition;
+  FPQuaternion LocalRotation;
+}
+
+enum FixtureKind : Byte {
+  Churn, Tub, ConeCounter, GunRack, Hopper, Bell, Turret,
+  Shop, Collector, TimeClock,
+  MudPuddle, StrawberryPatch, CoffeeTable, NutTree, Vault, Plate, Gate
+}
+
+enum Upgrade : Byte {
+  None, ScoopPistol, WaffleCone, DoubleWaffle, SundaeShotgun, Loudspeaker, Minigun, MapleGrovePermit, HillsidePermit
+}
+
+// Count: scoops in a tub, nut tree hits. Timer: churn progress, regrow and cooldown timers.
+// Index: tub slot, gate district, shop slot.
+component Fixture {
+  FixtureKind Kind;
+  Int32 Index;
+  Treat Treat;
+  Int32 Count;
+  DadItem Input;
+  FP Timer;
+  bool Open;
+  Upgrade Upgrade;
+  Int32 Price;
+  array<DadSlot>[4] Slots;
+}
+
+component Loot {
+  DadSlot Item;
+  FPVector3 Velocity;
+  bool Resting;
+}
+
+component Cash {
+  Int32 Amount;
+  FPVector3 Velocity;
+  FP Age;
+  bool Resting;
+}
+
+component Glob {
+  Treat Treat;
+  FPVector3 Velocity;
+  player_ref Owner;
+  FP Age;
+  Int32 Bites;
+}
+
+component Gas {
+  FP Timer;
+  FP Radius;
+}
+
+enum NpcKind : Byte {
+  Kid, FatKid, LactoseKid, DiabeticKid, RichKid, Cop
+}
+
+enum NpcState : Byte {
+  Wander, Approach, Queue, Happy, Flee, Tumble, Home, Chase, Break, Hyper
+}
+
+component Npc {
+  NpcKind Kind;
+  NpcState State;
+  Int32 Look;
+  Int32 District;
+  FPVector3 Home;
+  FPVector3 Goal;
+  FPVector3 Velocity;
+  FP Timer;
+  Int32 Hunger;
+  Int32 Fed;
+  Int32 Tab;
+  Treat Wants;
+  bool GotWanted;
+  bool Alerted;
+  FP Gassy;
+  FP SlamCooldown;
+  Int32 QueueSlot;
+  Int32 Spot;
+  Int32 Leg;
+}
+
+event Shoved {
+  player_ref Player;
+  entity_ref Target;
+  FPVector3 Point;
+  Treat Treat;
+  bool Whiff;
+}
+
+event GlobFired {
+  player_ref Player;
+  DadItem Gun;
+  Treat Treat;
+  FPVector3 From;
+  FPVector3 Direction;
+  bool Turret;
+}
+
+event GlobSplat {
+  FPVector3 Point;
+  FPVector3 Normal;
+  Treat Treat;
+  entity_ref Target;
+}
+
+event KidFed {
+  entity_ref Kid;
+  NpcKind Kind;
+  Treat Treat;
+  bool Wanted;
+  FPVector3 Position;
+}
+
+event KidPaid {
+  entity_ref Kid;
+  NpcKind Kind;
+  Int32 Amount;
+  bool Tip;
+  FPVector3 Position;
+}
+
+event KidRefused {
+  entity_ref Kid;
+  FPVector3 Position;
+}
+
+event SugarAlert {
+  entity_ref Kid;
+  FPVector3 Position;
+}
+
+event UhOh {
+  entity_ref Kid;
+  FPVector3 Position;
+}
+
+event GasReleased {
+  FPVector3 Position;
+  FP Radius;
+}
+
+event NpcKnocked {
+  entity_ref Npc;
+  NpcKind Kind;
+  FPVector3 Position;
+  FP Speed;
+  bool Happy;
+}
+
+event DadKnocked {
+  player_ref Player;
+  FPVector3 Position;
+}
+
+event DadBusted {
+  player_ref Player;
+  Int32 Fine;
+  FPVector3 Position;
+}
+
+event Ticketed {
+  Int32 Fine;
+  FPVector3 Position;
+}
+
+event CopBribed {
+  entity_ref Cop;
+  Int32 Amount;
+  FPVector3 Position;
+}
+
+event CopSpotted {
+  entity_ref Cop;
+  FPVector3 Position;
+}
+
+event CashCollected {
+  player_ref Player;
+  Int32 Amount;
+  FPVector3 Position;
+}
+
+event Churned {
+  entity_ref Fixture;
+  Treat Treat;
+}
+
+event ChurnStarted {
+  entity_ref Fixture;
+  DadItem Input;
+}
+
+event ScoopAdded {
+  player_ref Player;
+  Treat Treat;
+  Int32 Count;
+  entity_ref Tub;
+}
+
+event Refilled {
+  player_ref Player;
+  Treat Treat;
+}
+
+event ConeTaken {
+  player_ref Player;
+}
+
+event PickedUp {
+  player_ref Player;
+  DadItem Kind;
+  FPVector3 Position;
+}
+
+event Gathered {
+  player_ref Player;
+  DadItem Kind;
+  FPVector3 Position;
+  entity_ref Fixture;
+}
+
+event Theft {
+  FPVector3 Position;
+}
+
+event TreeShaken {
+  entity_ref Tree;
+  Int32 Nuts;
+}
+
+event VaultChanged {
+  entity_ref Vault;
+  bool Open;
+}
+
+event GateOpened {
+  entity_ref Gate;
+}
+
+event Bought {
+  Upgrade Upgrade;
+  Int32 Price;
+  FPVector3 Position;
+}
+
+event Honked {
+  FPVector3 Position;
+}
+
+event BellRung {
+  FPVector3 Position;
+}
+
+event JingleToggled {
+  bool On;
+}
+
+event FatKidArrived {
+  entity_ref Kid;
+  FPVector3 Position;
+}
+
+event VanSlammed {
+  FPVector3 Position;
+  Int32 Stolen;
+}
+
+event VanCrashed {
+  FPVector3 Position;
+  FP Speed;
+}
+
+event DayPhaseChanged {
+  DayPhase Phase;
+  Int32 Day;
+}
+
+event Collected {
+  Int32 Day;
+  Int32 Due;
+  Int32 Paid;
+  Int32 Strikes;
+  Int32 Debt;
+}
+
+event BrainFreeze {
+  player_ref Player;
+  Treat Treat;
+}
+
+event ItemThrown {
+  player_ref Player;
+  FPVector3 Position;
+}

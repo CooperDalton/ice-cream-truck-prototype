@@ -1,0 +1,5383 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1f4bc0a28afb28abcb4a598e3000e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Quantum.Simulation::Quantum.DadsSettings
+  Identifier:
+    Path: QuantumUser/Resources/DadsSettings
+    Guid:
+      Value: 471273939809157274
+  VanPrototype:
+    Id:
+      Value: 1480077317459260456
+  DadPrototypes:
+  - Id:
+      Value: 1529797915901343507
+  - Id:
+      Value: 1473774566798983301
+  - Id:
+      Value: 1308577430664743599
+  - Id:
+      Value: 1517679619747265216
+  NpcPrototypes:
+  - Id:
+      Value: 1332907595271445915
+  - Id:
+      Value: 1267380078357497264
+  - Id:
+      Value: 1454041031120771652
+  - Id:
+      Value: 1449949615132046014
+  - Id:
+      Value: 1508099184400289235
+  - Id:
+      Value: 1367634499011414575
+  KidLooks:
+  - Id:
+      Value: 1332907595271445915
+  - Id:
+      Value: 1476669729506529853
+  - Id:
+      Value: 1348135691711713546
+  - Id:
+      Value: 1283905283680917874
+  FixturePrototypes:
+  - Id:
+      Value: 1516592104235556299
+  - Id:
+      Value: 1337354234942067431
+  - Id:
+      Value: 1369089502220961330
+  - Id:
+      Value: 1276541760386752119
+  - Id:
+      Value: 1474569039866735192
+  - Id:
+      Value: 1519396631317023332
+  - Id:
+      Value: 1439668156859335474
+  - Id:
+      Value: 1325530260985452778
+  - Id:
+      Value: 1485615842601951931
+  - Id:
+      Value: 1326478765626378775
+  - Id:
+      Value: 1419603602988416087
+  - Id:
+      Value: 1520648714739617224
+  - Id:
+      Value: 1467567979822789826
+  - Id:
+      Value: 1362649567277539616
+  - Id:
+      Value: 1532160750855449867
+  - Id:
+      Value: 1323338481870816612
+  - Id:
+      Value: 1385447839115986048
+  LootPrototypes:
+  - Id:
+      Value: 0
+  - Id:
+      Value: 1269344437739808372
+  - Id:
+      Value: 1333989122021093609
+  - Id:
+      Value: 1446523240175179341
+  - Id:
+      Value: 1529645928352531369
+  - Id:
+      Value: 1382962440338202839
+  - Id:
+      Value: 1422572575140698582
+  - Id:
+      Value: 1439896010143594418
+  - Id:
+      Value: 1532466693107856814
+  CashPrototype:
+    Id:
+      Value: 1332870687802731994
+  GlobPrototype:
+    Id:
+      Value: 1461001602374969616
+  GasPrototype:
+    Id:
+      Value: 1450711082588448219
+  DadController:
+    Id:
+      Value: 287719010571826871
+  WalkSpeed:
+    RawValue: 262144
+  SprintSpeed:
+    RawValue: 425984
+  EyeHeight:
+    RawValue: 98304
+  InteractRange:
+    RawValue: 98304
+  ReachDistance:
+    RawValue: 196608
+  ThrowHoldTime:
+    RawValue: 16384
+  ThrowSpeedMin:
+    RawValue: 393216
+  ThrowSpeedMax:
+    RawValue: 983040
+  KnockTime:
+    RawValue: 147456
+  BustedTime:
+    RawValue: 196608
+  FrozenTime:
+    RawValue: 81920
+  VanMaxSpeed:
+    RawValue: 1048576
+  VanReverseSpeed:
+    RawValue: 393216
+  VanAcceleration:
+    RawValue: 458752
+  VanBraking:
+    RawValue: 917504
+  VanDrag:
+    RawValue: 13107
+  VanMaxSteer:
+    RawValue: 2097152
+  VanWheelbase:
+    RawValue: 229376
+  CrashBounce:
+    RawValue: 16384
+  CrashMinSpeed:
+    RawValue: 196608
+  KnockSpeed:
+    RawValue: 229376
+  VanColliders:
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 42598
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 6553
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 13107
+    Extents:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 203161
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 62259
+      Z:
+        RawValue: 186777
+    Extents:
+      X:
+        RawValue: 72089
+      Y:
+        RawValue: 32768
+      Z:
+        RawValue: 32768
+  - Center:
+      X:
+        RawValue: 73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -145817
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 47513
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 80936
+      Z:
+        RawValue: -52428
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 31784
+      Z:
+        RawValue: 45875
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 177274
+      Z:
+        RawValue: -52428
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 10158
+      Z:
+        RawValue: 45875
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 73728
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 80281
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 152043
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: -52101
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 19333
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: 52101
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 19333
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 175636
+      Z:
+        RawValue: 62259
+    Extents:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 11796
+      Z:
+        RawValue: 1638
+  - Center:
+      X:
+        RawValue: -52428
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 52428
+      Y:
+        RawValue: 118292
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 69140
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 180551
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 29491
+      Y:
+        RawValue: 6881
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: 7536
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 146472
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -185794
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 7536
+  - Center:
+      X:
+        RawValue: -22937
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -158597
+    Extents:
+      X:
+        RawValue: 52428
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 19660
+  - Center:
+      X:
+        RawValue: 71434
+      Y:
+        RawValue: 189399
+      Z:
+        RawValue: -158597
+    Extents:
+      X:
+        RawValue: 3932
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 19660
+  - Center:
+      X:
+        RawValue: -73400
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 73400
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -19660
+    Extents:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 173670
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: 152043
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 209715
+      Z:
+        RawValue: -191365
+    Extents:
+      X:
+        RawValue: 75366
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 1966
+  - Center:
+      X:
+        RawValue: 60587
+      Y:
+        RawValue: 89343
+      Z:
+        RawValue: -31457
+    Extents:
+      X:
+        RawValue: 18644
+      Y:
+        RawValue: 40191
+      Z:
+        RawValue: 32112
+  VanHalfSize:
+    X:
+      RawValue: 85196
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: 209715
+  RoofHeight:
+    RawValue: 191365
+  DriverSeat:
+    X:
+      RawValue: 36044
+    Y:
+      RawValue: 30801
+    Z:
+      RawValue: 91750
+  CabStand:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: 98304
+  LadderBottom:
+    X:
+      RawValue: 34734
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: -144179
+  HatchTop:
+    X:
+      RawValue: 48496
+    Y:
+      RawValue: 193331
+    Z:
+      RawValue: -117964
+  RearInside:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 52428
+    Z:
+      RawValue: -163840
+  RearOutside:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 3276
+    Z:
+      RawValue: -235929
+  TurretStand:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 192675
+    Z:
+      RawValue: -85196
+  TurretMuzzle:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 224788
+    Z:
+      RawValue: 33423
+  WindowOutside:
+    X:
+      RawValue: -173670
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -52428
+  VanFixtures:
+  - Kind: 0
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 47841
+      Y:
+        RawValue: 49152
+      Z:
+        RawValue: 36044
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: -13644
+      Y:
+        RawValue: 47513
+      Z:
+        RawValue: 6553
+    HalfSize:
+      X:
+        RawValue: 34212
+      Y:
+        RawValue: 47513
+      Z:
+        RawValue: 28180
+    Trigger: 0
+  - Kind: 2
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -51118
+      Y:
+        RawValue: 49151
+      Z:
+        RawValue: -52428
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 38146
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 47185
+      Y:
+        RawValue: 38146
+      Z:
+        RawValue: 20316
+    Trigger: 0
+  - Kind: 3
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 59637
+      Y:
+        RawValue: 49151
+      Z:
+        RawValue: -104857
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 60293
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 29491
+      Y:
+        RawValue: 60293
+      Z:
+        RawValue: 11468
+    Trigger: 0
+  - Kind: 4
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -71434
+      Y:
+        RawValue: 49152
+      Z:
+        RawValue: 26214
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 1966
+      Y:
+        RawValue: 104529
+      Z:
+        RawValue: 13654
+    HalfSize:
+      X:
+        RawValue: 21626
+      Y:
+        RawValue: 35717
+      Z:
+        RawValue: 13654
+    Trigger: 0
+  - Kind: 5
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 191365
+      Z:
+        RawValue: -81920
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 36039
+      Z:
+        RawValue: 9502
+    HalfSize:
+      X:
+        RawValue: 9972
+      Y:
+        RawValue: 36039
+      Z:
+        RawValue: 17367
+    Trigger: 0
+  - Kind: 6
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 199229
+      Z:
+        RawValue: -29491
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 17989
+    HalfSize:
+      X:
+        RawValue: 26302
+      Y:
+        RawValue: 34655
+      Z:
+        RawValue: 47546
+    Trigger: 0
+  - Kind: 1
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -49807
+      Y:
+        RawValue: 96337
+      Z:
+        RawValue: -174981
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 17039
+      Y:
+        RawValue: 27525
+      Z:
+        RawValue: 9175
+    Trigger: 0
+  - Kind: 1
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -49807
+      Y:
+        RawValue: 96337
+      Z:
+        RawValue: -155320
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 17039
+      Y:
+        RawValue: 27525
+      Z:
+        RawValue: 9175
+    Trigger: 0
+  - Kind: 1
+    Index: 2
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -49807
+      Y:
+        RawValue: 96337
+      Z:
+        RawValue: -135659
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 17039
+      Y:
+        RawValue: 27525
+      Z:
+        RawValue: 9175
+    Trigger: 0
+  - Kind: 1
+    Index: 3
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -49807
+      Y:
+        RawValue: 96337
+      Z:
+        RawValue: -115998
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: -19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 17039
+      Y:
+        RawValue: 27525
+      Z:
+        RawValue: 9175
+    Trigger: 0
+  HopperCapacity: 120
+  RoundsPerScoop: 4
+  ShoveRange:
+    RawValue: 212992
+  ShoveAngle:
+    RawValue: 2621440
+  ShoveCooldown:
+    RawValue: 32768
+  PistolClip: 10
+  PistolRefill: 3
+  ShotgunClip: 6
+  ShotgunRefill: 5
+  ShotgunPellets: 6
+  GlobSpeed:
+    RawValue: 1572864
+  GlobGravity:
+    RawValue: 458752
+  GlobRadius:
+    RawValue: 32768
+  SplashRadius:
+    RawValue: 98304
+  TubCapacity: 16
+  ChurnTime:
+    RawValue: 98304
+  ScoopsPerBatch: 8
+  TreatValues: 000000000100000002000000030000000400000008000000
+  WantedTip: 3
+  RichMultiplier: 3
+  HyperTime:
+    RawValue: 327680
+  CashMagnetRange:
+    RawValue: 524288
+  CashLifetime:
+    RawValue: 2621440
+  Npcs:
+  - Hunger: 3
+    WalkSpeed:
+      RawValue: 104857
+    RunSpeed:
+      RawValue: 235929
+    Height:
+      RawValue: 78643
+    Radius:
+      RawValue: 19660
+  - Hunger: 24
+    WalkSpeed:
+      RawValue: 85196
+    RunSpeed:
+      RawValue: 275251
+    Height:
+      RawValue: 104857
+    Radius:
+      RawValue: 36044
+  - Hunger: 3
+    WalkSpeed:
+      RawValue: 104857
+    RunSpeed:
+      RawValue: 235929
+    Height:
+      RawValue: 78643
+    Radius:
+      RawValue: 19660
+  - Hunger: 3
+    WalkSpeed:
+      RawValue: 104857
+    RunSpeed:
+      RawValue: 235929
+    Height:
+      RawValue: 78643
+    Radius:
+      RawValue: 19660
+  - Hunger: 4
+    WalkSpeed:
+      RawValue: 98304
+    RunSpeed:
+      RawValue: 222822
+    Height:
+      RawValue: 81920
+    Radius:
+      RawValue: 19660
+  - Hunger: 2
+    WalkSpeed:
+      RawValue: 144179
+    RunSpeed:
+      RawValue: 301465
+    Height:
+      RawValue: 121241
+    Radius:
+      RawValue: 22937
+  KidCap: 22
+  SpawnInterval:
+    RawValue: 65536
+  SpawnMin:
+    RawValue: 1179648
+  SpawnMax:
+    RawValue: 4587520
+  DespawnRange:
+    RawValue: 6553600
+  JingleRadius:
+    RawValue: 1835008
+  LoudspeakerRadius:
+    RawValue: 2949120
+  HonkRadius:
+    RawValue: 1966080
+  BellRadius:
+    RawValue: 4587520
+  FatKidHearing:
+    RawValue: 5898240
+  QueueSpacing:
+    RawValue: 55706
+  GasRadius:
+    RawValue: 327680
+  GasTime:
+    RawValue: 524288
+  FatKidSlamInterval:
+    RawValue: 196608
+  FatKidBite: 6
+  FatKidBonus: 40
+  KidSpots:
+  - Position:
+      X:
+        RawValue: -14942208
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -851968
+    District: 0
+    Path:
+    - X:
+        RawValue: -15376384
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -712704
+    - X:
+        RawValue: -15376384
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -16547840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -884736
+    District: 0
+    Path:
+    - X:
+        RawValue: -17031168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -974848
+    - X:
+        RawValue: -17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -974848
+  - Position:
+      X:
+        RawValue: -15040512
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2883584
+    District: 0
+    Path:
+    - X:
+        RawValue: -14475264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+    - X:
+        RawValue: -14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+  - Position:
+      X:
+        RawValue: -16515072
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 0
+    Path:
+    - X:
+        RawValue: -16982016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+    - X:
+        RawValue: -17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+  - Position:
+      X:
+        RawValue: -16842752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1572864
+    District: 0
+    Path:
+    - X:
+        RawValue: -16982016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+    - X:
+        RawValue: -17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1073152
+  - Position:
+      X:
+        RawValue: -15335424
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2359296
+    District: 0
+    Path:
+    - X:
+        RawValue: -15376384
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -16141517
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1048576
+    District: 0
+    Path:
+    - X:
+        RawValue: -15884288
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 925696
+    - X:
+        RawValue: -15884288
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -15269888
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1127219
+    District: 0
+    Path:
+    - X:
+        RawValue: -15572992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 942080
+    - X:
+        RawValue: -15572992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -16515072
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1677721
+    District: 0
+    Path:
+    - X:
+        RawValue: -16982016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1761280
+    - X:
+        RawValue: -16982016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+    - X:
+        RawValue: -17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+  - Position:
+      X:
+        RawValue: -15040512
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1730150
+    District: 0
+    Path:
+    - X:
+        RawValue: -14442496
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+    - X:
+        RawValue: -14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+  - Position:
+      X:
+        RawValue: -16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2346189
+    District: 0
+    Path:
+    - X:
+        RawValue: -16572416
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2170880
+    - X:
+        RawValue: -17014784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+    - X:
+        RawValue: -17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+  - Position:
+      X:
+        RawValue: -14942208
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2385510
+    District: 0
+    Path:
+    - X:
+        RawValue: -14475264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2170880
+    - X:
+        RawValue: -14475264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+    - X:
+        RawValue: -14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+  - Position:
+      X:
+        RawValue: -15400960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2949120
+    District: 0
+    Path:
+    - X:
+        RawValue: -15572992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3235840
+    - X:
+        RawValue: -15572992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -15990784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3047424
+    District: 0
+    Path:
+    - X:
+        RawValue: -15884288
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3235840
+    - X:
+        RawValue: -15884288
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -12517376
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2850816
+    District: 0
+    Path:
+    - X:
+        RawValue: -12689408
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3235840
+    - X:
+        RawValue: -12689408
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -11075584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2949120
+    District: 0
+    Path:
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3219456
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -11108352
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2228224
+    District: 0
+    Path:
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2121728
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2056192
+    - X:
+        RawValue: -10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2056192
+  - Position:
+      X:
+        RawValue: -11337728
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1363148
+    District: 0
+    Path:
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -12419072
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1494220
+    District: 0
+    Path:
+    - X:
+        RawValue: -13049856
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1777664
+    - X:
+        RawValue: -13049856
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1875968
+    - X:
+        RawValue: -13180928
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1875968
+  - Position:
+      X:
+        RawValue: -12091392
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -983040
+    District: 0
+    Path:
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -10878976
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1441792
+    District: 0
+    Path:
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1794048
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1875968
+    - X:
+        RawValue: -10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1875968
+  - Position:
+      X:
+        RawValue: -11383603
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2883584
+    District: 0
+    Path:
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2990080
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -12255232
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2804940
+    District: 0
+    Path:
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3022848
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -11010048
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2254438
+    District: 0
+    Path:
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2170880
+    - X:
+        RawValue: -10543104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+    - X:
+        RawValue: -10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+  - Position:
+      X:
+        RawValue: -12484608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2202009
+    District: 0
+    Path:
+    - X:
+        RawValue: -13082624
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+    - X:
+        RawValue: -13180928
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2056192
+  - Position:
+      X:
+        RawValue: -11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1585971
+    District: 0
+    Path:
+    - X:
+        RawValue: -10952704
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1761280
+    - X:
+        RawValue: -10510336
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+    - X:
+        RawValue: -10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+  - Position:
+      X:
+        RawValue: -12582912
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1546649
+    District: 0
+    Path:
+    - X:
+        RawValue: -13049856
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1744896
+    - X:
+        RawValue: -13049856
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+    - X:
+        RawValue: -13180928
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1875968
+  - Position:
+      X:
+        RawValue: -12124160
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 983040
+    District: 0
+    Path:
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 696320
+    - X:
+        RawValue: -11952128
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -11534336
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 884736
+    District: 0
+    Path:
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 696320
+    - X:
+        RawValue: -11640832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -3394764
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -917504
+    District: 1
+    Path:
+    - X:
+        RawValue: -3334144
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: -3334144
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -4639949
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -930611
+    District: 1
+    Path:
+    - X:
+        RawValue: -4579328
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: -4579328
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -3224371
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3001548
+    District: 1
+    Path:
+    - X:
+        RawValue: -3284992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3235840
+    - X:
+        RawValue: -3284992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -4456448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3027763
+    District: 1
+    Path:
+    - X:
+        RawValue: -4530176
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3219456
+    - X:
+        RawValue: -4530176
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -3309568
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1074790
+    District: 1
+    Path:
+    - X:
+        RawValue: -3301376
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -4554752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2857369
+    District: 1
+    Path:
+    - X:
+        RawValue: -4546560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -3407872
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1874329
+    District: 1
+    Path:
+    - X:
+        RawValue: -2678784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1908736
+    - X:
+        RawValue: -2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1908736
+  - Position:
+      X:
+        RawValue: -4521984
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2162688
+    District: 1
+    Path:
+    - X:
+        RawValue: -5087232
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+    - X:
+        RawValue: -5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+  - Position:
+      X:
+        RawValue: -4718592
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1769472
+    District: 1
+    Path:
+    - X:
+        RawValue: -5169152
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1794048
+    - X:
+        RawValue: -5169152
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1908736
+    - X:
+        RawValue: -5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1908736
+  - Position:
+      X:
+        RawValue: -4849664
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1277952
+    District: 1
+    Path:
+    - X:
+        RawValue: -5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1286144
+  - Position:
+      X:
+        RawValue: -4456448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1101004
+    District: 1
+    Path:
+    - X:
+        RawValue: -4300800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1105920
+    - X:
+        RawValue: -4300800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -4325376
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1441792
+    District: 1
+    Path:
+    - X:
+        RawValue: -4300800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 761856
+    - X:
+        RawValue: -4300800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -4751360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1015808
+    District: 1
+    Path:
+    - X:
+        RawValue: -4743168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1605632
+    District: 1
+    Path:
+    - X:
+        RawValue: -5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1613824
+  - Position:
+      X:
+        RawValue: -3932160
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1730150
+    District: 1
+    Path:
+    - X:
+        RawValue: -3923968
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -4259840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2084044
+    District: 1
+    Path:
+    - X:
+        RawValue: -4235264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2088960
+    - X:
+        RawValue: -4235264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2154496
+    - X:
+        RawValue: -5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2154496
+  - Position:
+      X:
+        RawValue: -3571712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2424832
+    District: 1
+    Path:
+    - X:
+        RawValue: -3563520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -3506176
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2752512
+    District: 1
+    Path:
+    - X:
+        RawValue: -3530752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2809856
+    - X:
+        RawValue: -3530752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -4718592
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2752512
+    District: 1
+    Path:
+    - X:
+        RawValue: -4710400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -3014656
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2136473
+    District: 1
+    Path:
+    - X:
+        RawValue: -2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2138112
+  - Position:
+      X:
+        RawValue: -3787981
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 983040
+    District: 1
+    Path:
+    - X:
+        RawValue: -3825664
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 712704
+    - X:
+        RawValue: -3825664
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: -537395
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3014656
+    District: 1
+    Path:
+    - X:
+        RawValue: -598016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3235840
+    - X:
+        RawValue: -598016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: 707788
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3001549
+    District: 1
+    Path:
+    - X:
+        RawValue: 647168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3235840
+    - X:
+        RawValue: 647168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: -707788
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -930611
+    District: 1
+    Path:
+    - X:
+        RawValue: -647168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: -647168
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 524288
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -904396
+    District: 1
+    Path:
+    - X:
+        RawValue: 598016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -696320
+    - X:
+        RawValue: 598016
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -622592
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2857369
+    District: 1
+    Path:
+    - X:
+        RawValue: -614400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: 622592
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1074790
+    District: 1
+    Path:
+    - X:
+        RawValue: 630784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: -458752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2084044
+    District: 1
+    Path:
+    - X:
+        RawValue: -1171456
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2023424
+    - X:
+        RawValue: -1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2023424
+  - Position:
+      X:
+        RawValue: 458752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1933312
+    District: 1
+    Path:
+    - X:
+        RawValue: 450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1925120
+    - X:
+        RawValue: 450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2007040
+    - X:
+        RawValue: 1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2007040
+  - Position:
+      X:
+        RawValue: -786432
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1835008
+    District: 1
+    Path:
+    - X:
+        RawValue: -1302528
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+    - X:
+        RawValue: -1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+  - Position:
+      X:
+        RawValue: -425984
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2752512
+    District: 1
+    Path:
+    - X:
+        RawValue: -417792
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -720896
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2883584
+    District: 1
+    Path:
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3170304
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -884736
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2719744
+    District: 1
+    Path:
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3170304
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: -786432
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2254438
+    District: 1
+    Path:
+    - X:
+        RawValue: -1204224
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2236416
+    - X:
+        RawValue: -1204224
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+    - X:
+        RawValue: -1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+  - Position:
+      X:
+        RawValue: -983040
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2064384
+    District: 1
+    Path:
+    - X:
+        RawValue: -1204224
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2007040
+    - X:
+        RawValue: -1204224
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+    - X:
+        RawValue: -1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+  - Position:
+      X:
+        RawValue: -557056
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2359296
+    District: 1
+    Path:
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3235840
+    - X:
+        RawValue: -450560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 163840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2097152
+    District: 1
+    Path:
+    - X:
+        RawValue: 1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2138112
+  - Position:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1736704
+    District: 1
+    Path:
+    - X:
+        RawValue: 1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1744896
+  - Position:
+      X:
+        RawValue: 393216
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1703936
+    District: 1
+    Path:
+    - X:
+        RawValue: 1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1712128
+  - Position:
+      X:
+        RawValue: -196608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2424832
+    District: 1
+    Path:
+    - X:
+        RawValue: -122880
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2547712
+    - X:
+        RawValue: -139264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 917504
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2359296
+    District: 1
+    Path:
+    - X:
+        RawValue: 1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2367488
+  - Position:
+      X:
+        RawValue: -589824
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1802240
+    District: 1
+    Path:
+    - X:
+        RawValue: -1236992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+    - X:
+        RawValue: -1384448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1597440
+  - Position:
+      X:
+        RawValue: 4751360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1736704
+    District: 1
+    Path:
+    - X:
+        RawValue: 5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1728512
+  - Position:
+      X:
+        RawValue: 4128768
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1441792
+    District: 1
+    Path:
+    - X:
+        RawValue: 4136960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 4423680
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -819200
+    District: 1
+    Path:
+    - X:
+        RawValue: 4431872
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 3801088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2084044
+    District: 1
+    Path:
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2088960
+  - Position:
+      X:
+        RawValue: 3375104
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1730150
+    District: 1
+    Path:
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1728512
+  - Position:
+      X:
+        RawValue: 3145728
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2129920
+    District: 1
+    Path:
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2121728
+  - Position:
+      X:
+        RawValue: 2883584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1572864
+    District: 1
+    Path:
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1564672
+  - Position:
+      X:
+        RawValue: 3997696
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -851968
+    District: 1
+    Path:
+    - X:
+        RawValue: 4005888
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 3394764
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 917504
+    District: 1
+    Path:
+    - X:
+        RawValue: 3334144
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 696320
+    - X:
+        RawValue: 3334144
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 4639949
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 930611
+    District: 1
+    Path:
+    - X:
+        RawValue: 4579328
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 696320
+    - X:
+        RawValue: 4579328
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 3224371
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3001549
+    District: 1
+    Path:
+    - X:
+        RawValue: 3284992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3235840
+    - X:
+        RawValue: 3284992
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 4456448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3027763
+    District: 1
+    Path:
+    - X:
+        RawValue: 4530176
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3235840
+    - X:
+        RawValue: 4530176
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 3309568
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1074790
+    District: 1
+    Path:
+    - X:
+        RawValue: 3317760
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 4554752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2857369
+    District: 1
+    Path:
+    - X:
+        RawValue: 4562944
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 4521984
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1874329
+    District: 1
+    Path:
+    - X:
+        RawValue: 5316608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1908736
+  - Position:
+      X:
+        RawValue: 3309568
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1848115
+    District: 1
+    Path:
+    - X:
+        RawValue: 2793472
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1908736
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1908736
+  - Position:
+      X:
+        RawValue: 3538944
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2129920
+    District: 1
+    Path:
+    - X:
+        RawValue: 3072000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2039808
+    - X:
+        RawValue: 3072000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1925120
+    - X:
+        RawValue: 3039232
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1892352
+    - X:
+        RawValue: 2662400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1908736
+    - X:
+        RawValue: 2547712
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1908736
+  - Position:
+      X:
+        RawValue: 12713984
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1048576
+    District: 2
+    Path:
+    - X:
+        RawValue: 13000704
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+    - X:
+        RawValue: 13180928
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+  - Position:
+      X:
+        RawValue: 12058624
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1245184
+    District: 2
+    Path:
+    - X:
+        RawValue: 11968512
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -974848
+    - X:
+        RawValue: 11837440
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -745472
+    - X:
+        RawValue: 11837440
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 11534336
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1245184
+    District: 2
+    Path:
+    - X:
+        RawValue: 11624448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -974848
+    - X:
+        RawValue: 11739136
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -745472
+    - X:
+        RawValue: 11739136
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -581632
+  - Position:
+      X:
+        RawValue: 11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1835008
+    District: 2
+    Path:
+    - X:
+        RawValue: 10510336
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+    - X:
+        RawValue: 10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1892352
+  - Position:
+      X:
+        RawValue: 12779520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2359296
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 10780672
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2752512
+    District: 2
+    Path:
+    - X:
+        RawValue: 10592256
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1990656
+    - X:
+        RawValue: 10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1990656
+  - Position:
+      X:
+        RawValue: 10846208
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1376256
+    District: 2
+    Path:
+    - X:
+        RawValue: 10870784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1122304
+    - X:
+        RawValue: 10969088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 729088
+    - X:
+        RawValue: 10969088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 11304960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1343488
+    District: 2
+    Path:
+    - X:
+        RawValue: 11264000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1073152
+    - X:
+        RawValue: 11182080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 729088
+    - X:
+        RawValue: 11182080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 12582912
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 2
+    Path:
+    - X:
+        RawValue: 13017088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1892352
+    - X:
+        RawValue: 13180928
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1892352
+  - Position:
+      X:
+        RawValue: 11829248
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1048576
+    District: 2
+    Path:
+    - X:
+        RawValue: 11673600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 827392
+    - X:
+        RawValue: 11182080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 761856
+    - X:
+        RawValue: 11182080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 581632
+  - Position:
+      X:
+        RawValue: 14778368
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2883584
+    District: 2
+    Path:
+    - X:
+        RawValue: 14524416
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+    - X:
+        RawValue: 14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+  - Position:
+      X:
+        RawValue: 15204352
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2097152
+    District: 2
+    Path:
+    - X:
+        RawValue: 14376960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+    - X:
+        RawValue: 14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2039808
+  - Position:
+      X:
+        RawValue: 14811136
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1867775
+    District: 2
+    Path:
+    - X:
+        RawValue: 14491648
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1941504
+    - X:
+        RawValue: 14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1941504
+  - Position:
+      X:
+        RawValue: 16056320
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2686976
+    District: 2
+    Path:
+    - X:
+        RawValue: 16064512
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2875392
+    - X:
+        RawValue: 15900672
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3186688
+    - X:
+        RawValue: 15900672
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: 15532032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2686976
+    District: 2
+    Path:
+    - X:
+        RawValue: 15802368
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3186688
+    - X:
+        RawValue: 15802368
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3350528
+  - Position:
+      X:
+        RawValue: 16777216
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1048576
+    District: 2
+    Path:
+    - X:
+        RawValue: 16932864
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1155072
+    - X:
+        RawValue: 16932864
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1941504
+    - X:
+        RawValue: 17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1941504
+  - Position:
+      X:
+        RawValue: 16646144
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2883584
+    District: 2
+    Path:
+    - X:
+        RawValue: 16932864
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2039808
+    - X:
+        RawValue: 17113088
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2039808
+  - Position:
+      X:
+        RawValue: 15990784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2686976
+    District: 2
+    Path:
+    - X:
+        RawValue: 15900672
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2957312
+    - X:
+        RawValue: 15769600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3186688
+    - X:
+        RawValue: 15769600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 15466496
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2686976
+    District: 2
+    Path:
+    - X:
+        RawValue: 15556608
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2957312
+    - X:
+        RawValue: 15671296
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3186688
+    - X:
+        RawValue: 15671296
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3350528
+  - Position:
+      X:
+        RawValue: 15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2097152
+    District: 2
+    Path:
+    - X:
+        RawValue: 14442496
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2039808
+    - X:
+        RawValue: 14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2039808
+  - Position:
+      X:
+        RawValue: 16711680
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1572864
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 14712832
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1179648
+    District: 2
+    Path:
+    - X:
+        RawValue: 14524416
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1941504
+    - X:
+        RawValue: 14344192
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1941504
+  RoadSpots:
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 0
+    Path: []
+  - Position:
+      X:
+        RawValue: -8519680
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -7208960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: -655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 655360
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 1966080
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 4587520
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 5898240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 1
+    Path: []
+  - Position:
+      X:
+        RawValue: 7208960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 8519680
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 9830400
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 11141120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 12451840
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 13762560
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 15073280
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 16384000
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3932160
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2621440
+    District: 2
+    Path: []
+  - Position:
+      X:
+        RawValue: 17694720
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 3932160
+    District: 2
+    Path: []
+  PuzzleRoutes:
+  - Position:
+      X:
+        RawValue: 11075584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2469396
+    District: 0
+    Path:
+    - X:
+        RawValue: 10575872
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1990656
+    - X:
+        RawValue: 10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1990656
+  - Position:
+      X:
+        RawValue: 11075584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2764308
+    District: 0
+    Path:
+    - X:
+        RawValue: 11018240
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2514944
+    - X:
+        RawValue: 10575872
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1990656
+    - X:
+        RawValue: 10412032
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1990656
+  CopNotice:
+    RawValue: 1441792
+  CopCatch:
+    RawValue: 81920
+  BustFine: 15
+  TicketFine: 25
+  Bribe: 2
+  CopBreak:
+    RawValue: 786432
+  HeatDecay:
+    RawValue: 655
+  MaxCops: 6
+  TownFixtures:
+  - Kind: 8
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15728640
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2385510
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 36044
+      Y:
+        RawValue: 65536
+      Z:
+        RawValue: 29491
+    Trigger: 0
+  - Kind: 9
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16220160
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2313420
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 58982
+      Z:
+        RawValue: 19660
+    Trigger: 0
+  - Kind: 7
+    Index: 0
+    Upgrade: 1
+    Price: 30
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1114112
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 1
+    Upgrade: 2
+    Price: 40
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1310720
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 2
+    Upgrade: 7
+    Price: 60
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1507328
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 3
+    Upgrade: 5
+    Price: 60
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1703936
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 4
+    Upgrade: 3
+    Price: 90
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1900544
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 5
+    Upgrade: 4
+    Price: 120
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2097152
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 6
+    Upgrade: 8
+    Price: 150
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2293760
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 7
+    Index: 7
+    Upgrade: 6
+    Price: 200
+    Position:
+      X:
+        RawValue: -14745600
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2490368
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 22937
+      Y:
+        RawValue: 39321
+      Z:
+        RawValue: 22937
+    Trigger: 0
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15335424
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1835008
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15728640
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1376256
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16023552
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2490368
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14778368
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1717043
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12124160
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2293760
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11403264
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -1015808
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11796480
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2555904
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11501568
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1441792
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12746752
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2215116
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4227072
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2031616
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2981888
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4849664
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -3014656
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
+  - Kind: 13
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -3276800
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1310720
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 32768
+    Trigger: 0
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 983039
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -2981888
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
+  - Kind: 12
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4938137
+      Y:
+        RawValue: 60948
+      Z:
+        RawValue: -1368391
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 19660
+    Trigger: 1
+  - Kind: 12
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4577689
+      Y:
+        RawValue: 60948
+      Z:
+        RawValue: -1368391
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 19660
+    Trigger: 1
+  - Kind: 12
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4938137
+      Y:
+        RawValue: 60948
+      Z:
+        RawValue: -1007943
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 19660
+    Trigger: 1
+  - Kind: 12
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4577689
+      Y:
+        RawValue: 60948
+      Z:
+        RawValue: -1007943
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 19660
+    Trigger: 1
+  - Kind: 12
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4784128
+      Y:
+        RawValue: 75366
+      Z:
+        RawValue: -2221670
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 19660
+      Y:
+        RawValue: 13107
+      Z:
+        RawValue: 19660
+    Trigger: 1
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3637248
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 1867776
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2949120
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2981888
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4816896
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 983039
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
+  - Kind: 15
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 11075584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2469396
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 6553
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 6553
+      Z:
+        RawValue: 32768
+    Trigger: 1
+  - Kind: 14
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 11075584
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 2862612
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 6553
+    HalfSize:
+      X:
+        RawValue: 65536
+      Y:
+        RawValue: 78643
+      Z:
+        RawValue: 26214
+    Trigger: 0
+  - Kind: 16
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -8519680
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: -98304
+      Y:
+        RawValue: 98304
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 425984
+      Y:
+        RawValue: 98304
+      Z:
+        RawValue: 19660
+    Trigger: 0
+  - Kind: 16
+    Index: 2
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 7208960
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: -98304
+      Y:
+        RawValue: 98304
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 425984
+      Y:
+        RawValue: 98304
+      Z:
+        RawValue: 19660
+    Trigger: 0
+  LotPark:
+    X:
+      RawValue: -15728640
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -1703936
+  LotYaw:
+    RawValue: 0
+  LotRadius:
+    RawValue: 1441792
+  DayLength:
+    RawValue: 19660800
+  DuskAt:
+    RawValue: 45875
+  NightAt:
+    RawValue: 53740
+  Dues: 280000005a000000a00000000401000090010000
+  CollectionTime:
+    RawValue: 458752
+  EndTime:
+    RawValue: 983040
+  StartingConeSize: 1
+  StartingDay: 1
+  StartingMoney: 0
