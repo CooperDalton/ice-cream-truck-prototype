@@ -62,6 +62,14 @@ All Blender models belong in the master scene at `Ice Cream Truck Prototype/Asse
 - Generated assets: `Art/Tools/zombie-styles/fx_sprites.py` writes the particle atlas and HUD sprites to `Assets/Art/Sprites`, and `Art/Tools/zombie-styles/sfx_synth.py` synthesizes every sound and the music-box jingle to `Assets/Audio`. Rerun them instead of editing the outputs by hand.
 - On this Linux machine, headless `unity run` needs `DISPLAY=:0` (and `WAYLAND_DISPLAY=wayland-1`). PS1 art source scripts for the demo are in `Art/Tools/zombie-styles/`.
 
+## Divorced Dads mode (same Quantum project)
+
+- A second game in `Zombie Ice Cream Truck/`: scene `Assets/QuantumUser/Scenes/DivorcedDads.unity`. Divorced dads run an ice cream truck to pay off Big Dairy: scavenge ingredients, churn flavor tubs, feed kids at the serving window, get home before the sugar curfew's cops. It shares only the Quantum `input` struct with the zombie mode; the runtime config's `DadsSettings` makes `SystemSetup.User.cs` add the Dads systems instead of the zombie ones.
+- Simulation: `Assets/QuantumUser/Simulation/DivorcedDads/` (`DivorcedDads.qtn`, systems, `DadsSettings`). View, HUD, effects and audio: `Assets/Scripts/DivorcedDads/`. Same Quantum rules as the zombie mode.
+- `DivorcedDadsSceneBuilder.Build` (Tools > Divorced Dads > Build Scene) regenerates the prefabs in `Assets/Prefabs/Dads`, `DadsSettings.asset`, the town (block placement, baked static colliders, planned kid paths out of the fenced yards) and the scene, plus its online-menu scene info. Change values there, not in the generated assets.
+- Art: `Art/Tools/zombie-styles/h_dads_characters.py`, `h_dads_items.py`, `h_dads_town.py` (exported with `export_unity.py` to `Assets/Art/PS1/Dads *`). Sounds: `sfx_dads.py` -> `Assets/Audio/Dads`.
+- Play-test bot: `DadsPlaytest.Run("<scenario>")` from an open editor (eval), or `-executeMethod DadsPlaytest.RunFromCommandLine` with `PLAYTEST_SCENARIO`. Scenarios: `tour`, `serve`, `shop`, `night`, `maple`, `chaos`, `ride`, `finale`, `cops`. It mutes audio, writes snaps, frame sequences and a state log to `Library/CodexPlaytests/dads/`.
+
 ## Agents.md
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.

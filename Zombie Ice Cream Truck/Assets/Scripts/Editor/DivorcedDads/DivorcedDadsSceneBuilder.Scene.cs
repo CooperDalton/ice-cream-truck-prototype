@@ -300,6 +300,7 @@ public static partial class DivorcedDadsSceneBuilder
         var phase = HudText(canvas.transform, "Phase", font, new Vector2(0.5f, 1), new Vector2(0, -16), TextAnchor.UpperCenter, 22, new Color(1f, 0.31f, 0.64f));
         var prompt = HudText(canvas.transform, "Prompt", font, new Vector2(0.5f, 0.5f), new Vector2(0, -60), TextAnchor.UpperCenter, 20, Color.white);
         var carried = HudText(canvas.transform, "Carried", font, new Vector2(0.5f, 0), new Vector2(0, 112), TextAnchor.LowerCenter, 18, new Color(1f, 0.88f, 0.29f));
+        var tip = HudText(canvas.transform, "Tip", font, new Vector2(0.5f, 1), new Vector2(0, -44), TextAnchor.UpperCenter, 18, new Color(0.22f, 0.95f, 0.76f));
         HudText(canvas.transform, "Crosshair", font, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 26, Color.white).text = "+";
         HudText(canvas.transform, "Controls", font, new Vector2(0, 0), new Vector2(24, 10), TextAnchor.LowerLeft, 13, new Color(1, 1, 1, 0.6f)).text =
             "WASD move  SHIFT run  SPACE jump  CLICK shove / shoot / plop scoops  E use  Q drop (hold to throw)  1-4 hotbar";
@@ -311,10 +312,10 @@ public static partial class DivorcedDadsSceneBuilder
             var chip = new GameObject($"Tub {i + 1}", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
             chip.transform.SetParent(canvas.transform, false);
             chip.rectTransform.anchorMin = chip.rectTransform.anchorMax = chip.rectTransform.pivot = new Vector2(0, 0);
-            chip.rectTransform.anchoredPosition = new Vector2(24, 40 + i * 26);
+            chip.rectTransform.anchoredPosition = new Vector2(24, 40 + (3 - i) * 26);
             chip.rectTransform.sizeDelta = new Vector2(18, 18);
             chip.raycastTarget = false;
-            var label = HudText(canvas.transform, $"Tub {i + 1} Label", font, new Vector2(0, 0), new Vector2(50, 38 + i * 26), TextAnchor.LowerLeft, 16, Color.white);
+            var label = HudText(canvas.transform, $"Tub {i + 1} Label", font, new Vector2(0, 0), new Vector2(50, 38 + (3 - i) * 26), TextAnchor.LowerLeft, 16, Color.white);
             label.rectTransform.sizeDelta = new Vector2(300, 22);
             tubChips[i] = chip;
             tubTexts[i] = label;
@@ -355,7 +356,7 @@ public static partial class DivorcedDadsSceneBuilder
         var hud = canvas.gameObject.AddComponent<DadsHud>();
         Set(hud,
             ("input", input), ("moneyText", money), ("dayText", day), ("debtText", debt), ("debtFill", debtFill), ("dueText", due), ("heatText", heat),
-            ("jingleText", jingle), ("phaseText", phase), ("promptText", prompt), ("carriedText", carried), ("speedText", speed),
+            ("jingleText", jingle), ("phaseText", phase), ("promptText", prompt), ("carriedText", carried), ("speedText", speed), ("tipText", tip),
             ("tubChips", tubChips), ("tubTexts", tubTexts), ("slotTexts", slotTexts), ("slotFrames", slotFrames), ("screenSplats", splats),
             ("coughTint", cough), ("frozenTint", frozen), ("card", cardRoot.GetComponent<CanvasGroup>()), ("cardTitle", cardTitle), ("cardBody", cardBody),
             ("cardStamp", cardStamp));

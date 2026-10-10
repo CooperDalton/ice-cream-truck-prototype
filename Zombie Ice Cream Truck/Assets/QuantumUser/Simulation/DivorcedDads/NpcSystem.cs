@@ -63,7 +63,7 @@ namespace Quantum
 
                 if (npc->Kind == NpcKind.Cop)
                 {
-                    Cop(f, pair.Entity, npc, transform, stats, settings, van, vanTransform, evening, dt);
+                    Cop(f, pair.Entity, npc, transform, stats, settings, van, vanTransform, evening, call, dt);
                     continue;
                 }
                 var hears = run->Phase == DayPhase.Day && vanDistance < (npc->Kind == NpcKind.FatKid && call > 0 ? settings.FatKidHearing : call);
@@ -263,7 +263,7 @@ namespace Quantum
         }
 
         static void Cop(Frame f, EntityRef entity, Npc* npc, Transform3D* transform, NpcStats stats, DadsSettings settings, Van* van,
-            Transform3D vanTransform, bool evening, FP dt)
+            Transform3D vanTransform, bool evening, FP call, FP dt)
         {
             var run = f.Unsafe.GetPointerSingleton<DadsRun>();
             var vanEntity = f.GetSingletonEntityRef<Van>();
@@ -301,27 +301,77 @@ namespace Quantum
                         npc->Timer = 15;
                         return;
                     }
-                    Walk(f, transform, target, stats.RunSpeed, dt);
+                    Walk(f, transform, RoadStep(settings, transform->Position, target), stats.RunSpeed, dt);
                     return;
                 default:
                     if (onDuty)
                     {
+                        // Dads on foot nearby, a parked van, or an ice cream jingle playing after curfew (heard from even
+                        // further away than the kids hear it) all get a cop's attention.
                         var seen = ChaseTarget(f, transform->Position, settings, vanEntity, out var seenDad);
-                        var noisy = van->Jingle || FPMath.Abs(van->Speed) < 3;
-                        if ((seen - transform->Position).SqrMagnitude < settings.CopNotice * settings.CopNotice && (seenDad.IsValid || noisy))
+                        var parked = FPMath.Abs(van->Speed) < 3;
+                        var vanSqr = (vanTransform.Position - transform->Position).SqrMagnitude;
+                        var heard = call > 0 && vanSqr < call * call * FP._1_50 * FP._1_50;
+                        if (((seen - transform->Position).SqrMagnitude < settings.CopNotice * settings.CopNotice && (seenDad.IsValid || parked)) || heard)
                         {
                             npc->State = NpcState.Chase;
                             f.Events.CopSpotted(entity, transform->Position);
                             return;
                         }
                     }
-                    if (npc->Timer <= 0 || !Walk(f, transform, npc->Goal, stats.WalkSpeed, dt))
+                    if (npc->Timer <= 0 || !Walk(f, transform, RoadStep(settings, transform->Position, npc->Goal), stats.WalkSpeed, dt))
                     {
-                        npc->Goal = Patrol(f, settings, transform->Position);
+                        // On duty they patrol the streets around the van; otherwise wherever they happen to be.
+                        npc->Goal = Patrol(f, settings, onDuty ? vanTransform.Position : transform->Position);
                         npc->Timer = f.RNG->Next(6, 12);
                     }
                     return;
             }
+        }
+
+        // Where to run next to reach a target across town: straight there once close, otherwise along the roads. A
+        // breadth-first search from the road cell nearest the target gives every road cell its hop count; the cop heads
+        // for the closest-to-target cell among those around him, and from on top of it, for its next hop.
+        static FPVector3 RoadStep(DadsSettings settings, FPVector3 from, FPVector3 target)
+        {
+            if ((target - from).SqrMagnitude < 225) return target;
+            var spots = settings.RoadSpots;
+            var count = spots.Length;
+            var goal = 0;
+            for (int i = 1; i < count; i++)
+            {
+                if ((spots[i].Position - target).SqrMagnitude < (spots[goal].Position - target).SqrMagnitude) goal = i;
+            }
+            var hops = stackalloc int[count];
+            var toward = stackalloc int[count];
+            var open = stackalloc int[count];
+            for (int i = 0; i < count; i++) hops[i] = -1;
+            hops[goal] = 0;
+            toward[goal] = goal;
+            int head = 0, tail = 0;
+            open[tail++] = goal;
+            while (head < tail)
+            {
+                var node = open[head++];
+                for (int i = 0; i < count; i++)
+                {
+                    if (hops[i] >= 0) continue;
+                    var gap = (spots[i].Position - spots[node].Position).SqrMagnitude;
+                    if (gap > 441 || gap < 1) continue;
+                    hops[i] = hops[node] + 1;
+                    toward[i] = node;
+                    open[tail++] = i;
+                }
+            }
+            var best = -1;
+            for (int i = 0; i < count; i++)
+            {
+                if (hops[i] < 0 || (spots[i].Position - from).SqrMagnitude > 484) continue;
+                if (best < 0 || hops[i] < hops[best] || (hops[i] == hops[best] && (spots[i].Position - from).SqrMagnitude < (spots[best].Position - from).SqrMagnitude)) best = i;
+            }
+            if (best < 0) return target;
+            if (best == goal) return target;
+            return (spots[best].Position - from).SqrMagnitude < FP._6 ? spots[toward[best]].Position : spots[best].Position;
         }
 
         // The nearest dad on foot, or else the van.

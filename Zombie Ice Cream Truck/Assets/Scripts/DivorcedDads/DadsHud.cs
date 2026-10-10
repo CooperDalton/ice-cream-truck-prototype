@@ -20,6 +20,7 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private Text promptText;
     [SerializeField] private Text carriedText;
     [SerializeField] private Text speedText;
+    [SerializeField] private Text tipText;
     [SerializeField] private Image[] tubChips;
     [SerializeField] private Text[] tubTexts;
     [SerializeField] private Text[] slotTexts;
@@ -138,14 +139,12 @@ public class DadsHud : MonoBehaviour
         speedText.text = Mathf.Abs(van.Speed.AsFloat) > 0.5f ? Mathf.RoundToInt(Mathf.Abs(van.Speed.AsFloat) * 2.237f) + " MPH" : "";
         phaseText.text = PhaseBanner(run);
 
-        var tub = 0;
         foreach (var pair in frame.GetComponentIterator<Fixture>())
         {
-            if (pair.Component.Kind != FixtureKind.Tub || tub >= tubTexts.Length) continue;
             var fixture = pair.Component;
-            tubTexts[tub].text = fixture.Count > 0 ? TreatPalette.Name(fixture.Treat).ToUpper() + " " + fixture.Count : "EMPTY";
-            tubChips[tub].color = fixture.Count > 0 ? TreatPalette.Of(fixture.Treat) : new Color(0.3f, 0.3f, 0.35f, 0.7f);
-            tub++;
+            if (fixture.Kind != FixtureKind.Tub) continue;
+            tubTexts[fixture.Index].text = fixture.Count > 0 ? TreatPalette.Name(fixture.Treat).ToUpper() + " " + fixture.Count : "EMPTY";
+            tubChips[fixture.Index].color = fixture.Count > 0 ? TreatPalette.Of(fixture.Treat) : new Color(0.3f, 0.3f, 0.35f, 0.7f);
         }
 
         if (!input.LocalEntity.IsValid) return;
@@ -161,6 +160,7 @@ public class DadsHud : MonoBehaviour
         var prompt = dad.Busted > 0 ? "BUSTED. Thinking about your choices..." : dad.Knocked > 0 ? "OOF" : Prompt(frame, dad, input.LocalEntity, settings, run);
         if (prompt != promptText.text) promptShownAt = Time.time;
         promptText.text = prompt;
+        tipText.text = Tip(frame, dad, run);
         // Seat controls get out of the way of the windshield once they have been read.
         promptText.enabled = !(dad.Driving || dad.Turret) || Time.time - promptShownAt < 4f;
     }
@@ -191,6 +191,34 @@ public class DadsHud : MonoBehaviour
         if (run.Phase == DayPhase.Dusk) return "DUSK";
         var day = run.Clock.AsFloat / settings.DuskAt.AsFloat;
         return day < 0.25f ? "MORNING" : day < 0.45f ? "NOON" : day < 0.75f ? "AFTERNOON" : "EVENING";
+    }
+
+    // One hint at a time for whatever the dads should be doing next.
+    private static string Tip(Frame frame, Dad dad, DadsRun run)
+    {
+        var van = frame.GetSingleton<Van>();
+        var stock = 0;
+        foreach (var pair in frame.GetComponentIterator<Fixture>())
+        {
+            if (pair.Component.Kind == FixtureKind.Tub) stock += pair.Component.Count;
+        }
+        var held = dad.Hotbar[dad.Selected];
+        var queued = 0;
+        for (int i = 0; i < van.Queue.Length; i++)
+        {
+            if (van.Queue[i].IsValid && frame.Exists(van.Queue[i])) queued++;
+        }
+        if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Drive back to Big Dairy's lot and punch the clock to pay up.";
+        if (run.Phase != DayPhase.Morning && run.Phase != DayPhase.Day) return "";
+        if (dad.Carried.Kind != DadItem.None) return "Take it to the flavor churn in the van and press E.";
+        if (stock == 0) return "Out of ice cream! Scoop mud from a puddle (or find better stuff) and dump it in the churn.";
+        if (held.Kind == DadItem.Cone && held.Count == 0) return "Click a freezer tub at the back of the van to plop a scoop on your cone.";
+        if (DadSystem.IsGun(held.Kind) && held.Count == 0) return "Press E at a freezer tub to refill your gun.";
+        if (run.Phase == DayPhase.Morning) return dad.Driving ? "Drive out of the lot to start the day." : "Take the wheel up front (E at the seat) and drive out of the lot.";
+        if (dad.Driving && !van.Jingle) return "RIGHT CLICK to play the jingle. Kids come running. CLICK to honk.";
+        if (dad.Driving && queued > 0 && Mathf.Abs(van.Speed.AsFloat) < 1) return queued + " kids at the serving window! Leave the seat and shove cones in their faces.";
+        if (dad.Driving) return "Park somewhere with kids around: they line up at the serving window.";
+        return queued > 0 ? "Kids at the window: stand at the counter and CLICK to shove a cone in a face." : "";
     }
 
     private static string PhaseBanner(DadsRun run)

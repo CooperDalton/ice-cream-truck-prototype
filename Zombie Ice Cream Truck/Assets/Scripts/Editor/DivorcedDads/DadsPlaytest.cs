@@ -345,6 +345,41 @@ public static class DadsPlaytest
         return steps;
     }
 
+    // The sugar curfew: wait out the day with the jingle on, step out at night and get chased down by a cop.
+    static List<Step> Cops()
+    {
+        var steps = new List<Step> { new Step { Name = "o00_start", Duration = 2f } };
+        steps.AddRange(ToSeat());
+        steps.Add(new Step { Name = "drive out", Duration = 60f, DriveTo = f => Flats(f), Done = f => Arrived(f, Flats(f), 6) });
+        steps.Add(new Step { Name = "jingle", Duration = 0.3f, Aim = true });
+        steps.Add(new Step { Name = "wait for night", Duration = 90f, Keys = new[] { Key.S }, Done = f => f.GetSingleton<DadsRun>().Phase == DayPhase.Night });
+        steps.Add(new Step { Name = "leave seat", Duration = 0.3f, Keys = new[] { Key.E } });
+        for (int i = 0; i < 4; i++) steps.Add(new Step { Name = $"settle {i}", Duration = 0.15f });
+        steps.Add(new Step { Name = "to doorway", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) });
+        steps.AddRange(GetOut());
+        steps.Add(new Step { Name = "wait for cop", Duration = 60f, LookAt = f => NearestCop(f), Done = f => NearestCop(f).HasValue && (NearestCop(f).Value - Camera.main.transform.position).magnitude < 12 });
+        steps.Add(new Step { Name = "o01_cop", Duration = 0.3f, Snap = true, LookAt = f => NearestCop(f) });
+        steps.Add(new Step { Name = "wait for bust", Duration = 30f, LookAt = f => NearestCop(f), Record = true, Done = f => f.Get<Dad>(input.LocalEntity).Busted > 0 });
+        steps.Add(new Step { Name = "o02_busted", Duration = 1f, Snap = true });
+        steps.Add(new Step { Name = "after bust", Duration = 3f, Record = true });
+        steps.Add(new Step { Name = "o03_back_in_van", Duration = 0.5f, Snap = true });
+        return steps;
+    }
+
+    static Vector3? NearestCop(Frame frame)
+    {
+        var from = frame.Get<Transform3D>(input.LocalEntity).Position.ToUnityVector3();
+        Vector3? best = null;
+        foreach (var pair in frame.GetComponentIterator<Npc>())
+        {
+            if (pair.Component.Kind != NpcKind.Cop) continue;
+            var position = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3() + Vector3.up * 1.5f;
+            if (best.HasValue && (position - from).sqrMagnitude >= (best.Value - from).sqrMagnitude) continue;
+            best = position;
+        }
+        return best;
+    }
+
     static Vector3 Teammate(Frame frame)
     {
         foreach (var pair in frame.GetComponentIterator<Dad>())
@@ -670,7 +705,7 @@ public static class DadsPlaytest
                 if (root.TryGetComponent(out QuantumRunnerLocalDebug runner)) runner.LocalPlayers = new[] { new RuntimePlayer { PlayerNickname = "Dad 1" }, new RuntimePlayer { PlayerNickname = "Dad 2" } };
             }
         }
-        if (scenario == "night") settings.DayLength = FP.FromFloat_UNSAFE(45);
+        if (scenario == "night" || scenario == "cops") settings.DayLength = FP.FromFloat_UNSAFE(45);
         SessionState.SetString(ScenarioKey, scenario);
         EditorApplication.EnterPlaymode();
     }
@@ -707,7 +742,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
