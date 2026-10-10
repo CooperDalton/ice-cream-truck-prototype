@@ -80,6 +80,7 @@ public static partial class DivorcedDadsSceneBuilder
         var scene = OpenScene();
         PlayerSettings.allowUnsafeCode = true;
         var truckModel = Model("Truck", Truck);
+        ConfigureSprites();
         var fx = BuildEffects();
 
         var van = BuildVan(truckModel);
@@ -385,7 +386,7 @@ public static partial class DivorcedDadsSceneBuilder
                 tub.SetActive(false);
                 tubs[t] = tub;
             }
-            var label = WorldText(root.transform, "Label", new Vector3(0.25f, 0.62f, 0), 0.012f, "EMPTY");
+            var label = WorldText(root.transform, "Label", new Vector3(0.25f, 0.62f, 0), 0.02f, "EMPTY");
             label.transform.localRotation = Quaternion.Euler(0, 90, 0);
             Set(root.AddComponent<TubView>(), ("tubs", tubs), ("label", label));
         });
@@ -417,8 +418,8 @@ public static partial class DivorcedDadsSceneBuilder
             Primitive(PrimitiveType.Cylinder, root.transform, "Pedestal", new Vector3(0, 0.45f, 0), new Vector3(0.6f, 0.45f, 0.6f), Material("Dads Pedestal", new Color(1f, 0.31f, 0.64f)), false);
             var money = Place(Model(Items, "Lunch Money"), root.transform, new Vector3(0, 0.95f, 0), Quaternion.identity);
             money.transform.localScale = Vector3.one * 3;
-            var label = WorldText(root.transform, "Price Tag", new Vector3(0, 1.75f, 0), 0.035f, "UPGRADE\n$0");
-            Primitive(PrimitiveType.Quad, label.transform, "Backing", new Vector3(0, 0, 0.02f), new Vector3(1.9f, 0.62f, 1), Material("Dads Label Backing", new Color(0.1f, 0.06f, 0.2f, 0.85f), "Universal Render Pipeline/Unlit", true), false);
+            var label = WorldText(root.transform, "Price Tag", new Vector3(0, 1.75f, 0), 0.06f, "UPGRADE\n$0");
+            Primitive(PrimitiveType.Quad, label.transform, "Backing", new Vector3(0, 0, 0.02f), new Vector3(2.3f, 0.7f, 1), Material("Dads Label Backing", new Color(0.1f, 0.06f, 0.2f, 0.85f), "Universal Render Pipeline/Unlit", true), false);
             Set(root.AddComponent<ShopTag>(), ("text", label));
         });
         prefabs[(int)FixtureKind.Collector] = BuildFixture(FixtureKind.Collector, root =>
@@ -426,7 +427,7 @@ public static partial class DivorcedDadsSceneBuilder
             var pivot = new GameObject("Model").transform;
             pivot.SetParent(root.transform, false);
             Place(Model(Characters, "Big Dairy"), pivot, Vector3.zero, Quaternion.identity);
-            var speech = WorldText(root.transform, "Speech", new Vector3(0, 2.6f, 0), 0.03f, "You got my money?");
+            var speech = WorldText(root.transform, "Speech", new Vector3(0, 2.6f, 0), 0.05f, "You got my money?");
             Set(root.AddComponent<CollectorView>(), ("model", pivot), ("speech", speech));
         });
         prefabs[(int)FixtureKind.TimeClock] = BuildFixture(FixtureKind.TimeClock, root =>
@@ -434,7 +435,7 @@ public static partial class DivorcedDadsSceneBuilder
             Primitive(PrimitiveType.Cube, root.transform, "Post", new Vector3(0, 0.6f, 0), new Vector3(0.12f, 1.2f, 0.12f), Material("Dads Steel", new Color(0.75f, 0.75f, 0.85f)), false);
             Primitive(PrimitiveType.Cube, root.transform, "Clock", new Vector3(0, 1.35f, 0), new Vector3(0.45f, 0.55f, 0.25f), Material("Dads Clock", new Color(1f, 0.88f, 0.29f)), false);
             Primitive(PrimitiveType.Cube, root.transform, "Card Slot", new Vector3(0, 1.45f, 0.13f), new Vector3(0.3f, 0.05f, 0.02f), Material("Dads Ink", new Color(0.1f, 0.06f, 0.2f)), false);
-            var label = WorldText(root.transform, "Label", new Vector3(0, 2.1f, 0), 0.03f, "CLOCK OUT");
+            var label = WorldText(root.transform, "Label", new Vector3(0, 2.1f, 0), 0.05f, "CLOCK OUT");
             Set(root.AddComponent<TimeClockView>(), ("label", label));
         });
         prefabs[(int)FixtureKind.MudPuddle] = BuildFixture(FixtureKind.MudPuddle, root => Place(Model(Items, "Mud Puddle"), root.transform, Vector3.zero, Quaternion.identity));

@@ -179,7 +179,7 @@ public static partial class DivorcedDadsSceneBuilder
         var effects = new GameObject("Dads Effects").AddComponent<DadsEffects>();
         effects.transform.SetParent(gameplay, false);
         var popup = new GameObject("Dads Popup");
-        var popupText = WorldText(popup.transform, "Text", Vector3.zero, 0.07f, "+$5");
+        var popupText = WorldText(popup.transform, "Text", Vector3.zero, 0.1f, "+$5");
         Set(popup.AddComponent<DadsPopup>(), ("text", popupText));
         var popupPrefab = SavePrefab(popup, FxFolder).GetComponent<DadsPopup>();
         var splats = AddLayer(gameplay, "Ground Splats", new Layer { Count = 0, Loop = true, Duration = 1, Speed = Vector2.zero, Size = new Vector2(0.5f, 1f), Life = new Vector2(30, 30), Gravity = 0, Flat = true, Max = 800 });
@@ -264,103 +264,290 @@ public static partial class DivorcedDadsSceneBuilder
         Set(viewModel, ("input", input), ("cameraRig", cameraRig), ("arms", recoil.gameObject), ("held", held), ("sway", sway), ("recoilPivot", recoil));
     }
 
+    const string Sprites = "Assets/Art/Sprites";
+    const string Fonts = "Assets/Art/Fonts";
+    // HUD frames are pixel sprites drawn twice their size on the 1280 x 720 canvas, like the zombie HUD.
+    const float HudFrameScale = 2f;
+    static readonly Color HudYellow = new Color(1f, 0.88f, 0.29f);
+    static readonly Color HudMint = new Color(0.22f, 0.95f, 0.76f);
+    static readonly Color HudLavender = new Color(0.71f, 0.55f, 1f);
+
+    // Nine-slice borders (left, bottom, right, top, in sprite pixels) of the frames drawn by hud_sprites_dads.py.
+    static readonly Dictionary<string, Vector4> SpriteBorders = new Dictionary<string, Vector4>
+    {
+        { "DadsHUD/panel", new Vector4(8, 8, 8, 8) }, { "DadsHUD/panel_mint", new Vector4(8, 8, 8, 8) }, { "DadsHUD/panel_gold", new Vector4(8, 8, 8, 8) },
+        { "DadsHUD/card", new Vector4(8, 8, 8, 8) }, { "DadsHUD/slot", new Vector4(8, 8, 8, 8) }, { "DadsHUD/slot_selected", new Vector4(8, 8, 8, 8) },
+        { "DadsHUD/bar_back", new Vector4(4, 4, 4, 4) }, { "DadsHUD/banner", new Vector4(4, 8, 4, 2) },
+    };
+
+    // Point-filtered UI sprites for the HUD frames, glyphs and item icons (hud_sprites_dads.py, hud_icons_dads.py).
+    static void ConfigureSprites()
+    {
+        foreach (var folder in new[] { "DadsHUD", "DadsIcons" })
+        {
+            foreach (var path in Directory.GetFiles($"{Sprites}/{folder}", "*.png"))
+            {
+                var assetPath = path.Replace('\\', '/');
+                var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spriteImportMode = SpriteImportMode.Single;
+                var key = assetPath.Substring(Sprites.Length + 1).Replace(".png", "");
+                importer.spriteBorder = SpriteBorders.TryGetValue(key, out var border) ? border : Vector4.zero;
+                importer.filterMode = FilterMode.Point;
+                importer.mipmapEnabled = false;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.alphaIsTransparency = true;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.SaveAndReimport();
+            }
+        }
+    }
+
+    // Candy PS1 HUD on a 1280 x 720 reference canvas, laid out like the zombie HUD: nine-slice frames with an icon and
+    // pixel-font text, the hotbar along the bottom, the prompt panel under the crosshair, and the story card.
     static DadsHud BuildHud(DadsInput input, Camera display)
     {
         var canvas = Canvas("HUD", 10, display, 0.5f);
-        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        var root = canvas.transform;
+        var title = PixelFont("PressStart2P-Regular");
+        var body = PixelFont("PixelifySans-SemiBold");
         var splats = new Object[6];
         for (int i = 0; i < splats.Length; i++)
         {
-            var splat = HudImage(canvas.transform, $"Screen Splat {i + 1}", $"screen_splat_{i % 3 + 1}", new Vector2(0.5f, 0.5f), new Vector2(300, 300));
+            var splat = HudImage(root, $"Screen Splat {i + 1}", $"screen_splat_{i % 3 + 1}", new Vector2(0.5f, 0.5f), new Vector2(300, 300));
             splat.color = Color.clear;
             splats[i] = splat;
         }
-        var cough = Overlay(canvas.transform, "Cough Tint");
-        var frozen = Overlay(canvas.transform, "Brain Freeze Tint");
-        var money = HudText(canvas.transform, "Money", font, new Vector2(0, 1), new Vector2(24, -14), TextAnchor.UpperLeft, 36, new Color(1f, 0.88f, 0.29f));
-        var day = HudText(canvas.transform, "Day", font, new Vector2(0, 1), new Vector2(24, -58), TextAnchor.UpperLeft, 20, Color.white);
-        var heat = HudText(canvas.transform, "Heat", font, new Vector2(0, 1), new Vector2(24, -84), TextAnchor.UpperLeft, 20, new Color(0.45f, 0.6f, 1f));
-        var debt = HudText(canvas.transform, "Debt", font, new Vector2(1, 1), new Vector2(-24, -14), TextAnchor.UpperRight, 20, new Color(1f, 0.31f, 0.64f));
-        var debtBack = new GameObject("Debt Meter", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-        debtBack.transform.SetParent(canvas.transform, false);
-        debtBack.rectTransform.anchorMin = debtBack.rectTransform.anchorMax = debtBack.rectTransform.pivot = new Vector2(1, 1);
-        debtBack.rectTransform.anchoredPosition = new Vector2(-24, -44);
-        debtBack.rectTransform.sizeDelta = new Vector2(300, 14);
-        debtBack.color = new Color(0.1f, 0.06f, 0.2f, 0.85f);
-        var debtFill = new GameObject("Paid", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-        debtFill.transform.SetParent(debtBack.transform, false);
+        var cough = Overlay(root, "Cough Tint");
+        var frozen = Overlay(root, "Brain Freeze Tint");
+        HudImage(root, "Crosshair", "DadsHUD/crosshair", new Vector2(0.5f, 0.5f), new Vector2(32, 32));
+
+        // Top left: cash, the day, heat.
+        var moneyPanel = Panel(root, "Money", "panel", new Vector2(0, 1), new Vector2(16, -16), new Vector2(212, 60));
+        Icon(moneyPanel, "Money Icon", "DadsIcons/LunchMoney", new Vector2(34, 0), 48);
+        var money = PanelText(moneyPanel, "Money Text", title, 22, HudYellow, 66, TextAnchor.MiddleLeft);
+        var dayPanel = Panel(root, "Day", "panel", new Vector2(0, 1), new Vector2(16, -84), new Vector2(212, 60));
+        var dayIcon = Icon(dayPanel, "Sun Icon", "DadsHUD/sun", new Vector2(30, 0), 36);
+        var day = PanelText(dayPanel, "Day Text", body, 18, Color.white, 58, TextAnchor.MiddleLeft);
+        var heatPanel = Panel(root, "Heat", "panel", new Vector2(0, 1), new Vector2(16, -152), new Vector2(212, 46));
+        var badges = new Object[5];
+        for (int i = 0; i < badges.Length; i++) badges[i] = Icon(heatPanel, $"Badge {i + 1}", "DadsHUD/badge", new Vector2(30 + i * 38, 0), 30);
+
+        // Top right: Big Dairy's debt and tonight's installment with strikes, then the jingle and the speed.
+        var debtPanel = Panel(root, "Debt", "panel_gold", new Vector2(1, 1), new Vector2(-16, -16), new Vector2(300, 76));
+        Icon(debtPanel, "Carton Icon", "DadsHUD/carton", new Vector2(32, 0), 44);
+        var debt = PanelText(debtPanel, "Debt Text", title, 14, HudYellow, 62, TextAnchor.UpperLeft);
+        debt.rectTransform.offsetMax = new Vector2(-10, -14);
+        var trough = Panel(debtPanel, "Bar", "bar_back", new Vector2(0, 0), new Vector2(60, 12), new Vector2(222, 24));
+        trough.pivot = new Vector2(0, 0);
+        var debtFill = HudImage(trough, "Paid", "DadsHUD/bar_fill_mint", new Vector2(0.5f, 0.5f), Vector2.zero);
         Stretch(debtFill.rectTransform);
-        debtFill.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+        debtFill.rectTransform.offsetMin = new Vector2(4, 4);
+        debtFill.rectTransform.offsetMax = new Vector2(-4, -4);
         debtFill.type = Image.Type.Filled;
         debtFill.fillMethod = Image.FillMethod.Horizontal;
-        debtFill.color = new Color(0.22f, 0.95f, 0.76f);
-        var due = HudText(canvas.transform, "Due", font, new Vector2(1, 1), new Vector2(-24, -64), TextAnchor.UpperRight, 20, new Color(1f, 0.88f, 0.29f));
-        var jingle = HudText(canvas.transform, "Jingle", font, new Vector2(1, 1), new Vector2(-24, -92), TextAnchor.UpperRight, 20, new Color(0.22f, 0.95f, 0.76f));
-        var speed = HudText(canvas.transform, "Speed", font, new Vector2(1, 0), new Vector2(-24, 96), TextAnchor.LowerRight, 26, new Color(0.22f, 0.95f, 0.76f));
-        var phase = HudText(canvas.transform, "Phase", font, new Vector2(0.5f, 1), new Vector2(0, -16), TextAnchor.UpperCenter, 22, new Color(1f, 0.31f, 0.64f));
-        var prompt = HudText(canvas.transform, "Prompt", font, new Vector2(0.5f, 0.5f), new Vector2(0, -60), TextAnchor.UpperCenter, 20, Color.white);
-        var carried = HudText(canvas.transform, "Carried", font, new Vector2(0.5f, 0), new Vector2(0, 112), TextAnchor.LowerCenter, 18, new Color(1f, 0.88f, 0.29f));
-        var tip = HudText(canvas.transform, "Tip", font, new Vector2(0.5f, 1), new Vector2(0, -44), TextAnchor.UpperCenter, 18, new Color(0.22f, 0.95f, 0.76f));
-        HudText(canvas.transform, "Crosshair", font, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 26, Color.white).text = "+";
-        HudText(canvas.transform, "Controls", font, new Vector2(0, 0), new Vector2(24, 10), TextAnchor.LowerLeft, 13, new Color(1, 1, 1, 0.6f)).text =
-            "WASD move  SHIFT run  SPACE jump  CLICK shove / shoot / plop scoops  E use  Q drop (hold to throw)  1-4 hotbar";
+        var duePanel = Panel(root, "Tonight", "panel_gold", new Vector2(1, 1), new Vector2(-16, -100), new Vector2(300, 50));
+        var due = PanelText(duePanel, "Tonight Text", title, 13, Color.white, 18, TextAnchor.MiddleLeft);
+        var strikes = new Object[3];
+        for (int i = 0; i < strikes.Length; i++) strikes[i] = Icon(duePanel, $"Strike {i + 1}", "DadsHUD/strike", new Vector2(214 + i * 30, 0), 26);
+        var jinglePanel = Panel(root, "Jingle", "panel_mint", new Vector2(1, 1), new Vector2(-16, -158), new Vector2(180, 46));
+        Icon(jinglePanel, "Note Icon", "DadsHUD/note", new Vector2(26, 0), 30);
+        PanelText(jinglePanel, "Jingle Text", title, 11, HudMint, 48, TextAnchor.MiddleLeft).text = "JINGLE ON";
+        var speedPanel = Panel(root, "Speed", "panel_mint", new Vector2(1, 1), new Vector2(-16, -212), new Vector2(180, 46));
+        var speed = PanelText(speedPanel, "Speed Text", title, 13, Color.white, 18, TextAnchor.MiddleLeft);
 
-        var tubChips = new Object[4];
+        // Phase banner across the top, the next-step tip under it.
+        var banner = HudImage(root, "Phase Banner", "DadsHUD/banner", new Vector2(0.5f, 1), new Vector2(720, 24 * HudFrameScale));
+        banner.rectTransform.anchoredPosition = new Vector2(0, -14);
+        banner.type = Image.Type.Tiled;
+        banner.pixelsPerUnitMultiplier = 1 / HudFrameScale;
+        var phase = HudText(banner.transform, "Phase Text", body, new Vector2(0.5f, 1), new Vector2(0, -6), TextAnchor.UpperCenter, 22, Color.white);
+        phase.rectTransform.sizeDelta = new Vector2(700, 40);
+        var tip = HudText(root, "Tip", body, new Vector2(0.5f, 1), new Vector2(0, -70), TextAnchor.UpperCenter, 20, HudMint);
+        tip.rectTransform.sizeDelta = new Vector2(720, 60);
+
+        // Interaction prompt under the crosshair; the panel grows to fit the text.
+        var promptPanel = Panel(root, "Prompt", "panel", new Vector2(0.5f, 0.5f), new Vector2(0, -44), Vector2.zero);
+        promptPanel.pivot = new Vector2(0.5f, 1);
+        var layout = promptPanel.gameObject.AddComponent<VerticalLayoutGroup>();
+        layout.padding = new RectOffset(20, 20, 12, 12);
+        layout.childControlWidth = layout.childControlHeight = true;
+        var fitter = promptPanel.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.horizontalFit = fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        var prompt = HudText(promptPanel, "Prompt Text", body, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 20, Color.white);
+        prompt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        prompt.lineSpacing = 1.15f;
+
+        // Hotbar: item icon, slot number, scoop count and the loaded flavor per slot, a candy frame around the selected one.
+        var slotIcons = new Object[4];
+        var slotBadges = new Object[4];
+        var slotCounts = new Object[4];
+        var slotSelected = new Object[4];
+        for (int i = 0; i < 4; i++)
+        {
+            var slot = Panel(root, $"Slot {i + 1}", "slot", new Vector2(0.5f, 0), new Vector2((i - 1.5f) * 82, 16), new Vector2(74, 74));
+            var selected = Panel(slot, "Selected", "slot_selected", new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero);
+            selected.anchorMin = Vector2.zero;
+            selected.anchorMax = Vector2.one;
+            selected.offsetMin = new Vector2(-6, -6);
+            selected.offsetMax = new Vector2(6, 6);
+            var icon = Icon(slot, "Icon", "DadsIcons/Cone", Vector2.zero, 62);
+            icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = icon.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            icon.rectTransform.anchoredPosition = new Vector2(0, 2);
+            var badge = Icon(slot, "Flavor", "DadsIcons/ScoopMud", Vector2.zero, 30);
+            badge.rectTransform.anchorMin = badge.rectTransform.anchorMax = badge.rectTransform.pivot = new Vector2(1, 1);
+            badge.rectTransform.anchoredPosition = new Vector2(4, 4);
+            var key = HudText(slot, "Key", title, new Vector2(0, 1), new Vector2(7, -7), TextAnchor.UpperLeft, 10, Color.white);
+            key.rectTransform.sizeDelta = new Vector2(30, 20);
+            key.text = (i + 1).ToString();
+            var count = HudText(slot, "Count", title, new Vector2(1, 0), new Vector2(-6, 6), TextAnchor.LowerRight, 11, Color.white);
+            count.rectTransform.sizeDelta = new Vector2(70, 20);
+            slotIcons[i] = icon;
+            slotBadges[i] = badge;
+            slotCounts[i] = count;
+            slotSelected[i] = selected.gameObject;
+        }
+        var selectedName = HudText(root, "Selected Name", body, new Vector2(0.5f, 0), new Vector2(0, 100), TextAnchor.LowerCenter, 22, Color.white);
+
+        // Carried ingredient, above the hotbar.
+        var carriedPanel = Panel(root, "Carried", "panel", new Vector2(0.5f, 0), new Vector2(0, 132), new Vector2(400, 62));
+        var carriedIcon = Icon(carriedPanel, "Icon", "DadsIcons/MudBucket", new Vector2(36, 0), 50);
+        var carried = PanelText(carriedPanel, "Text", body, 18, HudYellow, 72, TextAnchor.MiddleLeft);
+
+        // Bottom left: the freezer tubs, and the controls panel above it. Bottom right: ammo.
+        var freezer = Panel(root, "Freezer", "panel_mint", new Vector2(0, 0), new Vector2(16, 16), new Vector2(260, 160));
+        var freezerTitle = PanelText(freezer, "Title", title, 11, HudMint, 16, TextAnchor.UpperLeft);
+        freezerTitle.rectTransform.offsetMax = new Vector2(-10, -12);
+        freezerTitle.text = "FREEZER";
+        var tubImages = new Object[4];
         var tubTexts = new Object[4];
         for (int i = 0; i < 4; i++)
         {
-            var chip = new GameObject($"Tub {i + 1}", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-            chip.transform.SetParent(canvas.transform, false);
-            chip.rectTransform.anchorMin = chip.rectTransform.anchorMax = chip.rectTransform.pivot = new Vector2(0, 0);
-            chip.rectTransform.anchoredPosition = new Vector2(24, 40 + (3 - i) * 26);
-            chip.rectTransform.sizeDelta = new Vector2(18, 18);
-            chip.raycastTarget = false;
-            var label = HudText(canvas.transform, $"Tub {i + 1} Label", font, new Vector2(0, 0), new Vector2(50, 38 + (3 - i) * 26), TextAnchor.LowerLeft, 16, Color.white);
-            label.rectTransform.sizeDelta = new Vector2(300, 22);
-            tubChips[i] = chip;
-            tubTexts[i] = label;
+            var row = new GameObject($"Tub {i + 1}", typeof(RectTransform)).GetComponent<RectTransform>();
+            row.SetParent(freezer, false);
+            row.anchorMin = new Vector2(0, 1);
+            row.anchorMax = new Vector2(1, 1);
+            row.pivot = new Vector2(0.5f, 1);
+            row.anchoredPosition = new Vector2(0, -34 - i * 30);
+            row.sizeDelta = new Vector2(0, 30);
+            tubImages[i] = Icon(row, "Tub Icon", "DadsIcons/TubMud", new Vector2(32, 0), 34);
+            var tubText = PanelText(row, "Tub Text", body, 18, Color.white, 56, TextAnchor.MiddleLeft);
+            tubText.rectTransform.offsetMin = new Vector2(56, 0);
+            tubText.rectTransform.offsetMax = new Vector2(-8, 0);
+            tubText.verticalOverflow = VerticalWrapMode.Overflow;
+            tubTexts[i] = tubText;
         }
-        HudText(canvas.transform, "Freezer Title", font, new Vector2(0, 0), new Vector2(24, 146), TextAnchor.LowerLeft, 14, new Color(1, 1, 1, 0.7f)).text = "FREEZER";
-
-        var slotTexts = new Object[4];
-        var slotFrames = new Object[4];
-        for (int i = 0; i < 4; i++)
+        var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 182), TextAnchor.LowerLeft, 16, HudLavender);
+        help.text = "<color=#ffe14a>F1</color> controls";
+        var controls = Panel(root, "Controls", "panel", new Vector2(0, 0), new Vector2(16, 206), new Vector2(312, 250));
+        var controlsText = PanelText(controls, "Text", body, 17, Color.white, 20, TextAnchor.UpperLeft);
+        controlsText.rectTransform.offsetMax = new Vector2(-12, -12);
+        controlsText.lineSpacing = 1.1f;
+        controlsText.text = "CONTROLS\n" + string.Join("\n", new[]
         {
-            var frame = new GameObject($"Slot {i + 1}", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-            frame.transform.SetParent(canvas.transform, false);
-            frame.rectTransform.anchorMin = frame.rectTransform.anchorMax = frame.rectTransform.pivot = new Vector2(0.5f, 0);
-            frame.rectTransform.anchoredPosition = new Vector2((i - 1.5f) * 132, 28);
-            frame.rectTransform.sizeDelta = new Vector2(124, 74);
-            frame.raycastTarget = false;
-            var text = HudText(frame.transform, "Label", font, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 13, Color.white);
-            text.rectTransform.sizeDelta = new Vector2(120, 70);
-            slotTexts[i] = text;
-            slotFrames[i] = frame;
-        }
+            ("WASD", "move"), ("SHIFT", "run"), ("SPACE", "jump"), ("CLICK", "shove / shoot / plop scoops"), ("E", "use"),
+            ("Q", "drop  (hold to throw)"), ("1-4 / WHEEL", "hotbar"), ("RIGHT CLICK", "jingle (driving)"), ("F1", "hide this"),
+        }.Select(c => $"<color=#ffe14a>{c.Item1}</color>  {c.Item2}"));
 
-        var cardRoot = new GameObject("Card", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
-        cardRoot.transform.SetParent(canvas.transform, false);
-        var cardRect = cardRoot.GetComponent<RectTransform>();
-        cardRect.anchorMin = cardRect.anchorMax = cardRect.pivot = new Vector2(0.5f, 0.5f);
-        cardRect.sizeDelta = new Vector2(760, 420);
-        cardRoot.GetComponent<Image>().color = new Color(0.1f, 0.06f, 0.2f, 0.92f);
-        cardRoot.GetComponent<Image>().raycastTarget = false;
-        var cardTitle = HudText(cardRoot.transform, "Title", font, new Vector2(0.5f, 1), new Vector2(0, -24), TextAnchor.UpperCenter, 40, new Color(1f, 0.88f, 0.29f));
-        cardTitle.rectTransform.sizeDelta = new Vector2(720, 60);
-        var cardBody = HudText(cardRoot.transform, "Body", font, new Vector2(0.5f, 0.5f), new Vector2(0, -10), TextAnchor.MiddleCenter, 22, Color.white);
-        cardBody.rectTransform.sizeDelta = new Vector2(720, 280);
-        var cardStamp = HudText(cardRoot.transform, "Stamp", font, new Vector2(1, 0), new Vector2(-30, 24), TextAnchor.LowerRight, 46, Color.clear);
-        cardStamp.rectTransform.sizeDelta = new Vector2(400, 70);
+        var ammoPanel = Panel(root, "Ammo", "panel_mint", new Vector2(1, 0), new Vector2(-16, 16), new Vector2(232, 76));
+        var ammoIcon = Icon(ammoPanel, "Icon", "DadsIcons/ScoopMud", new Vector2(40, 0), 58);
+        var ammo = PanelText(ammoPanel, "Count", title, 26, Color.white, 82, TextAnchor.UpperLeft);
+        ammo.rectTransform.offsetMax = new Vector2(-8, -12);
+        var ammoLabel = PanelText(ammoPanel, "Label", body, 17, HudMint, 82, TextAnchor.LowerLeft);
+        ammoLabel.rectTransform.offsetMin = new Vector2(82, 10);
+
+        // The story card: each morning's intro, Big Dairy's collection, the win and the repo.
+        var card = Panel(root, "Card", "card", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(760, 420));
+        var cardGroup = card.gameObject.AddComponent<CanvasGroup>();
+        var cardTitle = HudText(card, "Title", title, new Vector2(0.5f, 1), new Vector2(0, -34), TextAnchor.UpperCenter, 28, HudYellow);
+        cardTitle.rectTransform.sizeDelta = new Vector2(720, 50);
+        var cardBody = HudText(card, "Body", body, new Vector2(0.5f, 0.5f), new Vector2(0, -16), TextAnchor.MiddleCenter, 24, Color.white);
+        cardBody.rectTransform.sizeDelta = new Vector2(700, 270);
+        cardBody.lineSpacing = 1.1f;
+        var cardStamp = HudText(card, "Stamp", title, new Vector2(1, 0), new Vector2(-34, 28), TextAnchor.LowerRight, 30, Color.clear);
+        cardStamp.rectTransform.sizeDelta = new Vector2(420, 60);
         cardStamp.rectTransform.localRotation = Quaternion.Euler(0, 0, 12);
 
         var hud = canvas.gameObject.AddComponent<DadsHud>();
         Set(hud,
-            ("input", input), ("moneyText", money), ("dayText", day), ("debtText", debt), ("debtFill", debtFill), ("dueText", due), ("heatText", heat),
-            ("jingleText", jingle), ("phaseText", phase), ("promptText", prompt), ("carriedText", carried), ("speedText", speed), ("tipText", tip),
-            ("tubChips", tubChips), ("tubTexts", tubTexts), ("slotTexts", slotTexts), ("slotFrames", slotFrames), ("screenSplats", splats),
-            ("coughTint", cough), ("frozenTint", frozen), ("card", cardRoot.GetComponent<CanvasGroup>()), ("cardTitle", cardTitle), ("cardBody", cardBody),
-            ("cardStamp", cardStamp));
+            ("input", input), ("minigunIcon", HudSprite("DadsIcons/Minigun")), ("sunIcon", HudSprite("DadsHUD/sun")), ("moonIcon", HudSprite("DadsHUD/moon")),
+            ("coneIcons", new Object[] { HudSprite("DadsIcons/Cone"), HudSprite("DadsIcons/WaffleCone"), HudSprite("DadsIcons/DoubleWaffleCone") }),
+            ("scoopIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Scoop{t.Replace(" ", "")}")).ToArray()),
+            ("tubIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Tub{t.Replace(" ", "")}")).ToArray()),
+            ("moneyText", money), ("dayIcon", dayIcon), ("dayText", day), ("heatPanel", heatPanel.gameObject), ("heatBadges", badges),
+            ("debtText", debt), ("debtFill", debtFill), ("dueText", due), ("strikeIcons", strikes), ("jinglePanel", jinglePanel.gameObject),
+            ("speedPanel", speedPanel.gameObject), ("speedText", speed), ("tubImages", tubImages), ("tubTexts", tubTexts),
+            ("phaseBanner", banner.gameObject), ("phaseText", phase), ("tipText", tip), ("promptPanel", promptPanel.gameObject), ("promptText", prompt),
+            ("slotIcons", slotIcons), ("slotBadges", slotBadges), ("slotCounts", slotCounts), ("slotSelected", slotSelected), ("selectedName", selectedName),
+            ("carriedPanel", carriedPanel.gameObject), ("carriedIcon", carriedIcon), ("carriedText", carried),
+            ("ammoPanel", ammoPanel.gameObject), ("ammoIcon", ammoIcon), ("ammoText", ammo), ("ammoLabel", ammoLabel),
+            ("controlsPanel", controls.gameObject), ("screenSplats", splats), ("coughTint", cough), ("frozenTint", frozen),
+            ("card", cardGroup), ("cardTitle", cardTitle), ("cardBody", cardBody), ("cardStamp", cardStamp));
+        var icons = new[]
+        {
+            (DadItem.ScoopPistol, "ScoopPistol"), (DadItem.SundaeShotgun, "SundaeShotgun"), (DadItem.MudBucket, "MudBucket"),
+            (DadItem.StrawberryBasket, "StrawberryBasket"), (DadItem.IcedCoffee, "IcedCoffee"), (DadItem.NutSack, "NutSack"), (DadItem.GoldLeaf, "GoldLeaf"),
+        };
+        var serialized = new SerializedObject(hud);
+        var list = serialized.FindProperty("icons");
+        list.arraySize = icons.Length;
+        for (int i = 0; i < icons.Length; i++)
+        {
+            list.GetArrayElementAtIndex(i).FindPropertyRelative("Kind").enumValueIndex = (int)icons[i].Item1;
+            list.GetArrayElementAtIndex(i).FindPropertyRelative("Sprite").objectReferenceValue = HudSprite($"DadsIcons/{icons[i].Item2}");
+        }
+        serialized.ApplyModifiedPropertiesWithoutUndo();
         return hud;
+    }
+
+    // Nine-slice HUD frame from Sprites/DadsHUD, drawn at HudFrameScale.
+    static RectTransform Panel(Transform parent, string name, string sprite, Vector2 anchor, Vector2 position, Vector2 size)
+    {
+        var image = HudImage(parent, name, $"DadsHUD/{sprite}", anchor, size);
+        image.rectTransform.anchoredPosition = position;
+        image.type = Image.Type.Sliced;
+        image.pixelsPerUnitMultiplier = 1 / HudFrameScale;
+        return image.rectTransform;
+    }
+
+    // Square icon centered vertically at x from the parent's left edge.
+    static Image Icon(Transform parent, string name, string sprite, Vector2 position, float size)
+    {
+        var image = HudImage(parent, name, sprite, new Vector2(0, 0.5f), new Vector2(size, size));
+        image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        image.rectTransform.anchoredPosition = position;
+        image.preserveAspect = true;
+        return image;
+    }
+
+    // Text filling the parent panel from left (px) to the right edge.
+    static Text PanelText(Transform parent, string name, Font font, int size, Color color, float left, TextAnchor alignment)
+    {
+        var text = HudText(parent, name, font, new Vector2(0.5f, 0.5f), Vector2.zero, alignment, size, color);
+        Stretch(text.rectTransform);
+        text.rectTransform.offsetMin = new Vector2(left, 6);
+        text.rectTransform.offsetMax = new Vector2(-10, -6);
+        return text;
+    }
+
+    static Sprite HudSprite(string name)
+    {
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{Sprites}/{name}.png");
+        if (sprite == null) throw new FileNotFoundException($"Missing HUD sprite {Sprites}/{name}.png; run hud_sprites_dads.py / hud_icons_dads.py");
+        return sprite;
+    }
+
+    // Pixel fonts render hinted at their exact pixel size so they stay crisp at any HUD scale.
+    static Font PixelFont(string name)
+    {
+        var path = $"{Fonts}/{name}.ttf";
+        var importer = (TrueTypeFontImporter)AssetImporter.GetAtPath(path);
+        if (importer.fontRenderingMode != FontRenderingMode.HintedRaster)
+        {
+            importer.fontRenderingMode = FontRenderingMode.HintedRaster;
+            importer.SaveAndReimport();
+        }
+        return AssetDatabase.LoadAssetAtPath<Font>(path);
     }
 
     static Image Overlay(Transform parent, string name)
@@ -379,7 +566,7 @@ public static partial class DivorcedDadsSceneBuilder
         image.transform.SetParent(parent, false);
         image.rectTransform.anchorMin = image.rectTransform.anchorMax = image.rectTransform.pivot = anchor;
         image.rectTransform.sizeDelta = size;
-        image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"Assets/Art/Sprites/{sprite}.png");
+        image.sprite = HudSprite(sprite);
         image.raycastTarget = false;
         return image;
     }
@@ -699,12 +886,12 @@ public static partial class DivorcedDadsSceneBuilder
         go.transform.localPosition = position;
         var mesh = go.AddComponent<TextMesh>();
         mesh.text = text;
-        mesh.characterSize = size;
+        // Press Start 2P runs twice as wide as a proportional font, so its glyphs are drawn at half size.
+        mesh.characterSize = size * 0.5f;
         mesh.fontSize = 48;
         mesh.anchor = TextAnchor.MiddleCenter;
         mesh.alignment = TextAlignment.Center;
-        mesh.fontStyle = FontStyle.Bold;
-        mesh.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        mesh.font = PixelFont("PressStart2P-Regular");
         go.GetComponent<MeshRenderer>().sharedMaterial = mesh.font.material;
         return mesh;
     }
@@ -741,7 +928,6 @@ public static partial class DivorcedDadsSceneBuilder
         var text = rect.GetComponent<Text>();
         text.font = font;
         text.fontSize = size;
-        text.fontStyle = FontStyle.Bold;
         text.alignment = alignment;
         text.color = color;
         text.raycastTarget = false;

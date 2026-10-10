@@ -1,32 +1,72 @@
+using System;
 using Quantum;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// The Divorced Dads HUD: cash on hand, Big Dairy's debt meter and tonight's installment, the day and time of day in
-// words (no clock), heat badges, the jingle, the freezer stock, the hotbar, what pressing E would do, plus screen
-// splats, the cough and brain freeze tints, and the story cards (each morning's intro, Big Dairy's collection, the
-// win and the repo). Every text and image is authored in the scene; this only fills in values.
+// The Divorced Dads HUD, in the same candy PS1 style as the zombie mode: cash on hand, the day with a sun or moon,
+// heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed, the freezer tubs,
+// the hotbar with item icons, the carried ingredient, ammo, what pressing E would do, a hint for what to do next, the
+// controls panel (F1), screen splats, cough and brain freeze tints, and the story cards (each morning, Big Dairy's
+// collection, the win, the repo). Every panel, text and image is authored in the scene; this only fills in values,
+// swaps icons and shows or hides panels.
 public class DadsHud : MonoBehaviour
 {
+    [Serializable]
+    public struct ItemIcon
+    {
+        public DadItem Kind;
+        public Sprite Sprite;
+    }
+
+    private const string Key = "<color=#ffe14a>";
+    private const string End = "</color>";
+
     [SerializeField] private DadsInput input;
+    [SerializeField] private ItemIcon[] icons;
+    [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
+    [SerializeField] private Sprite[] scoopIcons;
+    [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
+    [SerializeField] private Sprite[] tubIcons;
+    [Tooltip("Sugar, waffle and double waffle cone, by the van's cone size.")]
+    [SerializeField] private Sprite[] coneIcons;
+    [SerializeField] private Sprite minigunIcon;
+    [SerializeField] private Sprite sunIcon;
+    [SerializeField] private Sprite moonIcon;
     [SerializeField] private Text moneyText;
+    [SerializeField] private Image dayIcon;
     [SerializeField] private Text dayText;
+    [SerializeField] private GameObject heatPanel;
+    [SerializeField] private Image[] heatBadges;
     [SerializeField] private Text debtText;
     [SerializeField] private Image debtFill;
     [SerializeField] private Text dueText;
-    [SerializeField] private Text heatText;
-    [SerializeField] private Text jingleText;
-    [SerializeField] private Text phaseText;
-    [SerializeField] private Text promptText;
-    [SerializeField] private Text carriedText;
+    [SerializeField] private Image[] strikeIcons;
+    [SerializeField] private GameObject jinglePanel;
+    [SerializeField] private GameObject speedPanel;
     [SerializeField] private Text speedText;
-    [SerializeField] private Text tipText;
-    [SerializeField] private Image[] tubChips;
+    [SerializeField] private Image[] tubImages;
     [SerializeField] private Text[] tubTexts;
-    [SerializeField] private Text[] slotTexts;
-    [SerializeField] private Image[] slotFrames;
-    [SerializeField] private Color selectedColor = new Color(1f, 0.31f, 0.64f, 0.85f);
-    [SerializeField] private Color slotColor = new Color(0.1f, 0.06f, 0.2f, 0.7f);
+    [SerializeField] private GameObject phaseBanner;
+    [SerializeField] private Text phaseText;
+    [SerializeField] private Text tipText;
+    [SerializeField] private GameObject promptPanel;
+    [SerializeField] private Text promptText;
+    [SerializeField] private Image[] slotIcons;
+    [SerializeField] private Image[] slotBadges;
+    [SerializeField] private Text[] slotCounts;
+    [SerializeField] private GameObject[] slotSelected;
+    [SerializeField] private Text selectedName;
+    [SerializeField] private float nameShowTime = 1.6f;
+    [SerializeField] private GameObject carriedPanel;
+    [SerializeField] private Image carriedIcon;
+    [SerializeField] private Text carriedText;
+    [SerializeField] private GameObject ammoPanel;
+    [SerializeField] private Image ammoIcon;
+    [SerializeField] private Text ammoText;
+    [SerializeField] private Text ammoLabel;
+    [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private float controlsShowTime = 30f;
     [SerializeField] private Image[] screenSplats;
     [SerializeField] private Image coughTint;
     [SerializeField] private Image frozenTint;
@@ -36,6 +76,7 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private Text cardStamp;
     [SerializeField] private float splatTime = 2.5f;
     [SerializeField] private float introTime = 7f;
+    [SerializeField] private Color emptyColor = new Color(1f, 0.31f, 0.64f);
     [TextArea]
     [SerializeField] private string[] dayIntros =
     {
@@ -54,6 +95,10 @@ public class DadsHud : MonoBehaviour
     private float cardShownAt;
     private Color stampColor;
     private float promptShownAt;
+    private int lastSelected = -1;
+    private DadItem lastSelectedKind;
+    private float selectedShownAt;
+    private bool controlsToggled;
 
     private void OnEnable()
     {
@@ -71,9 +116,9 @@ public class DadsHud : MonoBehaviour
         splatAge[nextSplat] = 0;
         nextSplat = (nextSplat + 1) % screenSplats.Length;
         var rect = splat.rectTransform;
-        rect.anchoredPosition = new Vector2(Random.Range(-480f, 480f), Random.Range(-220f, 240f));
-        rect.localRotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
-        rect.localScale = Vector3.one * Random.Range(0.8f, 1.6f);
+        rect.anchoredPosition = new Vector2(UnityEngine.Random.Range(-480f, 480f), UnityEngine.Random.Range(-220f, 240f));
+        rect.localRotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0f, 360f));
+        rect.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.6f);
         color.a = 0.92f;
         splat.color = color;
     }
@@ -96,17 +141,17 @@ public class DadsHud : MonoBehaviour
 
     private void OnCollected(EventCollected e)
     {
-        var short_ = e.Paid < e.Due;
-        var body = "Big Dairy takes $" + e.Paid + " of the $" + e.Due + " you owe tonight.\n\n" + (e.Debt > 0 ? "Still owed: $" + e.Debt : "That's the last of it.");
-        ShowCard("COLLECTION, DAY " + e.Day, body, short_ ? "STRIKE " + e.Strikes + "/3" : "PAID", short_ ? new Color(1f, 0.2f, 0.3f) : new Color(0.22f, 0.95f, 0.76f), 7);
+        var shortPaid = e.Paid < e.Due;
+        var body = $"Big Dairy takes {Key}${e.Paid}{End} of the ${e.Due} you owe tonight.\n\n" + (e.Debt > 0 ? $"Still owed: ${e.Debt}" : "That's the last of it.");
+        ShowCard("PAYDAY, DAY " + e.Day, body, shortPaid ? "STRIKE " + e.Strikes + "/3" : "PAID", shortPaid ? new Color(1f, 0.2f, 0.3f) : new Color(0.22f, 0.95f, 0.76f), 7);
     }
 
-    private void ShowCard(string title, string body, string stamp, Color stampColor, float seconds)
+    private void ShowCard(string title, string body, string stamp, Color color, float seconds)
     {
         cardTitle.text = title;
         cardBody.text = body;
         cardStamp.text = stamp;
-        this.stampColor = stampColor;
+        stampColor = color;
         cardStamp.color = Color.clear;
         cardStamp.rectTransform.localScale = Vector3.one * 3;
         cardTimer = seconds;
@@ -116,6 +161,13 @@ public class DadsHud : MonoBehaviour
     private void Update()
     {
         var dt = Time.deltaTime;
+        if (Keyboard.current.f1Key.wasPressedThisFrame)
+        {
+            controlsPanel.SetActive(!controlsPanel.activeSelf);
+            controlsToggled = true;
+        }
+        // The controls panel shows for the first stretch of the session unless F1 was used.
+        if (!controlsToggled && Time.timeSinceLevelLoad > controlsShowTime) controlsPanel.SetActive(false);
         UpdateOverlays(dt);
         var game = QuantumRunner.Default?.Game;
         if (game?.Frames.Predicted == null) return;
@@ -130,43 +182,92 @@ public class DadsHud : MonoBehaviour
         lastMoney = run.Money;
         moneyPunch = Mathf.MoveTowards(moneyPunch, 0, dt * 4);
         moneyText.rectTransform.localScale = Vector3.one * (1 + 0.35f * Mathf.Abs(moneyPunch));
-        moneyText.color = moneyPunch < 0 ? new Color(1f, 0.3f, 0.3f) : new Color(1f, 0.88f, 0.29f);
+        moneyText.color = moneyPunch < 0 ? emptyColor : new Color(1f, 0.88f, 0.29f);
+        var night = run.Clock.AsFloat >= settings.DuskAt.AsFloat;
+        dayIcon.sprite = night ? moonIcon : sunIcon;
+        dayText.text = $"DAY {run.Day}\n{Key}{TimeOfDay(run, settings)}{End}";
+        var heat = Mathf.Clamp(Mathf.FloorToInt(run.Heat.AsFloat), 0, heatBadges.Length);
+        heatPanel.SetActive(heat > 0);
+        for (int i = 0; i < heatBadges.Length; i++) heatBadges[i].color = i < heat ? Color.white : new Color(1, 1, 1, 0.2f);
+
         var total = 0;
         foreach (var due in settings.Dues) total += due;
-        debtText.text = "OWED TO BIG DAIRY  $" + run.Debt;
+        debtText.text = "OWED $" + run.Debt;
         debtFill.fillAmount = 1 - (float)run.Debt / total;
-        dueText.text = "TONIGHT  $" + run.Due + (run.Strikes > 0 ? "   STRIKES " + run.Strikes + "/3" : "");
-        dayText.text = "DAY " + run.Day + "  " + TimeOfDay(run, settings);
-        var heat = Mathf.Clamp(Mathf.FloorToInt(run.Heat.AsFloat), 0, 5);
-        heatText.text = heat > 0 ? "HEAT " + new string('*', heat) + new string('-', 5 - heat) : "";
-        jingleText.text = van.Jingle ? "JINGLE ON" : "";
-        speedText.text = Mathf.Abs(van.Speed.AsFloat) > 0.5f ? Mathf.RoundToInt(Mathf.Abs(van.Speed.AsFloat) * 2.237f) + " MPH" : "";
+        dueText.text = "TONIGHT $" + run.Due;
+        for (int i = 0; i < strikeIcons.Length; i++) strikeIcons[i].color = i < run.Strikes ? Color.white : new Color(1, 1, 1, 0.15f);
+        jinglePanel.SetActive(van.Jingle);
+        var speed = Mathf.Abs(van.Speed.AsFloat);
+        speedPanel.SetActive(speed > 0.5f);
+        speedText.text = Mathf.RoundToInt(speed * 2.237f) + " MPH";
         phaseText.text = PhaseBanner(run);
+        phaseBanner.SetActive(phaseText.text != "");
 
         foreach (var pair in frame.GetComponentIterator<Fixture>())
         {
-            var fixture = pair.Component;
-            if (fixture.Kind != FixtureKind.Tub) continue;
-            tubTexts[fixture.Index].text = fixture.Count > 0 ? TreatPalette.Name(fixture.Treat).ToUpper() + " " + fixture.Count : "EMPTY";
-            tubChips[fixture.Index].color = fixture.Count > 0 ? TreatPalette.Of(fixture.Treat) : new Color(0.3f, 0.3f, 0.35f, 0.7f);
+            var tub = pair.Component;
+            if (tub.Kind != FixtureKind.Tub) continue;
+            var stocked = tub.Count > 0;
+            tubImages[tub.Index].enabled = stocked;
+            if (stocked) tubImages[tub.Index].sprite = tubIcons[(int)tub.Treat];
+            tubTexts[tub.Index].text = stocked ? $"{TreatPalette.Name(tub.Treat).ToUpper()}  {Key}{tub.Count}{End}" : "empty";
+            tubTexts[tub.Index].color = stocked ? Color.white : new Color(1, 1, 1, 0.45f);
         }
 
         if (!input.LocalEntity.IsValid) return;
         var dad = frame.Get<Dad>(input.LocalEntity);
         coughTint.color = Color.Lerp(coughTint.color, new Color(0.45f, 0.8f, 0.2f, dad.Coughing > 0 ? 0.35f : 0), 1 - Mathf.Exp(-6 * dt));
         frozenTint.color = Color.Lerp(frozenTint.color, new Color(0.7f, 0.9f, 1f, dad.Frozen > 0 ? 0.45f : 0), 1 - Mathf.Exp(-8 * dt));
-        for (int i = 0; i < slotTexts.Length; i++)
+        for (int i = 0; i < slotIcons.Length; i++)
         {
-            slotTexts[i].text = (i + 1) + "\n" + Label(dad.Hotbar[i], run.ConeSize);
-            slotFrames[i].color = i == dad.Selected ? selectedColor : slotColor;
+            var item = dad.Hotbar[i];
+            slotIcons[i].enabled = item.Kind != DadItem.None;
+            if (slotIcons[i].enabled) slotIcons[i].sprite = Icon(item, run.ConeSize);
+            var loaded = item.Kind == DadItem.Cone ? (item.Count > 0 ? item.Scoops[item.Count - 1] : Treat.None) : DadSystem.IsGun(item.Kind) && item.Count > 0 ? item.Scoops[0] : Treat.None;
+            slotBadges[i].enabled = loaded != Treat.None;
+            if (slotBadges[i].enabled) slotBadges[i].sprite = scoopIcons[(int)loaded];
+            slotCounts[i].text = item.Kind == DadItem.Cone ? item.Count + "/" + run.ConeSize : DadSystem.IsGun(item.Kind) ? item.Count.ToString() : "";
+            slotSelected[i].SetActive(i == dad.Selected);
         }
-        carriedText.text = dad.Carried.Kind == DadItem.None ? "" : "CARRYING " + Label(dad.Carried, 0) + "   take it to the churn  /  Q drop";
-        var prompt = dad.Busted > 0 ? "BUSTED. Thinking about your choices..." : dad.Knocked > 0 ? "OOF" : Prompt(frame, dad, input.LocalEntity, settings, run);
+        var held = dad.Hotbar[dad.Selected];
+        if (dad.Selected != lastSelected || held.Kind != lastSelectedKind) selectedShownAt = Time.time;
+        lastSelected = dad.Selected;
+        lastSelectedKind = held.Kind;
+        selectedName.text = Label(held, run.ConeSize);
+        var nameColor = selectedName.color;
+        nameColor.a = Mathf.Clamp01(1 - (Time.time - selectedShownAt - nameShowTime) / 0.4f);
+        selectedName.color = nameColor;
+
+        carriedPanel.SetActive(dad.Carried.Kind != DadItem.None);
+        if (carriedPanel.activeSelf)
+        {
+            carriedIcon.sprite = Icon(dad.Carried, run.ConeSize);
+            carriedText.text = $"{Label(dad.Carried, run.ConeSize)}\n{Key}E{End} at the churn   {Key}Q{End} drop";
+        }
+
+        ammoPanel.SetActive(dad.Turret || DadSystem.IsGun(held.Kind));
+        if (dad.Turret)
+        {
+            ammoIcon.sprite = minigunIcon;
+            ammoText.text = van.HopperRounds.ToString();
+            ammoText.color = van.HopperRounds == 0 ? emptyColor : Color.white;
+            ammoLabel.text = van.HopperRounds == 0 ? "LOAD THE HOPPER" : "HOPPER  " + TreatPalette.Name(van.HopperTreat).ToUpper();
+        }
+        else if (ammoPanel.activeSelf)
+        {
+            var flavor = held.Count > 0 ? held.Scoops[0] : Treat.Mud;
+            ammoIcon.sprite = scoopIcons[(int)flavor];
+            ammoText.text = held.Count.ToString();
+            ammoText.color = held.Count == 0 ? emptyColor : Color.white;
+            ammoLabel.text = held.Count == 0 ? $"{Key}E{End} AT A TUB" : TreatPalette.Name(flavor).ToUpper();
+        }
+
+        var prompt = dad.Busted > 0 ? "BUSTED\nThinking about your choices..." : dad.Knocked > 0 ? "OOF" : Prompt(frame, dad, input.LocalEntity, settings, run);
         if (prompt != promptText.text) promptShownAt = Time.time;
         promptText.text = prompt;
-        tipText.text = Tip(frame, dad, run);
         // Seat controls get out of the way of the windshield once they have been read.
-        promptText.enabled = !(dad.Driving || dad.Turret) || Time.time - promptShownAt < 4f;
+        promptPanel.SetActive(prompt != "" && (!(dad.Driving || dad.Turret) || Time.time - promptShownAt < 4f));
+        tipText.text = Tip(frame, dad, run);
     }
 
     private void UpdateOverlays(float dt)
@@ -189,15 +290,36 @@ public class DadsHud : MonoBehaviour
         cardStamp.rectTransform.localScale = Vector3.Lerp(cardStamp.rectTransform.localScale, Vector3.one, 1 - Mathf.Exp(-14 * dt));
     }
 
+    private Sprite Icon(DadSlot item, int coneSize)
+    {
+        if (item.Kind == DadItem.Cone) return coneIcons[Mathf.Clamp(coneSize, 1, coneIcons.Length) - 1];
+        foreach (var icon in icons)
+        {
+            if (icon.Kind == item.Kind) return icon.Sprite;
+        }
+        throw new InvalidOperationException($"DadsHud has no icon for {item.Kind}");
+    }
+
     // No clock on screen: the time of day in words, from the sun's progress.
     private static string TimeOfDay(DadsRun run, DadsSettings settings)
     {
-        if (run.Phase == DayPhase.Morning) return "MORNING AT THE LOT";
+        if (run.Phase == DayPhase.Morning) return "AT THE LOT";
         if (run.Phase == DayPhase.Collection || run.Phase == DayPhase.Won || run.Phase == DayPhase.Repo) return "PAYDAY";
         if (run.Phase == DayPhase.Night) return run.Clock.AsFloat >= 1 ? "MIDNIGHT" : "NIGHT";
         if (run.Phase == DayPhase.Dusk) return "DUSK";
         var day = run.Clock.AsFloat / settings.DuskAt.AsFloat;
         return day < 0.25f ? "MORNING" : day < 0.45f ? "NOON" : day < 0.75f ? "AFTERNOON" : "EVENING";
+    }
+
+    private static string PhaseBanner(DadsRun run)
+    {
+        switch (run.Phase)
+        {
+            case DayPhase.Morning: return "BIG DAIRY'S LOT!  Shop, load up, then drive out and sell";
+            case DayPhase.Dusk: return "The kids are heading home.  Back to the lot soon!";
+            case DayPhase.Night: return "SUGAR CURFEW!  Cops are out and the jingle draws them";
+            default: return "";
+        }
     }
 
     // One hint at a time for whatever the dads should be doing next.
@@ -215,28 +337,17 @@ public class DadsHud : MonoBehaviour
         {
             if (van.Queue[i].IsValid && frame.Exists(van.Queue[i])) queued++;
         }
-        if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Drive back to Big Dairy's lot and punch the clock to pay up.";
+        if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Drive back to Big Dairy's lot (cops won't follow you in) and punch the clock.";
         if (run.Phase != DayPhase.Morning && run.Phase != DayPhase.Day) return "";
-        if (dad.Carried.Kind != DadItem.None) return "Take it to the flavor churn in the van and press E.";
-        if (stock == 0) return "Out of ice cream! Scoop mud from a puddle (or find better stuff) and dump it in the churn.";
+        if (dad.Carried.Kind != DadItem.None) return "Take it to the flavor churn in the van.";
+        if (stock == 0) return "Out of ice cream!  Scoop mud from a puddle and dump it in the churn.";
         if (held.Kind == DadItem.Cone && held.Count == 0) return "Click a freezer tub at the back of the van to plop a scoop on your cone.";
         if (DadSystem.IsGun(held.Kind) && held.Count == 0) return "Press E at a freezer tub to refill your gun.";
-        if (run.Phase == DayPhase.Morning) return dad.Driving ? "Drive out of the lot to start the day." : "Take the wheel up front (E at the seat) and drive out of the lot.";
-        if (dad.Driving && !van.Jingle) return "RIGHT CLICK to play the jingle. Kids come running. CLICK to honk.";
-        if (dad.Driving && queued > 0 && Mathf.Abs(van.Speed.AsFloat) < 1) return queued + " kids at the serving window! Leave the seat and shove cones in their faces.";
-        if (dad.Driving) return "Park somewhere with kids around: they line up at the serving window.";
+        if (run.Phase == DayPhase.Morning) return dad.Driving ? "Drive out of the lot to start the day." : "Take the wheel up front and drive out of the lot.";
+        if (dad.Driving && !van.Jingle) return "RIGHT CLICK plays the jingle and kids come running.  CLICK honks.";
+        if (dad.Driving && queued > 0 && Mathf.Abs(van.Speed.AsFloat) < 1) return queued + " kids at the serving window!  Leave the seat and go serve them.";
+        if (dad.Driving) return "Park near kids: they line up at the serving window.";
         return queued > 0 ? "Kids at the window: stand at the counter and CLICK to shove a cone in a face." : "";
-    }
-
-    private static string PhaseBanner(DadsRun run)
-    {
-        switch (run.Phase)
-        {
-            case DayPhase.Morning: return "Buy stuff at the lot, then drive out and sell!";
-            case DayPhase.Dusk: return "The kids are heading home. Back to the lot soon!";
-            case DayPhase.Night: return "SUGAR CURFEW! Cops are out (and the jingle draws them). Get back to the lot: they won't follow you in.";
-            default: return "";
-        }
     }
 
     public static string Label(DadSlot item, int coneSize)
@@ -245,30 +356,29 @@ public class DadsHud : MonoBehaviour
         {
             case DadItem.None: return "";
             case DadItem.Cone:
-                if (item.Count == 0) return "Empty cone";
+                var cone = coneSize >= 3 ? "Double Waffle Cone" : coneSize == 2 ? "Waffle Cone" : "Cone";
+                if (item.Count == 0) return "Empty " + cone;
                 var scoops = "";
-                for (int i = item.Count - 1; i >= 0; i--) scoops += TreatPalette.Name(item.Scoops[i]) + (i > 0 ? "\n" : "");
-                return scoops;
-            case DadItem.ScoopPistol:
-            case DadItem.SundaeShotgun:
-                var name = item.Kind == DadItem.ScoopPistol ? "Pistol" : "Shotgun";
-                return item.Count > 0 ? name + " " + item.Count + "\n" + TreatPalette.Name(item.Scoops[0]) : name + "\nEMPTY";
-            case DadItem.MudBucket: return "BUCKET OF MUD";
-            case DadItem.StrawberryBasket: return "STRAWBERRIES";
-            case DadItem.IcedCoffee: return "ICED COFFEES";
-            case DadItem.NutSack: return "SACK OF NUTS";
-            case DadItem.GoldLeaf: return "GOLD LEAF";
+                for (int i = item.Count - 1; i >= 0; i--) scoops += TreatPalette.Name(item.Scoops[i]) + (i > 0 ? " + " : "");
+                return scoops + " " + cone;
+            case DadItem.ScoopPistol: return "Scoop Pistol";
+            case DadItem.SundaeShotgun: return "Sundae Shotgun";
+            case DadItem.MudBucket: return "Bucket of Mud";
+            case DadItem.StrawberryBasket: return "Strawberries";
+            case DadItem.IcedCoffee: return "Iced Coffees";
+            case DadItem.NutSack: return "Sack of Nuts";
+            case DadItem.GoldLeaf: return "Gold Leaf";
             default: return item.Kind.ToString();
         }
     }
 
     private static string Prompt(Frame frame, Dad dad, EntityRef entity, DadsSettings settings, DadsRun run)
     {
-        if (dad.Driving) return "W/S drive  A/D steer  CLICK honk  RIGHT CLICK jingle on/off  E get out";
-        if (dad.Turret) return "CLICK fire the soft serve minigun  E leave the turret";
+        if (dad.Driving) return $"{Key}W/S{End} drive   {Key}A/D{End} steer   {Key}CLICK{End} honk   {Key}RIGHT CLICK{End} jingle   {Key}E{End} get out";
+        if (dad.Turret) return $"{Key}CLICK{End} fire the soft serve minigun   {Key}E{End} leave the turret";
         var target = dad.LookTarget;
-        if (target.IsValid && frame.TryGet(target, out Loot loot)) return "E  pick up " + Label(loot.Item, run.ConeSize).Replace("\n", " ");
-        if (target.IsValid && frame.TryGet(target, out Fixture fixture)) return FixturePrompt(frame, fixture, dad, settings, run);
+        if (target.IsValid && frame.TryGet(target, out Loot loot)) return $"{Key}E{End}  pick up {Label(loot.Item, run.ConeSize)}";
+        if (target.IsValid && frame.TryGet(target, out Fixture fixture)) return FixturePrompt(frame, fixture, dad, run);
 
         var van = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>());
         var local = van.InverseTransformPoint(frame.Get<Transform3D>(entity).Position);
@@ -276,53 +386,53 @@ public class DadsHud : MonoBehaviour
         var nearest = settings.InteractRange * settings.InteractRange;
         var prompt = "";
         var canDrive = !frame.GetSingleton<Van>().Driver.IsValid && dad.Carried.Kind == DadItem.None;
-        var spots = new[] { (settings.LadderBottom, "E  climb to the roof"), (settings.HatchTop, "E  climb down into the kitchen"),
-            (settings.RearOutside, "E  get in the truck"), (settings.RearInside, "E  get out the back"), (settings.DriverSeat, canDrive ? "E  drive" : "") };
+        var spots = new[] { (settings.LadderBottom, "climb to the roof"), (settings.HatchTop, "climb down into the kitchen"),
+            (settings.RearOutside, "get in the truck"), (settings.RearInside, "get out the back"), (settings.DriverSeat, canDrive ? "drive" : "") };
         foreach (var (spot, text) in spots)
         {
             var distance = (local - spot).SqrMagnitude;
             if (distance >= nearest || text == "") continue;
             nearest = distance;
-            prompt = text;
+            prompt = $"{Key}E{End}  {text}";
         }
         return prompt;
     }
 
-    private static unsafe string FixturePrompt(Frame frame, Fixture fixture, Dad dad, DadsSettings settings, DadsRun run)
+    private static unsafe string FixturePrompt(Frame frame, Fixture fixture, Dad dad, DadsRun run)
     {
         var held = dad.Hotbar[dad.Selected];
         switch (fixture.Kind)
         {
             case FixtureKind.Churn:
                 if (fixture.Timer > 0) return "CHURNING...";
-                return DadSystem.TreatOf(dad.Carried.Kind) != Treat.None ? "E  dump it in the churn" : "FLAVOR CHURN\nbring mud, strawberries, iced coffee, nuts or gold";
+                return DadSystem.TreatOf(dad.Carried.Kind) != Treat.None ? $"{Key}E{End}  dump it in the churn" : "FLAVOR CHURN\nbring mud, strawberries, iced coffee, nuts or gold";
             case FixtureKind.Tub:
                 if (fixture.Count == 0) return "EMPTY TUB";
-                var flavor = TreatPalette.Name(fixture.Treat).ToUpper() + " (" + fixture.Count + ")";
-                if (held.Kind == DadItem.Cone) return held.Count < run.ConeSize ? flavor + "\nCLICK  plop a scoop on your cone" : flavor + "\ncone's full! go feed a kid";
-                if (DadSystem.IsGun(held.Kind)) return flavor + "\nE  refill your " + (held.Kind == DadItem.ScoopPistol ? "pistol" : "shotgun");
-                return flavor + "\nhold a cone or a gun";
-            case FixtureKind.ConeCounter: return "E  grab a cone";
-            case FixtureKind.GunRack: return DadSystem.IsGun(held.Kind) ? "E  hang up your gun" : "E  take a gun";
-            case FixtureKind.Hopper: return run.Minigun ? "E  pour the fullest tub into the minigun (" + frame.GetSingleton<Van>().HopperRounds + ")" : "MINIGUN HOPPER (buy the Soft Serve Minigun)";
-            case FixtureKind.Bell: return frame.GetSingleton<Van>().BellCooldown > 0 ? "the bell is still ringing" : "E  ring the dinner bell (kids come running)";
-            case FixtureKind.Turret: return "E  man the soft serve minigun";
+                var flavor = $"{TreatPalette.Name(fixture.Treat).ToUpper()} TUB  ({fixture.Count})";
+                if (held.Kind == DadItem.Cone) return held.Count < run.ConeSize ? $"{flavor}\n{Key}CLICK{End} plop a scoop on your cone" : $"{flavor}\nyour cone's full: go feed a kid";
+                if (DadSystem.IsGun(held.Kind)) return $"{flavor}\n{Key}E{End} refill your {(held.Kind == DadItem.ScoopPistol ? "pistol" : "shotgun")}";
+                return $"{flavor}\nhold a cone or a gun";
+            case FixtureKind.ConeCounter: return $"{Key}E{End}  grab a cone";
+            case FixtureKind.GunRack: return DadSystem.IsGun(held.Kind) ? $"{Key}E{End}  hang up your gun" : $"{Key}E{End}  take a gun";
+            case FixtureKind.Hopper: return run.Minigun ? $"MINIGUN HOPPER  ({frame.GetSingleton<Van>().HopperRounds})\n{Key}E{End} pour in the fullest tub" : "MINIGUN HOPPER\nbuy the Soft Serve Minigun at the lot";
+            case FixtureKind.Bell: return frame.GetSingleton<Van>().BellCooldown > 0 ? "the bell is still ringing" : $"{Key}E{End}  ring the dinner bell (kids come running)";
+            case FixtureKind.Turret: return $"{Key}E{End}  man the soft serve minigun";
             case FixtureKind.Shop:
-                if (DadsGame.SoldOut(&run, fixture.Upgrade)) return ShopTag.Name(fixture.Upgrade) + "  (not available)";
-                return run.Money >= fixture.Price ? "E  buy " + ShopTag.Name(fixture.Upgrade) + " for $" + fixture.Price : ShopTag.Name(fixture.Upgrade) + "  $" + fixture.Price + "  (you're broke)";
-            case FixtureKind.Collector: return "BIG DAIRY: \"You got my $" + run.Due + "?\"";
+                if (DadsGame.SoldOut(&run, fixture.Upgrade)) return ShopTag.Name(fixture.Upgrade) + "\nnot available";
+                return run.Money >= fixture.Price ? $"{Key}E{End}  buy {ShopTag.Name(fixture.Upgrade)} for ${fixture.Price}" : $"{ShopTag.Name(fixture.Upgrade)}  ${fixture.Price}\nyou're broke";
+            case FixtureKind.Collector: return $"BIG DAIRY\n\"You got my ${run.Due}?\"";
             case FixtureKind.TimeClock:
-                if (run.Phase == DayPhase.Morning) return "go sell some ice cream first";
-                return "E  clock out and pay Big Dairy $" + run.Due + "\n(the truck has to be parked in the lot)";
-            case FixtureKind.MudPuddle: return dad.Carried.Kind == DadItem.None ? "E  scoop up some mud" : "hands full";
-            case FixtureKind.StrawberryPatch: return fixture.Timer > 0 ? "picked clean (growing back)" : "E  pick strawberries";
-            case FixtureKind.CoffeeTable: return fixture.Timer > 0 ? "no coffees left (restocking)" : "E  \"borrow\" some iced coffees";
-            case FixtureKind.NutTree: return fixture.Timer > 0 ? "no nuts left (for now)" : "E  shake the tree (or ram it with the truck)";
+                if (run.Phase == DayPhase.Morning) return "TIME CLOCK\ngo sell some ice cream first";
+                return $"{Key}E{End}  clock out and pay Big Dairy ${run.Due}\n(park the truck in the lot first)";
+            case FixtureKind.MudPuddle: return dad.Carried.Kind == DadItem.None ? $"{Key}E{End}  scoop up some mud" : "hands full";
+            case FixtureKind.StrawberryPatch: return fixture.Timer > 0 ? "picked clean (growing back)" : $"{Key}E{End}  pick strawberries";
+            case FixtureKind.CoffeeTable: return fixture.Timer > 0 ? "no coffees left (restocking)" : $"{Key}E{End}  \"borrow\" some iced coffees";
+            case FixtureKind.NutTree: return fixture.Timer > 0 ? "no nuts left (for now)" : $"{Key}E{End}  shake the tree (or ram it with the truck)";
             case FixtureKind.Vault:
-                if (!fixture.Open) return "VAULT: somebody has to stand on the pressure plate";
-                return fixture.Timer > 0 ? "the vault is empty (for now)" : "E  grab the gold leaf";
-            case FixtureKind.Plate: return "PRESSURE PLATE: stand here or drop something heavy on it";
-            case FixtureKind.Gate: return fixture.Open ? "" : "PERMIT REQUIRED: buy one at Big Dairy's lot";
+                if (!fixture.Open) return "VAULT\nsomebody has to stand on the pressure plate";
+                return fixture.Timer > 0 ? "the vault is empty (for now)" : $"{Key}E{End}  grab the gold leaf";
+            case FixtureKind.Plate: return "PRESSURE PLATE\nstand here or drop something heavy on it";
+            case FixtureKind.Gate: return fixture.Open ? "" : "PERMIT REQUIRED\nbuy one at Big Dairy's lot";
             default: return "";
         }
     }

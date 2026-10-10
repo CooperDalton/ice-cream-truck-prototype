@@ -68,6 +68,7 @@ All Blender models belong in the master scene at `Ice Cream Truck Prototype/Asse
 - Simulation: `Assets/QuantumUser/Simulation/DivorcedDads/` (`DivorcedDads.qtn`, systems, `DadsSettings`). View, HUD, effects and audio: `Assets/Scripts/DivorcedDads/`. Same Quantum rules as the zombie mode.
 - `DivorcedDadsSceneBuilder.Build` (Tools > Divorced Dads > Build Scene) regenerates the prefabs in `Assets/Prefabs/Dads`, `DadsSettings.asset`, the town (block placement, baked static colliders, planned kid paths out of the fenced yards) and the scene, plus its online-menu scene info. Change values there, not in the generated assets.
 - Art: `Art/Tools/zombie-styles/h_dads_characters.py`, `h_dads_items.py`, `h_dads_town.py` (exported with `export_unity.py` to `Assets/Art/PS1/Dads *`). Sounds: `sfx_dads.py` -> `Assets/Audio/Dads`.
+- HUD: same candy PS1 style as the zombie HUD. `hud_sprites_dads.py` (python3) draws the nine-slice frames and glyphs into `Assets/Art/Sprites/DadsHUD`, `hud_icons_dads.py` (Blender) renders the item icons into `Assets/Art/Sprites/DadsIcons`, and the HUD uses the shared OFL pixel fonts in `Assets/Art/Fonts`. `DivorcedDadsSceneBuilder.BuildHud` lays it out and sets the nine-slice borders.
 - Play-test bot: `DadsPlaytest.Run("<scenario>")` from an open editor (eval), or `-executeMethod DadsPlaytest.RunFromCommandLine` with `PLAYTEST_SCENARIO`. Scenarios: `tour`, `serve`, `shop`, `night`, `maple`, `chaos`, `ride`, `finale`, `cops`. It mutes audio, writes snaps, frame sequences and a state log to `Library/CodexPlaytests/dads/`.
 
 ## Agents.md
