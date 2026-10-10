@@ -51,6 +51,8 @@ public class DadsHud : MonoBehaviour
     private int lastMoney;
     private float moneyPunch;
     private float cardTimer;
+    private float cardShownAt;
+    private Color stampColor;
     private float promptShownAt;
 
     private void OnEnable()
@@ -104,9 +106,11 @@ public class DadsHud : MonoBehaviour
         cardTitle.text = title;
         cardBody.text = body;
         cardStamp.text = stamp;
-        cardStamp.color = stampColor;
+        this.stampColor = stampColor;
+        cardStamp.color = Color.clear;
         cardStamp.rectTransform.localScale = Vector3.one * 3;
         cardTimer = seconds;
+        cardShownAt = Time.time;
     }
 
     private void Update()
@@ -179,7 +183,10 @@ public class DadsHud : MonoBehaviour
         }
         cardTimer -= dt;
         card.alpha = Mathf.MoveTowards(card.alpha, cardTimer > 0 ? 1 : 0, dt * 3);
-        cardStamp.rectTransform.localScale = Vector3.Lerp(cardStamp.rectTransform.localScale, Vector3.one, 1 - Mathf.Exp(-10 * dt));
+        // The stamp slams down a second after the card, with Big Dairy's stamp sound.
+        if (Time.time - cardShownAt < 1) return;
+        cardStamp.color = stampColor;
+        cardStamp.rectTransform.localScale = Vector3.Lerp(cardStamp.rectTransform.localScale, Vector3.one, 1 - Mathf.Exp(-14 * dt));
     }
 
     // No clock on screen: the time of day in words, from the sun's progress.
@@ -227,7 +234,7 @@ public class DadsHud : MonoBehaviour
         {
             case DayPhase.Morning: return "Buy stuff at the lot, then drive out and sell!";
             case DayPhase.Dusk: return "The kids are heading home. Back to the lot soon!";
-            case DayPhase.Night: return "SUGAR CURFEW! Cops are out. Get back to the lot and clock out!";
+            case DayPhase.Night: return "SUGAR CURFEW! Cops are out (and the jingle draws them). Get back to the lot: they won't follow you in.";
             default: return "";
         }
     }

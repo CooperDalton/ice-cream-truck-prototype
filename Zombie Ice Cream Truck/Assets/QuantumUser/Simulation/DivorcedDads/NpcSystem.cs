@@ -278,7 +278,9 @@ namespace Quantum
                 case NpcState.Chase:
                     var target = ChaseTarget(f, transform->Position, settings, vanEntity, out var targetDad);
                     var toVan = (vanTransform.Position - transform->Position).Magnitude;
-                    if (!onDuty || (!targetDad.IsValid && toVan > settings.CopNotice * 2))
+                    // Big Dairy's lot is off limits: he has the cops paid off.
+                    var safe = (target - settings.LotPark).SqrMagnitude < settings.LotRadius * settings.LotRadius;
+                    if (!onDuty || safe || (!targetDad.IsValid && toVan > settings.CopNotice * 2))
                     {
                         npc->State = NpcState.Wander;
                         return;
@@ -312,7 +314,9 @@ namespace Quantum
                         var parked = FPMath.Abs(van->Speed) < 3;
                         var vanSqr = (vanTransform.Position - transform->Position).SqrMagnitude;
                         var heard = call > 0 && vanSqr < call * call * FP._1_50 * FP._1_50;
-                        if (((seen - transform->Position).SqrMagnitude < settings.CopNotice * settings.CopNotice && (seenDad.IsValid || parked)) || heard)
+                        var inLot = (seen - settings.LotPark).SqrMagnitude < settings.LotRadius * settings.LotRadius;
+                        if (inLot) heard = false;
+                        if (!inLot && (((seen - transform->Position).SqrMagnitude < settings.CopNotice * settings.CopNotice && (seenDad.IsValid || parked)) || heard))
                         {
                             npc->State = NpcState.Chase;
                             f.Events.CopSpotted(entity, transform->Position);

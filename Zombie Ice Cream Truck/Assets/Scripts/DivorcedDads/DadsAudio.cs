@@ -181,6 +181,7 @@ public class DadsAudio : MonoBehaviour
     private void OnCollected(EventCollected e)
     {
         Play(cashRegister, default(FPVector3), 1f, default, true);
+        Play(stamp, default(FPVector3), 1f, default, true, 1f, 1f);
         Play(e.Paid < e.Due ? sadTrombone : fanfare, default(FPVector3), 0.9f, default, true, 1f, 1.6f);
     }
 
