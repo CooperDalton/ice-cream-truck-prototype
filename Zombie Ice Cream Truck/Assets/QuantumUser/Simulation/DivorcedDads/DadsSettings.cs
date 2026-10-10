@@ -101,7 +101,7 @@ namespace Quantum
         public Int32 HopperCapacity = 120;
         public Int32 RoundsPerScoop = 4;
 
-        public FP ShoveRange = FP._3 + FP._0_25;
+        public FP ShoveRange = FP._3 + FP._0_50 + FP._0_10;
         public FP ShoveAngle = 40;
         public FP ShoveCooldown = FP._0_50;
         public Int32 PistolClip = 10;

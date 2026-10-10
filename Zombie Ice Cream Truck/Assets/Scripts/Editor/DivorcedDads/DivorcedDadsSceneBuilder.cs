@@ -565,7 +565,7 @@ public static partial class DivorcedDadsSceneBuilder
         settings.RearOutside = new Vector3(0, 0.05f, -3.6f).ToFPVector3();
         var window = Child(truck, $"{Truck} socket serving window").position;
         // Far enough out that a kid's face shows over the counter from inside.
-        settings.WindowOutside = new Vector3(window.x - 1.5f, 0, window.z).ToFPVector3();
+        settings.WindowOutside = new Vector3(window.x - 2.2f, 0, window.z).ToFPVector3();
 
         var turretSocket = Child(truck, $"{Truck} socket turret").position;
         var minigun = Place(Model("Weapons", "Soft Serve Minigun"), null, Vector3.zero, Quaternion.identity);
