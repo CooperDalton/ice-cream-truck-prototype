@@ -102,7 +102,6 @@ namespace Quantum {
     Plate,
     Gate,
     RearDoor,
-    Hatch,
   }
   public enum Flavor : byte {
     None,

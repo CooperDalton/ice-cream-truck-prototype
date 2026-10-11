@@ -37,7 +37,7 @@ public static partial class DivorcedDadsSceneBuilder
     // The truck art drives on the right; this is America, so the Dads van mirrors the driving position to the left.
     static readonly string[] DriverSide = { "driver seat", "steering wheel", "steering column", "instruments", "pedal brake", "pedal gas" };
     // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own), the freezer's sliding glass
-    // lids, and the back door and roof hatch lid (they swing as fixtures of their own).
+    // lids, the back door (it swings as a fixture of its own) and the roof hatch lid (the hatch is always open).
     static readonly string[] TruckDecor = { "freezer lid a", "freezer lid b", "rear door", "hatch lid", "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
 
     // Hand-measured from the truck art (h_truck.py layout), same as the zombie mode: floor top 0.75, ceiling 2.86,
@@ -170,6 +170,11 @@ public static partial class DivorcedDadsSceneBuilder
         var root = EntityRoot("Van");
         var model = Place(truckModel, root.transform, Vector3.zero, Quaternion.identity);
         foreach (var decor in TruckDecor) Child(model, $"{Truck} {decor}").gameObject.SetActive(false);
+        // The churn's hopper is an open funnel modeled single-sided: draw both faces so its inside shows from above.
+        var hopper = Child(model, $"{Truck} churn hopper").GetComponent<Renderer>();
+        var twoSided = new Material(hopper.sharedMaterial) { name = "Dads Churn Hopper" };
+        twoSided.SetFloat("_Cull", (float)UnityEngine.Rendering.CullMode.Off);
+        hopper.sharedMaterial = ReplaceAsset(twoSided, $"{MaterialFolder}/Dads Churn Hopper.mat");
         foreach (var name in DriverSide)
         {
             var part = Child(model, $"{Truck} {name}");
@@ -266,8 +271,10 @@ public static partial class DivorcedDadsSceneBuilder
         return SavePrefab(root);
     }
 
-    // Every holdable model at the hand (cones with their scoop stacks, guns) and the bulky ingredients at the chest.
-    static HeldItems HeldRig(Transform hand, Transform chest, Quaternion gunAim, float bulkyScale)
+    // Every holdable model at the hand (cones with their scoop stacks, guns) and the bulky ingredients: in front of the
+    // chest, or (first person, handCarry set) upright in the right hand, gripped at the item's right-hand socket so the
+    // visible hand is holding them.
+    static HeldItems HeldRig(Transform hand, Transform chest, Quaternion gunAim, float bulkyScale, Quaternion? handCarry = null)
     {
         var rig = new GameObject("Held").transform;
         rig.SetParent(hand, false);
@@ -282,9 +289,11 @@ public static partial class DivorcedDadsSceneBuilder
         foreach (var (kind, bulky) in new[] { (DadItem.MudBucket, "Mud Bucket"), (DadItem.StrawberryBasket, "Strawberry Basket"), (DadItem.IcedCoffee, "Iced Coffee"), (DadItem.NutSack, "Nut Sack"), (DadItem.GoldLeaf, "Gold Leaf") })
         {
             var category = kind == DadItem.StrawberryBasket ? "Items" : Items;
-            var model = Place(Model(category, bulky), chest, Vector3.zero, Quaternion.identity);
+            var model = Place(Model(category, bulky), handCarry.HasValue ? rig : chest, Vector3.zero, handCarry ?? Quaternion.identity);
             model.transform.localScale = Vector3.one * bulkyScale;
-            model.transform.localPosition = Vector3.down * 0.15f * bulkyScale;
+            model.transform.localPosition = handCarry.HasValue
+                ? -(handCarry.Value * Child(model, $"{bulky} socket hand R").localPosition * bulkyScale)
+                : Vector3.down * 0.15f * bulkyScale;
             items.Add((kind, model));
         }
         var serialized = new SerializedObject(held);
@@ -395,16 +404,27 @@ public static partial class DivorcedDadsSceneBuilder
         prefabs[(int)FixtureKind.Tub] = BuildFixture(FixtureKind.Tub, root =>
         {
             var tubs = new Object[Treats.Length];
+            var view = root.AddComponent<TubView>();
+            var serialized = new SerializedObject(view);
+            var fills = serialized.FindProperty("fills");
+            fills.arraySize = Treats.Length;
             for (int t = 1; t < Treats.Length; t++)
             {
-                var tub = Place(Model(Items, $"Flavor Tub {Treats[t]}"), root.transform, new Vector3(0, -0.02f, 0), Quaternion.Euler(0, 90, 0));
+                var name = $"Flavor Tub {Treats[t]}";
+                var tub = Place(Model(Items, name), root.transform, new Vector3(0, -0.02f, 0), Quaternion.Euler(0, 90, 0));
                 tub.transform.localScale = Vector3.one * 0.85f;
                 tub.SetActive(false);
                 tubs[t] = tub;
+                // The surface pieces of the art (h_dads_items.build_tub): the ice cream dome, the swirl and the toppings.
+                var surface = new[] { $"{name} ice cream", $"{name} swirl", $"{name} top" };
+                var parts = tub.GetComponentsInChildren<Transform>(true)
+                    .Where(c => surface.Any(c.name.StartsWith) && !surface.Any(c.parent.name.StartsWith)).ToArray();
+                var list = fills.GetArrayElementAtIndex(t).FindPropertyRelative("Parts");
+                list.arraySize = parts.Length;
+                for (int i = 0; i < parts.Length; i++) list.GetArrayElementAtIndex(i).objectReferenceValue = parts[i];
             }
-            var label = WorldText(root.transform, "Label", new Vector3(0.25f, 0.62f, 0), 0.02f, "EMPTY");
-            label.transform.localRotation = Quaternion.Euler(0, 90, 0);
-            Set(root.AddComponent<TubView>(), ("tubs", tubs), ("label", label));
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            Set(view, ("tubs", tubs));
         });
         prefabs[(int)FixtureKind.GunRack] = BuildFixture(FixtureKind.GunRack, root =>
         {
@@ -432,11 +452,31 @@ public static partial class DivorcedDadsSceneBuilder
         prefabs[(int)FixtureKind.Shop] = BuildFixture(FixtureKind.Shop, root =>
         {
             Primitive(PrimitiveType.Cylinder, root.transform, "Pedestal", new Vector3(0, 0.45f, 0), new Vector3(0.6f, 0.45f, 0.6f), Material("Dads Pedestal", new Color(1f, 0.31f, 0.64f)), false);
-            var money = Place(Model(Items, "Lunch Money"), root.transform, new Vector3(0, 0.95f, 0), Quaternion.identity);
-            money.transform.localScale = Vector3.one * 3;
+            // What each pedestal sells, about half a meter across, turning above it. Permits show the gate they open.
+            var display = new GameObject("Display").transform;
+            display.SetParent(root.transform, false);
+            display.localPosition = new Vector3(0, 1.2f, 0);
+            var models = new (Upgrade upgrade, string category, string name)[]
+            {
+                (Upgrade.ScoopPistol, "Weapons", "Scoop Pistol"), (Upgrade.SundaeShotgun, "Weapons", "Sundae Shotgun"),
+                (Upgrade.Minigun, "Weapons", "Soft Serve Minigun"), (Upgrade.WaffleCone, Items, "Waffle Cone"),
+                (Upgrade.DoubleWaffle, Items, "Double Waffle Cone"), (Upgrade.Loudspeaker, Items, "Loudspeaker"),
+                (Upgrade.MapleGrovePermit, Items, "Gate"), (Upgrade.HillsidePermit, Items, "Gate"),
+            };
+            var items = new Object[Enum.GetValues(typeof(Upgrade)).Length];
+            foreach (var (upgrade, category, name) in models)
+            {
+                var item = Place(Model(category, name), display, Vector3.zero, Quaternion.identity);
+                var bounds = LocalBounds(item.transform);
+                var scale = 0.5f / Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
+                item.transform.localScale = Vector3.one * scale;
+                item.transform.localPosition = -bounds.center * scale;
+                item.SetActive(false);
+                items[(int)upgrade] = item;
+            }
             var label = WorldText(root.transform, "Price Tag", new Vector3(0, 1.75f, 0), 0.06f, "UPGRADE\n$0");
             Primitive(PrimitiveType.Quad, label.transform, "Backing", new Vector3(0, 0, 0.02f), new Vector3(2.3f, 0.7f, 1), Material("Dads Label Backing", new Color(0.1f, 0.06f, 0.2f, 0.85f), "Universal Render Pipeline/Unlit", true), false);
-            Set(root.AddComponent<ShopTag>(), ("text", label));
+            Set(root.AddComponent<ShopTag>(), ("text", label), ("display", display), ("items", items));
         });
         prefabs[(int)FixtureKind.Collector] = BuildFixture(FixtureKind.Collector, root =>
         {
@@ -480,24 +520,18 @@ public static partial class DivorcedDadsSceneBuilder
             var gate = Place(Model(Items, "Gate"), root.transform, Vector3.zero, Quaternion.identity);
             Set(root.AddComponent<HingeView>(), ("part", Child(gate, "Gate arm")), ("openEuler", new Vector3(0, 0, -80)), ("speed", 2f));
         });
-        prefabs[(int)FixtureKind.RearDoor] = BuildFixture(FixtureKind.RearDoor, root => Hinged(root, truckModel, "rear door", new Vector3(0, -100, 0)));
-        prefabs[(int)FixtureKind.Hatch] = BuildFixture(FixtureKind.Hatch, root => Hinged(root, truckModel, "hatch lid", null));
+        prefabs[(int)FixtureKind.RearDoor] = BuildFixture(FixtureKind.RearDoor, root =>
+        {
+            // The truck art's back door, hinge at the fixture's origin, swinging out when opened.
+            var copy = Object.Instantiate(truckModel);
+            var door = Child(copy, $"{Truck} rear door");
+            door.SetParent(root.transform, false);
+            door.localPosition = Vector3.zero;
+            Object.DestroyImmediate(copy);
+            Set(root.AddComponent<HingeView>(), ("part", door), ("openEuler", new Vector3(0, -100, 0)), ("speed", 6f));
+        });
         Object.DestroyImmediate(truck);
         return prefabs;
-    }
-
-    // A swinging part of the truck art as a fixture of its own: hinge at the fixture's origin, closed until opened. With no
-    // openEuler the art is modeled open (the hatch lid), and that pose becomes the open one.
-    static void Hinged(GameObject root, GameObject truckModel, string name, Vector3? openEuler)
-    {
-        var truck = Object.Instantiate(truckModel);
-        var part = Child(truck, $"{Truck} {name}");
-        part.SetParent(root.transform, false);
-        part.localPosition = Vector3.zero;
-        var open = openEuler ?? part.localEulerAngles;
-        if (openEuler == null) part.localRotation = Quaternion.identity;
-        Object.DestroyImmediate(truck);
-        Set(root.AddComponent<HingeView>(), ("part", part), ("openEuler", open), ("speed", 6f));
     }
 
     static GameObject BuildFixture(FixtureKind kind, Action<GameObject> dress)
@@ -615,17 +649,11 @@ public static partial class DivorcedDadsSceneBuilder
             VanFixture(truck, FixtureKind.GunRack, "gun rack", "Gun Rack"),
             VanFixture(truck, FixtureKind.Hopper, "hopper gauge", "Hopper Gauge"),
             VanFixture(truck, FixtureKind.Bell, "roof bell", "Roof Bell"),
-            // Hinged at the art's pivots: the back door fills the 0.9 x 1.85 m doorway toward -X, the closed hatch lid
-            // covers the roof opening toward +Z.
+            // Hinged at the art's pivot, filling the 0.9 x 1.85 m doorway toward -X.
             new FixturePlacement
             {
                 Kind = FixtureKind.RearDoor, Position = Child(truck, $"{Truck} rear door").position.ToFPVector3(),
                 Center = new Vector3(-0.45f, 0.925f, 0).ToFPVector3(), HalfSize = new Vector3(0.45f, 0.925f, 0.04f).ToFPVector3(),
-            },
-            new FixturePlacement
-            {
-                Kind = FixtureKind.Hatch, Position = Child(truck, $"{Truck} hatch lid").position.ToFPVector3(),
-                Center = new Vector3(0, 0, 0.32f).ToFPVector3(), HalfSize = new Vector3(0.33f, 0.03f, 0.31f).ToFPVector3(),
             },
             new FixturePlacement { Kind = FixtureKind.Turret, Position = turretSocket.ToFPVector3(), Center = turretBounds.center.ToFPVector3(), HalfSize = turretBounds.extents.ToFPVector3() },
         };

@@ -19,7 +19,7 @@ using UnityEngine.InputSystem.LowLevel;
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
 // kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
 // tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it),
-// hatch (up the ladder into the shut hatch, open it, out onto the roof, back down through it, out the back door and in).
+// ladder (up the ladder onto the roof, back down through the hatch, out the back door and in again).
 public static class DadsPlaytest
 {
     const string ScenePath = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
@@ -167,32 +167,27 @@ public static class DadsPlaytest
         return steps;
     }
 
-    static List<Step> Hatch()
+    static List<Step> Ladder()
     {
         var ladder = new Vector3(0.72f, 0.8f, -2.42f);
         var wall = new Vector3(2.5f, 2.2f, -2.42f);
         var hatch = new Vector3(0.74f, 3f, -2.42f);
         var steps = new List<Step>
         {
-            new Step { Name = "h00_start", Duration = 3f, Snap = true, LookPitch = 0 },
+            new Step { Name = "l00_start", Duration = 3f, Snap = true, LookPitch = 0 },
             new Step { Name = "to ladder", Duration = 4f, Target = f => VanPoint(f, ladder) },
             new Step { Name = "face ladder", Duration = 0.8f, LookAt = f => VanPoint(f, wall) },
-            new Step { Name = "h01_ladder", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, wall) },
-            new Step { Name = "climb to shut hatch", Duration = 2.5f, Keys = new[] { Key.W }, LookAt = f => VanPoint(f, wall) },
-            new Step { Name = "h02_under_hatch", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, hatch) },
-            new Step { Name = "look up", Duration = 0.6f, LookAt = f => VanPoint(f, hatch) },
-            new Step { Name = "open hatch", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, hatch) },
-            new Step { Name = "h03_hatch_open", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, hatch) },
+            new Step { Name = "l01_ladder", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, hatch) },
             new Step { Name = "climb out", Duration = 4f, Keys = new[] { Key.W }, LookPitch = 0, Done = f => !Me(f).Climbing && LocalOfDad(f).y > 2.5f, Record = true },
-            new Step { Name = "h04_roof", Duration = 1f, Snap = true, LookPitch = 15 },
+            new Step { Name = "l02_roof", Duration = 1f, Snap = true, LookPitch = 15 },
             new Step { Name = "into hatch", Duration = 6f, Target = f => VanPoint(f, hatch), LookPitch = 60, Done = f => Me(f).Climbing, Record = true },
             new Step { Name = "climb down", Duration = 4f, Keys = new[] { Key.W }, LookPitch = 60, Done = f => !Me(f).Climbing, Record = true },
-            new Step { Name = "h05_back_down", Duration = 0.5f, Snap = true, LookPitch = 0 },
+            new Step { Name = "l03_back_down", Duration = 0.5f, Snap = true, LookPitch = 0 },
         };
         steps.AddRange(GetOut());
-        steps.Add(new Step { Name = "h06_outside", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -2f)) });
+        steps.Add(new Step { Name = "l04_outside", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -2f)) });
         steps.AddRange(Enter());
-        steps.Add(new Step { Name = "h07_back_in", Duration = 0.5f, Snap = true, LookPitch = 0 });
+        steps.Add(new Step { Name = "l05_back_in", Duration = 0.5f, Snap = true, LookPitch = 0 });
         return steps;
     }
 
@@ -831,6 +826,9 @@ public static class DadsPlaytest
         var settings = AssetDatabase.LoadAssetAtPath<DadsSettings>("Assets/QuantumUser/Resources/DadsSettings.asset");
         SessionState.SetString("DivorcedDads.Playtest.Restore", JsonUtility.ToJson(new Shortcuts { Money = settings.StartingMoney, DayLength = settings.DayLength.AsFloat, Day = settings.StartingDay, Tutorial = settings.Tutorial }));
         settings.Tutorial = scenario == "tutorial";
+        // The tutorial scenario plays moving day even if this machine has been through it; Finish puts the flag back.
+        SessionState.SetInt("DivorcedDads.Playtest.TutorialPlayed", PlayerPrefs.GetInt(TutorialMemory.PlayedKey, 0));
+        PlayerPrefs.SetInt(TutorialMemory.PlayedKey, 0);
         if (scenario == "shop") settings.StartingMoney = 200;
         if (scenario == "maple") settings.StartingMoney = 400;
         if (scenario == "chaos") settings.StartingMoney = 1500;
@@ -883,7 +881,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "hatch" ? Hatch() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
@@ -1060,6 +1058,7 @@ public static class DadsPlaytest
         settings.DayLength = FP.FromFloat_UNSAFE(restore.DayLength);
         settings.StartingDay = restore.Day;
         settings.Tutorial = restore.Tutorial;
+        PlayerPrefs.SetInt(TutorialMemory.PlayedKey, SessionState.GetInt("DivorcedDads.Playtest.TutorialPlayed", 0));
         InputSystem.RemoveDevice(keyboard);
         InputSystem.RemoveDevice(mouse);
         start = 0;

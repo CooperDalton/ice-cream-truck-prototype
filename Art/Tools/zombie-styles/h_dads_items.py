@@ -554,6 +554,11 @@ def build_mud_puddle(kit, root, A):
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
         kit.mesh_from_bmesh(f"{A} edge {k}", bm, solid(kit, f"{A} dried mud", "#9a7a58", 0.3, shade="#8a6a4a"), root, smooth=False)
     flat_disc(kit, f"{A} mud", wet, 0.035, tex_mat(f"{A} mud", tex_puddle(R), 0.4, ext='REPEAT'), root, center_z=0.03)
+    # a heap of mud in the middle and a couple of lumps beside it, so the puddle reads from across the yard
+    heap = tex_mat(f"{A} heap", tex_mud(R), 0.36, ext='REPEAT')
+    for i, (x, y, r, h) in enumerate(((0.0, 0.0, 0.45, 0.4), (-0.4, 0.22, 0.22, 0.18), (0.32, 0.26, 0.18, 0.13), (0.12, -0.32, 0.16, 0.11))):
+        lathe(kit, f"{A} heap {i}", [(r, 0.02), (r * 0.9, h * 0.35), (r * 0.65, h * 0.75), (r * 0.3, h * 0.97), (0, h)], heap, root,
+              sides=10, loc=(x, y, 0.0))
     bub = kit.empty(f"{A} bubbles", root, (0, 0, 0.03))
     bm_mat = solid(kit, f"{A} bubble", MUD_L, 0.45, shade=MUD)
     for i, (x, y, r) in enumerate(((0.2, -0.1, 0.05), (-0.3, 0.15, 0.035), (0.05, 0.25, 0.03), (-0.1, -0.25, 0.04),

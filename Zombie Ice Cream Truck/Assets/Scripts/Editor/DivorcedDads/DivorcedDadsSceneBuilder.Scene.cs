@@ -63,6 +63,9 @@ public static partial class DivorcedDadsSceneBuilder
         var gameplay = new GameObject("Gameplay").transform;
         var input = new GameObject("Dads Input").AddComponent<DadsInput>();
         input.transform.SetParent(gameplay, false);
+        var memory = new GameObject("Tutorial Memory").AddComponent<TutorialMemory>();
+        memory.transform.SetParent(gameplay, false);
+        Set(memory, ("runner", runner));
         // The game renders into a small point-filtered texture shown full screen through the dither shader.
         var lowRes = new RenderTexture(480, 270, 24) { filterMode = FilterMode.Point, name = "Dads PS1 Screen" };
         lowRes = ReplaceAsset(lowRes, "Assets/Art/Dads PS1 Screen.renderTexture");
@@ -254,12 +257,9 @@ public static partial class DivorcedDadsSceneBuilder
         foreach (var renderer in arms.GetComponentsInChildren<Renderer>()) renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         var hand = Child(arms, "Dad First-Person Arms socket hand R");
         var handPosition = recoil.InverseTransformPoint(hand.position);
-        // Guns angle in toward the crosshair; bulky ingredients are held out in front in both hands.
+        // Guns angle in toward the crosshair; bulky ingredients stay upright in the hand.
         var aim = Quaternion.Inverse(hand.rotation) * recoil.rotation * Quaternion.LookRotation(new Vector3(0, 0, 6) - handPosition);
-        var chest = new GameObject("Both Hands").transform;
-        chest.SetParent(recoil, false);
-        chest.localPosition = new Vector3(0, -0.45f, 0.75f);
-        var held = HeldRig(hand, chest, aim, 0.85f);
+        var held = HeldRig(hand, hand, aim, 0.55f, Quaternion.Inverse(hand.rotation) * recoil.rotation);
         var viewModel = root.gameObject.AddComponent<DadsViewModel>();
         Set(viewModel, ("input", input), ("cameraRig", cameraRig), ("arms", recoil.gameObject), ("held", held), ("sway", sway), ("recoilPivot", recoil));
     }

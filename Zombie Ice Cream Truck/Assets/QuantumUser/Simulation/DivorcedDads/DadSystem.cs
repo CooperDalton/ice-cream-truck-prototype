@@ -85,7 +85,7 @@ namespace Quantum
             filter.Controller->Move(f, filter.Entity, direction);
             var ground = f.Physics3D.Raycast(filter.Transform->Position + FPVector3.Up * FP._0_25, FPVector3.Down, FP._0_75, -1, QueryOptions.HitSolids);
             dad->Standing = ground.HasValue ? ground.Value.Entity : EntityRef.None;
-            // Standing on the closed hatch (or anything else riding the van) is standing on the van.
+            // Standing on top of anything riding the van is standing on the van.
             if (dad->Standing.IsValid && f.Has<Riding>(dad->Standing)) dad->Standing = f.GetSingletonEntityRef<Van>();
         }
 
@@ -105,34 +105,29 @@ namespace Quantum
             filter.Transform->Position = position + FPVector3.Up * rise;
         }
 
-        // The ladder from the kitchen up through the roof hatch. Walking into it facing the wall gets a dad on, as does
-        // stepping into the open hatch from the roof. W climbs toward where he looks (up, or down when looking down), S the
-        // other way, jump lets go. Out of the top of the open hatch he steps onto the roof; a closed hatch stops him under it.
+        // The ladder from the kitchen up through the open roof hatch. Walking into it facing the wall gets a dad on, as does
+        // stepping into the hatch from the roof. W climbs toward where he looks (up, or down when looking down), S the other
+        // way, jump lets go. Out of the top he steps onto the roof.
         static bool Climb(Frame f, ref Filter filter, Input* input, Transform3D van, DadsSettings settings)
         {
             var dad = filter.Dad;
             var local = van.InverseTransformPoint(filter.Transform->Position);
             var dx = local.X - settings.Ladder.X;
             var dz = local.Z - settings.Ladder.Z;
-            var open = false;
-            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
-            {
-                if (pair.Component->Kind == FixtureKind.Hatch) open = pair.Component->Open;
-            }
             if (!dad->Climbing)
             {
                 var facing = FPVector3.Dot(filter.Transform->Forward, van.Right) > FP._0_50;
                 var below = FPMath.Abs(local.Y - settings.Ladder.Y) < FP._0_50 && dx * dx + dz * dz < FP._0_25 && input->Move.Y > 0 && facing;
-                var above = open && local.Y > settings.RoofHeight - FP._0_25 && FPMath.Abs(dx) < FP._0_33 && FPMath.Abs(dz) < FP._0_33;
+                var above = local.Y > settings.RoofHeight - FP._0_25 && FPMath.Abs(dx) < FP._0_33 && FPMath.Abs(dz) < FP._0_33;
                 if (!below && !above) return false;
                 dad->Climbing = true;
                 if (above) local.Y = settings.RoofHeight - FP._0_50;
             }
             var climb = input->Move.Y * (dad->Pitch > 40 ? -1 : 1);
-            var y = FPMath.Min(local.Y + climb * settings.ClimbSpeed * f.DeltaTime, open ? settings.RoofHeight : settings.RoofHeight - 2);
+            var y = local.Y + climb * settings.ClimbSpeed * f.DeltaTime;
             filter.Controller->Velocity = FPVector3.Zero;
             dad->Standing = f.GetSingletonEntityRef<Van>();
-            if (open && y >= settings.RoofHeight)
+            if (y >= settings.RoofHeight)
             {
                 dad->Climbing = false;
                 filter.Transform->Position = van.TransformPoint(settings.HatchTop);
@@ -276,8 +271,7 @@ namespace Quantum
                     f.Events.Refilled(dad->Player, vanState->HopperTreat);
                     return;
                 case FixtureKind.RearDoor:
-                case FixtureKind.Hatch:
-                    // Closed they are solid (the hatch can be walked on); open they still answer to E.
+                    // Shut it is solid; open it still answers to E.
                     fixture->Open = !fixture->Open;
                     f.Unsafe.GetPointer<PhysicsCollider3D>(entity)->IsTrigger = fixture->Open;
                     f.Events.Swung(entity, fixture->Open);

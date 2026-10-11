@@ -31,7 +31,7 @@ namespace Quantum
             {
                 DadsGame.CreateFixture(f, placement, placement.Position, FPQuaternion.Euler(0, placement.Yaw, 0));
             }
-            DadsGame.StartRun(f, settings.Tutorial);
+            DadsGame.StartRun(f, settings.Tutorial && !f.RuntimeConfig.SkipTutorial);
         }
 
         public void OnPlayerAdded(Frame f, PlayerRef player, bool firstTime)

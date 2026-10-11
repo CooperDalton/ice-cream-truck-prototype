@@ -210,7 +210,8 @@ public static partial class DivorcedDadsSceneBuilder
         return light.gameObject;
     }
 
-    // Turns a block's sockets into kid spots and fixtures (world positions; the block is already placed).
+    // Turns a block's sockets into kid spots and fixtures (world positions; the block is already placed). Fixtures stand at
+    // the socket's height (the block's ground is above the road); kids, cops and the truck move at road level.
     static void ReadSockets(GameObject block, string name, int district, List<TownSpot> kidSpots, List<FixturePlacement> fixtures, DadsSettings settings)
     {
         foreach (var socket in block.GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith($"{name} socket ")))
@@ -221,19 +222,19 @@ public static partial class DivorcedDadsSceneBuilder
             if (purpose.StartsWith("kid ")) kidSpots.Add(new TownSpot { Position = position.ToFPVector3(), District = district });
             else if (purpose == "kid") settings.TutorialKid = position.ToFPVector3();
             else if (purpose == "dad") settings.TutorialStart = position.ToFPVector3();
-            else if (purpose.StartsWith("mud ")) fixtures.Add(Fixture(FixtureKind.MudPuddle, position, yaw, new Vector3(0, 0.25f, 0), new Vector3(0.9f, 0.25f, 0.75f), true));
-            else if (purpose.StartsWith("patch ")) fixtures.Add(Fixture(FixtureKind.StrawberryPatch, position, yaw, new Vector3(0, 0.3f, 0), new Vector3(0.85f, 0.3f, 0.45f), true));
+            else if (purpose.StartsWith("mud ")) fixtures.Add(Fixture(FixtureKind.MudPuddle, socket.position, yaw, new Vector3(0, 0.25f, 0), new Vector3(0.9f, 0.25f, 0.75f), true));
+            else if (purpose.StartsWith("patch ")) fixtures.Add(Fixture(FixtureKind.StrawberryPatch, socket.position, yaw, new Vector3(0, 0.3f, 0), new Vector3(0.85f, 0.3f, 0.45f), true));
             else if (purpose.StartsWith("cup ")) fixtures.Add(Fixture(FixtureKind.CoffeeTable, socket.position, yaw, new Vector3(0, 0.15f, 0), new Vector3(0.3f, 0.2f, 0.3f), true));
-            else if (purpose == "nut tree") fixtures.Add(Fixture(FixtureKind.NutTree, position, yaw, new Vector3(0, 2f, 0), new Vector3(0.5f, 2f, 0.5f), false));
-            else if (purpose == "vault") fixtures.Add(Fixture(FixtureKind.Vault, position, yaw, new Vector3(0, 1.2f, 0.1f), new Vector3(1f, 1.2f, 0.4f), false));
-            else if (purpose == "plate") fixtures.Add(Fixture(FixtureKind.Plate, position, yaw, new Vector3(0, 0.1f, 0), new Vector3(0.5f, 0.1f, 0.5f), true));
-            else if (purpose == "collector") fixtures.Add(Fixture(FixtureKind.Collector, position, yaw, new Vector3(0, 1f, 0), new Vector3(0.55f, 1f, 0.45f), false));
-            else if (purpose == "end day") fixtures.Add(Fixture(FixtureKind.TimeClock, position, yaw, new Vector3(0, 0.9f, 0), new Vector3(0.3f, 0.9f, 0.3f), false));
+            else if (purpose == "nut tree") fixtures.Add(Fixture(FixtureKind.NutTree, socket.position, yaw, new Vector3(0, 2f, 0), new Vector3(0.5f, 2f, 0.5f), false));
+            else if (purpose == "vault") fixtures.Add(Fixture(FixtureKind.Vault, socket.position, yaw, new Vector3(0, 1.2f, 0.1f), new Vector3(1f, 1.2f, 0.4f), false));
+            else if (purpose == "plate") fixtures.Add(Fixture(FixtureKind.Plate, socket.position, yaw, new Vector3(0, 0.1f, 0), new Vector3(0.5f, 0.1f, 0.5f), true));
+            else if (purpose == "collector") fixtures.Add(Fixture(FixtureKind.Collector, socket.position, yaw, new Vector3(0, 1f, 0), new Vector3(0.55f, 1f, 0.45f), false));
+            else if (purpose == "end day") fixtures.Add(Fixture(FixtureKind.TimeClock, socket.position, yaw, new Vector3(0, 0.9f, 0), new Vector3(0.3f, 0.9f, 0.3f), false));
             else if (purpose.StartsWith("shop "))
             {
                 var index = int.Parse(purpose.Substring(5));
                 if (index >= ShopStock.Length) continue;
-                var shop = Fixture(FixtureKind.Shop, position, yaw, new Vector3(0, 0.6f, 0), new Vector3(0.35f, 0.6f, 0.35f), false);
+                var shop = Fixture(FixtureKind.Shop, socket.position, yaw, new Vector3(0, 0.6f, 0), new Vector3(0.35f, 0.6f, 0.35f), false);
                 shop.Index = index;
                 shop.Upgrade = ShopStock[index].upgrade;
                 shop.Price = ShopStock[index].price;
@@ -249,7 +250,7 @@ public static partial class DivorcedDadsSceneBuilder
                 settings.LotPark = position.ToFPVector3();
                 settings.LotYaw = yaw;
                 // A free puddle beside the van at the lot, so day one's mud is never far away.
-                var side = position + Quaternion.LookRotation(Flat(socket.forward)) * new Vector3(6, 0, -2);
+                var side = socket.position + Quaternion.LookRotation(Flat(socket.forward)) * new Vector3(6, 0, -2);
                 fixtures.Add(Fixture(FixtureKind.MudPuddle, side, yaw, new Vector3(0, 0.25f, 0), new Vector3(0.9f, 0.25f, 0.75f), true));
             }
         }

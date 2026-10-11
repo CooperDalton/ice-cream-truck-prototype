@@ -82,6 +82,9 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private Image fade;
     [SerializeField] private float splatTime = 2.5f;
     [SerializeField] private float introTime = 7f;
+    [Tooltip("Clock time when the truck leaves the lot, and at the end of the night (24 = midnight).")]
+    [SerializeField] private int dayStartHour = 9;
+    [SerializeField] private int dayEndHour = 24;
     [SerializeField] private Color emptyColor = new Color(1f, 0.31f, 0.64f);
     [TextArea]
     [SerializeField] private string tutorialIntro = "Three years ago you went out for milk.\nYou never came back.\n\nShe kept the house. You got the trailer next door\nand an ice cream truck that BIG DAIRY owns.\n\nYour kid is coming over. Make some ice cream.";
@@ -143,7 +146,7 @@ public class DadsHud : MonoBehaviour
     private void OnPhase(EventDayPhaseChanged e)
     {
         phaseShownAt = Time.time;
-        if (e.Phase == DayPhase.Tutorial) ShowCard("MOVING DAY", tutorialIntro, "", Color.clear, introTime + 2);
+        if (e.Phase == DayPhase.Tutorial) ShowCard("TUTORIAL", tutorialIntro, "", Color.clear, introTime + 2);
         if (e.Phase == DayPhase.Morning)
         {
             ShowCard("DAY " + e.Day, dayIntros[Mathf.Min(e.Day, dayIntros.Length) - 1], "", Color.clear, introTime);
@@ -211,7 +214,7 @@ public class DadsHud : MonoBehaviour
         moneyText.color = moneyPunch < 0 ? emptyColor : new Color(1f, 0.88f, 0.29f);
         var night = run.Clock.AsFloat >= settings.DuskAt.AsFloat;
         dayIcon.sprite = night ? moonIcon : sunIcon;
-        dayText.text = $"DAY {run.Day}\n{Key}{TimeOfDay(run, settings)}{End}";
+        dayText.text = $"DAY {run.Day}\n{Key}{TimeOfDay(run)}{End}";
         var heat = Mathf.Clamp(Mathf.FloorToInt(run.Heat.AsFloat), 0, heatBadges.Length);
         heatPanel.SetActive(heat > 0);
         for (int i = 0; i < heatBadges.Length; i++) heatBadges[i].color = i < heat ? Color.white : new Color(1, 1, 1, 0.2f);
@@ -293,7 +296,7 @@ public class DadsHud : MonoBehaviour
         }
         tipText.text = Coach(frame, dad, settings, run, out var target);
         Mark(target);
-        var list = "MOVING DAY";
+        var list = "TUTORIAL";
         for (int i = 0; i < lessonNames.Length; i++)
         {
             var done = i < (int)run.Lesson;
@@ -436,16 +439,15 @@ public class DadsHud : MonoBehaviour
         throw new InvalidOperationException($"DadsHud has no icon for {item.Kind}");
     }
 
-    // No clock on screen: the time of day in words, from the sun's progress.
-    private static string TimeOfDay(DadsRun run, DadsSettings settings)
+    // The clock from the day's progress: DayStartHour as the truck leaves the lot, DayEndHour at the end of the night,
+    // in 5-minute steps.
+    private string TimeOfDay(DadsRun run)
     {
-        if (run.Phase == DayPhase.Tutorial) return "MOVING DAY";
-        if (run.Phase == DayPhase.Morning) return "AT THE LOT";
+        if (run.Phase == DayPhase.Tutorial) return "TUTORIAL";
         if (run.Phase == DayPhase.Collection || run.Phase == DayPhase.Won || run.Phase == DayPhase.Repo) return "PAYDAY";
-        if (run.Phase == DayPhase.Night) return run.Clock.AsFloat >= 1 ? "MIDNIGHT" : "NIGHT";
-        if (run.Phase == DayPhase.Dusk) return "DUSK";
-        var day = run.Clock.AsFloat / settings.DuskAt.AsFloat;
-        return day < 0.25f ? "MORNING" : day < 0.45f ? "NOON" : day < 0.75f ? "AFTERNOON" : "EVENING";
+        var minutes = dayStartHour * 60 + Mathf.FloorToInt(run.Clock.AsFloat * (dayEndHour - dayStartHour) * 12) * 5;
+        var hour = minutes / 60 % 24;
+        return $"{(hour % 12 == 0 ? 12 : hour % 12)}:{minutes % 60:00} {(hour < 12 ? "AM" : "PM")}";
     }
 
     private static string PhaseBanner(DadsRun run)
@@ -537,7 +539,7 @@ public class DadsHud : MonoBehaviour
                 return DadSystem.TreatOf(dad.Carried.Kind) != Treat.None ? $"{Key}E{End}  dump it in the churn" : "FLAVOR CHURN\nbring mud, strawberries, iced coffee, nuts or gold";
             case FixtureKind.Tub:
                 if (fixture.Count == 0) return "EMPTY TUB";
-                var flavor = $"{TreatPalette.Name(fixture.Treat).ToUpper()} TUB  ({fixture.Count})";
+                var flavor = $"{TreatPalette.Name(fixture.Treat).ToUpper()} TUB";
                 if (held.Kind == DadItem.Cone) return held.Count < run.ConeSize ? $"{flavor}\n{Key}CLICK{End} plop a scoop on your cone" : $"{flavor}\nyour cone's full: go feed a kid";
                 if (DadSystem.IsGun(held.Kind)) return $"{flavor}\n{Key}E{End} refill your {(held.Kind == DadItem.ScoopPistol ? "pistol" : "shotgun")}";
                 return $"{flavor}\nhold a cone or a gun";
@@ -545,7 +547,6 @@ public class DadsHud : MonoBehaviour
             case FixtureKind.GunRack: return DadSystem.IsGun(held.Kind) ? $"{Key}E{End}  hang up your gun" : $"{Key}E{End}  take a gun";
             case FixtureKind.Hopper: return run.Minigun ? $"MINIGUN HOPPER  ({frame.GetSingleton<Van>().HopperRounds})\n{Key}E{End} pour in the fullest tub" : "MINIGUN HOPPER\nbuy the Soft Serve Minigun at the lot";
             case FixtureKind.RearDoor: return $"{Key}E{End}  {(fixture.Open ? "close" : "open")} the back door";
-            case FixtureKind.Hatch: return $"{Key}E{End}  {(fixture.Open ? "close" : "open")} the roof hatch";
             case FixtureKind.Bell: return frame.GetSingleton<Van>().BellCooldown > 0 ? "the bell is still ringing" : $"{Key}E{End}  ring the dinner bell (kids come running)";
             case FixtureKind.Turret: return $"{Key}E{End}  man the soft serve minigun";
             case FixtureKind.Shop:
