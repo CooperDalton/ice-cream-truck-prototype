@@ -189,18 +189,16 @@ MARKER = ["................",
 
 
 def reticle():
-    """Ring with gaps on the axes, inner ticks and a pink center dot, every stroke outlined in ink."""
+    """Thin ring with gaps on the axes, short inner ticks and a pink center dot."""
     img = canvas(32, 32)
-    for color, grow in ((INK, 1), (MINT, 0)):
-        for y in range(32):
-            for x in range(32):
-                dx, dy = x - 15.5, y - 15.5
-                d = (dx * dx + dy * dy) ** 0.5
-                gap = min(abs(dx), abs(dy)) < 3 - grow
-                ring = 12 - grow <= d < 14 + grow and not gap
-                tick = (abs(dx) < 1 + grow and 4 - grow <= abs(dy) < 10 + grow) or (abs(dy) < 1 + grow and 4 - grow <= abs(dx) < 10 + grow)
-                if ring or tick:
-                    img[y][x] = rgba(color)
+    for y in range(32):
+        for x in range(32):
+            dx, dy = x - 15.5, y - 15.5
+            d = (dx * dx + dy * dy) ** 0.5
+            ring = 12.5 <= d < 13.5 and min(abs(dx), abs(dy)) >= 3
+            tick = (abs(dx) < 1 and 6 <= abs(dy) < 9) or (abs(dy) < 1 and 6 <= abs(dx) < 9)
+            if ring or tick:
+                img[y][x] = rgba(MINT)
     for x, y in ((15, 15), (16, 15), (15, 16), (16, 16)):
         img[y][x] = rgba(PINK)
     return img

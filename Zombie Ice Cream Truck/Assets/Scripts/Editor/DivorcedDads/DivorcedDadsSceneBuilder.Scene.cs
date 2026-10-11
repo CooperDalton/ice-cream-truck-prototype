@@ -322,7 +322,7 @@ public static partial class DivorcedDadsSceneBuilder
         var frozen = Overlay(root, "Brain Freeze Tint");
         var crosshair = HudImage(root, "Crosshair", "DadsHUD/crosshair", new Vector2(0.5f, 0.5f), new Vector2(32, 32));
         // The roof minigun's sight, in place of the crosshair while manning it.
-        var reticle = HudImage(root, "Minigun Reticle", "DadsHUD/reticle", new Vector2(0.5f, 0.5f), new Vector2(128, 128));
+        var reticle = HudImage(root, "Minigun Reticle", "DadsHUD/reticle", new Vector2(0.5f, 0.5f), new Vector2(64, 64));
         reticle.gameObject.SetActive(false);
 
         // Top left: cash, the day, heat.
