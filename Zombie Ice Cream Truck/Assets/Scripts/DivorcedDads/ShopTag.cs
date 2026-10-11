@@ -16,7 +16,9 @@ public class ShopTag : QuantumEntityViewComponent
         var shop = GetPredictedQuantumComponent<Fixture>();
         var run = PredictedFrame.GetSingleton<DadsRun>();
         var soldOut = DadsGame.SoldOut(&run, shop.Upgrade);
-        text.text = Name(shop.Upgrade) + (soldOut ? "\n---" : "\n$" + shop.Price);
+        // Waffle cones need saying what they do (the dads already have cones).
+        var blurb = shop.Upgrade == Upgrade.WaffleCone ? "\ncones hold 2 scoops" : "";
+        text.text = Name(shop.Upgrade) + blurb + (soldOut ? "\n---" : "\n$" + shop.Price);
         text.color = soldOut ? Color.gray : run.Money >= shop.Price ? new Color(0.22f, 0.95f, 0.76f) : new Color(1f, 0.6f, 0.2f);
         text.transform.rotation = DadsCamera.Instance.transform.rotation;
         for (int i = 1; i < items.Length; i++) items[i].SetActive(i == (int)shop.Upgrade);

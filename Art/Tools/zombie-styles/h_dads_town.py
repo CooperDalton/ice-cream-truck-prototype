@@ -826,6 +826,7 @@ def trailer_lot(kit, root, p, variant):
         at(kit, props, road.round_tree, f"{p} tree", 16.5, -16.0, 30, 0.85)
         kids = [(-6.3, -14.0), (7.0, -12.8), (-12.0, -4.4), (10.5, -3.6), (-10.0, 5.8), (12.0, 6.4), (5.0, 15.0), (-4.0, 16.5)]
         mud = [(0.0, -9.0), (-4.5, 8.0), (14.5, -3.8)]
+        patch = [(-8.5, 4.5)]
     else:
         at(kit, props, tire_pile, f"{p} tires", 15.5, 4.0, 40)
         at(kit, props, lawn_chair, f"{p} chair", -15.5, -15.5, 210)
@@ -837,11 +838,14 @@ def trailer_lot(kit, root, p, variant):
         at(kit, props, road.pine_tree, f"{p} pine", -16.5, 16.5, 0, 0.9)
         kids = [(-11.0, -13.5), (11.0, -15.0), (10.5, -4.0), (7.0, 9.2), (-9.5, 7.2), (-4.5, 15.0), (14.0, 8.0)]
         mud = [(-5.0, -5.0), (6.0, 14.5)]
+        patch = [(6.5, -6.0)]
     bake_props(kit, root, props, p)
     for i, (x, y) in enumerate(kids):
         socket(kit, root, f"kid {i}", (x, y, SIDE), 180 if y > 0 else 0)
     for i, (x, y) in enumerate(mud):
         socket(kit, root, f"mud {i}", (x, y, SIDE))
+    for i, (x, y) in enumerate(patch):   # a little strawberry garden: The Flats' one fancier flavor
+        socket(kit, root, f"patch {i}", (x, y, SIDE), 0)
 
 
 def dead_car(kit, root, p):

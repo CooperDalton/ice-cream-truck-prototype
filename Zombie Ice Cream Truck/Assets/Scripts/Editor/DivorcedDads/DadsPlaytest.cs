@@ -168,6 +168,19 @@ public static class DadsPlaytest
         return steps;
     }
 
+    // Fixed camera shots of The Flats: the lot's shop signs and the three trailer-lot strawberry patches.
+    static List<Step> Flats()
+    {
+        return new List<Step>
+        {
+            new Step { Name = "f00_start", Duration = 9f },
+            new Step { Name = "f01_shops", Duration = 1f, Snap = true, CameraAt = new Vector3(-232f, 2.4f, -21f), CameraLook = new Vector3(-225f, 1.7f, -22f) },
+            new Step { Name = "f02_patch_a", Duration = 1f, Snap = true, CameraAt = new Vector3(-249f, 3f, 29f), CameraLook = new Vector3(-249f, 0.3f, 35f) },
+            new Step { Name = "f03_patch_b", Duration = 1f, Snap = true, CameraAt = new Vector3(-174f, 3f, -42f), CameraLook = new Vector3(-174f, 0.3f, -36f) },
+            new Step { Name = "f04_patch_c", Duration = 1f, Snap = true, CameraAt = new Vector3(-172f, 3f, 20f), CameraLook = new Vector3(-172f, 0.3f, 26f) },
+        };
+    }
+
     static List<Step> Lamps()
     {
         var steps = new List<Step> { new Step { Name = "a00_start", Duration = 3f } };
@@ -917,7 +930,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : scenario == "flats" ? Flats() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)

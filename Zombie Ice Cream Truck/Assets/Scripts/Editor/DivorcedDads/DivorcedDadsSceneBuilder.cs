@@ -476,8 +476,8 @@ public static partial class DivorcedDadsSceneBuilder
                 item.SetActive(false);
                 items[(int)upgrade] = item;
             }
-            var label = WorldText(root.transform, "Price Tag", new Vector3(0, 1.75f, 0), 0.06f, "UPGRADE\n$0");
-            Primitive(PrimitiveType.Quad, label.transform, "Backing", new Vector3(0, 0, 0.02f), new Vector3(2.3f, 0.7f, 1), Material("Dads Label Backing", new Color(0.1f, 0.06f, 0.2f, 0.85f), "Universal Render Pipeline/Unlit", true), false);
+            var label = WorldText(root.transform, "Price Tag", new Vector3(0, 1.9f, 0), 0.06f, "UPGRADE\n$0");
+            Primitive(PrimitiveType.Quad, label.transform, "Backing", new Vector3(0, 0, 0.02f), new Vector3(2.4f, 0.95f, 1), Material("Dads Label Backing", new Color(0.1f, 0.06f, 0.2f, 0.85f), "Universal Render Pipeline/Unlit", true), false);
             Set(root.AddComponent<ShopTag>(), ("text", label), ("display", display), ("items", items));
         });
         prefabs[(int)FixtureKind.Collector] = BuildFixture(FixtureKind.Collector, root =>
