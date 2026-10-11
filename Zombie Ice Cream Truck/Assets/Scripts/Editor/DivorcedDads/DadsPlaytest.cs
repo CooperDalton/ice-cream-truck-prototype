@@ -218,6 +218,8 @@ public static class DadsPlaytest
             steps.Add(new Step { Name = $"after {key}", Duration = 0.3f });
         }
         steps.Add(new Step { Name = "d01_cheated", Duration = 0.5f, Snap = true });
+        steps.Add(new Step { Name = "to gauge", Duration = 5f, Target = f => Approach(f, Fixture(f, FixtureKind.Hopper, -1), 1.2f) });
+        steps.Add(new Step { Name = "d02_full_gauge", Duration = 1f, Snap = true, LookAt = f => Raised(Fixture(f, FixtureKind.Hopper, -1), 1.5f) });
         return steps;
     }
 

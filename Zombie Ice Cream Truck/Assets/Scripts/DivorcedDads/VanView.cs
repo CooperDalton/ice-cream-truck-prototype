@@ -65,7 +65,7 @@ public class VanView : QuantumEntityViewComponent
         foreach (var wheel in wheels) wheel.localRotation = Quaternion.Euler(spin, 0, 0);
         foreach (var pivot in steeringPivots) pivot.localRotation = Quaternion.Euler(0, van.Steer.AsFloat, 0);
         steeringWheel.localRotation = steeringRest * Quaternion.Euler(0, van.Steer.AsFloat * 3f, 0);
-        gaugeNeedle.localRotation = Quaternion.Slerp(gaugeNeedle.localRotation, needleRest * Quaternion.Euler(0, 0, Mathf.Lerp(60, -60, (float)van.HopperRounds / settings.HopperCapacity)), 1 - Mathf.Exp(-6 * dt));
+        gaugeNeedle.localRotation = Quaternion.Slerp(gaugeNeedle.localRotation, needleRest * Quaternion.Euler(0, 0, Mathf.Lerp(-60, 60, (float)van.HopperRounds / settings.HopperCapacity)), 1 - Mathf.Exp(-6 * dt));
 
         foreach (var pair in frame.GetComponentIterator<Fixture>())
         {
