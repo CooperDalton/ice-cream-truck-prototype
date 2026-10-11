@@ -62,6 +62,10 @@ All Blender models belong in the master scene at `Ice Cream Truck Prototype/Asse
 - Generated assets: `Art/Tools/zombie-styles/fx_sprites.py` writes the particle atlas and HUD sprites to `Assets/Art/Sprites`, and `Art/Tools/zombie-styles/sfx_synth.py` synthesizes every sound and the music-box jingle to `Assets/Audio`. Rerun them instead of editing the outputs by hand.
 - On this Linux machine, headless `unity run` needs `DISPLAY=:0` (and `WAYLAND_DISPLAY=wayland-1`). PS1 art source scripts for the demo are in `Art/Tools/zombie-styles/`.
 
+## Main menu (both Quantum games)
+
+- `Assets/Scenes/MainMenu.unity` is the first scene of a build: pick a game, then single player (its scene's local runner starts the game) or multiplayer (the Quantum sample menu, with that game preselected through its `Photon.Menu.SceneName` PlayerPref). `GameMenuBuilder.Build` (Tools > Build Main Menu) regenerates it and keeps it first in the build settings; `ZombieTruckSceneBuilder` still overwrites the build scene list, so rerun the menu builder (and the Divorced Dads builder) after it.
+
 ## Divorced Dads mode (same Quantum project)
 
 - A second game in `Zombie Ice Cream Truck/`: scene `Assets/QuantumUser/Scenes/DivorcedDads.unity`. Divorced dads run an ice cream truck to pay off Big Dairy: scavenge ingredients, churn flavor tubs, feed kids at the serving window, get home before the sugar curfew's cops. It shares only the Quantum `input` struct with the zombie mode; the runtime config's `DadsSettings` makes `SystemSetup.User.cs` add the Dads systems instead of the zombie ones.
