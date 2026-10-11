@@ -66,6 +66,8 @@ All Blender models belong in the master scene at `Ice Cream Truck Prototype/Asse
 
 - `Assets/Scenes/MainMenu.unity` is the first scene of a build: pick a game, then single player (its scene's local runner starts the game) or multiplayer (the Quantum sample menu, with that game preselected through its `Photon.Menu.SceneName` PlayerPref). `GameMenuBuilder.Build` (Tools > Build Main Menu) regenerates it and keeps it first in the build settings; `ZombieTruckSceneBuilder` still overwrites the build scene list, so rerun the menu builder (and the Divorced Dads builder) after it.
 
+- Player builds: `PlayerBuilds.Windows` / `PlayerBuilds.Mac` (Tools > Build Players) build every enabled build scene; batch mode: `unity run "<project>" -- -executeMethod PlayerBuilds.Windows -buildOutput <folder> -logFile <log>` with the editor closed. The itch.io page is `wizdro/ice-cream-truck-simulator-prototpye` (channels `windows`, `mac`); push with `butler push <folder> wizdro/ice-cream-truck-simulator-prototpye:<channel> --userversion <version>` after moving the `*_BurstDebugInformation_DoNotShip` folders out.
+
 ## Divorced Dads mode (same Quantum project)
 
 - A second game in `Zombie Ice Cream Truck/`: scene `Assets/QuantumUser/Scenes/DivorcedDads.unity`. Divorced dads run an ice cream truck to pay off Big Dairy: scavenge ingredients, churn flavor tubs, feed kids at the serving window, get home before the sugar curfew's cops. It shares only the Quantum `input` struct with the zombie mode; the runtime config's `DadsSettings` makes `SystemSetup.User.cs` add the Dads systems instead of the zombie ones.
