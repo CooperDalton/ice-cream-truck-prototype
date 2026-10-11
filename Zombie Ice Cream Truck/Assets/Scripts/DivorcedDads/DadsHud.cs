@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 // The Divorced Dads HUD, in the same candy PS1 style as the zombie mode: cash on hand, the day with a sun or moon,
-// heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed, the freezer tubs,
+// heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed,
 // the hotbar with item icons, the carried ingredient, ammo, what pressing E would do, a hint for what to do next, the
 // controls panel (F1), screen splats, cough and brain freeze tints, the story cards (moving day, each morning, Big
 // Dairy's collection, the win, the repo), and on moving day the lesson checklist with a bobbing arrow over whatever
@@ -29,8 +29,6 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private ItemIcon[] icons;
     [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
     [SerializeField] private Sprite[] scoopIcons;
-    [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
-    [SerializeField] private Sprite[] tubIcons;
     [Tooltip("Sugar, waffle and double waffle cone, by the van's cone size.")]
     [SerializeField] private Sprite[] coneIcons;
     [SerializeField] private Sprite minigunIcon;
@@ -48,10 +46,10 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private GameObject jinglePanel;
     [SerializeField] private GameObject speedPanel;
     [SerializeField] private Text speedText;
-    [SerializeField] private Image[] tubImages;
-    [SerializeField] private Text[] tubTexts;
     [SerializeField] private GameObject phaseBanner;
     [SerializeField] private Text phaseText;
+    [Tooltip("Seconds the banner announces a new phase of the day.")]
+    [SerializeField] private float bannerTime = 5f;
     [SerializeField] private Text tipText;
     [SerializeField] private GameObject promptPanel;
     [SerializeField] private Text promptText;
@@ -111,6 +109,7 @@ public class DadsHud : MonoBehaviour
     private float cardShownAt;
     private Color stampColor;
     private float promptShownAt;
+    private float phaseShownAt = float.MinValue;
     private int lastSelected = -1;
     private DadItem lastSelectedKind;
     private float selectedShownAt;
@@ -143,6 +142,7 @@ public class DadsHud : MonoBehaviour
 
     private void OnPhase(EventDayPhaseChanged e)
     {
+        phaseShownAt = Time.time;
         if (e.Phase == DayPhase.Tutorial) ShowCard("MOVING DAY", tutorialIntro, "", Color.clear, introTime + 2);
         if (e.Phase == DayPhase.Morning)
         {
@@ -227,18 +227,8 @@ public class DadsHud : MonoBehaviour
         speedPanel.SetActive(speed > 0.5f);
         speedText.text = Mathf.RoundToInt(speed * 2.237f) + " MPH";
         phaseText.text = PhaseBanner(run);
-        phaseBanner.SetActive(phaseText.text != "");
+        phaseBanner.SetActive(phaseText.text != "" && Time.time - phaseShownAt < bannerTime);
 
-        foreach (var pair in frame.GetComponentIterator<Fixture>())
-        {
-            var tub = pair.Component;
-            if (tub.Kind != FixtureKind.Tub) continue;
-            var stocked = tub.Count > 0;
-            tubImages[tub.Index].enabled = stocked;
-            if (stocked) tubImages[tub.Index].sprite = tubIcons[(int)tub.Treat];
-            tubTexts[tub.Index].text = stocked ? $"{TreatPalette.Name(tub.Treat).ToUpper()}  {Key}{tub.Count}{End}" : "empty";
-            tubTexts[tub.Index].color = stocked ? Color.white : new Color(1, 1, 1, 0.45f);
-        }
 
         if (!input.LocalEntity.IsValid) return;
         var dad = frame.Get<Dad>(input.LocalEntity);
@@ -339,56 +329,56 @@ public class DadsHud : MonoBehaviour
         {
             case Lesson.Mud:
                 target = Nearest(frame, FixtureKind.MudPuddle, vanTransform.Position);
-                return $"Look at the mud puddle by your trailer and press {Key}E{End} to fill a bucket.";
+                return $"{Key}E{End}  fill a bucket at the mud puddle";
             case Lesson.Board:
                 target = vanTransform.TransformPoint(settings.RearOutside).ToUnityVector3() + Vector3.up;
-                return $"Carry it to the back of the truck and press {Key}E{End} at the rear door to climb in.";
+                return $"{Key}E{End}  climb in the back of the truck";
             case Lesson.Churn:
                 target = churn;
-                return $"Press {Key}E{End} on the flavor churn to dump the mud in.  Out comes a tub of ice cream!";
+                return $"{Key}E{End}  dump the mud in the churn";
             case Lesson.Scoop:
                 foreach (var pair in frame.GetComponentIterator<Fixture>())
                 {
                     if (pair.Component.Kind != FixtureKind.Tub || pair.Component.Treat != Treat.Mud) continue;
                     target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
-                    return held.Kind == DadItem.Cone ? $"{Key}CLICK{End} the freezer tub to plop a scoop of mud on your cone." : $"Press {Key}1{End} to hold your cone, then {Key}CLICK{End} the tub.";
+                    return held.Kind == DadItem.Cone ? $"{Key}CLICK{End}  scoop the mud onto your cone" : $"{Key}1{End}  hold your cone";
                 }
                 target = churn;
-                return "The mud's all gone!  Churn another bucket.";
+                return "Out of mud: churn another bucket";
             case Lesson.Serve:
                 foreach (var pair in frame.GetComponentIterator<Npc>())
                 {
                     target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3() + Vector3.up * 1.4f;
-                    if (pair.Component.State == NpcState.Queue) return $"Your kid's at the window.  Face them and {Key}CLICK{End} to shove the cone in.  Yes, they pay.";
-                    return "Your kid's coming over from your ex's house.  Meet them at the serving window.";
+                    if (pair.Component.State == NpcState.Queue) return $"{Key}CLICK{End}  shove the cone in your kid's face";
+                    return "Your kid's coming: wait at the window";
                 }
                 target = vanTransform.TransformPoint(settings.WindowOutside).ToUnityVector3();
-                return held.Kind == DadItem.Cone && held.Count == 0 ? "Scoop another cone first." : "Wait for your kid at the serving window.";
+                return held.Kind == DadItem.Cone && held.Count == 0 ? "Scoop another cone" : "Wait at the window";
             case Lesson.Strawberries:
                 if (dad.Carried.Kind == DadItem.StrawberryBasket)
                 {
                     target = churn;
-                    return "Into the churn with them.  Every flavor gets its own tub.";
+                    return $"{Key}E{End}  dump them in the churn";
                 }
                 target = Nearest(frame, FixtureKind.StrawberryPatch, vanTransform.Position);
-                return $"Kids pay more for fancier flavors.  Pick strawberries from the patch ({Key}E{End}).";
+                return $"{Key}E{End}  pick strawberries";
             case Lesson.Nuts:
                 if (dad.Carried.Kind == DadItem.NutSack)
                 {
                     target = churn;
-                    return "Churn the nuts into Rocky Road.  Its last bite knocks kids flat.";
+                    return $"{Key}E{End}  dump them in the churn";
                 }
                 foreach (var pair in frame.GetComponentIterator<Loot>())
                 {
                     if (pair.Component.Item.Kind != DadItem.NutSack) continue;
                     target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
-                    return $"Grab a sack of nuts ({Key}E{End}).";
+                    return $"{Key}E{End}  grab the nuts";
                 }
                 target = Nearest(frame, FixtureKind.NutTree, vanTransform.Position) + Vector3.up * 3;
-                return $"Shake the nut tree: keep pressing {Key}E{End} on it until the nuts drop.";
+                return $"{Key}E E E{End}  shake the nut tree";
             default:
                 target = vanTransform.TransformPoint(settings.DriverSeat).ToUnityVector3() + Vector3.up;
-                return $"Stocked up!  Press {Key}E{End} by the driver's door and take the wheel.  Big Dairy is waiting.";
+                return $"{Key}E{End}  take the wheel up front";
         }
     }
 
@@ -458,10 +448,9 @@ public class DadsHud : MonoBehaviour
     {
         switch (run.Phase)
         {
-            case DayPhase.Tutorial: return "MOVING DAY!  Stock the truck, then take the wheel";
-            case DayPhase.Morning: return "BIG DAIRY'S LOT!  Shop, load up, then drive out and sell";
-            case DayPhase.Dusk: return "The kids are heading home.  Back to the lot soon!";
-            case DayPhase.Night: return "SUGAR CURFEW!  Cops are out and the jingle draws them";
+            case DayPhase.Morning: return "BIG DAIRY'S LOT";
+            case DayPhase.Dusk: return "DUSK  head back to the lot";
+            case DayPhase.Night: return "SUGAR CURFEW  cops are out";
             default: return "";
         }
     }
@@ -481,17 +470,17 @@ public class DadsHud : MonoBehaviour
         {
             if (van.Queue[i].IsValid && frame.Exists(van.Queue[i])) queued++;
         }
-        if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Drive back to Big Dairy's lot (cops won't follow you in) and punch the clock.";
+        if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Back to Big Dairy's lot and punch the clock";
         if (run.Phase != DayPhase.Morning && run.Phase != DayPhase.Day) return "";
-        if (dad.Carried.Kind != DadItem.None) return "Take it to the flavor churn in the van.";
-        if (stock == 0) return "Out of ice cream!  Scoop mud from a puddle and dump it in the churn.";
-        if (held.Kind == DadItem.Cone && held.Count == 0) return "Click a freezer tub at the back of the van to plop a scoop on your cone.";
-        if (DadSystem.IsGun(held.Kind) && held.Count == 0) return "Press E at a freezer tub to refill your gun.";
-        if (run.Phase == DayPhase.Morning) return dad.Driving ? "Drive out of the lot to start the day." : "Take the wheel up front and drive out of the lot.";
-        if (dad.Driving && !van.Jingle) return "RIGHT CLICK plays the jingle and kids come running.  CLICK honks.";
-        if (dad.Driving && queued > 0 && Mathf.Abs(van.Speed.AsFloat) < 1) return queued + " kids at the serving window!  Leave the seat and go serve them.";
-        if (dad.Driving) return "Park near kids: they line up at the serving window.";
-        return queued > 0 ? "Kids at the window: stand at the counter and CLICK to shove a cone in a face." : "";
+        if (dad.Carried.Kind != DadItem.None) return "Take it to the churn in the truck";
+        if (stock == 0) return "Out of ice cream: churn some mud";
+        if (held.Kind == DadItem.Cone && held.Count == 0) return "CLICK a freezer tub to scoop your cone";
+        if (DadSystem.IsGun(held.Kind) && held.Count == 0) return "E at a freezer tub to reload";
+        if (run.Phase == DayPhase.Morning) return dad.Driving ? "Drive out to start the day" : "Take the wheel and drive out";
+        if (dad.Driving && !van.Jingle) return "RIGHT CLICK  jingle";
+        if (dad.Driving && queued > 0 && Mathf.Abs(van.Speed.AsFloat) < 1) return queued + " kids at the window";
+        if (dad.Driving) return "Park near kids";
+        return queued > 0 ? "Kids at the window: CLICK to shove a cone" : "";
     }
 
     public static string Label(DadSlot item, int coneSize)

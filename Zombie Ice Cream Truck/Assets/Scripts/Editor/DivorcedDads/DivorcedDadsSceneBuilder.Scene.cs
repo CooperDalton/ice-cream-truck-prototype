@@ -404,9 +404,11 @@ public static partial class DivorcedDadsSceneBuilder
             var icon = Icon(slot, "Icon", "DadsIcons/Cone", Vector2.zero, 62);
             icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = icon.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             icon.rectTransform.anchoredPosition = new Vector2(0, 2);
-            var badge = Icon(slot, "Flavor", "DadsIcons/ScoopMud", Vector2.zero, 30);
-            badge.rectTransform.anchorMin = badge.rectTransform.anchorMax = badge.rectTransform.pivot = new Vector2(1, 1);
-            badge.rectTransform.anchoredPosition = new Vector2(4, 4);
+            // The loaded flavor's scoop sits on the cone's rim (or on top of a gun).
+            var badge = Icon(slot, "Flavor", "DadsIcons/ScoopMud", Vector2.zero, 36);
+            badge.rectTransform.anchorMin = badge.rectTransform.anchorMax = new Vector2(0.5f, 1);
+            badge.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            badge.rectTransform.anchoredPosition = new Vector2(0, -16);
             var key = HudText(slot, "Key", title, new Vector2(0, 1), new Vector2(7, -7), TextAnchor.UpperLeft, 10, Color.white);
             key.rectTransform.sizeDelta = new Vector2(30, 20);
             key.text = (i + 1).ToString();
@@ -424,32 +426,10 @@ public static partial class DivorcedDadsSceneBuilder
         var carriedIcon = Icon(carriedPanel, "Icon", "DadsIcons/MudBucket", new Vector2(36, 0), 50);
         var carried = PanelText(carriedPanel, "Text", body, 18, HudYellow, 72, TextAnchor.MiddleLeft);
 
-        // Bottom left: the freezer tubs, and the controls panel above it. Bottom right: ammo.
-        var freezer = Panel(root, "Freezer", "panel_mint", new Vector2(0, 0), new Vector2(16, 16), new Vector2(260, 160));
-        var freezerTitle = PanelText(freezer, "Title", title, 11, HudMint, 16, TextAnchor.UpperLeft);
-        freezerTitle.rectTransform.offsetMax = new Vector2(-10, -12);
-        freezerTitle.text = "FREEZER";
-        var tubImages = new Object[4];
-        var tubTexts = new Object[4];
-        for (int i = 0; i < 4; i++)
-        {
-            var row = new GameObject($"Tub {i + 1}", typeof(RectTransform)).GetComponent<RectTransform>();
-            row.SetParent(freezer, false);
-            row.anchorMin = new Vector2(0, 1);
-            row.anchorMax = new Vector2(1, 1);
-            row.pivot = new Vector2(0.5f, 1);
-            row.anchoredPosition = new Vector2(0, -34 - i * 30);
-            row.sizeDelta = new Vector2(0, 30);
-            tubImages[i] = Icon(row, "Tub Icon", "DadsIcons/TubMud", new Vector2(32, 0), 34);
-            var tubText = PanelText(row, "Tub Text", body, 18, Color.white, 56, TextAnchor.MiddleLeft);
-            tubText.rectTransform.offsetMin = new Vector2(56, 0);
-            tubText.rectTransform.offsetMax = new Vector2(-8, 0);
-            tubText.verticalOverflow = VerticalWrapMode.Overflow;
-            tubTexts[i] = tubText;
-        }
-        var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 182), TextAnchor.LowerLeft, 16, HudLavender);
+        // Bottom left: the controls panel. Bottom right: ammo.
+        var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 16), TextAnchor.LowerLeft, 16, HudLavender);
         help.text = "<color=#ffe14a>F1</color> controls";
-        var controls = Panel(root, "Controls", "panel", new Vector2(0, 0), new Vector2(16, 206), new Vector2(312, 250));
+        var controls = Panel(root, "Controls", "panel", new Vector2(0, 0), new Vector2(16, 40), new Vector2(312, 250));
         var controlsText = PanelText(controls, "Text", body, 17, Color.white, 20, TextAnchor.UpperLeft);
         controlsText.rectTransform.offsetMax = new Vector2(-12, -12);
         controlsText.lineSpacing = 1.1f;
@@ -487,10 +467,9 @@ public static partial class DivorcedDadsSceneBuilder
             ("minigunIcon", HudSprite("DadsIcons/Minigun")), ("sunIcon", HudSprite("DadsHUD/sun")), ("moonIcon", HudSprite("DadsHUD/moon")),
             ("coneIcons", new Object[] { HudSprite("DadsIcons/Cone"), HudSprite("DadsIcons/WaffleCone"), HudSprite("DadsIcons/DoubleWaffleCone") }),
             ("scoopIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Scoop{t.Replace(" ", "")}")).ToArray()),
-            ("tubIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Tub{t.Replace(" ", "")}")).ToArray()),
             ("moneyText", money), ("dayIcon", dayIcon), ("dayText", day), ("heatPanel", heatPanel.gameObject), ("heatBadges", badges),
             ("debtText", debt), ("debtFill", debtFill), ("dueText", due), ("strikeIcons", strikes), ("jinglePanel", jinglePanel.gameObject),
-            ("speedPanel", speedPanel.gameObject), ("speedText", speed), ("tubImages", tubImages), ("tubTexts", tubTexts),
+            ("speedPanel", speedPanel.gameObject), ("speedText", speed),
             ("phaseBanner", banner.gameObject), ("phaseText", phase), ("tipText", tip), ("promptPanel", promptPanel.gameObject), ("promptText", prompt),
             ("slotIcons", slotIcons), ("slotBadges", slotBadges), ("slotCounts", slotCounts), ("slotSelected", slotSelected), ("selectedName", selectedName),
             ("carriedPanel", carriedPanel.gameObject), ("carriedIcon", carriedIcon), ("carriedText", carried),

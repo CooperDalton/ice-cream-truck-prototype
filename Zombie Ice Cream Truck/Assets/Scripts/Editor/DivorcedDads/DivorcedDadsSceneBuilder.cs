@@ -33,7 +33,10 @@ public static partial class DivorcedDadsSceneBuilder
     // Indexed by Treat (None first).
     static readonly string[] Treats = { null, "Mud", "Strawberry", "Coffee", "Rocky Road", "Gold Leaf" };
     static readonly string[] Cones = { "Cone", "Waffle Cone", "Double Waffle Cone" };
-    static readonly string[] TruckDecor = { "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
+    // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own) and the freezer's sliding glass lids.
+    // The truck art drives on the right; this is America, so the Dads van mirrors the driving position to the left.
+    static readonly string[] DriverSide = { "driver seat", "steering wheel", "steering column", "instruments", "pedal brake", "pedal gas" };
+    static readonly string[] TruckDecor = { "freezer lid a", "freezer lid b", "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
 
     // Hand-measured from the truck art (h_truck.py layout), same as the zombie mode: floor top 0.75, ceiling 2.86,
     // roof 2.92, walls at x +-1.15, cab front z 2.35, bulkhead z 0.95 (1 m doorway), rear wall z -2.95 (0.9 m door),
@@ -160,6 +163,12 @@ public static partial class DivorcedDadsSceneBuilder
         var root = EntityRoot("Van");
         var model = Place(truckModel, root.transform, Vector3.zero, Quaternion.identity);
         foreach (var decor in TruckDecor) Child(model, $"{Truck} {decor}").gameObject.SetActive(false);
+        foreach (var name in DriverSide)
+        {
+            var part = Child(model, $"{Truck} {name}");
+            var center = part.parent.InverseTransformPoint(part.TransformPoint(LocalBounds(part).center));
+            part.localPosition -= new Vector3(2 * center.x, 0, 0);
+        }
         var minigun = Place(Model("Weapons", "Soft Serve Minigun"), model.transform, Child(model, $"{Truck} socket turret").position, Quaternion.identity);
         var speaker = Place(Model(Items, "Loudspeaker"), model.transform, Child(model, $"{Truck} socket upgrade turret2").position + new Vector3(0.3f, 0, 0.4f), Quaternion.identity);
         var lights = new List<Object>();
@@ -558,7 +567,7 @@ public static partial class DivorcedDadsSceneBuilder
         }
         settings.VanHalfSize = new Vector3(1.3f, 0, 3.2f).ToFPVector3();
         settings.RoofHeight = FP.FromFloat_UNSAFE(2.92f);
-        settings.DriverSeat = new Vector3(0.55f, 0.47f, 1.4f).ToFPVector3();
+        settings.DriverSeat = new Vector3(-0.55f, 0.47f, 1.4f).ToFPVector3();
         settings.CabStand = new Vector3(0f, 0.8f, 1.5f).ToFPVector3();
         settings.LadderBottom = new Vector3(0.53f, 0.8f, -2.2f).ToFPVector3();
         settings.HatchTop = new Vector3(0.74f, 2.95f, -1.8f).ToFPVector3();

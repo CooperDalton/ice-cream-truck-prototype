@@ -283,7 +283,7 @@ public static class DadsPlaytest
         steps.Add(new Step { Name = "m05_loaded", Duration = 0.5f, Snap = true });
         steps.Add(new Step { Name = "to aisle", Duration = 3f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, -1.3f)) });
         steps.Add(new Step { Name = "to doorway", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) });
-        steps.Add(new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(0.35f, 0.8f, 1.35f)) });
+        steps.Add(new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(-0.35f, 0.8f, 1.35f)) });
         steps.Add(new Step { Name = "sit", Duration = 0.3f, Keys = new[] { Key.E } });
         steps.Add(new Step { Name = "jingle", Duration = 0.3f, Aim = true });
         steps.Add(new Step { Name = "wait for kids", Duration = 45f, Done = f => QueueCount(f) >= 3 });
@@ -402,7 +402,7 @@ public static class DadsPlaytest
         steps.Add(new Step { Name = "to window", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.25f, 0.8f, -0.8f)) });
         steps.Add(new Step { Name = "f02_kids", Duration = 1f, Snap = true, LookAt = f => QueueFace(f) });
         steps.Add(new Step { Name = "to doorway 2", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) });
-        steps.Add(new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(0.35f, 0.8f, 1.35f)) });
+        steps.Add(new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(-0.35f, 0.8f, 1.35f)) });
         steps.Add(new Step { Name = "sit", Duration = 0.3f, Keys = new[] { Key.E } });
         steps.Add(new Step { Name = "drive home", Duration = 90f, DriveTo = f => LotEntrance(f), Done = f => Arrived(f, LotEntrance(f), 6) });
         steps.Add(new Step { Name = "into lot", Duration = 20f, DriveTo = f => Park(f), Done = f => Arrived(f, Park(f), 4) });
@@ -538,7 +538,7 @@ public static class DadsPlaytest
     {
         yield return new Step { Name = "to aisle", Duration = 3f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, -1.3f)) };
         yield return new Step { Name = "to doorway", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) };
-        yield return new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(0.35f, 0.8f, 1.35f)) };
+        yield return new Step { Name = "to seat", Duration = 3f, Target = f => VanPoint(f, new Vector3(-0.35f, 0.8f, 1.35f)) };
         yield return new Step { Name = "sit", Duration = 0.3f, Keys = new[] { Key.E } };
         yield return new Step { Name = "seated", Duration = 0.7f, LookPitch = 0 };
     }
