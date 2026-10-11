@@ -490,6 +490,416 @@ def build_scooper(kit, root):
     sock(kit, N, "scoop tip", root, tuple(c))
 
 
+# ================================================================ round 4: cone melee weapons and three new guns
+GOLD = "#ffcf3a"; GOLD_D = "#d9a01a"; CREAM_TINT = WHITE
+
+
+def gem(kit, name, center, r, mat, parent):
+    """Octahedron bulb (8 tris) for chase lights and studs."""
+    bm = bmesh.new()
+    c = Vector(center)
+    px, nx, py, ny, pz, nz = (bm.verts.new(c + Vector(d) * r) for d in ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0),
+                                                                          (0, 0, 1), (0, 0, -1)))
+    for a, b in ((px, py), (py, nx), (nx, ny), (ny, px)):
+        bm.faces.new((a, b, pz)); bm.faces.new((b, a, nz))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    return kit.mesh_from_bmesh(name, bm, mat, parent, smooth=False)
+
+
+def tex_tint_cream(rand):
+    """Near-white scoop texture so the game can tint it per flavor."""
+    c = Canvas(32, 16, CREAM_TINT)
+    c.speckle(rand, ["#f1e6da"], 46)
+    c.rect(0, 0, 31, 1, "#eadfd3")
+    c.speckle(rand, ["#ffffff"], 24, 8, 15)
+    return c
+
+
+def tex_sugar_cone():
+    c = Canvas(32, 16, "#e09848")
+    for y in range(16):
+        for x in range(32):
+            if x % 4 == 0 or y % 4 == 0:
+                c.set(x, y, "#b06a28")
+            elif x % 4 == 1 and y % 4 == 1:
+                c.set(x, y, "#f2b868")
+    c.rect(0, 13, 31, 15, "#c98036"); c.rect(0, 15, 31, 15, "#f2b868")
+    return c
+
+
+def tex_big_waffle():
+    """tex_waffle with a deeper grid for the big cones."""
+    c = Canvas(32, 16, "#ffcf5a")
+    for y in range(16):
+        for x in range(32):
+            if (x + y) % 6 == 0 or (x - y) % 6 == 0:
+                c.set(x, y, "#c9762a")
+            elif (x + y) % 6 == 1 or (x - y) % 6 == 1:
+                c.set(x, y, "#e8a440")
+    return c
+
+
+def tex_wafer():
+    c = Canvas(8, 16, "#ffe2a8")
+    for y in range(16):
+        for x in range(8):
+            if (x + y) % 4 < 2:
+                c.set(x, y, CHOC)
+    return c
+
+
+def cone_frame(kit, N, root, tilt):
+    """Static pivot whose +Z points forward (-Y) and `tilt` degrees up: cones are modelled upright (tip at -Z, scoop at
+    +Z) and held like the Scooper. Returns the pivot and a function mapping its local z axis to root space."""
+    th = math.radians(90 - tilt)
+    piv = kit.empty(f"{N} cone", root, (0, 0, 0), (90 - tilt, 0, 0))
+    return piv, lambda z: (0, -math.sin(th) * z, math.cos(th) * z)
+
+
+def cone_body(kit, N, piv, length, r_rim, mat, sides=8):
+    """Cone from the tip (z = -length) to the rim (z = 0), with a rolled lip."""
+    tube(kit, f"{N} cone", [(0, 0, -length), (0, 0, -length * 0.6), (0, 0, -0.012)],
+         [0.004, r_rim * 0.42, r_rim * 0.97], mat, piv, sides=sides, front=(0, 1, 0), bulge=(0.006, 0), smooth=False)
+    tube(kit, f"{N} cone lip", [(0, 0, -0.016), (0, 0, 0.004)], [r_rim * 1.02, r_rim * 1.06], mat, piv, sides=sides,
+         front=(0, 1, 0), caps=(False, True), smooth=False)
+
+
+def tint_scoop(kit, name, piv, z, r, mat):
+    """Hand-scooped ball (h_items-style frilly lip, lumpy dome) as one object so it can be tinted."""
+    R = kit.rand
+    zs = (0.0, 0.12, 0.22, 0.6, 1.05, 1.42, 1.66)
+    rs = (0.62, 1.04, 0.86, 1.04, 0.98, 0.7, 0.3)
+    ob = tube(kit, name, [(0, 0, k * r) for k in zs], [k * r for k in rs], mat, piv, sides=8, bulge=(0, 0.08 * r),
+              loc=(0, 0, z))
+    for i, vtx in enumerate(ob.data.vertices):
+        ring, k = divmod(i, 8)
+        if ring == 1:
+            s = 1.1 if k % 2 else 0.95
+            vtx.co.x *= s; vtx.co.y *= s; vtx.co.z += 0.05 * r if k % 2 else -0.03 * r
+        elif 2 <= ring <= 6:
+            vtx.co += Vector((R.uniform(-1, 1), R.uniform(-1, 1), R.uniform(-1, 1))) * 0.06 * r
+    return ob
+
+
+def dome_bits(kit, N, piv, n, center, r, size, mats, lo=0.35):
+    """Sprinkles stuck to the upper part of a scoop dome."""
+    R = kit.rand
+    for i in range(n):
+        a = 2 * math.pi * (i + R.uniform(-0.3, 0.3)) / n
+        e = R.uniform(lo, 1.25)
+        d = Vector((math.cos(a) * math.cos(e), math.sin(a) * math.cos(e), math.sin(e)))
+        p = Vector(center) + d * r
+        tbox(kit, f"{N} sprinkle {i}", (0, 0, 0), (size * 0.35, size, size * 0.35), mats[i % len(mats)], piv, loc=tuple(p),
+             rot=(R.uniform(-30, 30), R.uniform(-30, 30), R.uniform(0, 180)))
+
+
+def build_plain_cone(kit, root):
+    N = "Plain Cone"
+    piv, at = cone_frame(kit, N, root, 12)
+    cone_body(kit, N, piv, 0.21, 0.042, tex_mat("sugar cone", tex_sugar_cone(), ext='REPEAT'))
+    tint_scoop(kit, f"{N} scoop", piv, -0.006, 0.047, tex_mat("cone cream", tex_tint_cream(kit.rand), 0.42, ext='REPEAT'))
+    sock(kit, N, "hand", root, at(-0.1))
+
+
+def choc_dip(kit, N, piv, r_rim, depth, n_drips, mat, length):
+    """Chocolate-dipped rim: a band hugging the top of the cone and drips running down it."""
+    R = kit.rand
+    k = lambda z: r_rim * (0.42 + 0.55 * (z + length * 0.6) / (length * 0.6 - 0.012)) + 0.004
+    tube(kit, f"{N} dip", [(0, 0, -depth), (0, 0, -depth * 0.5), (0, 0, 0.008)], [k(-depth), k(-depth * 0.5), r_rim * 1.1],
+         mat, piv, sides=8, front=(0, 1, 0), caps=(False, False))
+    for i in range(n_drips):
+        a = 2 * math.pi * (i + R.uniform(-0.2, 0.2)) / n_drips
+        z1 = -depth - R.uniform(0.015, 0.05)
+        pts = [(math.cos(a) * k(z), math.sin(a) * k(z), z) for z in (-depth + 0.004, (z1 - depth) / 2, z1)]
+        tube(kit, f"{N} drip {i}", pts, [0.009, 0.007, 0.005], mat, piv, sides=4, front=(0, 0, 1), bulge=(0, 0.005))
+
+
+def build_waffle_cone(kit, root):
+    N = "Waffle Cone"
+    piv, at = cone_frame(kit, N, root, 12)
+    L, rr = 0.27, 0.062
+    cone_body(kit, N, piv, L, rr, tex_mat("big waffle", tex_big_waffle(), ext='REPEAT'))
+    choc = solid(kit, "dip chocolate", CHOC, 0.28, shade="#4e2812")
+    choc_dip(kit, N, piv, rr, 0.045, 6, choc, L)
+    nuts = [solid(kit, "nut", "#f2c27a", 0.4, shade="#c98a3a")]
+    R = kit.rand
+    for i in range(7):
+        a = 2 * math.pi * (i + R.uniform(-0.3, 0.3)) / 7
+        z = R.uniform(-0.035, -0.008)
+        rad = rr * 1.06
+        tbox(kit, f"{N} nut {i}", (0, 0, 0), (0.008, 0.01, 0.006), nuts[0], piv,
+             loc=(math.cos(a) * rad, math.sin(a) * rad, z), rot=(R.uniform(0, 60), 0, R.uniform(0, 180)))
+    tint_scoop(kit, f"{N} scoop", piv, -0.004, 0.068, tex_mat("cone cream", tex_tint_cream(R), 0.42, ext='REPEAT'))
+    sock(kit, N, "hand", root, at(-0.14))
+
+
+def build_double_dip(kit, root):
+    N = "Double Dip"
+    piv, at = cone_frame(kit, N, root, 12)
+    R = kit.rand
+    L, rr = 0.34, 0.08
+    cone_body(kit, N, piv, L, rr, tex_mat("big waffle", tex_big_waffle(), ext='REPEAT'))
+    choc_dip(kit, N, piv, rr, 0.05, 7, solid(kit, "dip pink", "#ff7dbb", 0.4, shade=PINK), L)
+    cream = tex_mat("cone cream", tex_tint_cream(R), 0.42, ext='REPEAT')
+    r1, r2 = 0.084, 0.072
+    tint_scoop(kit, f"{N} scoop", piv, -0.004, r1, cream)
+    z2 = -0.004 + 1.3 * r1
+    tint_scoop(kit, f"{N} scoop 2", piv, z2, r2, cream)
+    mats = [solid(kit, "gun sprinkle " + c, c, 0.6) for c in SPR[:5]]
+    dome_bits(kit, N, piv, 14, (0, 0, z2 + 0.95 * r2), r2 * 0.98, 0.016, mats)
+    top = z2 + 1.66 * r2
+    lowball(kit, f"{N} cherry", (0, 0.012, top + 0.018), (0.024, 0.024, 0.023), solid(kit, "cherry", RED, 0.6), piv)
+    tube(kit, f"{N} cherry stem", [(0, 0.012, top + 0.036), (0.004, 0.018, top + 0.06), (0.014, 0.024, top + 0.072)], 0.003,
+         solid(kit, "cherry stem", "#3fae4a"), piv, sides=4, caps=(False, False))
+    # rolled wafer sticks jammed into the scoops like spikes
+    wafer = tex_mat("wafer stick", tex_wafer(), ext='REPEAT')
+    for i, (a, e, z0, L2) in enumerate(((20, 25, 0.06, 0.17), (140, 15, 0.05, 0.15), (260, 30, 0.065, 0.16),
+                                        (80, 30, z2 + 0.06, 0.15), (200, 40, z2 + 0.07, 0.15))):
+        d = Vector((math.cos(math.radians(a)) * math.cos(math.radians(e)), math.sin(math.radians(a)) * math.cos(math.radians(e)),
+                    math.sin(math.radians(e))))
+        base = Vector((0, 0, z0)) + d * 0.03
+        tube(kit, f"{N} wafer {i}", [tuple(base), tuple(base + d * L2)], 0.012, wafer, piv, sides=6, v=(0.0, 3.0),
+             caps=(False, True))
+    sock(kit, N, "hand", root, at(-0.17))
+
+
+# ---------------------------------------------------------------- Soft Serve Hose
+def tex_hose():
+    c = Canvas(8, 32, RED)
+    for y in range(0, 32, 4):
+        c.rect(0, y, 7, y, DRED)
+    c.rect(2, 0, 3, 31, WHITE)
+    return c
+
+
+def tex_brass_swirl():
+    c = Canvas(32, 16, GOLD)
+    for y in range(16):
+        for x in range(32):
+            if (x + 2 * y) % 8 < 2:
+                c.set(x, y, GOLD_D)
+            elif (x + 2 * y) % 8 == 3:
+                c.set(x, y, "#fff0a0")
+    return c
+
+
+def tex_canister():
+    c = Canvas(32, 16, WHITE)
+    c.rect(0, 0, 31, 2, PINK); c.rect(0, 13, 31, 15, PINK)
+    c.rect(0, 5, 31, 10, MINT); c.rect(0, 5, 31, 5, "#1fbf95"); c.rect(0, 10, 31, 10, "#1fbf95")
+    for cx in (6, 22):
+        c.rect(cx - 1, 6, cx + 1, 6, "#f0a43a"); c.rect(cx - 2, 7, cx + 2, 8, WHITE); c.set(cx, 9, WHITE)
+    return c
+
+
+def build_soft_serve_hose(kit, root):
+    N = "Soft Serve Hose"
+    m = gun_mats(kit)
+    gold = solid(kit, "brass", GOLD, shade=GOLD_D)
+    red = solid(kit, "hose red", RED, shade=DRED)
+    # valve body and tapered brass nozzle, ending in a soft-serve swirl tip
+    tube(kit, f"{N} coupling", [(0, 0.1, 0), (0, 0.062, 0)], [0.03, 0.036], gold, root, sides=8, side=(1, 0, 0))
+    for sx in (1, -1):
+        tbox(kit, f"{N} coupling lug {sx}", (sx * 0.042, 0.082, 0), (0.022, 0.02, 0.014), gold, root)
+    tube(kit, f"{N} body", [(0, 0.066, 0), (0, 0.02, 0.002), (0, -0.06, 0.002), (0, -0.115, 0)], [0.036, 0.04, 0.038, 0.032],
+         red, root, sides=8, side=(1, 0, 0))
+    for y in (0.03, -0.075):
+        tube(kit, f"{N} band {y}", [(0, y + 0.008, 0.001), (0, y - 0.008, 0.001)], 0.043, gold, root, sides=8,
+             side=(1, 0, 0), caps=(False, False))
+    tube(kit, f"{N} nozzle", [(0, -0.11, 0), (0, -0.2, 0), (0, -0.235, 0)], [0.031, 0.026, 0.028], gold, root, sides=8,
+         side=(1, 0, 0))
+    ys = [-0.23, -0.25, -0.268, -0.286, -0.302, -0.318, -0.332, -0.344, -0.356]
+    rs = [0.034, 0.035, 0.028, 0.029, 0.021, 0.022, 0.014, 0.012, 0.002]
+    tube(kit, f"{N} swirl tip", [(0.003 * (i % 2), y, 0) for i, y in enumerate(ys)], rs, tex_mat("brass swirl", tex_brass_swirl()),
+         root, sides=8, side=(1, 0, 0))
+    # bail lever on top: flips forward to open the valve
+    bail = kit.empty(f"{N} bail", root, (0, -0.085, 0.036), (-6, 0, 0))
+    tube(kit, f"{N} bail", [(-0.038, 0.0, -0.01), (-0.04, 0.05, 0.016), (-0.03, 0.11, 0.024), (0.03, 0.11, 0.024),
+                            (0.04, 0.05, 0.016), (0.038, 0.0, -0.01)], 0.006, m['yel'], bail, sides=4, side=(0, 0, 1),
+         caps=(False, False))
+    tbox(kit, f"{N} bail grip", (0, 0.11, 0.024), (0.07, 0.016, 0.014), m['pink'], bail)
+    grip_trigger(kit, N, root, 0.03, -0.034, m, angle=14)
+    # soft-serve canister clipped under the barrel
+    cy, cz = -0.165, -0.08
+    tube(kit, f"{N} canister", [(0, cy + 0.06, cz), (0, cy - 0.06, cz)], 0.032, tex_mat("canister", tex_canister()), root,
+         sides=8, side=(1, 0, 0))
+    tube(kit, f"{N} canister cap", [(0, cy - 0.058, cz), (0, cy - 0.074, cz)], [0.03, 0.022], m['pink'], root, sides=8,
+         side=(1, 0, 0))
+    tube(kit, f"{N} canister plug", [(0, cy + 0.058, cz), (0, cy + 0.075, cz)], [0.024, 0.014], gold, root, sides=6,
+         side=(1, 0, 0))
+    for y in (cy + 0.035, cy - 0.035):
+        tube(kit, f"{N} clip {y:.2f}", [(0, y + 0.007, cz), (0, y - 0.007, cz)], 0.035, m['yel'], root, sides=8,
+             side=(1, 0, 0), caps=(False, False))
+        tbox(kit, f"{N} clip arm {y:.2f}", (0, y, (cz + 0.032 - 0.03) / 2 - 0.004), (0.012, 0.012, 0.05), m['yel'], root)
+    # coiled hose: out of the rear coupling, round the display (+X) side, coiling forward into the canister plug
+    pts = [(0, 0.1, 0), (0.0, 0.13, -0.004), (0.03, 0.145, -0.03), (0.05, 0.12, -0.055)]
+    ax, az, rr = 0.052, -0.058, 0.018
+    turns, y0, y1 = 3.2, 0.1, -0.03
+    n = 34
+    for k in range(1, n + 1):
+        t = k / n
+        a = 2 * math.pi * turns * t + math.pi
+        pts.append((ax + math.cos(a) * rr * 0.7, y0 + (y1 - y0) * t, az + math.sin(a) * rr))
+    pts += [(0.04, -0.055, -0.07), (0.015, -0.08, -0.08), (0, cy + 0.08, cz)]
+    tube(kit, f"{N} hose", pts, 0.0085, tex_mat("hose", tex_hose(), ext='REPEAT'), root, sides=5, side=(0, 0, 1),
+         caps=(False, False), v=(0.0, 8.0))
+    sock(kit, N, "muzzle", root, (0, -0.358, 0))
+
+
+# ---------------------------------------------------------------- Sundae Bazooka
+def tex_sundae_glass():
+    c = Canvas(32, 16, "#cfe8ff")
+    for x in (9, 10, 25):
+        c.rect(x, 1, x, 13, WHITE)
+    c.rect(0, 3, 31, 4, PINK); c.rect(0, 11, 31, 11, PINK)
+    for x in range(0, 32, 4):
+        c.set(x + 1, 7, PINK); c.set(x + 2, 7, PINK)
+    c.rect(0, 15, 31, 15, WHITE)
+    return c
+
+
+def tex_whip():
+    c = Canvas(32, 16, WHITE)
+    for y in range(16):
+        for x in range(32):
+            if (x + 2 * y) % 8 < 2:
+                c.set(x, y, "#e8e0f0")
+    c.speckle(random.Random(5), [PINK, BLUE, YEL, MINT], 14, 2, 13)
+    return c
+
+
+def build_sundae_bazooka(kit, root):
+    N = "Sundae Bazooka"
+    m = gun_mats(kit)
+    R = kit.rand
+    z = 0.075
+    t_waf = tex_mat("bazooka waffle", tex_big_waffle(), ext='REPEAT')
+    S = dict(side=(1, 0, 0))
+    # waffle-cone launch tube from the rear flare to the sundae glass
+    tube(kit, f"{N} tube", [(0, 0.5, z), (0, 0.2, z), (0, -0.15, z), (0, -0.36, z)], [0.066, 0.07, 0.072, 0.074], t_waf, root,
+         sides=8, caps=(False, False), v=(0.0, 6.0), **S)
+    tube(kit, f"{N} rear flare", [(0, 0.49, z), (0, 0.56, z), (0, 0.6, z)], [0.072, 0.086, 0.1], m['pink'], root, sides=8,
+         caps=(False, False), **S)
+    tube(kit, f"{N} rear dark", [(0, 0.5, z), (0, 0.44, z)], 0.064, m['ink'], root, sides=8, caps=(False, True), **S)
+    for y, col in ((0.42, m['yel']), (0.16, m['pink']), (-0.08, m['pink'])):
+        tube(kit, f"{N} band {y}", [(0, y + 0.018, z), (0, y - 0.018, z)], 0.079, col, root, sides=8, caps=(False, False), **S)
+    # sundae glass muzzle: neck, then a tulip bowl
+    glass = tex_mat("sundae glass", tex_sundae_glass(), 0.35, 0.15, ext='REPEAT')
+    p = next(nd for nd in glass.node_tree.nodes if nd.type == 'BSDF_PRINCIPLED')
+    p.inputs["Alpha"].default_value = 0.32
+    tube(kit, f"{N} glass foot", [(0, -0.35, z), (0, -0.385, z)], [0.084, 0.06], m['steel'], root, sides=8,
+         caps=(False, False), **S)
+    tube(kit, f"{N} sundae glass", [(0, -0.38, z), (0, -0.44, z), (0, -0.53, z), (0, -0.62, z), (0, -0.66, z)],
+         [0.062, 0.09, 0.118, 0.122, 0.112], glass, root, sides=8, caps=(False, False), **S)
+    tube(kit, f"{N} glass rim", [(0, -0.655, z), (0, -0.668, z)], [0.118, 0.116], m['pink'], root,
+         sides=8, caps=(False, False), **S)
+    # loaded rocket: fudge base, whipped cream dome, cherry nose (moves as one on its pivot)
+    rk = kit.empty(f"{N} rocket", root, (0, -0.42, z))
+    tube(kit, f"{N} rocket fudge", [(0, 0.0, 0), (0, -0.07, 0), (0, -0.1, 0)], [0.05, 0.08, 0.09],
+         solid(kit, "fudge", CHOC, 0.25, shade="#4e2812"), rk, sides=8, caps=(True, False), **S)
+    for i, (x, zz, col) in enumerate(((-0.05, 0.025, BERRY), (0.05, 0.025, "#9ff5d8"), (0.0, -0.05, CHOC))):
+        lowball(kit, f"{N} rocket scoop {i}", (x, -0.15, zz), (0.064, 0.064, 0.06), m['cream'][col], rk)
+    for i, a in enumerate((30, 150, 270)):
+        ca, sa = math.cos(math.radians(a)), math.sin(math.radians(a))
+        tube(kit, f"{N} rocket fudge drip {i}", [(ca * 0.07, -0.2, sa * 0.07), (ca * 0.09, -0.16, sa * 0.09),
+                                                 (ca * 0.1, -0.12, sa * 0.1)], [0.016, 0.012, 0.008],
+             solid(kit, "fudge", CHOC, 0.25, shade="#4e2812"), rk, sides=4, side=(1, 0, 0))
+    ys = [-0.21, -0.235, -0.26, -0.285, -0.305, -0.33, -0.35, -0.372]
+    rs = [0.1, 0.104, 0.08, 0.082, 0.058, 0.058, 0.032, 0.01]
+    tube(kit, f"{N} rocket cream", [(0.004 * (i % 2), y, 0.004 * (i % 2)) for i, y in enumerate(ys)], rs,
+         tex_mat("whip", tex_whip()), rk, sides=8, **S)
+    lowball(kit, f"{N} rocket cherry", (0, -0.39, 0.0), (0.036, 0.036, 0.035), solid(kit, "cherry", RED, 0.6), rk)
+    tube(kit, f"{N} rocket stem", [(0, -0.395, 0.03), (0, -0.405, 0.065), (0, -0.425, 0.085)], 0.004,
+         solid(kit, "cherry stem", "#3fae4a"), rk, sides=4, caps=(False, False))
+    # banana sight on two posts
+    tube(kit, f"{N} banana", [(0, 0.18, z + 0.125), (0, 0.12, z + 0.112), (0, 0.0, z + 0.106), (0, -0.12, z + 0.112),
+                              (0, -0.17, z + 0.128)], [0.008, 0.015, 0.018, 0.015, 0.008], tex_mat("banana", tex_banana(R)),
+         root, sides=6, smooth=False, **S)
+    for y in (0.08, -0.08):
+        tbox(kit, f"{N} sight post {y}", (0, y, z + 0.085), (0.014, 0.014, 0.04), m['yel'], root)
+    # grip block, grip, front handle and shoulder pad
+    tbox(kit, f"{N} grip block", (0, 0.07, -0.006), (0.05, 0.16, 0.036), m['pink'], root)
+    grip_trigger(kit, N, root, 0.07, -0.024, m, angle=12)
+    tbox(kit, f"{N} handle clamp", (0, -0.22, -0.003), (0.05, 0.05, 0.03), m['yel'], root)
+    tbox(kit, f"{N} front handle", (0, -0.22, -0.06), (0.036, 0.04, 0.1), m['grip'], root, rot=(-8, 0, 0))
+    tbox(kit, f"{N} shoulder pad", (0, 0.32, -0.006), (0.06, 0.18, 0.03), solid(kit, "pad mint", MINT), root)
+    sock(kit, N, "muzzle", root, (0, -0.67, z))
+
+
+# ---------------------------------------------------------------- Jackpot Blaster
+def tex_jackpot_face():
+    """Slot machine side panel: JACKPOT marquee, three reel windows (cherry, scoop, 7), coin row."""
+    c = Canvas(48, 24, PINK)
+    c.rect(0, 0, 47, 1, GOLD_D); c.rect(0, 22, 47, 23, GOLD_D); c.rect(0, 0, 0, 23, GOLD_D); c.rect(47, 0, 47, 23, GOLD_D)
+    c.rect(1, 16, 46, 21, INK)
+    txt = dict(FONT, J=("..#", "..#", "..#", "#.#", ".#."))
+    x = 24 - 13
+    for ch in "JACKPOT":
+        for r, row in enumerate(txt[ch]):
+            for q, b in enumerate(row):
+                if b == '#':
+                    c.set(x + q, 20 - r, YEL)
+        x += 4
+    for i in range(3):
+        x0 = 3 + i * 15
+        c.rect(x0, 3, x0 + 12, 14, GOLD_D)
+        c.rect(x0 + 1, 4, x0 + 11, 13, WHITE)
+        c.rect(x0 + 1, 4, x0 + 11, 4, "#d8d0e8"); c.rect(x0 + 1, 13, x0 + 11, 13, "#d8d0e8")
+        cx = x0 + 6
+        if i == 0:   # cherries
+            disc(c, cx - 2, 7, 2, RED); disc(c, cx + 2, 6, 2, RED)
+            c.dots([(cx - 2, 10), (cx - 1, 11), (cx, 12), (cx + 1, 11), (cx + 2, 9), (cx + 1, 10)], "#3fae4a")
+            c.dots([(cx - 3, 8), (cx + 1, 7)], "#ff9fb0")
+        elif i == 1:  # cone with a pink scoop
+            cone_icon(c, cx, 5, 5, PINK)
+        else:  # big red 7
+            c.rect(cx - 3, 11, cx + 3, 12, RED)
+            for k in range(6):
+                c.rect(cx + 1 - k // 2, 10 - k, cx + 2 - k // 2, 10 - k, RED)
+    return c
+
+
+def build_jackpot_blaster(kit, root):
+    N = "Jackpot Blaster"
+    m = gun_mats(kit)
+    gold = solid(kit, "gold", GOLD, shade=GOLD_D)
+    face = tex_mat("jackpot face", tex_jackpot_face())
+    # slot machine body: reel panels on both sides, gold trim, coin slot on top
+    tbox(kit, f"{N} body", (0, 0.02, 0.02), (0.07, 0.15, 0.09), face, root,
+         uv={'pz': (0.02, 0.9, 0.98, 0.98), 'nz': (0.02, 0.0, 0.98, 0.05), 'ny': (0.0, 0.0, 0.02, 0.02), 'py': (0.0, 0.0, 0.02, 0.02)})
+    for z in (0.068, -0.028):
+        tbox(kit, f"{N} trim {z}", (0, 0.02, z), (0.078, 0.158, 0.012), gold, root)
+    tbox(kit, f"{N} top dome", (0, 0.02, 0.083), (0.06, 0.12, 0.022), m['pink'], root, taper=(0.7, 0.8))
+    tbox(kit, f"{N} coin slot", (0, -0.01, 0.095), (0.026, 0.006, 0.004), m['ink'], root)
+    bulbs = [solid(kit, "bulb " + c, c, 1.6) for c in (YEL, WHITE, MINT)]
+    for sx in (1, -1):
+        for k in range(5):
+            gem(kit, f"{N} bulb {sx} {k}", (sx * 0.04, -0.04 + k * 0.03, 0.068), 0.007, bulbs[k % 3], root)
+    # tiny slot lever on top (pulls forward about X)
+    lever = kit.empty(f"{N} lever", root, (0, 0.075, 0.09), (-20, 0, 0))
+    tube(kit, f"{N} lever arm", [(0, 0, 0), (0, 0.0, 0.07)], 0.005, m['steel'], lever, sides=4)
+    lowball(kit, f"{N} lever knob", (0, 0, 0.078), (0.014, 0.014, 0.014), solid(kit, "cherry", RED, 0.6), lever)
+    tube(kit, f"{N} lever hub", [(-0.012, 0, 0), (0.012, 0, 0)], 0.009, gold, lever, sides=6, front=(0, 0, 1))
+    # rear: hammer block and a curled butt behind the grip
+    tbox(kit, f"{N} rear block", (0, 0.11, 0.02), (0.05, 0.04, 0.07), m['pink'], root)
+    tbox(kit, f"{N} hammer", (0, 0.135, 0.06), (0.016, 0.02, 0.03), gold, root, rot=(-30, 0, 0))
+    # blunderbuss barrel with a bell mouth
+    tube(kit, f"{N} barrel", [(0, -0.05, 0.02), (0, -0.2, 0.02), (0, -0.25, 0.02)], [0.024, 0.021, 0.024], gold, root, sides=8,
+         side=(1, 0, 0))
+    tube(kit, f"{N} bell", [(0, -0.245, 0.02), (0, -0.29, 0.02), (0, -0.315, 0.02), (0, -0.325, 0.02)],
+         [0.026, 0.038, 0.056, 0.062], gold, root, sides=10, side=(1, 0, 0), caps=(False, False))
+    tube(kit, f"{N} bell dark", [(0, -0.3, 0.02), (0, -0.26, 0.02)], [0.05, 0.02], m['ink'], root, sides=10, side=(1, 0, 0),
+         caps=(True, False))
+    for y in (-0.09, -0.17, -0.24):
+        tube(kit, f"{N} barrel ring {y}", [(0, y + 0.008, 0.02), (0, y - 0.008, 0.02)], 0.029, m['pink'], root, sides=8,
+             side=(1, 0, 0), caps=(False, False))
+    tbox(kit, f"{N} front sight", (0, -0.235, 0.05), (0.008, 0.012, 0.016), m['pink'], root)
+    grip_trigger(kit, N, root, 0.085, -0.03, m, angle=20)
+    tbox(kit, f"{N} grip cap", (0, 0.105, -0.13), (0.046, 0.06, 0.02), gold, root, rot=(20, 0, 0))
+    sock(kit, N, "muzzle", root, (0, -0.325, 0.02))
+
+
+
 ASSETS = [
     ("Scoop Pistol", build_scoop_pistol),
     ("Sundae Shotgun", build_sundae_shotgun),
@@ -500,6 +910,12 @@ ASSETS = [
     ("Soft Serve Minigun", build_turret),
     ("Scooper", build_scooper),
     ("Sprinkle Jar", build_sprinkle_jar),
+    ("Plain Cone", build_plain_cone),
+    ("Waffle Cone", build_waffle_cone),
+    ("Double Dip", build_double_dip),
+    ("Soft Serve Hose", build_soft_serve_hose),
+    ("Sundae Bazooka", build_sundae_bazooka),
+    ("Jackpot Blaster", build_jackpot_blaster),
 ]
 SPACING = 3
 

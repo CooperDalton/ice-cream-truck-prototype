@@ -387,6 +387,125 @@ def gib_bounce():
     return squelch(0.15, 0.03, 1200, 400)
 
 
+# ------------------------------------------------------------------------------------------------ hot spots, fuel and shop
+
+def hose():
+    spurt = squelch(0.16, 0.05, 1100, 500) * 0.9
+    hiss = bandpass(noise(0.16), 3200, 2) * env(0.16, 0.005, 0.05) * 0.5
+    return mix(spurt, hiss)
+
+
+def bazooka():
+    thump = sweep(0.9, 55, 140) * env(0.9, 0.005, 0.2)
+    roar = bandpass(noise(0.9), np.geomspace(250, 2200, int(0.9 * RATE)), 1.5) * env(0.9, 0.03, 0.35) * 0.9
+    return soft_clip(mix(thump * 1.3, roar), 2.2)
+
+
+def jackpot_shot():
+    ding = (tone(0.4, 1760, "square") * 0.3 + tone(0.4, 2637) * 0.3) * env(0.4, 0.001, 0.08)
+    return mix(pistol() * 0.8, at(ding, 0.02))
+
+
+def fanfare(notes, step, shape="square", length=0.35):
+    return mix(*(at(tone(length, note_freq(n), shape) * env(length, 0.003, 0.12) * 0.35, i * step) for i, n in enumerate(notes)))
+
+
+def jackpot_win():
+    return mix(fanfare(["C5", "E5", "G5", "C6", "G5", "C6", "E6"], 0.07), at(kaching() * 0.7, 0.3))
+
+
+def melee_swing():
+    return bandpass(noise(0.22), np.geomspace(400, 1800, int(0.22 * RATE)), 3) * env(0.22, 0.06, 0.05)
+
+
+def melee_hit():
+    thwack = sweep(0.25, 160, 60) * env(0.25, 0.001, 0.05)
+    return soft_clip(mix(thwack * 1.2, squelch(0.3, 0.07, 1500, 250), lowpass(noise(0.06), 2500) * env(0.06, 0.0005, 0.012) * 0.8), 1.8)
+
+
+def slots_spin():
+    length = 1.9
+    out = np.zeros(int(length * RATE))
+    t = 0.0
+    k = 0
+    while t < length - 0.05:
+        tick = at(highpass(noise(0.03), 2500) * env(0.03, 0.0005, 0.005) * (1.0 if k % 3 == 0 else 0.6), t)
+        out[:len(tick)] += tick[:len(out)]
+        t += 0.045 + 0.02 * (t / length) ** 2
+        k += 1
+    whirr = bandpass(sweep(length, 180, 120, "saw"), 700, 5) * 0.12
+    return mix(out, whirr)
+
+
+def slots_win():
+    return mix(fanfare(["G5", "C6", "E6"], 0.09), at(tone(0.5, note_freq("G6"), "square") * env(0.5, 0.003, 0.2) * 0.35, 0.27))
+
+
+def slots_lose():
+    parts = []
+    for i, (a, b) in enumerate((("G4", "F#4"), ("F4", "E4"), ("D#4", "C4"))):
+        length = 0.3 if i < 2 else 0.8
+        parts.append(at(sweep(length, note_freq(a), note_freq(b), "square") * env(length, 0.005, length * 0.6) * 0.35, i * 0.32))
+    return mix(*parts)
+
+
+def slots_brains():
+    organ = sum(tone(1.2, note_freq(n), "saw") * 0.2 for n in ("D3", "F3", "G#3", "B3")) * env(1.2, 0.01, 0.5)
+    return mix(lowpass(organ, 1800), at(groan(140, 70, 1.3, "a", 5) * 0.8, 0.2))
+
+
+def refuel():
+    glugs = layer(at(sweep(0.12, 300 + 60 * k, 700 + 90 * k) * env(0.12, 0.01, 0.04) * 0.5, 0.11 * k) for k in range(6))
+    pour = lowpass(noise(0.8), 900) * env(0.8, 0.05, 0.3) * 0.3
+    return mix(glugs, pour)
+
+
+def out_of_fuel():
+    coughs = layer(at(lowpass(noise(0.18), 600) * env(0.18, 0.005, 0.06) * (1 - 0.2 * k), 0.25 * k + 0.05 * (k % 2)) for k in range(4))
+    honk = (tone(0.7, 233, "saw") + tone(0.7, 220, "saw")) * env(0.7, 0.02, 0.35) * 0.25
+    return mix(coughs, at(lowpass(honk, 1500), 1.0))
+
+
+def horde():
+    chorus = mix(*(at(groan(f0, f0 * 0.7, 2.0, v, w) * 0.4, d) for f0, v, w, d in
+                   ((100, "o", 5, 0), (130, "a", 7, 0.1), (85, "u", 4, 0.2), (160, "a", 9, 0.15), (115, "o", 6, 0.3))))
+    stab = sum(tone(0.9, note_freq(n), "square") * 0.18 for n in ("C4", "D#4", "F#4")) * env(0.9, 0.003, 0.3)
+    return soft_clip(mix(chorus, stab), 1.6)
+
+
+def denied():
+    return tone(0.35, 110, "square") * env(0.35, 0.003, 0.2) * 0.5 + tone(0.35, 117, "square") * env(0.35, 0.003, 0.2) * 0.5
+
+
+def kevin_babble():
+    # Short blips at random pitches, like a cartoon shopkeeper talking.
+    blips = [at(tone(0.07, f, "square") * env(0.07, 0.003, 0.03) * 0.35, k * 0.075) for k, f in enumerate(rng.uniform(240, 520, 12))]
+    return lowpass(mix(*blips), 2500)
+
+
+def sprinter_shriek(f0, f1, length):
+    """A rising, ragged scream: a saw through an "ee" formant with a gargle of noise, so a charging sprinter cuts
+    through the mix."""
+    t = t_axis(length)
+    freq = np.geomspace(f0, f1, len(t)) * (1 + 0.06 * np.sin(2 * np.pi * 23 * t))
+    source = 2 * ((np.cumsum(freq) / RATE) % 1) - 1 + 0.35 * noise(length)
+    shape = np.minimum(1, t / 0.04) * np.exp(-np.maximum(t - length * 0.55, 0) / (length * 0.2))
+    return soft_clip(formant(source, "e") * shape * 1.4, 2.8)
+
+
+def sprinter_steps():
+    """One second of fast running footsteps (seven slaps with a gravel scuff), seamless for looping."""
+    length = 1.0
+    out = np.zeros(int(length * RATE))
+    for k in range(7):
+        start = int(k / 7 * length * RATE)
+        slap = lowpass(noise(0.07), 1800) * env(0.07, 0.001, 0.015) * (1.0 if k % 2 else 0.75)
+        thud = sweep(0.08, 120, 60) * env(0.08, 0.001, 0.02) * 0.8
+        step = mix(slap, thud)
+        out[start:start + len(step)] += step[:len(out) - start]
+    return seamless(np.concatenate([out, out[:int(0.05 * RATE)]]), 0.05)
+
+
 # ------------------------------------------------------------------------------------------------ music box
 
 def music_box_note(freq, length):
@@ -439,6 +558,12 @@ def main():
         "groan_4": lambda: groan(75, 60, 1.3, "o", 3), "groan_sprinter": lambda: groan(180, 140, 0.7, "a", 12), "snarl": snarl,
         "hurt": hurt, "death": death, "revive": revive, "wipe": wipe, "engine_loop": engine_loop, "bell": bell, "pickup": pickup,
         "kaching": kaching, "tip": tip, "crank": crank, "scoop": scoop, "crash": crash, "depot": depot_jingle, "gib": gib_bounce,
+        # Appended after the originals so the shared random generator gives those the same output as before.
+        "gun_hose": hose, "gun_bazooka": bazooka, "gun_jackpot": jackpot_shot, "jackpot_win": jackpot_win, "melee_swing": melee_swing,
+        "melee_hit": melee_hit, "slots_spin": slots_spin, "slots_win": slots_win, "slots_lose": slots_lose, "slots_brains": slots_brains,
+        "refuel": refuel, "out_of_fuel": out_of_fuel, "horde": horde, "denied": denied, "kevin_babble": kevin_babble,
+        "sprinter_shriek_1": lambda: sprinter_shriek(320, 900, 0.9), "sprinter_shriek_2": lambda: sprinter_shriek(260, 1100, 1.1),
+        "sprinter_steps": sprinter_steps,
     }
     for name, make in sounds.items():
         write(name, make())

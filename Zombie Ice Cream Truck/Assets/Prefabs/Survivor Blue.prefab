@@ -314,6 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SurvivorView
   body: {fileID: 1776353803791247086}
   ghost: {fileID: 4552603749575821707}
+  crouchHeight: 0.65
 --- !u!1001 &1470295048928697279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -407,6 +408,7 @@ MonoBehaviour:
   arms:
   - {fileID: 1838269523480915435}
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 1.1
 --- !u!4 &1838269523480915435 stripped

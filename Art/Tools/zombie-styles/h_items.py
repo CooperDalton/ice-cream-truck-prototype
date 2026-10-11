@@ -14,7 +14,16 @@ FL = {
     "mint": dict(label="MINT", cream="#a8ffd9", shade="#7fe8bf", hi="#e0fff2", kind="chips", chip=CHOC,
                  tint=MINT, tint_d="#22c79c", ink="#119a76"),
 }
+FL.update({
+    "coffee": dict(label="COFFEE", cream="#b07a4f", shade="#946038", hi="#c99a70", kind="coffee", chip="#3a2010",
+                   tint="#c8956a", tint_d="#8a5a34", ink="#5a3018"),
+    "rockyroad": dict(label="ROCKY", cream="#5a2e16", shade="#43200e", hi="#74401f", kind="rocky", chip=WHITE,
+                      chip2="#e8b878", tint=ORNG, tint_d="#d0601a", ink="#7a3010"),
+    "neapolitan": dict(label="NEAPOL", cream="#fff1c7", shade="#f0d590", hi="#fffbea", kind="neapolitan", chip=None,
+                       tint="#b48cff", tint_d="#8f66e6", ink="#5a34b8"),
+})
 FLAVORS = ("vanilla", "chocolate", "strawberry", "mint")
+NEW_FLAVORS = ("coffee", "rockyroad", "neapolitan")  # appended after the original four; never merged into FLAVORS
 PAPER = "#f4ebe2"
 WOOD = "#e8a85a"; WOOD_D = "#a8642a"
 GOLD = "#ffd23a"; GOLD_D = "#d9901a"
@@ -197,6 +206,23 @@ def tex_scoop(f, rand, sparkle=False):
         for _ in range(16):
             x, y = rand.randrange(32), rand.randint(2, 14)
             c.rect(x, y, x + 1, y, rand.choice((CHOC, "#3a1c0c")))
+    elif k == "coffee":
+        c.speckle(rand, ["#3a2010", "#5a3418"], 30, 2, 15)
+        for _ in range(6):
+            x, y = rand.randrange(32), rand.randint(2, 13)
+            c.rect(x, y, x + 1, y + 1, "#3a2010"); c.set(x + 1, y + 1, "#6a4024")
+    elif k == "rocky":
+        for _ in range(7):
+            x, y = rand.randrange(32), rand.randint(2, 13)
+            c.rect(x, y, x + 1, y + 1, WHITE); c.set(x + 1, y, "#e6dcec")
+        for _ in range(7):
+            x, y = rand.randrange(32), rand.randint(2, 14)
+            c.rect(x, y, x + 1, y, "#e8b878"); c.set(x, y, "#c48a4a")
+    elif k == "neapolitan":
+        for y0, y1, base, dots in ((0, 5, "#8a4a26", "#6a3418"), (6, 10, "#fff1c7", "#f0d590"), (11, 15, "#ff9fcf", "#ff7dbb")):
+            c.rect(0, y0, 31, y1, base)
+            c.speckle(rand, [dots], 22, y0, y1)
+        c.speckle(rand, [RED], 6, 11, 15)
     if sparkle:
         c.speckle(rand, [YEL, WHITE, "#ffe98a"], 22, 3, 15)
     return c
@@ -288,6 +314,16 @@ def tex_tub_lid(f, rand):
     return c
 
 
+def tex_neapolitan_wedges(rand):
+    """Three side-by-side bands around the tub (u): chocolate, vanilla, strawberry wedges seen from above."""
+    c = Canvas(48, 16, "#8a4a26")
+    for x0, base, dots in ((0, "#8a4a26", "#6a3418"), (16, "#fff1c7", "#f0d590"), (32, "#ff9fcf", "#ff7dbb")):
+        c.rect(x0, 0, x0 + 15, 15, base)
+        for _ in range(14):
+            c.set(x0 + rand.randrange(16), rand.randrange(16), dots)
+    return c
+
+
 # ---------------------------------------------------------------- scoop
 SCOOP_Z = (0.0, 0.12, 0.22, 0.6, 1.05, 1.42, 1.66)
 SCOOP_R = (0.62, 1.04, 0.86, 1.04, 0.98, 0.7, 0.3)
@@ -307,14 +343,15 @@ def scoop(kit, name, parent, loc, r, mat, f=None, chips=7, drips=0, chip_mat=Non
             vtx.co += Vector((R.uniform(-1, 1), R.uniform(-1, 1), R.uniform(-1, 1))) * 0.06 * r
     if f and f["chip"] and chips:
         cm = chip_mat or solid(kit, f"{name} bits", f["chip"], 0.3)
-        big = f["kind"] == "berry"
+        cm2 = solid(kit, f"{name} bits 2", f["chip2"], 0.3) if f.get("chip2") else None
+        big = f["kind"] in ("berry", "rocky")
         for i in range(chips):
             t = R.uniform(0.0, 1.0)
             z = (0.55 + 0.95 * t) * r
             rr = (1.02 - 0.62 * t * t) * r
             a = 2 * math.pi * (i + R.uniform(-0.3, 0.3)) / chips
             s = r * (0.24 if big else 0.18)
-            tbox(kit, f"{name} bit {i}", (0, 0, 0), (s, s * 0.8, s * (0.8 if big else 0.5)), cm, parent,
+            tbox(kit, f"{name} bit {i}", (0, 0, 0), (s, s * 0.8, s * (0.8 if big else 0.5)), cm2 if cm2 and i % 2 else cm, parent,
                  loc=(loc[0] + math.cos(a) * rr, loc[1] + math.sin(a) * rr, loc[2] + z),
                  rot=(R.uniform(0, 90), R.uniform(-30, 30), R.uniform(0, 180)))
     for i in range(drips):
@@ -377,11 +414,13 @@ def build_tub(kit, root, A, fl, fill):
                             (rb - w, 0.012, 0.95), (0, 0.012, 0.99)], body, root, sides=12)
     cream = tex_mat(f"{A} cream", tex_scoop(f, R), 0.4, ext='REPEAT')
     chip = solid(kit, f"{A} bits", f["chip"], 0.3) if f["chip"] else None
+    chip2 = solid(kit, f"{A} bits 2", f["chip2"], 0.3) if f.get("chip2") else None
+    surface = tex_mat(f"{A} wedges", tex_neapolitan_wedges(R), 0.4, ext='REPEAT') if f["kind"] == "neapolitan" else cream
     if fill == 8:
         zf = H - 0.014
         ri = tub_inner_r(zf)
         lathe(kit, f"{A} ice cream", [(ri - 0.001, zf - 0.03, 0.05), (ri - 0.002, zf, 0.2), (ri * 0.78, zf + 0.026, 0.45),
-                                      (ri * 0.42, zf + 0.04, 0.75), (0, zf + 0.046, 0.98)], cream, root, sides=12,
+                                      (ri * 0.42, zf + 0.04, 0.75), (0, zf + 0.046, 0.98)], surface, root, sides=12,
               jit=0.006)
         # scoop-shaped ridge where the churn poured the last of it
         scoop(kit, f"{A} swirl", root, (0.03, -0.02, zf + 0.022), 0.05, cream, f, chips=0)
@@ -406,7 +445,7 @@ def build_tub(kit, root, A, fl, fill):
             rr, z = top[i % 2]
             a = 2 * math.pi * i / 10 + R.uniform(-0.2, 0.2)
             s = 0.012 if f["kind"] == "berry" else 0.009
-            tbox(kit, f"{A} bit {i}", (0, 0, 0), (s, s * 0.8, s * 0.6), chip, root,
+            tbox(kit, f"{A} bit {i}", (0, 0, 0), (s, s * 0.8, s * 0.6), chip2 if chip2 and i % 2 else chip, root,
                  loc=(math.cos(a) * rr, math.sin(a) * rr, z + 0.002), rot=(R.uniform(0, 60), 0, R.uniform(0, 180)))
     hinge = kit.empty(f"{A} lid hinge", root, (0, rt + 0.008, H), (-112, 0, 0))
     lid = tex_mat(f"{A} lid", tex_tub_lid(f, R), ext='REPEAT')
@@ -1028,6 +1067,138 @@ def build_tip_coin(kit, root, A):
         fx_star(kit, root, f"{A} sparkle {i}", p, 4, s, s * 0.3, col, 2.0, rot=(0, R.uniform(0, 40), 0))
 
 
+# ---------------------------------------------------------------- 6. coffee sack and nut bag (round 4)
+FONT_J = dict(FONT, J=("..#", "..#", "..#", "#.#", ".#."))
+
+
+def stencil(c, s, x, y, col, k=1):
+    """FONT text (plus J) with a stencil gap: each glyph loses its center column on the middle row."""
+    for ch in s:
+        for r, row in enumerate(FONT_J.get(ch, ())):
+            for q, b in enumerate(row):
+                if b == '#' and not (r == 2 and q == 1 and ch in "OJ"):
+                    c.rect(x + q * k, y - (r + 1) * k + 1, x + q * k + k - 1, y - r * k, col)
+        x += 4 * k
+
+
+def tex_coffee_sack(rand):
+    """64x32 burlap around the sack: JOE stencil and bean stamps on the front (u 0.5), seam and band."""
+    c = Canvas(64, 32, "#d9b07a")
+    for y in range(32):
+        for x in range(64):
+            if (x + 2 * y) % 4 == 0:
+                c.set(x, y, "#c49660")
+            elif (x * 5 + y) % 7 == 0:
+                c.set(x, y, "#e8c48e")
+    c.rect(0, 2, 63, 3, "#7a4a2a")
+    c.rect(19, 7, 44, 24, "#c49660")
+    stencil(c, "JOE", 32 - 11, 21, "#3a2010", 2)
+    for cx in (24, 40):  # bean stamps
+        c.rect(cx - 2, 9, cx + 2, 11, "#3a2010"); c.rect(cx - 1, 8, cx + 1, 12, "#3a2010"); c.set(cx, 10, "#c49660")
+        c.set(cx - 1, 9, "#c49660")
+    c.rect(29, 9, 34, 11, "#3a2010"); c.set(31, 10, "#c49660"); c.set(32, 10, "#c49660")
+    c.rect(0, 27, 63, 28, PINK)
+    for x in range(0, 64, 3):
+        c.set(x, 30, "#a87a48")
+    c.speckle(rand, ["#c49660", "#b88a52"], 40)
+    return c
+
+
+def tex_beans(rand):
+    c = Canvas(16, 16, "#4a2a14")
+    for _ in range(26):
+        x, y = rand.randrange(16), rand.randrange(16)
+        c.rect(x, y, x + 1, y, "#6a4024"); c.set(x, y + 1, "#2a160a")
+    return c
+
+
+def build_coffee_sack(kit, root, A):
+    R = kit.rand
+    m = tex_mat(f"{A} burlap", tex_coffee_sack(R), ext='REPEAT')
+    lathe(kit, f"{A} sack", [(0, 0, 0.01), (0.15, 0, 0.05), (0.2, 0.05, 0.14), (0.215, 0.22, 0.45), (0.19, 0.36, 0.66),
+                             (0.205, 0.39, 0.74), (0.222, 0.415, 0.82), (0.205, 0.44, 0.9), (0.18, 0.425, 0.97)], m, root,
+          sides=8, jit=0.007)
+    beans = tex_mat(f"{A} beans", tex_beans(R), 0.35, ext='REPEAT')
+    lathe(kit, f"{A} bean pile", [(0.19, 0.4, 0.1), (0.17, 0.46, 0.35), (0.11, 0.51, 0.6), (0.05, 0.535, 0.8),
+                                  (0, 0.54, 0.98)], beans, root, sides=8, jit=0.012)
+    bm = solid(kit, f"{A} bean", "#5a3418", 0.3, shade="#3a2010")
+    pts = [(0.03, -0.02, 0.548), (-0.06, 0.04, 0.53), (0.09, 0.07, 0.515), (-0.1, -0.06, 0.51), (0.0, 0.1, 0.53),
+           (0.12, -0.08, 0.49), (-0.02, -0.11, 0.515)]
+    # a little avalanche over the front rim and down the sack
+    pts += [(0.04, -0.215, 0.455), (0.07, -0.235, 0.42), (0.12, -0.215, 0.39), (0.09, -0.235, 0.33)]
+    for i, p in enumerate(pts):
+        b = kit.prim(f"{A} bean {i}", 'sphere', (0.016, 0.011, 0.008), bm, root, rot=(R.uniform(-30, 30), R.uniform(-30, 30),
+                                                                                      R.uniform(0, 180)),
+                     segments=6, rings=4, smooth=False)
+        b.location = p
+    tube(kit, f"{A} tie", [(0, 0, 0.355), (0, 0, 0.372)], 0.193, solid(kit, f"{A} tie", PINK), root, sides=8,
+         caps=(False, False))
+    socket(kit, A, "hand L", root, (0.215, 0, 0.25))
+    socket(kit, A, "hand R", root, (-0.215, 0, 0.25))
+
+
+def tex_nut_bag(rand):
+    """128x64 foil bag around the body (front at u 0.5): ROCKY ROAD MIX label, marshmallow and almond icons."""
+    c = Canvas(128, 64, "#5b3fc0")
+    for i in range(40):  # crinkle highlights
+        x, y = rand.randrange(128), rand.randrange(64)
+        for k in range(rand.randint(3, 7)):
+            c.set(x + k, y + k // 2, "#7d62e0")
+    c.rect(0, 0, 127, 3, "#3c2a8a"); c.rect(0, 60, 127, 63, PINK); c.rect(0, 58, 127, 59, YEL)
+    c.rect(36, 18, 91, 50, PINK); c.rect(37, 19, 90, 49, "#ff7dbb")
+    c.rect(36, 18, 91, 18, "#d63a86"); c.rect(36, 50, 91, 50, WHITE)
+    text(c, "ROCKY ROAD", 64 - 19, 46, WHITE, shadow="#d63a86")
+    text(c, "MIX", 64 - 11, 38, YEL, 2)
+    for cx, cy in ((46, 24), (56, 23)):   # marshmallows
+        c.rect(cx - 3, cy - 2, cx + 3, cy + 3, WHITE); c.rect(cx - 3, cy - 2, cx + 3, cy - 2, "#d8d0e8")
+    for cx, cy in ((72, 24), (82, 23)):   # almonds
+        for k in range(-3, 4):
+            c.rect(cx + k, cy - 2 + abs(k) // 2, cx + k, cy + 2 - abs(k) // 2, "#e0a868")
+        c.rect(cx - 1, cy, cx + 2, cy, "#b07a40")
+    disc(c, 64, 24, 3, "#4e2812"); c.set(63, 25, "#8a4a26")
+    c.speckle(rand, ["#4a32a8"], 60, 4, 16)
+    return c
+
+
+def build_nut_bag(kit, root, A):
+    R = kit.rand
+    H = 0.44
+    m = tex_mat(f"{A} foil", tex_nut_bag(R), ext='REPEAT')
+    zs = [0.0, 0.03, 0.14, 0.27, 0.38, H]
+    rad = [(0.13, 0.07), (0.17, 0.1), (0.18, 0.11), (0.175, 0.105), (0.17, 0.11), (0.18, 0.12)]
+    bag = tube(kit, f"{A} bag", [(0, 0, z) for z in zs], rad, m, root, sides=10, caps=(True, False), smooth=True)
+    for i, vtx in enumerate(bag.data.vertices):
+        ring, k = divmod(i, 10)
+        if ring >= len(zs):
+            continue
+        if 1 <= ring <= 4:
+            vtx.co += Vector((R.uniform(-1, 1) * 0.008, R.uniform(-1, 1) * 0.008, R.uniform(-1, 1) * 0.006))
+        if ring == len(zs) - 1:   # crinkled, torn-open top edge
+            vtx.co.z += 0.016 if k % 2 else -0.008
+    tube(kit, f"{A} rolled rim", [(0, 0, H - 0.045), (0, 0, H - 0.02)], [(0.178, 0.116), (0.182, 0.12)],
+         solid(kit, f"{A} rim", PINK, shade="#d63a86"), root, sides=10, caps=(False, False))
+    # the mix heaped in the opening: chocolate bed, marshmallows and almonds poking out
+    bed = Canvas(16, 16, "#5a2e16")
+    bed.speckle(R, ["#74401f", "#43200e"], 60)
+    tube(kit, f"{A} mix", [(0, 0, H - 0.05), (0, 0, H + 0.02), (0, 0, H + 0.05)], [(0.17, 0.108), (0.15, 0.09), (0.06, 0.04)],
+         tex_mat(f"{A} mix", bed, 0.32), root, sides=10, caps=(False, True), bulge=(0, 0.02))
+    mallow = solid(kit, f"{A} marshmallow", WHITE, 0.45, shade="#e6dcec")
+    almond = solid(kit, f"{A} almond", "#e0a868", 0.35, shade="#b07a40")
+    spots = [(-0.1, -0.03), (-0.04, 0.04), (0.03, -0.05), (0.09, 0.03), (0.0, 0.0), (-0.12, 0.05), (0.12, -0.04),
+             (0.06, 0.06), (-0.06, -0.06), (0.14, 0.02)]
+    for i, (x, y) in enumerate(spots):
+        zt = H + 0.05 - 0.4 * (abs(x) + abs(y) * 1.5) * 0.3
+        if i % 2 == 0:
+            tbox(kit, f"{A} marshmallow {i}", (0, 0, 0), (0.034, 0.034, 0.03), mallow, root, loc=(x, y, zt),
+                 rot=(R.uniform(-25, 25), R.uniform(-25, 25), R.uniform(0, 90)))
+        else:
+            b = kit.prim(f"{A} almond {i}", 'sphere', (0.022, 0.013, 0.008), almond, root,
+                         rot=(R.uniform(-40, 40), R.uniform(10, 50), R.uniform(0, 180)), segments=6, rings=4, smooth=False)
+            b.location = (x, y, zt + 0.005)
+    socket(kit, A, "hand L", root, (0.18, 0, H * 0.5))
+    socket(kit, A, "hand R", root, (-0.18, 0, H * 0.5))
+
+
 # ---------------------------------------------------------------- assembly
 def run(kit, root, A, fn, *a):
     fn(kit, root, A, *a)
@@ -1065,6 +1236,18 @@ ITEMS += [
     ("Tip Jar", build_tip_jar, ()),
     ("Tip Coin", build_tip_coin, ()),
 ]
+# round 4: appended only, so every older item keeps its seed (100 + index)
+CAP.update({"coffee": "Coffee", "rockyroad": "Rocky Road", "neapolitan": "Neapolitan"})
+ITEMS += [
+    ("Coffee Sack", build_coffee_sack, ()),
+    ("Nut Bag", build_nut_bag, ()),
+]
+for fl in NEW_FLAVORS:
+    ITEMS.append((f"Pint {CAP[fl]} Full", build_pint, (fl, True)))
+for fl in NEW_FLAVORS:
+    ITEMS.append((f"Scoop Grenade {CAP[fl]}", build_grenade, (fl,)))
+for fl in NEW_FLAVORS:
+    ITEMS.append((f"Flavor Tub {CAP[fl]}", build_tub, (fl, 8)))
 ASSETS = [entry(A, fn, *a) for A, fn, a in ITEMS]
 SPACING = 4
 

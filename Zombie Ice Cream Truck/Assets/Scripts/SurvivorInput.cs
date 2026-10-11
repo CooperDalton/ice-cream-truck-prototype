@@ -98,6 +98,7 @@ public class SurvivorInput : MonoBehaviour
             Drop = keyboard.qKey.isPressed,
             Reload = keyboard.rKey.isPressed,
             Sprint = keyboard.leftShiftKey.isPressed,
+            Crouch = keyboard.cKey.isPressed,
         };
         gesture = 0;
         callback.SetInput(input, DeterministicInputFlags.Repeatable);

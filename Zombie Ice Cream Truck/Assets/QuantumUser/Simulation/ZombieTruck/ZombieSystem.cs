@@ -122,11 +122,17 @@ namespace Quantum
                     continue;
                 }
 
+                if (zombie->State == ZombieState.Idle)
+                {
+                    Idle(f, zombie, transform, stats, settings, truckTransform, dt);
+                    continue;
+                }
+
                 if (zombie->Kind == ZombieKind.Sprinter && !truck->Spikes && absSpeed < settings.ClimbMaxSpeed
                     && FPMath.Abs(local.Z) < halfSize.Z - FP._0_50 && FPMath.Abs(local.X) < halfSize.X + FP._0_75)
                 {
                     zombie->State = ZombieState.Climbing;
-                    zombie->Timer = FP._1_25;
+                    zombie->Timer = settings.ZombieClimbTime;
                     var side = new FPVector3(FPMath.Sign(local.X) * halfSize.X, FP._0_50, local.Z);
                     f.Add(pair.Entity, new Attached { LocalPosition = side, LocalRotation = FPQuaternion.LookRotation(new FPVector3(-FPMath.Sign(local.X), 0, 0)) });
                     continue;
@@ -157,6 +163,46 @@ namespace Quantum
             Spawn(f, settings, alive, truckTransform);
         }
 
+        // An idle zombie shuffles about, now and then picking a new direction or standing still, until a survivor comes
+        // within its notice range or the truck within earshot (much closer with the music box off); then it gives chase.
+        static void Idle(Frame f, Zombie* zombie, Transform3D* transform, ZombieStats stats, ZombieTruckSettings settings, Transform3D truck, FP dt)
+        {
+            var earshot = f.GetSingleton<Truck>().MusicOff ? settings.EngineNoticeRange : settings.TruckNoticeRange;
+            var noticed = (truck.Position - transform->Position).SqrMagnitude < earshot * earshot;
+            foreach (var survivor in f.Unsafe.GetComponentBlockIterator<Survivor>())
+            {
+                if (survivor.Component->Dead) continue;
+                var distance = (f.Unsafe.GetPointer<Transform3D>(survivor.Entity)->Position - transform->Position).SqrMagnitude;
+                noticed |= distance < stats.NoticeRange * stats.NoticeRange;
+            }
+            if (noticed)
+            {
+                zombie->State = ZombieState.Chasing;
+                return;
+            }
+            zombie->Timer -= dt;
+            if (zombie->Timer <= 0)
+            {
+                zombie->Timer = f.RNG->Next(2, 5);
+                var angle = f.RNG->Next(0, 360);
+                zombie->Wander = f.RNG->Next() < FP._0_33 ? FPVector3.Zero : FPQuaternion.Euler(0, angle, 0) * FPVector3.Forward;
+            }
+            if (zombie->Wander == FPVector3.Zero) return;
+            transform->Position += zombie->Wander * stats.Speed * settings.IdleSpeed * dt;
+            transform->Rotation = FPQuaternion.LookRotation(zombie->Wander);
+        }
+
+        // A noise (gunshot, explosion, crash) wakes every idle zombie within range.
+        public static void Alert(Frame f, FPVector3 position, FP range)
+        {
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Zombie>())
+            {
+                if (pair.Component->State != ZombieState.Idle) continue;
+                var distance = (f.Unsafe.GetPointer<Transform3D>(pair.Entity)->Position - position).SqrMagnitude;
+                if (distance < range * range) pair.Component->State = ZombieState.Chasing;
+            }
+        }
+
         static void Attack(Frame f, Zombie* zombie, FPVector3 position, ZombieStats stats, FP dt)
         {
             zombie->AttackCooldown -= dt;
@@ -172,21 +218,51 @@ namespace Quantum
             }
         }
 
-        // Spawns on a random road chunk ahead of the truck; later areas spawn faster and mix in more sprinters and bloaters.
+        // Spawns idle zombies on a random road chunk ahead of the truck; later areas spawn faster and mix in more sprinters
+        // and bloaters. Near a hot spot the stream pours out of its exits instead, already chasing, faster and mixed the
+        // hot spot's way, and the first approach releases its whole horde at once.
         static void Spawn(Frame f, ZombieTruckSettings settings, int alive, Transform3D truck)
         {
             var global = f.Global;
             global->SpawnTimer -= f.DeltaTime;
-            if (global->Phase != GamePhase.Driving || global->SpawnTimer > 0 || alive >= settings.MaxZombies) return;
-            global->SpawnTimer = FPMath.Max(FP._0_25, settings.SpawnInterval - (global->Area - 1) * settings.SpawnIntervalPerArea);
-            var targetIndex = global->TruckChunk + f.RNG->Next(2, settings.ChunksAhead);
-            var chunk = EntityRef.None;
+            if (global->Phase != GamePhase.Driving) return;
+            var hotSpot = default(Transform3D);
+            var hotStats = default(HotSpotStats);
+            var nearHotSpot = false;
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<RoadChunk>())
             {
-                if (pair.Component->Index == targetIndex && pair.Component->Kind != ChunkKind.Depot) chunk = pair.Entity;
+                var kind = pair.Component->Kind;
+                if (kind < ChunkKind.School || kind > ChunkKind.Fairground) continue;
+                var chunk = f.Get<Transform3D>(pair.Entity);
+                if ((chunk.Position - truck.Position).SqrMagnitude > settings.HotSpotRange * settings.HotSpotRange) continue;
+                nearHotSpot = true;
+                hotSpot = chunk;
+                foreach (var stats in settings.HotSpots)
+                {
+                    if (stats.Chunk == kind) hotStats = stats;
+                }
+                if (pair.Component->Triggered) continue;
+                pair.Component->Triggered = true;
+                for (int i = 0; i < hotStats.Horde && alive < settings.HotSpotMaxZombies; i++, alive++) SpawnAtExit(f, settings, chunk, hotStats, i, truck);
+                f.Events.HordeReleased(kind, chunk.Position);
             }
-            if (!chunk.IsValid) return;
-            var chunkTransform = f.Get<Transform3D>(chunk);
+            var max = nearHotSpot ? settings.HotSpotMaxZombies : settings.MaxZombies;
+            if (global->SpawnTimer > 0 || alive >= max) return;
+            if (nearHotSpot)
+            {
+                global->SpawnTimer = settings.HotSpotSpawnInterval;
+                SpawnAtExit(f, settings, hotSpot, hotStats, f.RNG->Next(0, 64), truck);
+                return;
+            }
+            global->SpawnTimer = FPMath.Max(FP._0_25, settings.SpawnInterval - (global->Area - 1) * settings.SpawnIntervalPerArea);
+            var targetIndex = global->TruckChunk + f.RNG->Next(2, settings.ChunksAhead);
+            var target = EntityRef.None;
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<RoadChunk>())
+            {
+                if (pair.Component->Index == targetIndex && pair.Component->Kind != ChunkKind.Depot) target = pair.Entity;
+            }
+            if (!target.IsValid) return;
+            var chunkTransform = f.Get<Transform3D>(target);
             var offset = new FPVector3(f.RNG->Next(-settings.SpawnHalfWidth, settings.SpawnHalfWidth), 0, f.RNG->Next(-8, 8));
             var position = chunkTransform.TransformPoint(offset);
             position.Y = 0;
@@ -194,15 +270,45 @@ namespace Quantum
             var bloater = settings.BloaterChance * global->Area;
             var sprinter = settings.SprinterChance + (global->Area - 1) * settings.ChancePerArea;
             var roll = f.RNG->Next();
-            var kind = roll < bloater ? ZombieKind.Bloater : roll < bloater + sprinter ? ZombieKind.Sprinter : ZombieKind.Walker;
+            var zombieKind = roll < bloater ? ZombieKind.Bloater : roll < bloater + sprinter ? ZombieKind.Sprinter : ZombieKind.Walker;
+            Create(f, settings, zombieKind, position, truck.Position, ZombieState.Idle);
+        }
+
+        // One zombie out of the hot spot's exit number `exit` (wrapping), a little scattered around it.
+        static void SpawnAtExit(Frame f, ZombieTruckSettings settings, Transform3D chunk, HotSpotStats stats, int exit, Transform3D truck)
+        {
+            var count = 0;
+            foreach (var point in settings.HordeExits)
+            {
+                if (point.Chunk == stats.Chunk) count++;
+            }
+            var wanted = exit % count;
+            var local = FPVector3.Zero;
+            foreach (var point in settings.HordeExits)
+            {
+                if (point.Chunk != stats.Chunk) continue;
+                if (wanted == 0) local = point.Position;
+                wanted--;
+            }
+            local += new FPVector3(f.RNG->Next(-FP._1_50, FP._1_50), 0, f.RNG->Next(-FP._1_50, FP._1_50));
+            var position = chunk.TransformPoint(local);
+            position.Y = 0;
+            var roll = f.RNG->Next();
+            var kind = roll < stats.BloaterChance ? ZombieKind.Bloater : roll < stats.BloaterChance + stats.SprinterChance ? ZombieKind.Sprinter : ZombieKind.Walker;
+            Create(f, settings, kind, position, truck.Position, ZombieState.Chasing);
+        }
+
+        public static EntityRef Create(Frame f, ZombieTruckSettings settings, ZombieKind kind, FPVector3 position, FPVector3 lookAt, ZombieState state)
+        {
             var stats = settings.Zombies[(int)kind];
             var entity = f.Create(settings.ZombiePrototypes[(int)kind]);
-            var facing = truck.Position - position;
+            var facing = lookAt - position;
             facing.Y = 0;
             f.Unsafe.GetPointer<Transform3D>(entity)->Teleport(f, position, FPQuaternion.LookRotation(facing.Normalized));
-            f.Add(entity, new Zombie { Kind = kind, Health = stats.Health });
+            f.Add(entity, new Zombie { Kind = kind, Health = stats.Health, State = state });
             var shape = Shape3D.CreateBox(stats.HalfSize, new FPVector3(0, stats.HalfSize.Y, 0));
             f.Add(entity, PhysicsCollider3D.Create(f, shape, null, true));
+            return entity;
         }
     }
 }

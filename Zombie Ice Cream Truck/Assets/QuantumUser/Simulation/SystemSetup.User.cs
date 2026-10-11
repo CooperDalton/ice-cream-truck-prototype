@@ -13,6 +13,8 @@ namespace Quantum
             systems.Add(new ZombieSystem());
             systems.Add(new WeaponSystem());
             systems.Add(new ProjectileSystem());
+            systems.Add(new ShopSystem());
+            systems.Add(new TutorialSystem());
         }
     }
 }

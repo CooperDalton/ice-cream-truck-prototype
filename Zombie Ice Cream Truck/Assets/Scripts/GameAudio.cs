@@ -4,8 +4,8 @@ using Quantum;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-// Plays simulation events as sound: guns, splats, head pops, explosions, crashes, the bell, the shop till and the
-// run jingles. One-shots are spawned from an authored audio source prefab at the event position; the local player's
+// Plays simulation events as sound: guns, cone swings, splats, head pops, explosions, crashes, the bell, the shop till,
+// the slot machine, Kevin's chatter, refueling, hordes and the run jingles. One-shots are spawned from an authored audio source prefab at the event position; the local player's
 // own feedback (their gun, pickups, reloads, getting hurt) plays flat so it always sits on top of the mix.
 public class GameAudio : MonoBehaviour
 {
@@ -43,6 +43,18 @@ public class GameAudio : MonoBehaviour
     [SerializeField] private AudioClip reload;
     [SerializeField] private AudioClip empty;
     [SerializeField] private AudioClip thrown;
+    [SerializeField] private AudioClip meleeSwing;
+    [SerializeField] private AudioClip meleeHit;
+    [SerializeField] private AudioClip jackpotWin;
+    [SerializeField] private AudioClip slotsSpin;
+    [SerializeField] private AudioClip slotsWin;
+    [SerializeField] private AudioClip slotsLose;
+    [SerializeField] private AudioClip slotsBrains;
+    [SerializeField] private AudioClip refuel;
+    [SerializeField] private AudioClip outOfFuel;
+    [SerializeField] private AudioClip horde;
+    [SerializeField] private AudioClip denied;
+    [SerializeField] private AudioClip kevinBabble;
 
     private void OnEnable()
     {
@@ -62,6 +74,34 @@ public class GameAudio : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventReloaded e) => PlayLocal(reload, 0.8f, IsLocal(e.Player)));
         QuantumEvent.Subscribe(this, (EventGunEmpty e) => PlayLocal(empty, 0.8f, IsLocal(e.Player)));
         QuantumEvent.Subscribe(this, (EventThrown e) => PlayLocal(thrown, 0.7f, IsLocal(e.Player), e.Position));
+        QuantumEvent.Subscribe(this, (EventMeleeSwung e) => OnSwung(e));
+        QuantumEvent.Subscribe(this, (EventTutorialAdvanced e) => PlayFlat(tip, 0.8f));
+        QuantumEvent.Subscribe(this, (EventJackpotShot e) => OnJackpotShot(e));
+        QuantumEvent.Subscribe(this, (EventSlotsPulled e) => Play(slotsSpin, viewUpdater.GetView(e.Machine).transform.position, 0.8f, 0.02f));
+        QuantumEvent.Subscribe(this, (EventSlotsResult e) => OnSlotsResult(e));
+        QuantumEvent.Subscribe(this, (EventRefueled e) => Play(refuel, e.Position, 0.9f));
+        QuantumEvent.Subscribe(this, (EventOutOfFuel e) => PlayFlat(outOfFuel, 0.9f));
+        QuantumEvent.Subscribe(this, (EventHordeReleased e) => PlayFlat(horde, 0.9f));
+        QuantumEvent.Subscribe(this, (EventShopDenied e) => Play(denied, e.Position, 0.7f, 0.02f));
+        QuantumEvent.Subscribe(this, (EventShopkeeperTalked e) => Play(kevinBabble, viewUpdater.GetView(e.Keeper).transform.position, 0.8f));
+    }
+
+    private void OnSwung(EventMeleeSwung e)
+    {
+        PlayLocal(meleeSwing, 0.6f, IsLocal(e.Player));
+        if (e.Hit) PlayLocal(meleeHit, 0.9f, IsLocal(e.Player));
+    }
+
+    private void OnJackpotShot(EventJackpotShot e)
+    {
+        if (e.Tier == 2) Play(jackpotWin, e.Position, 1f, 0.02f);
+    }
+
+    private void OnSlotsResult(EventSlotsResult e)
+    {
+        var position = viewUpdater.GetView(e.Machine).transform.position;
+        var clip = e.Tier == 2 ? jackpotWin : e.Tier == 1 ? slotsWin : e.Tier == 3 ? slotsBrains : slotsLose;
+        Play(clip, position, 1f, 0.02f);
     }
 
     private static bool IsLocal(PlayerRef player)

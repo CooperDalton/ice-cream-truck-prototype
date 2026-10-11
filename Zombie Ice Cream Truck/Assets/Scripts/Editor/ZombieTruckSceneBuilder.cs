@@ -20,6 +20,7 @@ public static class ZombieTruckSceneBuilder
 {
     const string Art = "Assets/Art/PS1";
     const string Sprites = "Assets/Art/Sprites";
+    const string Fonts = "Assets/Art/Fonts";
     const string Audio = "Assets/Audio";
     const string PrefabFolder = "Assets/Prefabs";
     const string MaterialFolder = "Assets/Materials";
@@ -28,7 +29,8 @@ public static class ZombieTruckSceneBuilder
     const string Truck = "Ice Cream Truck";
     const int UiLayer = 5;
 
-    static readonly string[] Flavors = { "Vanilla", "Chocolate", "Strawberry", "Mint" };
+    // Model-name spelling of each Flavor after None, in enum order.
+    static readonly string[] Flavors = { "Vanilla", "Chocolate", "Strawberry", "Mint", "Coffee", "Rocky Road", "Neapolitan" };
     static readonly string[] TruckDecor = { "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun" };
 
     // Hand-measured from the truck art (h_truck.py layout): floor top 0.75, ceiling 2.86, roof 2.92, walls at x +-1.15,
@@ -64,6 +66,37 @@ public static class ZombieTruckSceneBuilder
     {
         (UpgradeKind.Plow, 60), (UpgradeKind.Spikes, 50), (UpgradeKind.Armor, 50), (UpgradeKind.Engine, 70),
         (UpgradeKind.Turret, 100), (UpgradeKind.SecondTurret, 150), (UpgradeKind.BigHopper, 60), (UpgradeKind.SecondScoop, 40),
+        (UpgradeKind.BigTank, 50),
+    };
+
+    // Supplies on Kevin's stall, sold as often as you like.
+    static readonly (ItemKind item, Flavor flavor, int price, string model)[] StallSupplies =
+    {
+        (ItemKind.MilkCrate, Flavor.None, 12, "Milk Crate"), (ItemKind.SugarSack, Flavor.None, 12, "Sugar Sack"), (ItemKind.Tub, Flavor.Vanilla, 25, "Flavor Tub Vanilla"),
+    };
+
+    // Kevin's stall stands on the depot's far sidewalk (0.15 m up), across the road from the garage, facing the road.
+    static readonly Vector3 StallPosition = new Vector3(7.2f, 0.15f, 0);
+    static readonly Quaternion StallRotation = Quaternion.Euler(0, -90, 0);
+
+    // Scenery blocks (Scenery/Block <name>) the road system fills the grid around the road with. The town and rural lists
+    // repeat some blocks to make them more common.
+    static readonly string[] SceneryBlocks =
+    {
+        "Houses", "Diner", "Candy Shop", "Apartments", "Ruins", "Park", "Cemetery", "Barn", "Cornfield", "Water Tower", "Forest", "Meadow", "Side Street",
+    };
+    static readonly string[] TownBlocks = { "Houses", "Diner", "Candy Shop", "Apartments", "Ruins", "Park", "Houses", "Cemetery" };
+    static readonly string[] RuralBlocks = { "Barn", "Cornfield", "Water Tower", "Forest", "Meadow", "Forest", "Cemetery" };
+
+    // Guns and cones: item kind, model name, how the hand holds it.
+    static readonly (ItemKind kind, string model, string grip)[] Weapons =
+    {
+        (ItemKind.ScoopPistol, "Scoop Pistol", "socket grip"), (ItemKind.SundaeShotgun, "Sundae Shotgun", "socket grip"),
+        (ItemKind.SprinkleSMG, "Sprinkle SMG", "socket grip"), (ItemKind.LongSpoon, "Long Spoon", "socket grip"),
+        (ItemKind.ConeLauncher, "Cone Launcher", "socket grip"), (ItemKind.BananaHarpoon, "Banana Split Harpoon", "socket grip"),
+        (ItemKind.SoftServeHose, "Soft Serve Hose", "socket grip"), (ItemKind.SundaeBazooka, "Sundae Bazooka", "socket grip"),
+        (ItemKind.JackpotBlaster, "Jackpot Blaster", "socket grip"), (ItemKind.PlainCone, "Plain Cone", "socket hand"),
+        (ItemKind.WaffleCone, "Waffle Cone", "socket hand"), (ItemKind.DoubleDip, "Double Dip", "socket hand"),
     };
 
     // Reimports every PS1 model and texture, for when PS1ArtPostprocessor's material or texture rules change.
@@ -72,6 +105,14 @@ public static class ZombieTruckSceneBuilder
     {
         AssetDatabase.ImportAsset(Art, ImportAssetOptions.ImportRecursive | ImportAssetOptions.ForceUpdate);
         Debug.Log("ZombieTruckSceneBuilder: reimported the PS1 art");
+    }
+
+    // Forgets that this machine has done the tutorial, so the next game starts with it again.
+    [MenuItem("Tools/Zombie Truck/Reset Tutorial Progress")]
+    public static void ResetTutorialProgress()
+    {
+        PlayerPrefs.DeleteKey(TutorialProgress.DoneKey);
+        Debug.Log("ZombieTruckSceneBuilder: the next game starts with the tutorial");
     }
 
     [MenuItem("Tools/Zombie Truck/Build Prototype Scene")]
@@ -94,6 +135,7 @@ public static class ZombieTruckSceneBuilder
         var items = BuildItems();
         var stations = BuildStations(truckModel);
         var chunks = BuildChunks();
+        var scenery = BuildScenery();
         var projectile = BuildFlavored("Projectile", "Items", "Scoop Grenade {0}", 0.6f, true);
 
         var controller = ScriptableObject.CreateInstance<CharacterController3DConfig>();
@@ -121,20 +163,50 @@ public static class ZombieTruckSceneBuilder
         settings.ItemPrototypes = items.Select(p => p == null ? default : PrototypeFor(p)).ToArray();
         settings.StationPrototypes = stations.Select(PrototypeFor).ToArray();
         settings.ChunkPrototypes = chunks.Select(PrototypeFor).ToArray();
+        settings.SceneryPrototypes = scenery.Select(PrototypeFor).ToArray();
+        settings.TownBlocks = TownBlocks.Select(b => Array.IndexOf(SceneryBlocks, b)).ToArray();
+        settings.RuralBlocks = RuralBlocks.Select(b => Array.IndexOf(SceneryBlocks, b)).ToArray();
+        settings.SideStreetBlock = Array.IndexOf(SceneryBlocks, "Side Street");
         settings.ProjectilePrototype = PrototypeFor(projectile);
         settings.SurvivorController = controller;
         FillTruckLayout(settings, truckModel);
         FillChunkContents(settings);
         settings.Zombies = new[]
         {
-            new ZombieStats { Health = 2, Speed = FP.FromFloat_UNSAFE(1.3f), Damage = 10, AttackInterval = 1, Reward = 5, HeadHeight = FP.FromFloat_UNSAFE(1.42f), HalfSize = new Vector3(0.3f, 0.88f, 0.3f).ToFPVector3() },
-            new ZombieStats { Health = 1, Speed = FP.FromFloat_UNSAFE(5.2f), Damage = 8, AttackInterval = FP.FromFloat_UNSAFE(0.7f), Reward = 5, HeadHeight = FP.FromFloat_UNSAFE(1.2f), HalfSize = new Vector3(0.25f, 0.75f, 0.3f).ToFPVector3() },
-            new ZombieStats { Health = 5, Speed = FP.FromFloat_UNSAFE(0.9f), Damage = 20, AttackInterval = FP.FromFloat_UNSAFE(1.4f), Reward = 15, HeadHeight = FP.FromFloat_UNSAFE(1.7f), HalfSize = new Vector3(0.75f, 1f, 0.6f).ToFPVector3() },
+            new ZombieStats { Health = 2, Speed = FP.FromFloat_UNSAFE(1.3f), Damage = 10, AttackInterval = 1, Reward = 5, NoticeRange = 14, HeadHeight = FP.FromFloat_UNSAFE(1.42f), HalfSize = new Vector3(0.3f, 0.88f, 0.3f).ToFPVector3() },
+            new ZombieStats { Health = 1, Speed = FP.FromFloat_UNSAFE(5.2f), Damage = 8, AttackInterval = FP.FromFloat_UNSAFE(0.7f), Reward = 5, NoticeRange = 24, HeadHeight = FP.FromFloat_UNSAFE(1.2f), HalfSize = new Vector3(0.25f, 0.75f, 0.3f).ToFPVector3() },
+            new ZombieStats { Health = 5, Speed = FP.FromFloat_UNSAFE(0.9f), Damage = 20, AttackInterval = FP.FromFloat_UNSAFE(1.4f), Reward = 15, NoticeRange = 12, HeadHeight = FP.FromFloat_UNSAFE(1.7f), HalfSize = new Vector3(0.75f, 1f, 0.6f).ToFPVector3() },
         };
-        settings.StopChunks = new[] { 8, 16, 23 };
+        settings.AreaChunks = 36;
+        settings.StopChunks = new[] { 5, 15, 24 };
+        settings.HotSpotChunks = new[] { 10, 20, 29 };
+        settings.HotSpots = new[]
+        {
+            new HotSpotStats { Chunk = ChunkKind.School, Horde = 18, SprinterChance = FP.FromFloat_UNSAFE(0.6f), BloaterChance = FP.FromFloat_UNSAFE(0.03f) },
+            new HotSpotStats { Chunk = ChunkKind.Park, Horde = 24, SprinterChance = FP.FromFloat_UNSAFE(0.15f), BloaterChance = FP.FromFloat_UNSAFE(0.05f) },
+            new HotSpotStats { Chunk = ChunkKind.Fairground, Horde = 20, SprinterChance = FP.FromFloat_UNSAFE(0.25f), BloaterChance = FP.FromFloat_UNSAFE(0.25f) },
+        };
+        settings.HotSpotLoot = new[]
+        {
+            new Loot { Kind = ItemKind.MilkCrate, Count = 1 }, new Loot { Kind = ItemKind.MilkCrate, Count = 1 }, new Loot { Kind = ItemKind.MilkCrate, Count = 1 },
+            new Loot { Kind = ItemKind.SugarSack, Count = 1 }, new Loot { Kind = ItemKind.SugarSack, Count = 1 }, new Loot { Kind = ItemKind.SugarSack, Count = 1 },
+            new Loot { Kind = ItemKind.CocoaBag, Count = 1 }, new Loot { Kind = ItemKind.StrawberryBasket, Count = 1 }, new Loot { Kind = ItemKind.MintBundle, Count = 1 },
+            new Loot { Kind = ItemKind.CoffeeSack, Count = 1 }, new Loot { Kind = ItemKind.CoffeeSack, Count = 1 }, new Loot { Kind = ItemKind.NutBag, Count = 1 }, new Loot { Kind = ItemKind.NutBag, Count = 1 },
+            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Vanilla, Count = Inventory.ScoopsPerTub }, new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Chocolate, Count = Inventory.ScoopsPerTub },
+            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Coffee, Count = Inventory.ScoopsPerTub }, new Loot { Kind = ItemKind.Tub, Flavor = Flavor.RockyRoad, Count = Inventory.ScoopsPerTub },
+            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Neapolitan, Count = Inventory.ScoopsPerTub },
+            new Loot { Kind = ItemKind.Pint, Flavor = Flavor.Strawberry, Count = Inventory.ScoopsPerPint }, new Loot { Kind = ItemKind.Pint, Flavor = Flavor.Mint, Count = Inventory.ScoopsPerPint },
+            new Loot { Kind = ItemKind.Scoop, Flavor = Flavor.RockyRoad, Count = 6 },
+        };
+        settings.ShopWeapons = new[]
+        {
+            ItemKind.SundaeShotgun, ItemKind.SprinkleSMG, ItemKind.LongSpoon, ItemKind.ConeLauncher, ItemKind.BananaHarpoon,
+            ItemKind.SoftServeHose, ItemKind.SundaeBazooka, ItemKind.WaffleCone, ItemKind.DoubleDip,
+        };
         settings.DepotParking = new Vector3(-14, 0, 1.5f).ToFPVector3();
         settings.DepotParkRadius = 6;
         FillChunkColliders(settings, chunks);
+        FillSceneryColliders(settings, scenery);
         settings = ReplaceAsset(settings, $"{ConfigFolder}/ZombieTruckSettings.asset");
 
         BuildScene(settings, fx);
@@ -168,6 +240,10 @@ public static class ZombieTruckSceneBuilder
             ("armor", Place(Model("Truck", "Upgrade Window Armor"), root.transform, Socket(model, "socket upgrade armor").position, Quaternion.identity)),
             ("engine", Place(Model("Truck", "Upgrade Exhaust Stacks"), root.transform, Socket(model, "socket upgrade engine").position, Quaternion.identity)),
             ("bigHopper", Place(Model("Truck", "Upgrade Big Hopper"), root.transform, Socket(model, "socket upgrade hopper").position, Quaternion.identity)),
+            ("bigTank", Place(Model("Truck", "Upgrade Sundae Tank"), root.transform, Socket(model, "socket upgrade tank").position, Quaternion.identity)),
+            ("fuelNeedle", Child(model, $"{Truck} fuel needle")),
+            ("rearDoor", Child(model, $"{Truck} rear door")),
+            ("hatchLid", Child(model, $"{Truck} hatch lid")),
             ("turretMounts", new Object[] { turretA, turretB.gameObject }),
             ("steeringWheel", Child(model, $"{Truck} steering wheel")),
             ("churnCrank", Child(model, $"{Truck} churn crank")),
@@ -256,9 +332,21 @@ public static class ZombieTruckSceneBuilder
             legs.arraySize = 2;
             legs.GetArrayElementAtIndex(0).objectReferenceValue = Child(instance, prefix + "leg L");
             legs.GetArrayElementAtIndex(1).objectReferenceValue = Child(instance, prefix + "leg R");
-            walkSettings.FindProperty("arms").arraySize = 0;
-            walkSettings.FindProperty("strideLength").floatValue = name == "Sprinter" ? 2.2f : 0.8f;
+            // The sprinter is modeled mid-stride: it swings about a standing pose, pumps its arms and takes longer strides.
+            var sprinter = name == "Sprinter";
+            var arms = walkSettings.FindProperty("arms");
+            arms.arraySize = sprinter ? 2 : 0;
+            if (sprinter)
+            {
+                arms.GetArrayElementAtIndex(0).objectReferenceValue = Child(instance, prefix + "arm L");
+                arms.GetArrayElementAtIndex(1).objectReferenceValue = Child(instance, prefix + "arm R");
+                walkSettings.FindProperty("armSwing").floatValue = 30;
+                walkSettings.FindProperty("legSwing").floatValue = 45;
+                walkSettings.FindProperty("legOffset").floatValue = 46;
+            }
+            walkSettings.FindProperty("strideLength").floatValue = sprinter ? 1.6f : 0.8f;
             walkSettings.ApplyModifiedPropertiesWithoutUndo();
+            entry.FindPropertyRelative("Walk").objectReferenceValue = walk;
         }
         var ice = Primitive(PrimitiveType.Cube, root.transform, "Ice Block", new Vector3(0, 0.95f, 0.15f), new Vector3(0.9f, 1.95f, 0.9f),
             Material("Ice", new Color(0.55f, 1f, 0.92f, 0.45f), "Universal Render Pipeline/Unlit", true), false);
@@ -279,22 +367,42 @@ public static class ZombieTruckSceneBuilder
         var groans = name == "Sprinter" ? new[] { "groan_sprinter", "groan_2" } : name == "Bloater" ? new[] { "groan_4", "groan_3" } : new[] { "groan_1", "groan_2", "groan_3", "groan_4" };
         Set(view, ("neckGeyserPrefab", fx.NeckGeyser), ("iceShatterPrefab", fx.IceShatter), ("voice", voice),
             ("groans", groans.Select(g => (Object)Clip(g)).ToArray()));
+        if (name == "Sprinter")
+        {
+            // Sprinters carry far: a shriek when they charge and a patter of running feet.
+            voice.maxDistance = 45;
+            var shriek = ZombieAudio(root.transform, "Shriek", 6, 70, 1f, false);
+            var steps = ZombieAudio(root.transform, "Footsteps", 3, 35, 0f, true);
+            steps.clip = Clip("sprinter_steps");
+            Set(root.AddComponent<SprinterCues>(), ("shriekSource", shriek), ("footsteps", steps),
+                ("shrieks", new Object[] { Clip("sprinter_shriek_1"), Clip("sprinter_shriek_2") }));
+        }
         return SavePrefab(root);
+    }
+
+    static AudioSource ZombieAudio(Transform parent, string name, float minDistance, float maxDistance, float volume, bool loop)
+    {
+        var source = new GameObject(name).AddComponent<AudioSource>();
+        source.transform.SetParent(parent, false);
+        source.transform.localPosition = Vector3.up;
+        source.playOnAwake = false;
+        source.loop = loop;
+        source.spatialBlend = 1;
+        source.minDistance = minDistance;
+        source.maxDistance = maxDistance;
+        source.rolloffMode = AudioRolloffMode.Linear;
+        source.dopplerLevel = 0;
+        source.volume = volume;
+        return source;
     }
 
     // One pickup prefab per ItemKind; pints, scoops and tubs carry one model per flavor.
     static GameObject[] BuildItems()
     {
         var prefabs = new GameObject[Enum.GetValues(typeof(ItemKind)).Length];
-        var single = new Dictionary<ItemKind, (string category, string name)>
+        var single = Weapons.ToDictionary(w => w.kind, w => (category: "Weapons", name: w.model));
+        foreach (var pair in new Dictionary<ItemKind, (string category, string name)>
         {
-            [ItemKind.ScoopPistol] = ("Weapons", "Scoop Pistol"),
-            [ItemKind.SundaeShotgun] = ("Weapons", "Sundae Shotgun"),
-            [ItemKind.SprinkleSMG] = ("Weapons", "Sprinkle SMG"),
-            [ItemKind.LongSpoon] = ("Weapons", "Long Spoon"),
-            [ItemKind.ConeLauncher] = ("Weapons", "Cone Launcher"),
-            [ItemKind.BananaHarpoon] = ("Weapons", "Banana Split Harpoon"),
-            [ItemKind.Scooper] = ("Weapons", "Scooper"),
             [ItemKind.SprinkleJar] = ("Weapons", "Sprinkle Jar"),
             [ItemKind.SecondScoop] = ("Items", "Second Scoop"),
             [ItemKind.MilkCrate] = ("Items", "Milk Crate"),
@@ -302,7 +410,9 @@ public static class ZombieTruckSceneBuilder
             [ItemKind.CocoaBag] = ("Items", "Cocoa Bag"),
             [ItemKind.StrawberryBasket] = ("Items", "Strawberry Basket"),
             [ItemKind.MintBundle] = ("Items", "Mint Bundle"),
-        };
+            [ItemKind.CoffeeSack] = ("Items", "Coffee Sack"),
+            [ItemKind.NutBag] = ("Items", "Nut Bag"),
+        }) single[pair.Key] = pair.Value;
         foreach (var pair in single)
         {
             var root = EntityRoot($"Item {pair.Key}");
@@ -345,9 +455,7 @@ public static class ZombieTruckSceneBuilder
         prefabs[(int)StationKind.Churn] = BuildStation("Station Churn", null);
         prefabs[(int)StationKind.Freezer] = BuildStation("Station Freezer", (go, view) => SlotModels(view, truck, "freezer rack", "socket slot {0} freezer rack", Flavors.Select(f => (ItemKind.Tub, f, Model("Items", $"Flavor Tub {f}"))).ToArray()));
         prefabs[(int)StationKind.Counter] = BuildStation("Station Counter", (go, view) => SlotModels(view, truck, "scoop counter", "socket pint {0} scoop counter", Flavors.Select(f => (ItemKind.Pint, f, Model("Items", $"Pint {f} Full"))).ToArray()));
-        var guns = new[] { (ItemKind.ScoopPistol, "Scoop Pistol"), (ItemKind.SundaeShotgun, "Sundae Shotgun"), (ItemKind.SprinkleSMG, "Sprinkle SMG"),
-            (ItemKind.LongSpoon, "Long Spoon"), (ItemKind.ConeLauncher, "Cone Launcher"), (ItemKind.BananaHarpoon, "Banana Split Harpoon") };
-        prefabs[(int)StationKind.GunRack] = BuildStation("Station Gun Rack", (go, view) => SlotModels(view, truck, "gun rack", "socket gun {0} gun rack", guns.Select(g => (g.Item1, (string)null, Model("Weapons", g.Item2))).ToArray()));
+        prefabs[(int)StationKind.GunRack] = BuildStation("Station Gun Rack", (go, view) => SlotModels(view, truck, "gun rack", "socket gun {0} gun rack", Weapons.Select(g => (g.kind, (string)null, Model("Weapons", g.model))).ToArray()));
         prefabs[(int)StationKind.Hopper] = BuildStation("Station Hopper", null);
         prefabs[(int)StationKind.Bell] = BuildStation("Station Bell", null);
         prefabs[(int)StationKind.Turret] = BuildStation("Station Turret", null);
@@ -356,12 +464,61 @@ public static class ZombieTruckSceneBuilder
             var crate = Place(Model("Items", "Gun Crate Closed"), go.transform, Vector3.zero, Quaternion.identity);
             Set(view, ("lid", Child(crate, "Gun Crate Closed lid hinge")));
         });
+        // Upgrade pedestals stand on the ground and show a coin; item pedestals sit on top of their stand and show the
+        // item for sale.
         prefabs[(int)StationKind.Shop] = BuildStation("Station Shop", (go, view) =>
         {
-            Object.DestroyImmediate(view);
             var label = WorldText(go.transform, "Price Tag", new Vector3(0, 2.1f, 0), 0.04f, "UPGRADE\n$0");
-            Set(go.AddComponent<ShopLabel>(), ("text", label));
-            Place(Model("Items", "Tip Coin"), go.transform, new Vector3(0, 1.1f, 0), Quaternion.identity);
+            var coin = Place(Model("Items", "Tip Coin"), go.transform, new Vector3(0, 1.1f, 0), Quaternion.identity);
+            Set(go.AddComponent<ShopLabel>(), ("text", label), ("coin", coin));
+            var forSale = Weapons.Select(w => (w.kind, (string)null, Model("Weapons", w.model)))
+                .Concat(StallSupplies.Select(s => (s.item, s.flavor == Flavor.None ? null : Flavors[(int)s.flavor - 1], Model("Items", s.model))))
+                .ToArray();
+            DisplayModels(view, forSale);
+        });
+        prefabs[(int)StationKind.FuelIntake] = BuildStation("Station Fuel Intake", null);
+        prefabs[(int)StationKind.RearDoor] = BuildStation("Station Rear Door", null);
+        prefabs[(int)StationKind.Hatch] = BuildStation("Station Hatch", null);
+        prefabs[(int)StationKind.SlotMachine] = BuildStation("Station Slot Machine", (go, view) =>
+        {
+            Object.DestroyImmediate(view);
+            var machine = Place(Model("Shop", "Slot Machine"), go.transform, Vector3.zero, Quaternion.identity);
+            var symbols = new[] { Model("Shop", "Slot Brain") }.Concat(Flavors.Take(5).Select(f => Model("Items", $"Scoop Grenade {f}"))).ToArray();
+            var machineView = go.AddComponent<SlotMachineView>();
+            var serialized = new SerializedObject(machineView);
+            var reels = serialized.FindProperty("reels");
+            reels.arraySize = 3;
+            for (int r = 0; r < 3; r++)
+            {
+                var socket = Child(machine, $"Slot Machine socket reel {r + 1}");
+                var list = reels.GetArrayElementAtIndex(r).FindPropertyRelative("Symbols");
+                list.arraySize = symbols.Length;
+                for (int i = 0; i < symbols.Length; i++)
+                {
+                    var symbol = Place(symbols[i], socket, Vector3.zero, Quaternion.identity);
+                    var bounds = LocalBounds(symbol.transform);
+                    // Every symbol fits the reel window, centered on the socket.
+                    symbol.transform.localScale = Vector3.one * (0.15f / Mathf.Max(bounds.size.x, bounds.size.y));
+                    symbol.transform.localPosition = -LocalBounds(symbol.transform).center;
+                    symbol.SetActive(false);
+                    list.GetArrayElementAtIndex(i).objectReferenceValue = symbol;
+                }
+            }
+            serialized.FindProperty("lever").objectReferenceValue = Child(machine, "Slot Machine lever");
+            serialized.FindProperty("priceLabel").objectReferenceValue = WorldText(go.transform, "Price Tag", new Vector3(0, 2.85f, 0), 0.04f, "SCOOP SLOTS");
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        });
+        prefabs[(int)StationKind.Shopkeeper] = BuildStation("Station Shopkeeper", (go, view) =>
+        {
+            Object.DestroyImmediate(view);
+            var kevin = Place(Model("Shop", "Shopkeeper Kevin"), go.transform, Vector3.zero, Quaternion.identity);
+            var speech = new GameObject("Speech").transform;
+            speech.SetParent(go.transform, false);
+            speech.localPosition = new Vector3(0, 2.1f, 0);
+            var shadow = WorldText(speech, "Shadow", new Vector3(0.012f, -0.012f, 0.01f), 0.03f, "");
+            var bubble = WorldText(speech, "Bubble", Vector3.zero, 0.03f, "");
+            Set(go.AddComponent<ShopkeeperView>(), ("body", kevin.transform), ("head", Child(kevin, "Shopkeeper Kevin head")),
+                ("waveArm", Child(kevin, "Shopkeeper Kevin arm R")), ("bubble", bubble), ("bubbleShadow", shadow));
         });
         prefabs[(int)StationKind.DepotExit] = BuildStation("Station Depot Exit", (go, view) =>
         {
@@ -409,33 +566,75 @@ public static class ZombieTruckSceneBuilder
         serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 
+    // One slot at the station's root with a model per item for sale; StationView switches on the one in stock.
+    static void DisplayModels(StationView view, (ItemKind kind, string flavor, GameObject model)[] options)
+    {
+        var serialized = new SerializedObject(view);
+        var slots = serialized.FindProperty("slots");
+        slots.arraySize = 1;
+        var models = slots.GetArrayElementAtIndex(0).FindPropertyRelative("Models");
+        models.arraySize = options.Length;
+        for (int o = 0; o < options.Length; o++)
+        {
+            var model = Place(options[o].model, view.transform, Vector3.zero, Quaternion.identity);
+            model.transform.localPosition = Vector3.up * -LocalBounds(model.transform).min.y;
+            model.SetActive(false);
+            var entry = models.GetArrayElementAtIndex(o);
+            entry.FindPropertyRelative("Kind").enumValueIndex = (int)options[o].kind;
+            entry.FindPropertyRelative("Flavor").enumValueIndex = options[o].flavor == null ? 0 : Array.IndexOf(Flavors, options[o].flavor) + 1;
+            entry.FindPropertyRelative("Model").objectReferenceValue = model;
+        }
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+    }
+
     // Chunk order follows ChunkKind. Stops and the depot sit on the -X side of a straight, from the chunk edge outward.
     static GameObject[] BuildChunks()
     {
-        var chunks = new (ChunkKind kind, string road, string setPiece, Vector3 offset)[]
+        // Plain chunks get extra roadside dressing (Road/<name> Dressing), which also becomes part of their colliders.
+        var chunks = new (ChunkKind kind, string road, string dressing, string setPiece, Vector3 offset)[]
         {
-            (ChunkKind.Straight, "Town Straight", null, default),
-            (ChunkKind.Rural, "Rural Straight", null, default),
-            (ChunkKind.CurveLeft, "Curve Left", null, default),
-            (ChunkKind.CurveRight, "Curve Left", null, default),
-            (ChunkKind.Junction, "T Junction", null, default),
-            (ChunkKind.Broken, "Broken Road", null, default),
-            (ChunkKind.Dairy, "Rural Straight", "Dairy Farm Stop", new Vector3(-10, 0, 0)),
-            (ChunkKind.GasStation, "Town Straight", "Gas Station Stop", new Vector3(-10, 0, 0)),
-            (ChunkKind.Garden, "Rural Straight", "Garden Stop", new Vector3(-10, 0, 0)),
-            (ChunkKind.Wreck, "Town Straight", "Gun Crate Wreck", new Vector3(-4.5f, 0, 0)),
-            (ChunkKind.Depot, "Town Straight", "Depot", new Vector3(-10, 0, 0)),
+            (ChunkKind.Straight, "Town Straight", "Town Straight Dressing", null, default),
+            (ChunkKind.Rural, "Rural Straight", "Rural Straight Dressing", null, default),
+            (ChunkKind.CurveLeft, "Curve Left", "Curve Dressing", null, default),
+            (ChunkKind.CurveRight, "Curve Left", "Curve Dressing", null, default),
+            (ChunkKind.Junction, "T Junction", "Junction Dressing", null, default),
+            (ChunkKind.Broken, "Broken Road", "Broken Road Dressing", null, default),
+            (ChunkKind.Dairy, "Rural Straight", null, "Dairy Farm Stop", new Vector3(-10, 0, 0)),
+            (ChunkKind.GasStation, "Town Straight", null, "Gas Station Stop", new Vector3(-10, 0, 0)),
+            (ChunkKind.Garden, "Rural Straight", null, "Garden Stop", new Vector3(-10, 0, 0)),
+            (ChunkKind.Wreck, "Town Straight", null, "Gun Crate Wreck", new Vector3(-4.5f, 0, 0)),
+            (ChunkKind.School, "Town Straight", null, "School Hot Spot", new Vector3(-10, 0, 0)),
+            (ChunkKind.Park, "Town Straight", null, "Park Hot Spot", new Vector3(-10, 0, 0)),
+            (ChunkKind.Fairground, "Town Straight", null, "Fairground Hot Spot", new Vector3(-10, 0, 0)),
+            (ChunkKind.Depot, "Town Straight", null, "Depot", new Vector3(-10, 0, 0)),
         };
         var prefabs = new GameObject[chunks.Length];
         foreach (var chunk in chunks)
         {
             var root = EntityRoot($"Chunk {chunk.kind}");
             var road = Place(Model("Road", chunk.road), root.transform, Vector3.zero, Quaternion.identity);
+            if (chunk.dressing != null)
+            {
+                var dressing = Place(Model("Road", chunk.dressing), root.transform, Vector3.zero, Quaternion.identity);
+                if (chunk.kind == ChunkKind.CurveRight) dressing.transform.localScale = new Vector3(-1, 1, 1);
+            }
             if (chunk.kind == ChunkKind.CurveRight) road.transform.localScale = new Vector3(-1, 1, 1);
             if (chunk.setPiece != null) Place(Model("Stops", chunk.setPiece), root.transform, chunk.offset, Quaternion.identity);
+            if (chunk.kind == ChunkKind.Depot) Place(Model("Shop", "Kevin's Stall"), root.transform, StallPosition, StallRotation);
             prefabs[(int)chunk.kind] = SavePrefab(root);
         }
         return prefabs;
+    }
+
+    // One entity prefab per scenery block; the road system places them around the road and gives them their collider.
+    static GameObject[] BuildScenery()
+    {
+        return SceneryBlocks.Select(block =>
+        {
+            var root = EntityRoot($"Scenery {block}");
+            Place(Model("Scenery", $"Block {block}"), root.transform, Vector3.zero, Quaternion.identity);
+            return SavePrefab(root);
+        }).ToArray();
     }
 
     // ------------------------------------------------------------------------------------------------ settings data
@@ -448,19 +647,39 @@ public static class ZombieTruckSceneBuilder
         var binBounds = LocalBounds(Place(Model("Truck", "Ingredient Bins"), null, Vector3.zero, Quaternion.identity).transform, true);
         boxes.Add(bins.position + bins.rotation * binBounds.center);
         boxes.Add(Abs(bins.rotation * binBounds.extents));
-        settings.TruckColliders = new TruckBox[boxes.Count / 2];
-        for (int i = 0; i < settings.TruckColliders.Length; i++)
+        var colliders = new List<TruckBox>();
+        for (int i = 0; i < boxes.Count; i += 2)
         {
-            settings.TruckColliders[i] = new TruckBox { Center = boxes[i * 2].ToFPVector3(), Extents = boxes[i * 2 + 1].ToFPVector3() };
+            colliders.Add(new TruckBox { Center = boxes[i].ToFPVector3(), Extents = boxes[i + 1].ToFPVector3() });
         }
+        // A 33 degree slope from the road up to the floor at the rear door, over the bumper and rear step and as wide as the
+        // bumper. It is a solid wedge (a thick block whose top is the slope, buried below), so walking into it from the side
+        // can't slip anyone underneath.
+        var rampBottom = new Vector3(0, 0, -4.1f);
+        var rampTop = new Vector3(0, 0.75f, -2.95f);
+        var rampAngle = Mathf.Atan2(rampTop.y - rampBottom.y, rampTop.z - rampBottom.z) * Mathf.Rad2Deg;
+        var rampLength = Vector3.Distance(rampBottom, rampTop);
+        const float rampThickness = 1.5f;
+        colliders.Add(new TruckBox
+        {
+            Center = ((rampBottom + rampTop) / 2 + Quaternion.Euler(-rampAngle, 0, 0) * Vector3.down * (rampThickness / 2)).ToFPVector3(),
+            Extents = new Vector3(1.0f, rampThickness / 2, rampLength / 2).ToFPVector3(),
+            Pitch = FP.FromFloat_UNSAFE(-rampAngle),
+        });
+        settings.TruckColliders = colliders.ToArray();
         settings.TruckHalfSize = new Vector3(1.3f, 0, 3.2f).ToFPVector3();
         settings.RoofHeight = FP.FromFloat_UNSAFE(2.92f);
-        settings.DriverSeat = new Vector3(0.55f, 0.47f, 1.4f).ToFPVector3();
+        settings.DriverSeat = new Vector3(-0.55f, 0.47f, 1.4f).ToFPVector3();
         settings.CabStand = new Vector3(0f, 0.8f, 1.5f).ToFPVector3();
-        settings.LadderBottom = new Vector3(0.53f, 0.8f, -2.2f).ToFPVector3();
+        settings.LadderBottom = new Vector3(0.7f, 0.8f, -2.42f).ToFPVector3();
         settings.HatchTop = new Vector3(0.74f, 2.95f, -1.8f).ToFPVector3();
         settings.RearInside = new Vector3(0, 0.8f, -2.5f).ToFPVector3();
-        settings.RearOutside = new Vector3(0, 0.05f, -3.6f).ToFPVector3();
+        settings.RearOutside = new Vector3(0, 0.05f, -4.4f).ToFPVector3();
+        // The ladder stands against the +X wall under the hatch (x 0.45..1.03, z -2.72..-2.12): the climber rises through
+        // the middle of the hole and steps off onto the roof toward the truck's centerline.
+        settings.LadderClimb = new Vector3(0.68f, 0.75f, -2.42f).ToFPVector3();
+        settings.LadderClosedTop = FP.FromFloat_UNSAFE(1.2f);
+        settings.HatchExit = new Vector3(0.1f, 2.95f, -2.42f).ToFPVector3();
 
         var turretSocket = Socket(truck, "socket turret").position;
         var turret2Socket = Socket(truck, "socket upgrade turret2").position + new Vector3(0, 0.12f, 0);
@@ -478,6 +697,18 @@ public static class ZombieTruckSceneBuilder
             TruckStation(truck, StationKind.GunRack, "gun rack", "Gun Rack", 0),
             TruckStation(truck, StationKind.Hopper, "hopper gauge", "Hopper Gauge", 0),
             TruckStation(truck, StationKind.Bell, "roof bell", "Roof Bell", 0),
+            TruckStation(truck, StationKind.FuelIntake, "fuel intake", "Fuel Intake", 0),
+            // The rear door and the hatch lid turn about their hinges; their colliders are the closed panels.
+            new Placement
+            {
+                Station = StationKind.RearDoor, IsStation = true, Position = Child(truck, $"{Truck} rear door").position.ToFPVector3(),
+                Center = new Vector3(-0.45f, 0.925f, 0).ToFPVector3(), HalfSize = new Vector3(0.45f, 0.925f, 0.03f).ToFPVector3(),
+            },
+            new Placement
+            {
+                Station = StationKind.Hatch, IsStation = true, Position = Child(truck, $"{Truck} hatch lid").position.ToFPVector3(),
+                Center = new Vector3(0, -0.03f, 0.31f).ToFPVector3(), HalfSize = new Vector3(0.32f, 0.04f, 0.32f).ToFPVector3(),
+            },
             new Placement { Station = StationKind.Turret, IsStation = true, Count = 0, Position = turretSocket.ToFPVector3(), Center = turretBounds.center.ToFPVector3(), HalfSize = turretBounds.extents.ToFPVector3() },
             new Placement { Station = StationKind.Turret, IsStation = true, Count = 1, Position = turret2Socket.ToFPVector3(), Center = turretBounds.center.ToFPVector3(), HalfSize = turretBounds.extents.ToFPVector3() },
         };
@@ -502,11 +733,53 @@ public static class ZombieTruckSceneBuilder
         };
     }
 
-    // Pickups and gun crates at the supply stops, and the depot's shop pedestals and exit sign (chunk-local positions).
+    // Pickups and gun crates at the supply stops and hot spots, the hot spots' horde exits, and the depot's upgrade
+    // pedestals, exit sign and Kevin's stall (weapon and supply stands, slot machine, Kevin), in chunk-local positions.
+    // Hot spot and stall spots come from the sockets in their art.
     static void FillChunkContents(ZombieTruckSettings settings)
     {
-        var crateSize = new Vector3(0.42f, 0.25f, 0.23f);
-        var contents = new List<Placement>
+        var hordeExits = new List<ChunkPoint>();
+        var hotSpotContents = new List<Placement>();
+        foreach (var (kind, model) in new[] { (ChunkKind.School, "School Hot Spot"), (ChunkKind.Park, "Park Hot Spot"), (ChunkKind.Fairground, "Fairground Hot Spot") })
+        {
+            var lot = Place(Model("Stops", model), null, new Vector3(-10, 0, 0), Quaternion.identity);
+            foreach (var socket in Sockets(lot, $"{model} socket loot")) hotSpotContents.Add(new Placement { Chunk = kind, Count = 1, Position = new Vector3(socket.x, 0.05f, socket.z).ToFPVector3() });
+            foreach (var socket in Sockets(lot, $"{model} socket crate")) hotSpotContents.Add(Station(kind, StationKind.GunCrate, socket.x, socket.z, 0, CrateSize));
+            foreach (var socket in Sockets(lot, $"{model} socket horde")) hordeExits.Add(new ChunkPoint { Chunk = kind, Position = new Vector3(socket.x, 0, socket.z).ToFPVector3() });
+            Object.DestroyImmediate(lot);
+        }
+        settings.HordeExits = hordeExits.ToArray();
+
+        var stall = Place(Model("Shop", "Kevin's Stall"), null, StallPosition, StallRotation);
+        var stallYaw = StallRotation.eulerAngles.y;
+        // Item pedestals sit on top of their stand; their collider reaches from the ground to half a meter over the item.
+        var stands = Sockets(stall, "Kevin's Stall socket weapon").Select(p => (p, ItemKind.None, Flavor.None, 0))
+            .Concat(Sockets(stall, "Kevin's Stall socket supply").Select((p, i) => (p, StallSupplies[i].item, StallSupplies[i].flavor, StallSupplies[i].price)));
+        foreach (var (top, item, flavor, price) in stands)
+        {
+            var half = (top.y + 0.5f) / 2;
+            hotSpotContents.Add(new Placement
+            {
+                Chunk = ChunkKind.Depot, IsStation = true, Station = StationKind.Shop, Item = item, Flavor = flavor, Price = price,
+                Position = top.ToFPVector3(), Yaw = FP.FromFloat_UNSAFE(stallYaw),
+                Center = new Vector3(0, half - top.y, 0).ToFPVector3(), HalfSize = new Vector3(0.45f, half, 0.45f).ToFPVector3(),
+            });
+        }
+        var slotBounds = LocalBounds(Place(Model("Shop", "Slot Machine"), null, Vector3.zero, Quaternion.identity).transform, true);
+        var slots = Station(ChunkKind.Depot, StationKind.SlotMachine, 0, 0, stallYaw, slotBounds.extents);
+        var slotSpot = Child(stall, "Kevin's Stall socket slots").position;
+        slots.Position = slotSpot.ToFPVector3();
+        slots.Center = slotBounds.center.ToFPVector3();
+        slots.Price = 20;
+        hotSpotContents.Add(slots);
+        var keeper = Station(ChunkKind.Depot, StationKind.Shopkeeper, 0, 0, stallYaw, new Vector3(0.35f, 0.95f, 0.3f));
+        var keeperSpot = Child(stall, "Kevin's Stall socket kevin").position;
+        keeper.Position = keeperSpot.ToFPVector3();
+        hotSpotContents.Add(keeper);
+        Object.DestroyImmediate(stall);
+
+        var crateSize = CrateSize;
+        var contents = new List<Placement>(hotSpotContents)
         {
             Pickup(ChunkKind.Dairy, ItemKind.MilkCrate, -12.3f, 0.2f),
             Pickup(ChunkKind.Dairy, ItemKind.MilkCrate, -12.3f, 1.3f),
@@ -531,12 +804,14 @@ public static class ZombieTruckSceneBuilder
         settings.ChunkContents = contents.ToArray();
     }
 
-    // Solid boxes for every chunk's buildings and props, found by rasterizing the art onto a 0.25 m floor grid: any
-    // triangle passing through body height marks its cell solid. Cells over asphalt stay open so the truck smashes
-    // through cones and barricades on the road, specks thinner than a lamp post are dropped, and the rest is merged into
-    // boxes, leaving room around everything placed in the chunk. Writes a top-down check image per chunk to
-    // Library/CodexPlaytests/colliders.
+    // Solid boxes for the buildings and props of every chunk and scenery block, found by rasterizing the art onto a
+    // floor grid (0.25 m for chunks, a coarser 0.5 m for the much busier scenery blocks, so corn rows and tree clumps
+    // merge into a few boxes): any triangle passing through body height marks its cell solid. Cells over a chunk's asphalt stay
+    // open so the truck smashes through cones and barricades on the road, specks thinner than a lamp post are dropped,
+    // and the rest is merged into boxes, leaving room around everything placed in the chunk. Writes a top-down check
+    // image per chunk and block to Library/CodexPlaytests/colliders.
     const float ColliderCell = 0.25f;
+    const float SceneryColliderCell = 0.5f;
     const float SolidFrom = 0.4f;
     const float SolidTo = 1.9f;
     const float ColliderHeight = 2.6f;
@@ -544,110 +819,136 @@ public static class ZombieTruckSceneBuilder
     static void FillChunkColliders(ZombieTruckSettings settings, GameObject[] chunks)
     {
         var boxes = new List<ChunkBox>();
-        Directory.CreateDirectory("Library/CodexPlaytests/colliders");
         for (int kind = 0; kind < chunks.Length; kind++)
         {
             var instance = (GameObject)PrefabUtility.InstantiatePrefab(chunks[kind]);
-            var triangles = new List<Vector3>();
-            var onRoad = new List<bool>();
+            // Placed items and stations stay reachable: their own colliders replace the art around them.
+            var keepClear = settings.ChunkContents.Where(p => (int)p.Chunk == kind).Select(p => (p.Position.ToUnityVector3(), p.IsStation ? 1.2f : 0.6f)).ToList();
+            var marks = kind == (int)ChunkKind.Depot ? new[] { settings.DepotParking.ToUnityVector3() } : new Vector3[0];
             // Only the road model itself counts as asphalt; the stops' ground pads sit at the same height.
-            var roadModel = instance.transform.GetChild(0);
-            foreach (var filter in instance.GetComponentsInChildren<MeshFilter>())
+            foreach (var (center, extents) in SolidBoxes(instance, instance.transform.GetChild(0), keepClear, marks, ((ChunkKind)kind).ToString(), ColliderCell))
             {
-                var mesh = filter.sharedMesh;
-                if (!mesh.isReadable) throw new InvalidOperationException($"{mesh.name} is not readable; run Tools > Zombie Truck > Reimport PS1 Art");
-                var toRoot = instance.transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
-                var vertices = mesh.vertices;
-                var isRoad = filter.transform.IsChildOf(roadModel);
-                foreach (var index in mesh.triangles)
-                {
-                    triangles.Add(toRoot.MultiplyPoint3x4(vertices[index]));
-                    onRoad.Add(isRoad);
-                }
+                boxes.Add(new ChunkBox { Chunk = (ChunkKind)kind, Center = center.ToFPVector3(), Extents = extents.ToFPVector3() });
             }
             Object.DestroyImmediate(instance);
-
-            var min = new Vector2(triangles.Min(v => v.x), triangles.Min(v => v.z));
-            var width = Mathf.CeilToInt((triangles.Max(v => v.x) - min.x) / ColliderCell) + 1;
-            var depth = Mathf.CeilToInt((triangles.Max(v => v.z) - min.y) / ColliderCell) + 1;
-            var solid = new bool[width, depth];
-            var road = new bool[width, depth];
-            for (int t = 0; t < triangles.Count; t += 3)
-            {
-                var a = triangles[t];
-                var b = triangles[t + 1];
-                var c = triangles[t + 2];
-                var low = Mathf.Min(a.y, b.y, c.y);
-                var high = Mathf.Max(a.y, b.y, c.y);
-                var asphalt = onRoad[t] && high < 0.02f && low > -0.02f;
-                if (!asphalt && (high < SolidFrom || low > SolidTo)) continue;
-                var steps = Mathf.Max(1, Mathf.CeilToInt(Mathf.Max((b - a).magnitude, (c - a).magnitude, (c - b).magnitude) / (ColliderCell * 0.4f)));
-                for (int i = 0; i <= steps; i++)
-                {
-                    for (int j = 0; j <= steps - i; j++)
-                    {
-                        var p = a + (b - a) * (i / (float)steps) + (c - a) * (j / (float)steps);
-                        // Interpolated points can land a hair outside the vertex bounds.
-                        var x = Mathf.Clamp(Mathf.FloorToInt((p.x - min.x) / ColliderCell), 0, width - 1);
-                        var z = Mathf.Clamp(Mathf.FloorToInt((p.z - min.y) / ColliderCell), 0, depth - 1);
-                        if (asphalt) road[x, z] = true;
-                        else if (p.y >= SolidFrom && p.y <= SolidTo) solid[x, z] = true;
-                    }
-                }
-            }
-            for (int x = 0; x < width; x++)
-            {
-                for (int z = 0; z < depth; z++) solid[x, z] &= !road[x, z];
-            }
-            // Placed items and stations stay reachable: their own colliders replace the art around them.
-            foreach (var placement in settings.ChunkContents.Where(p => (int)p.Chunk == kind))
-            {
-                var position = placement.Position.ToUnityVector3();
-                var radius = placement.IsStation ? 1.2f : 0.6f;
-                for (int x = 0; x < width; x++)
-                {
-                    for (int z = 0; z < depth; z++)
-                    {
-                        var cell = new Vector2(min.x + (x + 0.5f) * ColliderCell, min.y + (z + 0.5f) * ColliderCell);
-                        if ((cell - new Vector2(position.x, position.z)).sqrMagnitude < radius * radius) solid[x, z] = false;
-                    }
-                }
-            }
-            DropSpecks(solid, 3);
-
-            var owner = new int[width, depth];
-            var count = 0;
-            for (int z = 0; z < depth; z++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (!solid[x, z] || owner[x, z] != 0) continue;
-                    var x1 = x;
-                    while (x1 + 1 < width && solid[x1 + 1, z] && owner[x1 + 1, z] == 0) x1++;
-                    var z1 = z;
-                    while (z1 + 1 < depth && Enumerable.Range(x, x1 - x + 1).All(cx => solid[cx, z1 + 1] && owner[cx, z1 + 1] == 0)) z1++;
-                    count++;
-                    for (int cz = z; cz <= z1; cz++)
-                    {
-                        for (int cx = x; cx <= x1; cx++) owner[cx, cz] = count;
-                    }
-                    var size = new Vector3((x1 - x + 1) * ColliderCell, ColliderHeight, (z1 - z + 1) * ColliderCell);
-                    var center = new Vector3(min.x + x * ColliderCell + size.x / 2, ColliderHeight / 2, min.y + z * ColliderCell + size.z / 2);
-                    boxes.Add(new ChunkBox { Chunk = (ChunkKind)kind, Center = center.ToFPVector3(), Extents = (size / 2).ToFPVector3() });
-                }
-            }
-
-            var placements = settings.ChunkContents.Where(p => (int)p.Chunk == kind).Select(p => p.Position.ToUnityVector3()).ToList();
-            foreach (var position in placements)
-            {
-                var cell = new Vector2Int(Mathf.FloorToInt((position.x - min.x) / ColliderCell), Mathf.FloorToInt((position.z - min.y) / ColliderCell));
-                if (owner[cell.x, cell.y] != 0) Debug.LogWarning($"ZombieTruckSceneBuilder: {(ChunkKind)kind} has something placed inside a solid cell at {position}");
-            }
-            if (kind == (int)ChunkKind.Depot) placements.Add(settings.DepotParking.ToUnityVector3());
-            WriteColliderImage((ChunkKind)kind, owner, road, min, placements);
-            Debug.Log($"ZombieTruckSceneBuilder: {(ChunkKind)kind} collider boxes: {count}");
         }
         settings.ChunkColliders = boxes.ToArray();
+    }
+
+    static void FillSceneryColliders(ZombieTruckSettings settings, GameObject[] blocks)
+    {
+        var boxes = new List<SceneryBox>();
+        for (int block = 0; block < blocks.Length; block++)
+        {
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(blocks[block]);
+            foreach (var (center, extents) in SolidBoxes(instance, null, new List<(Vector3, float)>(), new Vector3[0], blocks[block].name, SceneryColliderCell))
+            {
+                boxes.Add(new SceneryBox { Block = block, Center = center.ToFPVector3(), Extents = extents.ToFPVector3() });
+            }
+            Object.DestroyImmediate(instance);
+        }
+        settings.SceneryColliders = boxes.ToArray();
+    }
+
+    // Collider boxes (center, extents) of an instance in its own space. Meshes under roadModel (if any) count as road.
+    // The spots in keepClear stay open; they and the extra marks are drawn on the check image.
+    static List<(Vector3 center, Vector3 extents)> SolidBoxes(GameObject instance, Transform roadModel, List<(Vector3 position, float radius)> keepClear, Vector3[] marks, string name, float cellSize)
+    {
+        var boxes = new List<(Vector3 center, Vector3 extents)>();
+        Directory.CreateDirectory("Library/CodexPlaytests/colliders");
+        var triangles = new List<Vector3>();
+        var onRoad = new List<bool>();
+        foreach (var filter in instance.GetComponentsInChildren<MeshFilter>())
+        {
+            var mesh = filter.sharedMesh;
+            if (!mesh.isReadable) throw new InvalidOperationException($"{mesh.name} is not readable; run Tools > Zombie Truck > Reimport PS1 Art");
+            var toRoot = instance.transform.worldToLocalMatrix * filter.transform.localToWorldMatrix;
+            var vertices = mesh.vertices;
+            var isRoad = roadModel != null && filter.transform.IsChildOf(roadModel);
+            foreach (var index in mesh.triangles)
+            {
+                triangles.Add(toRoot.MultiplyPoint3x4(vertices[index]));
+                onRoad.Add(isRoad);
+            }
+        }
+
+        var min = new Vector2(triangles.Min(v => v.x), triangles.Min(v => v.z));
+        var width = Mathf.CeilToInt((triangles.Max(v => v.x) - min.x) / cellSize) + 1;
+        var depth = Mathf.CeilToInt((triangles.Max(v => v.z) - min.y) / cellSize) + 1;
+        var solid = new bool[width, depth];
+        var road = new bool[width, depth];
+        for (int t = 0; t < triangles.Count; t += 3)
+        {
+            var a = triangles[t];
+            var b = triangles[t + 1];
+            var c = triangles[t + 2];
+            var low = Mathf.Min(a.y, b.y, c.y);
+            var high = Mathf.Max(a.y, b.y, c.y);
+            var asphalt = onRoad[t] && high < 0.02f && low > -0.02f;
+            if (!asphalt && (high < SolidFrom || low > SolidTo)) continue;
+            var steps = Mathf.Max(1, Mathf.CeilToInt(Mathf.Max((b - a).magnitude, (c - a).magnitude, (c - b).magnitude) / (cellSize * 0.4f)));
+            for (int i = 0; i <= steps; i++)
+            {
+                for (int j = 0; j <= steps - i; j++)
+                {
+                    var p = a + (b - a) * (i / (float)steps) + (c - a) * (j / (float)steps);
+                    // Interpolated points can land a hair outside the vertex bounds.
+                    var x = Mathf.Clamp(Mathf.FloorToInt((p.x - min.x) / cellSize), 0, width - 1);
+                    var z = Mathf.Clamp(Mathf.FloorToInt((p.z - min.y) / cellSize), 0, depth - 1);
+                    if (asphalt) road[x, z] = true;
+                    else if (p.y >= SolidFrom && p.y <= SolidTo) solid[x, z] = true;
+                }
+            }
+        }
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < depth; z++) solid[x, z] &= !road[x, z];
+        }
+        foreach (var (position, radius) in keepClear)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int z = 0; z < depth; z++)
+                {
+                    var cell = new Vector2(min.x + (x + 0.5f) * cellSize, min.y + (z + 0.5f) * cellSize);
+                    if ((cell - new Vector2(position.x, position.z)).sqrMagnitude < radius * radius) solid[x, z] = false;
+                }
+            }
+        }
+        DropSpecks(solid, 3);
+
+        var owner = new int[width, depth];
+        var count = 0;
+        for (int z = 0; z < depth; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (!solid[x, z] || owner[x, z] != 0) continue;
+                var x1 = x;
+                while (x1 + 1 < width && solid[x1 + 1, z] && owner[x1 + 1, z] == 0) x1++;
+                var z1 = z;
+                while (z1 + 1 < depth && Enumerable.Range(x, x1 - x + 1).All(cx => solid[cx, z1 + 1] && owner[cx, z1 + 1] == 0)) z1++;
+                count++;
+                for (int cz = z; cz <= z1; cz++)
+                {
+                    for (int cx = x; cx <= x1; cx++) owner[cx, cz] = count;
+                }
+                var size = new Vector3((x1 - x + 1) * cellSize, ColliderHeight, (z1 - z + 1) * cellSize);
+                var center = new Vector3(min.x + x * cellSize + size.x / 2, ColliderHeight / 2, min.y + z * cellSize + size.z / 2);
+                boxes.Add((center, size / 2));
+            }
+        }
+
+        var placements = keepClear.Select(c => c.position).ToList();
+        foreach (var position in placements)
+        {
+            var cell = new Vector2Int(Mathf.FloorToInt((position.x - min.x) / cellSize), Mathf.FloorToInt((position.z - min.y) / cellSize));
+            if (owner[cell.x, cell.y] != 0) Debug.LogWarning($"ZombieTruckSceneBuilder: {name} has something placed inside a solid cell at {position}");
+        }
+        placements.AddRange(marks);
+        WriteColliderImage(name, owner, road, min, placements, cellSize);
+        Debug.Log($"ZombieTruckSceneBuilder: {name} collider boxes: {count}");
+        return boxes;
     }
 
     static void DropSpecks(bool[,] solid, int minCells)
@@ -683,7 +984,7 @@ public static class ZombieTruckSceneBuilder
     }
 
     // Top-down view, +Z up the image: asphalt grey, each collider box its own color, placements as white squares.
-    static void WriteColliderImage(ChunkKind kind, int[,] owner, bool[,] road, Vector2 min, List<Vector3> placements)
+    static void WriteColliderImage(string name, int[,] owner, bool[,] road, Vector2 min, List<Vector3> placements, float cellSize)
     {
         const int scale = 4;
         var width = owner.GetLength(0);
@@ -704,8 +1005,8 @@ public static class ZombieTruckSceneBuilder
         }
         foreach (var position in placements)
         {
-            var cx = Mathf.FloorToInt((position.x - min.x) / ColliderCell) * scale;
-            var cz = Mathf.FloorToInt((position.z - min.y) / ColliderCell) * scale;
+            var cx = Mathf.FloorToInt((position.x - min.x) / cellSize) * scale;
+            var cz = Mathf.FloorToInt((position.z - min.y) / cellSize) * scale;
             for (int px = -3; px <= 3 + scale; px++)
             {
                 for (int pz = -3; pz <= 3 + scale; pz++)
@@ -717,8 +1018,23 @@ public static class ZombieTruckSceneBuilder
             }
         }
         image.SetPixels32(pixels);
-        File.WriteAllBytes($"Library/CodexPlaytests/colliders/{kind}.png", image.EncodeToPNG());
+        File.WriteAllBytes($"Library/CodexPlaytests/colliders/{name}.png", image.EncodeToPNG());
         Object.DestroyImmediate(image);
+    }
+
+    static readonly Vector3 CrateSize = new Vector3(0.42f, 0.25f, 0.23f);
+
+    // World positions of the sockets named "<prefix> 1", "<prefix> 2", ... in order, until one is missing.
+    static List<Vector3> Sockets(GameObject root, string prefix)
+    {
+        var found = new List<Vector3>();
+        var all = root.GetComponentsInChildren<Transform>(true);
+        for (int i = 1; ; i++)
+        {
+            var socket = all.FirstOrDefault(t => t.name == $"{prefix} {i}");
+            if (socket == null) return found;
+            found.Add(socket.position);
+        }
     }
 
     static Placement Pickup(ChunkKind chunk, ItemKind item, float x, float z)
@@ -843,7 +1159,8 @@ public static class ZombieTruckSceneBuilder
             AddLayer(fx, root, "Mist", new Layer { Row = FxRow.Smoke, Count = 6, Speed = new Vector2(0.5f, 1.5f), Size = new Vector2(0.5f, 0.9f), Life = new Vector2(0.6f, 1f), Gravity = -0.05f, Grow = 2, Color = Ice, Radius = 0.4f });
             return new[] { AddLayer(fx, root, "Shards", new Layer { Row = FxRow.Shard, Count = 30, Speed = new Vector2(3, 7), Size = new Vector2(0.12f, 0.3f), Gravity = 2, Color = Ice, Collide = true, Radius = 0.4f }) };
         });
-        var flavorModels = new[] { "Sprinkle Shrapnel Spray", "Vanilla Splat Burst", "Chocolate Splat Burst", "Strawberry Splash Burst", "Mint Freeze Burst" };
+        var flavorModels = new[] { "Sprinkle Shrapnel Spray", "Vanilla Splat Burst", "Chocolate Splat Burst", "Strawberry Splash Burst", "Mint Freeze Burst",
+            "Chocolate Splat Burst", "Chocolate Splat Burst", "Strawberry Splash Burst" };
         fx.Explosions = new FxBurst[flavorModels.Length];
         for (int f = 0; f < flavorModels.Length; f++)
         {
@@ -898,15 +1215,26 @@ public static class ZombieTruckSceneBuilder
         return fx;
     }
 
-    // Point-filtered pixel sprites: the particle atlas as a texture, the HUD overlays as UI sprites.
+    // Nine-slice borders (left, bottom, right, top, in sprite pixels) of the HUD frames drawn by hud_sprites.py.
+    static readonly Dictionary<string, Vector4> SpriteBorders = new Dictionary<string, Vector4>
+    {
+        { "HUD/panel", new Vector4(8, 8, 8, 8) }, { "HUD/panel_mint", new Vector4(8, 8, 8, 8) },
+        { "HUD/slot", new Vector4(8, 8, 8, 8) }, { "HUD/slot_selected", new Vector4(8, 8, 8, 8) },
+        { "HUD/bar_back", new Vector4(4, 4, 4, 4) }, { "HUD/banner", new Vector4(4, 8, 4, 2) },
+    };
+
+    // Point-filtered pixel sprites: the particle atlas as a texture; HUD overlays, frames and item icons as UI sprites.
     static void ConfigureSprites()
     {
-        foreach (var path in Directory.GetFiles(Sprites, "*.png"))
+        foreach (var path in Directory.GetFiles(Sprites, "*.png", SearchOption.AllDirectories))
         {
-            var importer = (TextureImporter)AssetImporter.GetAtPath(path.Replace('\\', '/'));
+            var assetPath = path.Replace('\\', '/');
+            var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
             var atlas = path.EndsWith("fx_atlas.png");
             importer.textureType = atlas ? TextureImporterType.Default : TextureImporterType.Sprite;
             importer.spriteImportMode = SpriteImportMode.Single;
+            var key = assetPath.Substring(Sprites.Length + 1).Replace(".png", "");
+            importer.spriteBorder = SpriteBorders.TryGetValue(key, out var border) ? border : Vector4.zero;
             importer.filterMode = FilterMode.Point;
             importer.mipmapEnabled = false;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
@@ -1117,6 +1445,12 @@ public static class ZombieTruckSceneBuilder
         foreach (var child in screen.GetComponentsInChildren<Transform>(true).Concat(hud.GetComponentsInChildren<Transform>(true))) child.gameObject.layer = UiLayer;
         BuildCombatEffects(gameplay, fx, viewUpdater, firstPerson, hud);
         BuildAudio(gameplay, camera.transform, viewUpdater);
+        new GameObject("Tutorial Progress", typeof(TutorialProgress)).transform.SetParent(gameplay, false);
+        var marker = new GameObject("Tutorial Marker").AddComponent<TutorialMarker>();
+        marker.transform.SetParent(gameplay, false);
+        var markerText = WorldText(marker.transform, "Exclamation", Vector3.zero, 0.3f, "!");
+        markerText.color = HudYellow;
+        Set(marker, ("marker", markerText));
 
         runner.RuntimeConfig.Settings = settings;
         runner.MaxPlayerCount = 4;
@@ -1148,6 +1482,7 @@ public static class ZombieTruckSceneBuilder
         {
             (ItemKind.ScoopPistol, "Pistol Muzzle Flash", 1.5f), (ItemKind.SundaeShotgun, "Shotgun Muzzle Flash", 5f), (ItemKind.SprinkleSMG, "SMG Muzzle Flash", 0.8f),
             (ItemKind.LongSpoon, "Pistol Muzzle Flash", 6f), (ItemKind.ConeLauncher, "Shotgun Muzzle Flash", 4f), (ItemKind.BananaHarpoon, "Pistol Muzzle Flash", 2.5f),
+            (ItemKind.SoftServeHose, "SMG Muzzle Flash", 0.3f), (ItemKind.SundaeBazooka, "Shotgun Muzzle Flash", 8f), (ItemKind.JackpotBlaster, "Pistol Muzzle Flash", 2f),
             (ItemKind.None, "Minigun Muzzle Flash", 0.4f),
         };
         var serializedEffects = new SerializedObject(effects);
@@ -1190,6 +1525,7 @@ public static class ZombieTruckSceneBuilder
         {
             (ItemKind.ScoopPistol, "gun_pistol"), (ItemKind.SundaeShotgun, "gun_shotgun"), (ItemKind.SprinkleSMG, "gun_smg"), (ItemKind.LongSpoon, "gun_sniper"),
             (ItemKind.ConeLauncher, "gun_launcher"), (ItemKind.BananaHarpoon, "gun_harpoon"), (ItemKind.None, "gun_minigun"),
+            (ItemKind.SoftServeHose, "gun_hose"), (ItemKind.SundaeBazooka, "gun_bazooka"), (ItemKind.JackpotBlaster, "gun_jackpot"),
         };
         var serialized = new SerializedObject(audio);
         var gunList = serialized.FindProperty("gunSounds");
@@ -1206,7 +1542,10 @@ public static class ZombieTruckSceneBuilder
             ("freeze", Clip("freeze")), ("iceShatter", Clip("ice_shatter")), ("crash", Clip("crash")), ("hurt", Clip("hurt")), ("snarl", Clip("snarl")),
             ("death", Clip("death")), ("revive", Clip("revive")), ("wipe", Clip("wipe")), ("depot", Clip("depot")), ("bell", Clip("bell")),
             ("pickup", Clip("pickup")), ("kaching", Clip("kaching")), ("tip", Clip("tip")), ("crank", Clip("crank")), ("scoop", Clip("scoop")),
-            ("reload", Clip("gun_reload")), ("empty", Clip("gun_empty")), ("thrown", Clip("throw")));
+            ("reload", Clip("gun_reload")), ("empty", Clip("gun_empty")), ("thrown", Clip("throw")),
+            ("meleeSwing", Clip("melee_swing")), ("meleeHit", Clip("melee_hit")), ("jackpotWin", Clip("jackpot_win")), ("slotsSpin", Clip("slots_spin")),
+            ("slotsWin", Clip("slots_win")), ("slotsLose", Clip("slots_lose")), ("slotsBrains", Clip("slots_brains")), ("refuel", Clip("refuel")),
+            ("outOfFuel", Clip("out_of_fuel")), ("horde", Clip("horde")), ("denied", Clip("denied")), ("kevinBabble", Clip("kevin_babble")));
     }
 
     static AudioClip Clip(string name)
@@ -1251,18 +1590,11 @@ public static class ZombieTruckSceneBuilder
         // Guns hang from the right hand by their grip, angled in toward the crosshair so their side stays readable.
         var aim = Quaternion.LookRotation(new Vector3(0, 0, 6) - handPosition);
         var held = new List<(ItemKind kind, Flavor flavor, GameObject model)>();
-        var handItems = new (ItemKind kind, string category, string name, string grip)[]
+        var handItems = Weapons.Select(w => (w.kind, category: "Weapons", name: w.model, w.grip)).Concat(new (ItemKind kind, string category, string name, string grip)[]
         {
-            (ItemKind.ScoopPistol, "Weapons", "Scoop Pistol", "socket grip"),
-            (ItemKind.SundaeShotgun, "Weapons", "Sundae Shotgun", "socket grip"),
-            (ItemKind.SprinkleSMG, "Weapons", "Sprinkle SMG", "socket grip"),
-            (ItemKind.LongSpoon, "Weapons", "Long Spoon", "socket grip"),
-            (ItemKind.ConeLauncher, "Weapons", "Cone Launcher", "socket grip"),
-            (ItemKind.BananaHarpoon, "Weapons", "Banana Split Harpoon", "socket grip"),
-            (ItemKind.Scooper, "Weapons", "Scooper", "socket hand"),
             (ItemKind.SprinkleJar, "Weapons", "Sprinkle Jar", "socket hand"),
             (ItemKind.SecondScoop, "Items", "Second Scoop", "socket hand"),
-        };
+        });
         var flavoredItems = new (ItemKind kind, string pattern)[] { (ItemKind.Pint, "Pint {0} Full"), (ItemKind.Scoop, "Scoop Grenade {0}") };
         var handModels = handItems.Select(i => (i.kind, Flavor.None, i.category, i.name, i.grip)).ToList();
         foreach (var item in flavoredItems)
@@ -1290,6 +1622,7 @@ public static class ZombieTruckSceneBuilder
         {
             (ItemKind.MilkCrate, Flavor.None, "Milk Crate"), (ItemKind.SugarSack, Flavor.None, "Sugar Sack"), (ItemKind.CocoaBag, Flavor.None, "Cocoa Bag"),
             (ItemKind.StrawberryBasket, Flavor.None, "Strawberry Basket"), (ItemKind.MintBundle, Flavor.None, "Mint Bundle"),
+            (ItemKind.CoffeeSack, Flavor.None, "Coffee Sack"), (ItemKind.NutBag, Flavor.None, "Nut Bag"),
         };
         for (int f = 0; f < Flavors.Length; f++) bulky.Add((ItemKind.Tub, (Flavor)(f + 1), $"Flavor Tub {Flavors[f]}"));
         foreach (var item in bulky)
@@ -1313,78 +1646,245 @@ public static class ZombieTruckSceneBuilder
             models.GetArrayElementAtIndex(i).FindPropertyRelative("Kind").enumValueIndex = (int)held[i].kind;
             models.GetArrayElementAtIndex(i).FindPropertyRelative("Flavor").enumValueIndex = (int)held[i].flavor;
             models.GetArrayElementAtIndex(i).FindPropertyRelative("Model").objectReferenceValue = held[i].model;
+            // Melee cones tint their scoops to the loaded flavor.
+            var scoops = held[i].model.GetComponentsInChildren<Renderer>(true).Where(r => r.name.Contains(" scoop")).ToArray();
+            var scoopList = models.GetArrayElementAtIndex(i).FindPropertyRelative("Scoops");
+            scoopList.arraySize = Inventory.Gun(held[i].kind).Melee ? scoops.Length : 0;
+            for (int r = 0; r < scoopList.arraySize; r++) scoopList.GetArrayElementAtIndex(r).objectReferenceValue = scoops[r];
         }
         serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 
+    static readonly Color HudYellow = new Color(1f, 0.88f, 0.29f);
+    static readonly Color HudMint = new Color(0.22f, 0.95f, 0.76f);
+    static readonly Color HudLavender = new Color(0.71f, 0.55f, 1f);
+
+    // Pixel size of the HUD frames and banner on the reference canvas: each sprite pixel covers this many canvas units.
+    const float HudFrameScale = 2f;
+
+    // Candy PS1 HUD on a 1280 x 720 reference canvas. Frames are nine-slice pixel sprites drawn at HudFrameScale, item
+    // icons are renders of the real models (Art/Tools/zombie-styles/hud_icons.py), text uses the Press Start 2P (numbers,
+    // titles) and Pixelify Sans (prompts) pixel fonts.
     static GameHud BuildHud(SurvivorInput input, Camera display)
     {
         var canvas = Canvas("HUD", 10, display, 0.5f);
-        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        var root = canvas.transform;
+        var title = PixelFont("PressStart2P-Regular");
+        var body = PixelFont("PixelifySans-SemiBold");
         var splats = new Object[6];
         for (int i = 0; i < splats.Length; i++)
         {
-            var splat = HudImage(canvas.transform, $"Screen Splat {i + 1}", $"screen_splat_{i % 4 + 1}", new Vector2(0.5f, 0.5f), new Vector2(300, 300));
+            var splat = HudImage(root, $"Screen Splat {i + 1}", $"screen_splat_{i % 4 + 1}", new Vector2(0.5f, 0.5f), new Vector2(300, 300));
             splat.color = Color.clear;
             splats[i] = splat;
         }
-        var vignette = HudImage(canvas.transform, "Low Health Vignette", "vignette", new Vector2(0.5f, 0.5f), Vector2.zero);
+        var vignette = HudImage(root, "Low Health Vignette", "vignette", new Vector2(0.5f, 0.5f), Vector2.zero);
         Stretch(vignette.rectTransform);
         vignette.color = Color.clear;
         var hurt = new GameObject("Hurt Flash", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-        hurt.transform.SetParent(canvas.transform, false);
+        hurt.transform.SetParent(root, false);
         Stretch(hurt.rectTransform);
         hurt.color = Color.clear;
         hurt.raycastTarget = false;
-        var hitMarker = HudImage(canvas.transform, "Hit Marker", "hitmarker", new Vector2(0.5f, 0.5f), new Vector2(40, 40));
+        HudImage(root, "Crosshair", "HUD/crosshair", new Vector2(0.5f, 0.5f), new Vector2(32, 32));
+        var hitMarker = HudImage(root, "Hit Marker", "hitmarker", new Vector2(0.5f, 0.5f), new Vector2(40, 40));
         hitMarker.color = Color.clear;
-        var money = HudText(canvas.transform, "Money", font, new Vector2(0, 1), new Vector2(24, -18), TextAnchor.UpperLeft, 34, new Color(1f, 0.88f, 0.29f));
-        var kills = HudText(canvas.transform, "Kills", font, new Vector2(0, 1), new Vector2(24, -60), TextAnchor.UpperLeft, 22, Color.white);
-        var area = HudText(canvas.transform, "Area", font, new Vector2(1, 1), new Vector2(-24, -18), TextAnchor.UpperRight, 26, new Color(0.7f, 0.55f, 1f));
-        var speed = HudText(canvas.transform, "Speed", font, new Vector2(1, 0), new Vector2(-24, 120), TextAnchor.LowerRight, 28, new Color(0.22f, 0.95f, 0.76f));
-        var ammo = HudText(canvas.transform, "Ammo", font, new Vector2(1, 0), new Vector2(-24, 84), TextAnchor.LowerRight, 26, Color.white);
-        var carried = HudText(canvas.transform, "Carried", font, new Vector2(0.5f, 0), new Vector2(0, 150), TextAnchor.LowerCenter, 20, new Color(1f, 0.88f, 0.29f));
-        var prompt = HudText(canvas.transform, "Prompt", font, new Vector2(0.5f, 0.5f), new Vector2(0, -70), TextAnchor.UpperCenter, 20, Color.white);
-        var phase = HudText(canvas.transform, "Phase", font, new Vector2(0.5f, 1), new Vector2(0, -70), TextAnchor.UpperCenter, 28, new Color(1f, 0.31f, 0.64f));
-        HudText(canvas.transform, "Crosshair", font, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 26, Color.white).text = "+";
-        HudText(canvas.transform, "Controls", font, new Vector2(0, 0), new Vector2(24, 18), TextAnchor.LowerLeft, 14, new Color(1, 1, 1, 0.6f)).text =
-            "WASD move  SHIFT sprint  SPACE jump  CLICK use/shoot  R reload  E interact  Q drop (hold to throw)  1-6 / wheel hotbar";
 
-        var healthBack = new GameObject("Health", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-        healthBack.transform.SetParent(canvas.transform, false);
-        healthBack.rectTransform.anchorMin = healthBack.rectTransform.anchorMax = healthBack.rectTransform.pivot = new Vector2(0, 0);
-        healthBack.rectTransform.anchoredPosition = new Vector2(24, 50);
-        healthBack.rectTransform.sizeDelta = new Vector2(260, 18);
-        healthBack.color = new Color(0.1f, 0.06f, 0.2f, 0.8f);
-        var fill = new GameObject("Fill", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-        fill.transform.SetParent(healthBack.transform, false);
-        Stretch(fill.rectTransform);
-        fill.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
-        fill.type = Image.Type.Filled;
-        fill.fillMethod = Image.FillMethod.Horizontal;
-        fill.color = new Color(1f, 0.31f, 0.64f);
+        // Top left: money and kills. Top right: area and speed.
+        var moneyPanel = Panel(root, "Money", "panel", new Vector2(0, 1), new Vector2(16, -16), new Vector2(212, 60));
+        Icon(moneyPanel, "Coin Icon", "Icons/Coin", new Vector2(34, 0), 48);
+        var money = PanelText(moneyPanel, "Money Text", title, 22, HudYellow, 66, TextAnchor.MiddleLeft);
+        var killsPanel = Panel(root, "Kills", "panel", new Vector2(0, 1), new Vector2(16, -84), new Vector2(150, 50));
+        Icon(killsPanel, "Skull Icon", "HUD/skull", new Vector2(26, 0), 32);
+        var kills = PanelText(killsPanel, "Kills Text", title, 16, Color.white, 50, TextAnchor.MiddleLeft);
+        var areaPanel = Panel(root, "Area", "panel_mint", new Vector2(1, 1), new Vector2(-16, -16), new Vector2(196, 60));
+        Icon(areaPanel, "Cone Icon", "HUD/cone", new Vector2(30, 0), 36);
+        var area = PanelText(areaPanel, "Area Text", title, 18, HudMint, 56, TextAnchor.MiddleLeft);
+        var speedPanel = Panel(root, "Speed", "panel_mint", new Vector2(1, 1), new Vector2(-16, -84), new Vector2(196, 50));
+        Icon(speedPanel, "Speed Icon", "HUD/speed", new Vector2(28, 0), 32);
+        var speed = PanelText(speedPanel, "Speed Text", title, 14, Color.white, 56, TextAnchor.MiddleLeft);
+        // The fuel gauge: a tub of the flavor in the tank and a bar tinted to it.
+        var fuelPanel = Panel(root, "Fuel", "panel_mint", new Vector2(1, 1), new Vector2(-16, -142), new Vector2(196, 50));
+        var fuelIcon = Icon(fuelPanel, "Tub Icon", "Icons/TubVanilla", new Vector2(28, 0), 38);
+        var fuelTrough = Panel(fuelPanel, "Bar", "bar_back", new Vector2(0, 0.5f), new Vector2(54, 0), new Vector2(84, 22));
+        var fuelFill = HudImage(fuelTrough, "Fill", "HUD/bar_fill", new Vector2(0.5f, 0.5f), Vector2.zero);
+        Stretch(fuelFill.rectTransform);
+        fuelFill.rectTransform.offsetMin = new Vector2(4, 4);
+        fuelFill.rectTransform.offsetMax = new Vector2(-4, -4);
+        fuelFill.type = Image.Type.Filled;
+        fuelFill.fillMethod = Image.FillMethod.Horizontal;
+        var fuel = PanelText(fuelPanel, "Fuel Text", title, 12, Color.white, 144, TextAnchor.MiddleLeft);
 
-        var slotTexts = new Object[6];
-        var slotFrames = new Object[6];
+        // Phase banner across the top.
+        // One band of the 24 px tall frosting sprite.
+        var banner = HudImage(root, "Phase Banner", "HUD/banner", new Vector2(0.5f, 1), new Vector2(780, 24 * HudFrameScale));
+        banner.rectTransform.anchoredPosition = new Vector2(0, -14);
+        banner.type = Image.Type.Tiled;
+        banner.pixelsPerUnitMultiplier = 1 / HudFrameScale;
+        var phase = HudText(banner.transform, "Phase Text", body, new Vector2(0.5f, 1), new Vector2(0, -6), TextAnchor.UpperCenter, 24, Color.white);
+        phase.rectTransform.sizeDelta = new Vector2(760, 40);
+
+        // Interaction prompt under the crosshair; the panel grows to fit the text.
+        var promptPanel = Panel(root, "Prompt", "panel", new Vector2(0.5f, 0.5f), new Vector2(0, -44), Vector2.zero);
+        promptPanel.pivot = new Vector2(0.5f, 1);
+        var layout = promptPanel.gameObject.AddComponent<VerticalLayoutGroup>();
+        layout.padding = new RectOffset(20, 20, 12, 12);
+        layout.childControlWidth = layout.childControlHeight = true;
+        var fitter = promptPanel.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.horizontalFit = fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        var prompt = HudText(promptPanel, "Prompt Text", body, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 20, Color.white);
+        prompt.horizontalOverflow = HorizontalWrapMode.Overflow;
+        prompt.lineSpacing = 1.15f;
+
+        // Hotbar: icon, slot number and count per slot, a candy frame around the selected one, its name above.
+        var slotIcons = new Object[6];
+        var slotCounts = new Object[6];
+        var slotSelected = new Object[6];
         for (int i = 0; i < 6; i++)
         {
-            var frame = new GameObject($"Slot {i + 1}", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-            frame.transform.SetParent(canvas.transform, false);
-            frame.rectTransform.anchorMin = frame.rectTransform.anchorMax = frame.rectTransform.pivot = new Vector2(0.5f, 0);
-            frame.rectTransform.anchoredPosition = new Vector2((i - 2.5f) * 128, 20);
-            frame.rectTransform.sizeDelta = new Vector2(120, 64);
-            frame.raycastTarget = false;
-            var text = HudText(frame.transform, "Label", font, new Vector2(0.5f, 0.5f), Vector2.zero, TextAnchor.MiddleCenter, 13, Color.white);
-            text.rectTransform.sizeDelta = new Vector2(116, 60);
-            slotTexts[i] = text;
-            slotFrames[i] = frame;
+            var slot = Panel(root, $"Slot {i + 1}", "slot", new Vector2(0.5f, 0), new Vector2((i - 2.5f) * 82, 16), new Vector2(74, 74));
+            var selected = Panel(slot, "Selected", "slot_selected", new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero);
+            selected.anchorMin = Vector2.zero;
+            selected.anchorMax = Vector2.one;
+            selected.offsetMin = new Vector2(-6, -6);
+            selected.offsetMax = new Vector2(6, 6);
+            var icon = Icon(slot, "Icon", "Icons/ScoopPistol", Vector2.zero, 62);
+            icon.rectTransform.anchorMin = icon.rectTransform.anchorMax = icon.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            icon.rectTransform.anchoredPosition = new Vector2(0, 2);
+            var key = HudText(slot, "Key", title, new Vector2(0, 1), new Vector2(7, -7), TextAnchor.UpperLeft, 10, Color.white);
+            key.rectTransform.sizeDelta = new Vector2(30, 20);
+            key.text = (i + 1).ToString();
+            var count = HudText(slot, "Count", title, new Vector2(1, 0), new Vector2(-6, 6), TextAnchor.LowerRight, 12, Color.white);
+            count.rectTransform.sizeDelta = new Vector2(70, 20);
+            slotIcons[i] = icon;
+            slotCounts[i] = count;
+            slotSelected[i] = selected.gameObject;
         }
+        var selectedName = HudText(root, "Selected Name", body, new Vector2(0.5f, 0), new Vector2(0, 100), TextAnchor.LowerCenter, 22, Color.white);
+
+
+        // Bottom left: health, and the controls panel above it. Bottom right: ammo.
+        var healthPanel = Panel(root, "Health", "panel", new Vector2(0, 0), new Vector2(16, 16), new Vector2(312, 60));
+        Icon(healthPanel, "Heart Icon", "HUD/heart", new Vector2(30, 0), 36);
+        var trough = Panel(healthPanel, "Bar", "bar_back", new Vector2(0, 0.5f), new Vector2(56, 0), new Vector2(186, 26));
+        var fill = HudImage(trough, "Fill", "HUD/bar_fill", new Vector2(0.5f, 0.5f), Vector2.zero);
+        Stretch(fill.rectTransform);
+        fill.rectTransform.offsetMin = new Vector2(4, 4);
+        fill.rectTransform.offsetMax = new Vector2(-4, -4);
+        fill.type = Image.Type.Filled;
+        fill.fillMethod = Image.FillMethod.Horizontal;
+        var healthText = PanelText(healthPanel, "Health Text", title, 14, Color.white, 250, TextAnchor.MiddleLeft);
+
+        var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 82), TextAnchor.LowerLeft, 16, HudLavender);
+        help.text = "<color=#ffe14a>F1</color> controls";
+        var controls = Panel(root, "Controls", "panel", new Vector2(0, 0), new Vector2(16, 108), new Vector2(312, 258));
+        var controlsText = PanelText(controls, "Text", body, 17, Color.white, 20, TextAnchor.UpperLeft);
+        controlsText.rectTransform.offsetMax = new Vector2(-12, -12);
+        controlsText.lineSpacing = 1.1f;
+        controlsText.text = "CONTROLS\n" + string.Join("\n", new[]
+        {
+            ("WASD", "move"), ("SHIFT", "sprint"), ("C", "crouch"), ("SPACE", "jump"), ("CLICK", "use / shoot"), ("R", "reload"),
+            ("E", "interact"), ("Q", "drop  (hold to throw)"), ("1-6 / WHEEL", "hotbar"), ("F1", "hide this"),
+        }.Select(c => $"<color=#ffe14a>{c.Item1}</color>  {c.Item2}"));
+
+        var ammoPanel = Panel(root, "Ammo", "panel_mint", new Vector2(1, 0), new Vector2(-16, 16), new Vector2(232, 76));
+        var ammoIcon = Icon(ammoPanel, "Icon", "Icons/ScoopVanilla", new Vector2(40, 0), 58);
+        var ammo = PanelText(ammoPanel, "Count", title, 26, Color.white, 82, TextAnchor.UpperLeft);
+        ammo.rectTransform.offsetMax = new Vector2(-8, -12);
+        var ammoLabel = PanelText(ammoPanel, "Label", body, 17, HudMint, 82, TextAnchor.LowerLeft);
+        ammoLabel.rectTransform.offsetMin = new Vector2(82, 10);
+
         var hud = canvas.gameObject.AddComponent<GameHud>();
         Set(hud,
-            ("input", input), ("moneyText", money), ("killsText", kills), ("speedText", speed), ("areaText", area), ("ammoText", ammo),
-            ("carriedText", carried), ("promptText", prompt), ("phaseText", phase), ("healthFill", fill), ("hurtFlash", hurt),
-            ("slotTexts", slotTexts), ("slotFrames", slotFrames), ("hitMarker", hitMarker), ("screenSplats", splats), ("vignette", vignette));
+            ("input", input), ("minigunIcon", HudSprite("Icons/Minigun")), ("moneyText", money), ("killsText", kills), ("speedText", speed),
+            ("areaText", area), ("fuelIcon", fuelIcon), ("fuelFill", fuelFill), ("fuelText", fuel), ("ammoPanel", ammoPanel.gameObject), ("ammoIcon", ammoIcon), ("ammoText", ammo), ("ammoLabel", ammoLabel),
+            ("promptPanel", promptPanel.gameObject), ("promptText", prompt), ("phaseBanner", banner.gameObject), ("phaseText", phase),
+            ("controlsPanel", controls.gameObject), ("healthFill", fill), ("healthText", healthText), ("hurtFlash", hurt),
+            ("slotIcons", slotIcons), ("slotCounts", slotCounts), ("slotSelected", slotSelected), ("selectedName", selectedName),
+            ("hitMarker", hitMarker), ("screenSplats", splats), ("vignette", vignette));
+        var icons = new List<(ItemKind kind, Flavor flavor, string sprite)>
+        {
+            (ItemKind.ScoopPistol, Flavor.None, "ScoopPistol"), (ItemKind.SundaeShotgun, Flavor.None, "SundaeShotgun"),
+            (ItemKind.SprinkleSMG, Flavor.None, "SprinkleSMG"), (ItemKind.LongSpoon, Flavor.None, "LongSpoon"),
+            (ItemKind.ConeLauncher, Flavor.None, "ConeLauncher"), (ItemKind.BananaHarpoon, Flavor.None, "BananaHarpoon"),
+            (ItemKind.SprinkleJar, Flavor.None, "SprinkleJar"),
+            (ItemKind.SecondScoop, Flavor.None, "SecondScoop"), (ItemKind.MilkCrate, Flavor.None, "MilkCrate"),
+            (ItemKind.SugarSack, Flavor.None, "SugarSack"), (ItemKind.CocoaBag, Flavor.None, "CocoaBag"),
+            (ItemKind.StrawberryBasket, Flavor.None, "StrawberryBasket"), (ItemKind.MintBundle, Flavor.None, "MintBundle"),
+            (ItemKind.SoftServeHose, Flavor.None, "SoftServeHose"), (ItemKind.SundaeBazooka, Flavor.None, "SundaeBazooka"),
+            (ItemKind.JackpotBlaster, Flavor.None, "JackpotBlaster"), (ItemKind.PlainCone, Flavor.None, "PlainCone"),
+            (ItemKind.WaffleCone, Flavor.None, "WaffleCone"), (ItemKind.DoubleDip, Flavor.None, "DoubleDip"),
+            (ItemKind.CoffeeSack, Flavor.None, "CoffeeSack"), (ItemKind.NutBag, Flavor.None, "NutBag"),
+        };
+        for (int f = 0; f < Flavors.Length; f++)
+        {
+            var flavor = Flavors[f].Replace(" ", "");
+            icons.Add((ItemKind.Pint, (Flavor)(f + 1), $"Pint{flavor}"));
+            icons.Add((ItemKind.Scoop, (Flavor)(f + 1), $"Scoop{flavor}"));
+            icons.Add((ItemKind.Tub, (Flavor)(f + 1), $"Tub{flavor}"));
+        }
+        var serialized = new SerializedObject(hud);
+        var list = serialized.FindProperty("icons");
+        list.arraySize = icons.Count;
+        for (int i = 0; i < icons.Count; i++)
+        {
+            var entry = list.GetArrayElementAtIndex(i);
+            entry.FindPropertyRelative("Kind").enumValueIndex = (int)icons[i].kind;
+            entry.FindPropertyRelative("Flavor").enumValueIndex = (int)icons[i].flavor;
+            entry.FindPropertyRelative("Sprite").objectReferenceValue = HudSprite($"Icons/{icons[i].sprite}");
+        }
+        serialized.ApplyModifiedPropertiesWithoutUndo();
         return hud;
+    }
+
+    // Nine-slice HUD frame from Sprites/HUD, drawn at HudFrameScale.
+    static RectTransform Panel(Transform parent, string name, string sprite, Vector2 anchor, Vector2 position, Vector2 size)
+    {
+        var image = HudImage(parent, name, $"HUD/{sprite}", anchor, size);
+        image.rectTransform.anchoredPosition = position;
+        image.type = Image.Type.Sliced;
+        image.pixelsPerUnitMultiplier = 1 / HudFrameScale;
+        return image.rectTransform;
+    }
+
+    // Square icon centered vertically at x from the parent's left edge.
+    static Image Icon(Transform parent, string name, string sprite, Vector2 position, float size)
+    {
+        var image = HudImage(parent, name, sprite, new Vector2(0, 0.5f), new Vector2(size, size));
+        image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        image.rectTransform.anchoredPosition = position;
+        image.preserveAspect = true;
+        return image;
+    }
+
+    // Text filling the parent panel from left (px) to the right edge.
+    static Text PanelText(Transform parent, string name, Font font, int size, Color color, float left, TextAnchor alignment)
+    {
+        var text = HudText(parent, name, font, new Vector2(0.5f, 0.5f), Vector2.zero, alignment, size, color);
+        Stretch(text.rectTransform);
+        text.rectTransform.offsetMin = new Vector2(left, 6);
+        text.rectTransform.offsetMax = new Vector2(-10, -6);
+        return text;
+    }
+
+    static Sprite HudSprite(string name)
+    {
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{Sprites}/{name}.png");
+        if (sprite == null) throw new FileNotFoundException($"Missing HUD sprite {Sprites}/{name}.png; run hud_sprites.py / hud_icons.py");
+        return sprite;
+    }
+
+    // Pixel fonts render hinted at their exact pixel size so they stay crisp at any HUD scale.
+    static Font PixelFont(string name)
+    {
+        var path = $"{Fonts}/{name}.ttf";
+        var importer = (TrueTypeFontImporter)AssetImporter.GetAtPath(path);
+        if (importer.fontRenderingMode != FontRenderingMode.HintedRaster)
+        {
+            importer.fontRenderingMode = FontRenderingMode.HintedRaster;
+            importer.SaveAndReimport();
+        }
+        return AssetDatabase.LoadAssetAtPath<Font>(path);
     }
 
     static Image HudImage(Transform parent, string name, string sprite, Vector2 anchor, Vector2 size)
@@ -1393,7 +1893,7 @@ public static class ZombieTruckSceneBuilder
         image.transform.SetParent(parent, false);
         image.rectTransform.anchorMin = image.rectTransform.anchorMax = image.rectTransform.pivot = anchor;
         image.rectTransform.sizeDelta = size;
-        image.sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{Sprites}/{sprite}.png");
+        image.sprite = HudSprite(sprite);
         image.raycastTarget = false;
         return image;
     }
@@ -1544,12 +2044,12 @@ public static class ZombieTruckSceneBuilder
         go.transform.localPosition = position;
         var mesh = go.AddComponent<TextMesh>();
         mesh.text = text;
-        mesh.characterSize = size;
+        // Press Start 2P runs twice as wide as a proportional font, so its glyphs are drawn at half size.
+        mesh.characterSize = size * 0.5f;
         mesh.fontSize = 48;
         mesh.anchor = TextAnchor.MiddleCenter;
         mesh.alignment = TextAlignment.Center;
-        mesh.fontStyle = FontStyle.Bold;
-        mesh.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        mesh.font = PixelFont("PressStart2P-Regular");
         go.GetComponent<MeshRenderer>().sharedMaterial = mesh.font.material;
         return mesh;
     }
@@ -1586,7 +2086,6 @@ public static class ZombieTruckSceneBuilder
         var text = rect.GetComponent<Text>();
         text.font = font;
         text.fontSize = size;
-        text.fontStyle = FontStyle.Bold;
         text.alignment = alignment;
         text.color = color;
         text.raycastTarget = false;

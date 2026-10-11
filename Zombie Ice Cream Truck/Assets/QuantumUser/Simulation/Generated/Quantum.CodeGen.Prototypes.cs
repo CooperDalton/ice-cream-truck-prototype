@@ -97,6 +97,7 @@ namespace Quantum.Prototypes {
     public Button Drop;
     public Button Reload;
     public Button Sprint;
+    public Button Crouch;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
         result.Move = this.Move;
@@ -111,6 +112,7 @@ namespace Quantum.Prototypes {
         result.Drop = this.Drop;
         result.Reload = this.Reload;
         result.Sprint = this.Sprint;
+        result.Crouch = this.Crouch;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -170,6 +172,8 @@ namespace Quantum.Prototypes {
     public PlayerRef Owner;
     public FP Age;
     public FP Radius;
+    public Int32 Damage;
+    public QBoolean Rocket;
     partial void MaterializeUser(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Projectile component = default;
@@ -182,6 +186,8 @@ namespace Quantum.Prototypes {
         result.Owner = this.Owner;
         result.Age = this.Age;
         result.Radius = this.Radius;
+        result.Damage = this.Damage;
+        result.Rocket = this.Rocket;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -190,6 +196,7 @@ namespace Quantum.Prototypes {
   public unsafe partial class RoadChunkPrototype : ComponentPrototype<Quantum.RoadChunk> {
     public Int32 Index;
     public Quantum.QEnum8<ChunkKind> Kind;
+    public QBoolean Triggered;
     partial void MaterializeUser(Frame frame, ref Quantum.RoadChunk result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.RoadChunk component = default;
@@ -199,6 +206,26 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.RoadChunk result, in PrototypeMaterializationContext context = default) {
         result.Index = this.Index;
         result.Kind = this.Kind;
+        result.Triggered = this.Triggered;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Scenery))]
+  public unsafe partial class SceneryPrototype : ComponentPrototype<Quantum.Scenery> {
+    public Int32 CellX;
+    public Int32 CellY;
+    public Int32 Block;
+    partial void MaterializeUser(Frame frame, ref Quantum.Scenery result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Scenery component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Scenery result, in PrototypeMaterializationContext context = default) {
+        result.CellX = this.CellX;
+        result.CellY = this.CellY;
+        result.Block = this.Block;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -215,6 +242,7 @@ namespace Quantum.Prototypes {
     public Quantum.QEnum8<UpgradeKind> Upgrade;
     public Int32 Price;
     public Int32 Index;
+    public FP Timer;
     partial void MaterializeUser(Frame frame, ref Quantum.Station result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Station component = default;
@@ -233,6 +261,7 @@ namespace Quantum.Prototypes {
         result.Upgrade = this.Upgrade;
         result.Price = this.Price;
         result.Index = this.Index;
+        result.Timer = this.Timer;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -242,13 +271,14 @@ namespace Quantum.Prototypes {
     [ArrayLengthAttribute(6)]
     public Quantum.Prototypes.ItemPrototype[] Hotbar = new Quantum.Prototypes.ItemPrototype[6];
     public Int32 Selected;
-    public Quantum.Prototypes.ItemPrototype Carried;
     public FP Health;
     public QBoolean Dead;
     public FP YawOffset;
     public FP Pitch;
     public MapEntityId Standing;
     public QBoolean Driving;
+    public QBoolean Climbing;
+    public QBoolean Crouching;
     public Int32 TurretSeat;
     public FP FireCooldown;
     public FP DropHeld;
@@ -265,13 +295,14 @@ namespace Quantum.Prototypes {
           this.Hotbar[i].Materialize(frame, ref *result.Hotbar.GetPointer(i), in context);
         }
         result.Selected = this.Selected;
-        this.Carried.Materialize(frame, ref result.Carried, in context);
         result.Health = this.Health;
         result.Dead = this.Dead;
         result.YawOffset = this.YawOffset;
         result.Pitch = this.Pitch;
         PrototypeValidator.FindMapEntity(this.Standing, in context, out result.Standing);
         result.Driving = this.Driving;
+        result.Climbing = this.Climbing;
+        result.Crouching = this.Crouching;
         result.TurretSeat = this.TurretSeat;
         result.FireCooldown = this.FireCooldown;
         result.DropHeld = this.DropHeld;
@@ -296,6 +327,10 @@ namespace Quantum.Prototypes {
     public QBoolean SecondTurret;
     public QBoolean BigHopper;
     public QBoolean Engine;
+    public QBoolean BigTank;
+    public FP Fuel;
+    public Quantum.QEnum8<Flavor> FuelFlavor;
+    public QBoolean MusicOff;
     partial void MaterializeUser(Frame frame, ref Quantum.Truck result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Truck component = default;
@@ -316,6 +351,10 @@ namespace Quantum.Prototypes {
         result.SecondTurret = this.SecondTurret;
         result.BigHopper = this.BigHopper;
         result.Engine = this.Engine;
+        result.BigTank = this.BigTank;
+        result.Fuel = this.Fuel;
+        result.FuelFlavor = this.FuelFlavor;
+        result.MusicOff = this.MusicOff;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -329,6 +368,7 @@ namespace Quantum.Prototypes {
     public FP FrozenTimer;
     public FP AttackCooldown;
     public FPVector3 Velocity;
+    public FPVector3 Wander;
     partial void MaterializeUser(Frame frame, ref Quantum.Zombie result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Zombie component = default;
@@ -343,6 +383,7 @@ namespace Quantum.Prototypes {
         result.FrozenTimer = this.FrozenTimer;
         result.AttackCooldown = this.AttackCooldown;
         result.Velocity = this.Velocity;
+        result.Wander = this.Wander;
         MaterializeUser(frame, ref result, in context);
     }
   }

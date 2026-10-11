@@ -1,12 +1,15 @@
 using UnityEngine;
 
 // Procedural walk for the pivot-rigged PS1 characters: swings the leg pivots (and optionally the arms) in step with how
-// fast the model actually moves over the ground. Purely cosmetic.
+// fast the model actually moves over the ground. Models posed mid-stride (the sprinter) set legOffset to swing about a
+// standing pose instead of the modeled one. Purely cosmetic.
 public class WalkCycle : MonoBehaviour
 {
     [SerializeField] private Transform[] legs;
     [SerializeField] private Transform[] arms;
     [SerializeField] private float legSwing = 28f;
+    [Tooltip("Turns the first leg by this much (the second by minus this) to get from the modeled pose to standing.")]
+    [SerializeField] private float legOffset;
     [SerializeField] private float armSwing = 14f;
     [SerializeField] private float strideLength = 1.1f;
     private Quaternion[] legRest;
@@ -34,7 +37,7 @@ public class WalkCycle : MonoBehaviour
         blend = Mathf.MoveTowards(blend, speed > 0.2f ? 1 : 0, Time.deltaTime * 4);
         phase += speed / strideLength * Mathf.PI * Time.deltaTime;
         var swing = Mathf.Sin(phase) * blend;
-        for (int i = 0; i < legs.Length; i++) legs[i].localRotation = legRest[i] * Quaternion.Euler((i % 2 == 0 ? 1 : -1) * swing * legSwing, 0, 0);
+        for (int i = 0; i < legs.Length; i++) legs[i].localRotation = legRest[i] * Quaternion.Euler((i % 2 == 0 ? 1 : -1) * (legOffset + swing * legSwing), 0, 0);
         for (int i = 0; i < arms.Length; i++) arms[i].localRotation = armRest[i] * Quaternion.Euler((i % 2 == 0 ? -1 : 1) * swing * armSwing, 0, 0);
     }
 }

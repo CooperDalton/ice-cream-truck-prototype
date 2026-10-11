@@ -17,8 +17,9 @@ WHEEL_Y = (-2.65, 2.0)
 ARCH = (1.45, 2.55, ZB, 1.0)         # rear wheel arch hole in the side walls
 TURRET = (0.0, 0.45)
 UPGRADE = dict(plow=(0, -3.35, 0.55), spikes=(0, 0.25, 1.0), armor=(0, 0, 0), turret2=(0.3, 1.95, RT),
-               hopper=(IW - 0.35, -0.6, RT), engine=(0, -2.7, 1.4))
+               hopper=(IW - 0.35, -0.6, RT), engine=(0, -2.7, 1.4), tank=(-(W + 0.22), 0.05, 0.52))
 CREAM = "#fff1c7"; BERRY = "#ff8fc8"; DECK = "#8a7fd0"
+FUEL_INTAKE = (-IW + 0.25, -1.45, FL)  # cab, passenger side (left-hand drive: driver on +X); the station faces +X
 
 
 # ---------------------------------------------------------------- helpers
@@ -506,12 +507,9 @@ def build_freezer(kit, root, tag=""):
     mint = solid(kit, "freezer mint", MINT)
     for y in (-0.305, 0.305):
         tbox(kit, f"freezer rail {y}", (0, y, 0.915), (1.2, 0.04, 0.03), mint, root)
-    for nm, x, z in (("a", -0.3, 0.93), ("b", -0.22, 0.955)):
-        lid = kit.empty(f"freezer lid {nm}", root, (x, 0, z))
-        tbox(kit, f"freezer lid {nm} glass", (0, 0, 0), (0.6, 0.58, 0.012), glass(kit), lid)
-        for sx in (-1, 1):
-            tbox(kit, f"freezer lid {nm} frame {sx}", (sx * 0.285, 0, 0), (0.03, 0.6, 0.022), mint, lid)
-        tbox(kit, f"freezer lid {nm} handle", (0.2, -0.24, 0.02), (0.12, 0.03, 0.02), solid(kit, "handle pink", PINK), lid)
+    # The freezer is open-topped (it had sliding glass lids); their handle material is still made here so the shared
+    # random sequence, and with it every later texture of the truck, stays the same.
+    solid(kit, "handle pink", PINK)
     socket(kit, root, f"socket use point{tag}", (0, -0.75, 0))
     for i, x in enumerate(xs):
         socket(kit, root, f"socket slot {i + 1}{tag}", (x, 0, 0.72))
@@ -775,20 +773,20 @@ def build_ice_cream_truck(kit, root):
     tbox(kit, "dashboard", (0, YF + WT + 0.17, 1.33), (2 * IW, 0.34, 0.36), t_dash, truck, taper=(1.0, 0.75),
          uv={'px': (0, 0, 0.05, 0.1), 'nx': (0, 0, 0.05, 0.1), 'pz': (0, 0.0, 0.05, 0.1)})
     tbox(kit, "dash console", (0, YF + WT + 0.2, (FL + 1.15) / 2), (0.34, 0.4, 1.15 - FL), solid(kit, "console", "#5b4a8a"), truck)
-    tbox(kit, "instruments", (-0.55, -2.03, 1.6), (0.46, 0.1, 0.2), tex_mat("gauges", tex_gauges()), truck, rot=(-25, 0, 0),
+    tbox(kit, "instruments", (0.55, -2.03, 1.6), (0.46, 0.1, 0.2), tex_mat("gauges", tex_gauges()), truck, rot=(-25, 0, 0),
          uv={'px': (0, 0, 0.05, 0.05), 'nx': (0, 0, 0.05, 0.05), 'pz': (0, 0, 0.05, 0.05), 'ny': (0, 0, 0.05, 0.05)})
-    tube(kit, "steering column", [(-0.55, -2.1, 1.2), (-0.55, -1.9, 1.38)], 0.035, ink, truck, sides=6)
-    wheel_piv = kit.empty("steering wheel", truck, (-0.55, -1.88, 1.4), (-35, 0, 0))
+    tube(kit, "steering column", [(0.55, -2.1, 1.2), (0.55, -1.9, 1.38)], 0.035, ink, truck, sides=6)
+    wheel_piv = kit.empty("steering wheel", truck, (0.55, -1.88, 1.4), (-35, 0, 0))
     ring = [(0.2 * math.cos(2 * math.pi * k / 10), 0.2 * math.sin(2 * math.pi * k / 10), 0) for k in range(11)]
     tube(kit, "steering wheel rim", ring, 0.022, pink, wheel_piv, sides=5, side=(0, 0, 1), caps=(False, False))
     for k, a in enumerate((90, 210, 330)):
         tbox(kit, f"steering wheel spoke {k}", (0.09 * math.cos(math.radians(a)), 0.09 * math.sin(math.radians(a)), 0),
              (0.18, 0.03, 0.015), steel, wheel_piv, rot=(0, 0, a))
     tube(kit, "steering wheel hub", [(0, 0, -0.02), (0, 0, 0.03)], 0.05, yel, wheel_piv, sides=8)
-    for nm, x in (("brake", -0.65), ("gas", -0.43)):
+    for nm, x in (("brake", 0.65), ("gas", 0.43)):
         ped = kit.empty(f"pedal {nm}", truck, (x, -2.12, FL + 0.02), (38, 0, 0))
         tbox(kit, f"pedal {nm}", (0, 0, 0.11), (0.08 if nm == "gas" else 0.12, 0.02, 0.2), steel if nm == "gas" else pink, ped)
-    seat = kit.empty("driver seat", truck, (-0.55, -1.4, FL))
+    seat = kit.empty("driver seat", truck, (0.55, -1.4, FL))
     t_seat = tex_mat("seat", tex_seat())
     tube(kit, "seat pedestal", [(0, 0, 0), (0, 0, 0.33)], 0.08, ink, seat, sides=6)
     tbox(kit, "seat cushion", (0, 0, 0.4), (0.56, 0.52, 0.14), t_seat, seat)
@@ -796,7 +794,7 @@ def build_ice_cream_truck(kit, root):
     tbox(kit, "seat headrest", (0, 0.31, 1.27), (0.32, 0.1, 0.18), t_seat, seat, rot=(-10, 0, 0))
     tube(kit, "gear stick", [(0.02, -1.95, 1.15), (0.0, -1.85, 1.42)], 0.015, steel, truck, sides=4)
     lowball(kit, "gear knob", (0.0, -1.85, 1.44), (0.04, 0.04, 0.04), solid(kit, "knob cherry", RED, 0.6), truck)
-    socket(kit, truck, "socket seat", (-0.55, -1.4, FL + 0.47))
+    socket(kit, truck, "socket seat", (0.55, -1.4, FL + 0.47))
 
     # ---- kitchen stations
     def station(fn, nm, loc, rz):
@@ -859,6 +857,8 @@ def build_ice_cream_truck(kit, root):
     socket(kit, truck, "socket rear door", (0, YR - WT / 2, FL), (0, 0, 180))
     for nm, p in UPGRADE.items():
         socket(kit, truck, f"socket upgrade {nm}", p)
+    # ---- fuel intake in the cab, passenger side (+X) between the dashboard and the bulkhead; built last on purpose
+    station(build_fuel_intake, "fuel intake", FUEL_INTAKE, 90)
     return dict(roof=roof, side=side, plow=plow, hopper=hop)
 
 
@@ -971,6 +971,137 @@ def build_engine(kit, root):
     tube(kit, "blower pulley", [(0, 0, 0), (0, -0.04, 0)], 0.08, solid(kit, "pulley yellow", YEL), pul, sides=8, side=(1, 0, 0))
 
 
+# ---------------------------------------------------------------- fuel intake (the truck runs on ice cream) and tank
+FUEL_GLYPHS = dict(FONT, **{':': ("...", ".#.", "...", ".#.", "...")})
+
+
+def fixed_mat(kit, name, col, emit=0.32, shade=None):
+    """solid() look-alike that never touches kit.rand, so adding it to the truck leaves older textures unchanged."""
+    cache = kit.__dict__.setdefault("_hmats", {})
+    key = ("fixed", name, col, emit)
+    if key not in cache:
+        cv = Canvas(8, 8, col)
+        cv.speckle(random.Random(name), [shade or hex_scale(col, 0.86)], 9)
+        cache[key] = tex_mat(name, cv, emit)
+    return cache[key]
+
+
+def fuel_text(c, s, cx, y, col):
+    x = cx - text_w(s) // 2
+    for ch in s:
+        for r, row in enumerate(FUEL_GLYPHS.get(ch, ())):
+            for q, b in enumerate(row):
+                if b == '#':
+                    c.set(x + q, y - r, col)
+        x += 4
+
+
+def tex_fuel_sign():
+    c = Canvas(64, 16, RED)
+    c.rect(0, 0, 63, 0, DRED); c.rect(0, 15, 63, 15, DRED); c.rect(0, 0, 0, 15, DRED); c.rect(63, 0, 63, 15, DRED)
+    fuel_text(c, "FUEL:", 32, 13, YEL)
+    fuel_text(c, "ICE CREAM ONLY", 32, 6, WHITE)
+    return c
+
+
+def tex_fuel_dial():
+    c = Canvas(32, 32, WHITE)
+    for k in range(13):
+        a = math.radians(160 - k * 140 / 12 + 0)
+        col = RED if k < 3 else YEL if k < 7 else ZG
+        for r in (11, 12):
+            c.set(round(15.5 + r * math.cos(a + math.radians(-50))), round(15.5 + r * math.sin(a + math.radians(-50))), col)
+    for k in range(13):
+        a = math.radians(160 - k * 140 / 12)
+        c.set(round(15.5 + 13 * math.cos(a)), round(15.5 + 13 * math.sin(a)), INK)
+    fuel_text(c, "E", 6, 20, RED)
+    fuel_text(c, "F", 26, 20, "#22a04a")
+    cone_icon(c, 16, 6, 6, PINK)
+    return c
+
+
+def build_fuel_intake(kit, root, tag=""):
+    """Kitchen-style station (front -Y, root on the floor): waffle-cone funnel feeding a chrome pipe into the floor,
+    a fuel gauge whose needle pivot points straight up at rest (rotates about the dial normal) and a warning sign.
+    Uses no kit.rand: it is installed last in the truck and must not shift any older random texture."""
+    chrome = fixed_mat(kit, "intake chrome", STEEL, shade="#ffffff")
+    pink, yel, ink = fixed_mat(kit, "intake pink", PINK), fixed_mat(kit, "intake yellow", YEL), fixed_mat(kit, "intake dark", INK, 0.1)
+    choc = fixed_mat(kit, "intake fudge", CHOC, 0.28, shade="#4e2812")
+    py = 0.04
+    tube(kit, "intake floor flange", [(0, py, 0.0), (0, py, 0.035)], [0.13, 0.11], ink, root, sides=8)
+    tube(kit, "intake pipe", [(0, py, 0.02), (0, py, 0.82)], 0.052, chrome, root, sides=8)
+    tube(kit, "intake pipe band", [(0, py, 0.095), (0, py, 0.145)], 0.06, pink, root, sides=8, caps=(False, False))
+    # waffle cone funnel, chocolate-dipped rim, a puddle of melted ice cream inside
+    tube(kit, "intake funnel", [(0, py, 0.76), (0, py, 0.95), (0, py, 1.16)], [0.05, 0.13, 0.215],
+         tex_mat("intake waffle", tex_waffle(), ext='REPEAT'), root, sides=8, caps=(True, False), v=(0.0, 2.0))
+    tube(kit, "intake funnel rim", [(0, py, 1.12), (0, py, 1.165), (0, py, 1.19)], [0.208, 0.226, 0.222], choc, root, sides=8,
+         caps=(False, False))
+    for k in range(3):
+        a = 2 * math.pi * (k + 0.3) / 3
+        r0, r1 = 0.212, 0.19
+        tube(kit, f"intake fudge drip {k}", [(math.cos(a) * r0, py + math.sin(a) * r0, 1.13),
+                                             (math.cos(a) * r1, py + math.sin(a) * r1, 1.09 - 0.03 * (k % 2))],
+             [0.016, 0.01], choc, root, sides=4, bulge=(0, 0.008))
+    tube(kit, "intake melt", [(0, py, 1.08), (0, py, 1.11), (0, py, 1.13)], [0.18, 0.16, 0.06],
+         tex_mat("intake swirl", tex_swirl(), 0.45, ext='REPEAT'), root, sides=8, caps=(False, True))
+    # tripod legs from the floor up under the cone
+    for k, a in enumerate((215, 325, 90)):
+        ca, sa = math.cos(math.radians(a)), math.sin(math.radians(a))
+        tube(kit, f"intake leg {k}", [(ca * 0.22, py + sa * 0.17, 0.0), (ca * 0.12, py + sa * 0.1, 0.96)], 0.018, pink, root, sides=4)
+    tube(kit, "intake collar", [(0, py, 0.93), (0, py, 0.98)], 0.14, yel, root, sides=8, caps=(False, False))
+    # fuel gauge on a bracket in front of the pipe, dial facing -Y
+    gz, gy = 0.6, -0.085
+    tbox(kit, "intake gauge bracket", (0, (py + gy) / 2, gz), (0.05, py - gy, 0.05), chrome, root)
+    tube(kit, "intake gauge bezel", [(0, gy + 0.03, gz), (0, gy - 0.01, gz)], 0.115, pink, root, sides=10, front=(0, 0, 1))
+    dial(kit, "intake gauge face", root, (0, gy - 0.012, gz), 0.098, tex_mat("fuel dial", tex_fuel_dial()), sides=10)
+    needle = kit.empty("fuel needle", root, (0, gy - 0.018, gz))
+    tbox(kit, "intake needle", (0, 0, 0.04), (0.012, 0.005, 0.09), fixed_mat(kit, "intake needle red", RED, 0.6), needle)
+    tbox(kit, "intake gauge hub", (0, gy - 0.022, gz), (0.022, 0.008, 0.022), yel, root)
+    # warning sign hung on the pipe
+    tbox(kit, "intake sign", (0, py - 0.065, 0.36), (0.34, 0.012, 0.085), tex_mat("fuel sign", tex_fuel_sign()), root,
+         uv={'ny': (0, 0, 1, 1), 'all': (0.0, 0.0, 0.02, 0.02)})
+    tbox(kit, "intake sign strap", (0, py - 0.03, 0.36), (0.12, 0.06, 0.02), chrome, root)
+    socket(kit, root, f"socket use point{tag}", (0, -0.7, 0))
+    socket(kit, root, f"socket load{tag}", (0, py, 1.16))
+
+
+def tex_tank():
+    """64x32 pint-carton wrap for the lying tank: u runs around (u 0.5 faces out), v along the tank."""
+    c = Canvas(64, 32, WHITE)
+    c.rect(0, 0, 63, 2, PINK); c.rect(0, 29, 63, 31, PINK)
+    c.rect(0, 7, 63, 24, MINT); c.rect(0, 7, 63, 7, "#1fbf95"); c.rect(0, 24, 63, 24, "#1fbf95")
+    c.rect(16, 10, 47, 21, WHITE)
+    fuel_text(c, "SUNDAE", 32, 19, PINK)
+    fuel_text(c, "FUEL", 32, 13, "#119a76")
+    for cy in (4, 27):
+        for x in range(2, 64, 6):
+            c.set(x, cy, (YEL, BLUE, PINK, PURP)[(x // 6) % 4])
+    return c
+
+
+def build_sundae_tank(kit, root):
+    """Bolt-on auxiliary tank: a giant pint lying along Y on the -X side, chrome straps, saddle brackets to the chassis
+    and a cherry fill cap. Root = `socket upgrade tank` at the tank's center."""
+    chrome = solid(kit, "chrome", STEEL, shade="#ffffff")
+    pink, ink = solid(kit, "tank pink", PINK), solid(kit, "truck dark", INK, 0.1)
+    L, r = 0.75, 0.22
+    tube(kit, "tank body", [(0, -L, 0), (0, L, 0)], r, tex_mat("tank wrap", tex_tank(), ext='REPEAT'), root, sides=10,
+         front=(-1, 0, 0), caps=(False, False))
+    for s in (-1, 1):
+        tube(kit, f"tank lid {s}", [(0, s * (L - 0.03), 0), (0, s * (L + 0.02), 0), (0, s * (L + 0.035), 0)],
+             [r + 0.016, r + 0.012, r * 0.7], pink, root, sides=10, front=(-1, 0, 0), caps=(False, True))
+        y = s * 0.42
+        tube(kit, f"tank strap {s}", [(0, y - 0.04, 0), (0, y + 0.04, 0)], r + 0.014, chrome, root, sides=10, front=(-1, 0, 0),
+             caps=(False, False))
+        tbox(kit, f"tank saddle {s}", (0.2, y, -0.18), (0.44, 0.12, 0.05), ink, root)
+        tbox(kit, f"tank saddle upright {s}", (0.42, y, -0.09), (0.05, 0.12, 0.2), ink, root)
+        tube(kit, f"tank strap bolt {s}", [(0.12, y, -0.2), (0.12, y, -0.15)], 0.022, chrome, root, sides=6)
+    tube(kit, "tank filler neck", [(-0.04, 0.3, r - 0.02), (-0.04, 0.3, r + 0.05)], 0.05, chrome, root, sides=8)
+    tube(kit, "tank fill cap", [(-0.04, 0.3, r + 0.05), (-0.04, 0.3, r + 0.075)], [0.065, 0.06], pink, root, sides=8)
+    lowball(kit, "tank cap cherry", (-0.04, 0.3, r + 0.1), (0.032, 0.032, 0.03), solid(kit, "cherry", RED, 0.6), root)
+    tube(kit, "tank fuel line", [(0.15, -0.6, -0.12), (0.3, -0.62, -0.17), (0.42, -0.62, -0.17)], 0.018, chrome, root, sides=5)
+
+
 # ---------------------------------------------------------------- scenes
 def ground(kit, root, size=(9, 13)):
     tbox(kit, "ground", (0, 0, -0.03), (size[0], size[1], 0.06), tex_mat("asphalt", tex_asphalt(kit.rand), emit=0.15, ext='REPEAT'),
@@ -1001,7 +1132,7 @@ def scene_upgraded(kit, root):
     hide_tree(parts['plow'])
     hide_tree(parts['hopper'])
     for nm, fn in (("plow", build_plow2), ("spikes", build_spikes), ("armor", build_armor), ("turret2", build_turret2),
-                   ("hopper", build_big_hopper), ("engine", build_engine)):
+                   ("hopper", build_big_hopper), ("engine", build_engine), ("tank", build_sundae_tank)):
         fn(kit, kit.empty(f"upgrade {nm}", t, UPGRADE[nm]))
     for nm, p in (("turret gun", (TURRET[0], TURRET[1], RT + 0.12)), ("turret 2 gun", (UPGRADE['turret2'][0], UPGRADE['turret2'][1], RT + 0.12))):
         build_minigun(kit, kit.empty(nm, t, p, (0, 0, 135 if "2" in nm else -45), (1.2, 1.2, 1.2)))
@@ -1032,6 +1163,8 @@ ASSETS = [
     named("Upgrade Second Turret Mount", build_turret2),
     named("Upgrade Big Hopper", build_big_hopper),
     named("Upgrade Exhaust Stacks", build_engine),
+    named("Fuel Intake", build_fuel_intake),
+    named("Upgrade Sundae Tank", build_sundae_tank),
 ]
 SPACING = 9
 SCENES = [

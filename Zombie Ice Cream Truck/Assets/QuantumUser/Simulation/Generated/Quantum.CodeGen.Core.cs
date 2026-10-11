@@ -60,6 +60,9 @@ namespace Quantum {
     GasStation,
     Garden,
     Wreck,
+    School,
+    Park,
+    Fairground,
     Depot,
   }
   public enum Flavor : byte {
@@ -68,11 +71,15 @@ namespace Quantum {
     Chocolate,
     Strawberry,
     Mint,
+    Coffee,
+    RockyRoad,
+    Neapolitan,
   }
   public enum GamePhase : byte {
     Driving,
     Depot,
     Wiped,
+    Tutorial,
   }
   public enum ItemKind : byte {
     None,
@@ -82,7 +89,12 @@ namespace Quantum {
     LongSpoon,
     ConeLauncher,
     BananaHarpoon,
-    Scooper,
+    SoftServeHose,
+    SundaeBazooka,
+    JackpotBlaster,
+    PlainCone,
+    WaffleCone,
+    DoubleDip,
     Pint,
     Scoop,
     SprinkleJar,
@@ -92,6 +104,8 @@ namespace Quantum {
     CocoaBag,
     StrawberryBasket,
     MintBundle,
+    CoffeeSack,
+    NutBag,
     Tub,
   }
   public enum StationKind : byte {
@@ -105,6 +119,23 @@ namespace Quantum {
     GunCrate,
     Shop,
     DepotExit,
+    FuelIntake,
+    SlotMachine,
+    Shopkeeper,
+    RearDoor,
+    Hatch,
+  }
+  public enum TutorialStep : byte {
+    GrabMilk,
+    MilkIn,
+    GrabSugar,
+    SugarIn,
+    Crank,
+    Freezer,
+    Scoop,
+    Fuel,
+    Fight,
+    Drive,
   }
   public enum UpgradeKind : byte {
     None,
@@ -116,6 +147,7 @@ namespace Quantum {
     BigHopper,
     Engine,
     SecondScoop,
+    BigTank,
   }
   public enum ZombieKind : byte {
     Walker,
@@ -127,6 +159,7 @@ namespace Quantum {
     Climbing,
     OnTruck,
     Dead,
+    Idle,
   }
   [System.FlagsAttribute()]
   public enum InputButtons : int {
@@ -137,6 +170,7 @@ namespace Quantum {
     Drop = 1 << 4,
     Reload = 1 << 5,
     Sprint = 1 << 6,
+    Crouch = 1 << 7,
   }
   public static unsafe partial class FlagsExtensions {
     public static Boolean IsFlagSet(this InputButtons self, InputButtons flag) {
@@ -597,9 +631,9 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Input {
-    public const Int32 SIZE = 136;
+    public const Int32 SIZE = 144;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(120)]
+    [FieldOffset(128)]
     public FPVector2 Move;
     [FieldOffset(24)]
     public FP Yaw;
@@ -609,20 +643,22 @@ namespace Quantum {
     public FP Gesture;
     [FieldOffset(0)]
     public Byte Slot;
-    [FieldOffset(80)]
+    [FieldOffset(92)]
     public Button Jump;
-    [FieldOffset(56)]
+    [FieldOffset(68)]
     public Button Fire;
     [FieldOffset(32)]
     public Button Aim;
-    [FieldOffset(68)]
+    [FieldOffset(80)]
     public Button Interact;
-    [FieldOffset(44)]
+    [FieldOffset(56)]
     public Button Drop;
-    [FieldOffset(92)]
-    public Button Reload;
     [FieldOffset(104)]
+    public Button Reload;
+    [FieldOffset(116)]
     public Button Sprint;
+    [FieldOffset(44)]
+    public Button Crouch;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
@@ -638,6 +674,7 @@ namespace Quantum {
         hash = hash * 31 + Drop.GetHashCode();
         hash = hash * 31 + Reload.GetHashCode();
         hash = hash * 31 + Sprint.GetHashCode();
+        hash = hash * 31 + Crouch.GetHashCode();
         return hash;
       }
     }
@@ -653,6 +690,7 @@ namespace Quantum {
         case InputButtons.Drop: return Drop.IsDown;
         case InputButtons.Reload: return Reload.IsDown;
         case InputButtons.Sprint: return Sprint.IsDown;
+        case InputButtons.Crouch: return Crouch.IsDown;
         default: return false;
       }
     }
@@ -665,6 +703,7 @@ namespace Quantum {
         case InputButtons.Drop: return Drop.WasPressed;
         case InputButtons.Reload: return Reload.WasPressed;
         case InputButtons.Sprint: return Sprint.WasPressed;
+        case InputButtons.Crouch: return Crouch.WasPressed;
         default: return false;
       }
     }
@@ -675,6 +714,7 @@ namespace Quantum {
         FP.Serialize(&p->Pitch, serializer);
         FP.Serialize(&p->Yaw, serializer);
         Button.Serialize(&p->Aim, serializer);
+        Button.Serialize(&p->Crouch, serializer);
         Button.Serialize(&p->Drop, serializer);
         Button.Serialize(&p->Fire, serializer);
         Button.Serialize(&p->Interact, serializer);
@@ -712,7 +752,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct _globals_ {
-    public const Int32 SIZE = 1264;
+    public const Int32 SIZE = 1296;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public AssetRef<Map> Map;
@@ -736,36 +776,40 @@ namespace Quantum {
     public Int32 PlayerConnectedCount;
     [FieldOffset(624)]
     [FramePrinter.FixedArrayAttribute(typeof(Input), 4)]
-    private fixed Byte _input_[544];
-    [FieldOffset(1168)]
-    public BitSet4 PlayerLastConnectionState;
-    [FieldOffset(1176)]
-    public GamePhase Phase;
-    [FieldOffset(1216)]
-    public FP PhaseTimer;
-    [FieldOffset(1180)]
-    public Int32 Area;
-    [FieldOffset(1192)]
-    public Int32 Money;
-    [FieldOffset(1188)]
-    public Int32 Kills;
-    [FieldOffset(1232)]
-    public FP SpawnTimer;
-    [FieldOffset(1196)]
-    public Int32 NextChunk;
+    private fixed Byte _input_[576];
     [FieldOffset(1200)]
-    public Int32 TruckChunk;
-    [FieldOffset(1184)]
-    public Int32 AreaStartChunk;
-    [FieldOffset(1240)]
-    public FPVector3 RoadEnd;
-    [FieldOffset(1224)]
-    public FP RoadHeading;
+    public BitSet4 PlayerLastConnectionState;
     [FieldOffset(1208)]
+    public GamePhase Phase;
+    [FieldOffset(1248)]
+    public FP PhaseTimer;
+    [FieldOffset(1212)]
+    public Int32 Area;
+    [FieldOffset(1224)]
+    public Int32 Money;
+    [FieldOffset(1220)]
+    public Int32 Kills;
+    [FieldOffset(1264)]
+    public FP SpawnTimer;
+    [FieldOffset(1228)]
+    public Int32 NextChunk;
+    [FieldOffset(1232)]
+    public Int32 TruckChunk;
+    [FieldOffset(1216)]
+    public Int32 AreaStartChunk;
+    [FieldOffset(1272)]
+    public FPVector3 RoadEnd;
+    [FieldOffset(1256)]
+    public FP RoadHeading;
+    [FieldOffset(1240)]
     public EntityRef DepotChunk;
+    [FieldOffset(1209)]
+    public TutorialStep Tutorial;
+    [FieldOffset(1236)]
+    public QBoolean TutorialDone;
     public readonly FixedArray<Input> input {
       get {
-        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 136, 4); }
+        fixed (byte* p = _input_) { return new FixedArray<Input>(p, 144, 4); }
       }
     }
     public override readonly Int32 GetHashCode() {
@@ -795,6 +839,8 @@ namespace Quantum {
         hash = hash * 31 + RoadEnd.GetHashCode();
         hash = hash * 31 + RoadHeading.GetHashCode();
         hash = hash * 31 + DepotChunk.GetHashCode();
+        hash = hash * 31 + (Byte)Tutorial;
+        hash = hash * 31 + TutorialDone.GetHashCode();
         return hash;
       }
     }
@@ -813,12 +859,14 @@ namespace Quantum {
         FixedArray.Serialize(p->input, serializer, Statics.SerializeInput);
         Quantum.BitSet4.Serialize(&p->PlayerLastConnectionState, serializer);
         serializer.Stream.Serialize((Byte*)&p->Phase);
+        serializer.Stream.Serialize((Byte*)&p->Tutorial);
         serializer.Stream.Serialize(&p->Area);
         serializer.Stream.Serialize(&p->AreaStartChunk);
         serializer.Stream.Serialize(&p->Kills);
         serializer.Stream.Serialize(&p->Money);
         serializer.Stream.Serialize(&p->NextChunk);
         serializer.Stream.Serialize(&p->TruckChunk);
+        QBoolean.Serialize(&p->TutorialDone, serializer);
         EntityRef.Serialize(&p->DepotChunk, serializer);
         FP.Serialize(&p->PhaseTimer, serializer);
         FP.Serialize(&p->RoadHeading, serializer);
@@ -912,18 +960,22 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Projectile : Quantum.IComponent {
-    public const Int32 SIZE = 48;
+    public const Int32 SIZE = 56;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public Flavor Flavor;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     public FPVector3 Velocity;
-    [FieldOffset(4)]
-    public PlayerRef Owner;
     [FieldOffset(8)]
-    public FP Age;
+    public PlayerRef Owner;
     [FieldOffset(16)]
+    public FP Age;
+    [FieldOffset(24)]
     public FP Radius;
+    [FieldOffset(4)]
+    public Int32 Damage;
+    [FieldOffset(12)]
+    public QBoolean Rocket;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 16141;
@@ -932,13 +984,17 @@ namespace Quantum {
         hash = hash * 31 + Owner.GetHashCode();
         hash = hash * 31 + Age.GetHashCode();
         hash = hash * 31 + Radius.GetHashCode();
+        hash = hash * 31 + Damage.GetHashCode();
+        hash = hash * 31 + Rocket.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Projectile*)ptr;
         serializer.Stream.Serialize((Byte*)&p->Flavor);
+        serializer.Stream.Serialize(&p->Damage);
         PlayerRef.Serialize(&p->Owner, serializer);
+        QBoolean.Serialize(&p->Rocket, serializer);
         FP.Serialize(&p->Age, serializer);
         FP.Serialize(&p->Radius, serializer);
         FPVector3.Serialize(&p->Velocity, serializer);
@@ -946,17 +1002,20 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct RoadChunk : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(4)]
     public Int32 Index;
     [FieldOffset(0)]
     public ChunkKind Kind;
+    [FieldOffset(8)]
+    public QBoolean Triggered;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 11329;
         hash = hash * 31 + Index.GetHashCode();
         hash = hash * 31 + (Byte)Kind;
+        hash = hash * 31 + Triggered.GetHashCode();
         return hash;
       }
     }
@@ -964,15 +1023,42 @@ namespace Quantum {
         var p = (RoadChunk*)ptr;
         serializer.Stream.Serialize((Byte*)&p->Kind);
         serializer.Stream.Serialize(&p->Index);
+        QBoolean.Serialize(&p->Triggered, serializer);
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Scenery : Quantum.IComponent {
+    public const Int32 SIZE = 12;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(4)]
+    public Int32 CellX;
+    [FieldOffset(8)]
+    public Int32 CellY;
+    [FieldOffset(0)]
+    public Int32 Block;
+    public override readonly Int32 GetHashCode() {
+      unchecked { 
+        var hash = 14081;
+        hash = hash * 31 + CellX.GetHashCode();
+        hash = hash * 31 + CellY.GetHashCode();
+        hash = hash * 31 + Block.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Scenery*)ptr;
+        serializer.Stream.Serialize(&p->Block);
+        serializer.Stream.Serialize(&p->CellX);
+        serializer.Stream.Serialize(&p->CellY);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Station : Quantum.IComponent {
-    public const Int32 SIZE = 56;
-    public const Int32 ALIGNMENT = 4;
+    public const Int32 SIZE = 64;
+    public const Int32 ALIGNMENT = 8;
     [FieldOffset(1)]
     public StationKind Kind;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     [FramePrinter.FixedArrayAttribute(typeof(Item), 4)]
     private fixed Byte _Slots_[32];
     [FieldOffset(8)]
@@ -989,6 +1075,8 @@ namespace Quantum {
     public Int32 Price;
     [FieldOffset(4)]
     public Int32 Index;
+    [FieldOffset(24)]
+    public FP Timer;
     public readonly FixedArray<Item> Slots {
       get {
         fixed (byte* p = _Slots_) { return new FixedArray<Item>(p, 8, 4); }
@@ -1006,6 +1094,7 @@ namespace Quantum {
         hash = hash * 31 + (Byte)Upgrade;
         hash = hash * 31 + Price.GetHashCode();
         hash = hash * 31 + Index.GetHashCode();
+        hash = hash * 31 + Timer.GetHashCode();
         return hash;
       }
     }
@@ -1019,6 +1108,7 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->Price);
         serializer.Stream.Serialize(&p->Sugar);
         QBoolean.Serialize(&p->Open, serializer);
+        FP.Serialize(&p->Timer, serializer);
         FixedArray.Serialize(p->Slots, serializer, Statics.SerializeItem);
     }
   }
@@ -1031,31 +1121,33 @@ namespace Quantum {
     private fixed Byte _Hotbar_[48];
     [FieldOffset(0)]
     public Int32 Selected;
-    [FieldOffset(88)]
-    public Item Carried;
-    [FieldOffset(56)]
-    public FP Health;
-    [FieldOffset(8)]
-    public QBoolean Dead;
-    [FieldOffset(80)]
-    public FP YawOffset;
     [FieldOffset(64)]
+    public FP Health;
+    [FieldOffset(16)]
+    public QBoolean Dead;
+    [FieldOffset(88)]
+    public FP YawOffset;
+    [FieldOffset(72)]
     public FP Pitch;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     public EntityRef Standing;
-    [FieldOffset(12)]
+    [FieldOffset(20)]
     public QBoolean Driving;
+    [FieldOffset(8)]
+    public QBoolean Climbing;
+    [FieldOffset(12)]
+    public QBoolean Crouching;
     [FieldOffset(4)]
     public Int32 TurretSeat;
-    [FieldOffset(48)]
+    [FieldOffset(56)]
     public FP FireCooldown;
-    [FieldOffset(40)]
+    [FieldOffset(48)]
     public FP DropHeld;
-    [FieldOffset(72)]
+    [FieldOffset(80)]
     public FP WorkProgress;
-    [FieldOffset(32)]
+    [FieldOffset(40)]
     public EntityRef WorkTarget;
-    [FieldOffset(16)]
+    [FieldOffset(24)]
     public EntityRef LookTarget;
     public readonly FixedArray<Item> Hotbar {
       get {
@@ -1067,13 +1159,14 @@ namespace Quantum {
         var hash = 2543;
         hash = hash * 31 + HashCodeUtils.GetArrayHashCode(Hotbar);
         hash = hash * 31 + Selected.GetHashCode();
-        hash = hash * 31 + Carried.GetHashCode();
         hash = hash * 31 + Health.GetHashCode();
         hash = hash * 31 + Dead.GetHashCode();
         hash = hash * 31 + YawOffset.GetHashCode();
         hash = hash * 31 + Pitch.GetHashCode();
         hash = hash * 31 + Standing.GetHashCode();
         hash = hash * 31 + Driving.GetHashCode();
+        hash = hash * 31 + Climbing.GetHashCode();
+        hash = hash * 31 + Crouching.GetHashCode();
         hash = hash * 31 + TurretSeat.GetHashCode();
         hash = hash * 31 + FireCooldown.GetHashCode();
         hash = hash * 31 + DropHeld.GetHashCode();
@@ -1087,6 +1180,8 @@ namespace Quantum {
         var p = (Survivor*)ptr;
         serializer.Stream.Serialize(&p->Selected);
         serializer.Stream.Serialize(&p->TurretSeat);
+        QBoolean.Serialize(&p->Climbing, serializer);
+        QBoolean.Serialize(&p->Crouching, serializer);
         QBoolean.Serialize(&p->Dead, serializer);
         QBoolean.Serialize(&p->Driving, serializer);
         EntityRef.Serialize(&p->LookTarget, serializer);
@@ -1098,40 +1193,47 @@ namespace Quantum {
         FP.Serialize(&p->Pitch, serializer);
         FP.Serialize(&p->WorkProgress, serializer);
         FP.Serialize(&p->YawOffset, serializer);
-        Quantum.Item.Serialize(&p->Carried, serializer);
         FixedArray.Serialize(p->Hotbar, serializer, Statics.SerializeItem);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Truck : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 64;
+    public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(40)]
+    [FieldOffset(56)]
     public FP Speed;
-    [FieldOffset(48)]
+    [FieldOffset(64)]
     public FP Steer;
     [FieldOffset(12)]
     public PlayerRef Driver;
     [FieldOffset(4)]
     public Int32 HopperRounds;
-    [FieldOffset(0)]
+    [FieldOffset(1)]
     public Flavor HopperFlavor;
-    [FieldOffset(56)]
+    [FieldOffset(72)]
     public FP TurretCooldown;
     [FieldOffset(8)]
     public Int32 PlowLevel;
-    [FieldOffset(32)]
+    [FieldOffset(40)]
     public QBoolean Spikes;
     [FieldOffset(16)]
     public QBoolean Armor;
-    [FieldOffset(36)]
+    [FieldOffset(44)]
     public QBoolean Turret;
-    [FieldOffset(28)]
+    [FieldOffset(36)]
     public QBoolean SecondTurret;
     [FieldOffset(20)]
     public QBoolean BigHopper;
-    [FieldOffset(24)]
+    [FieldOffset(28)]
     public QBoolean Engine;
+    [FieldOffset(24)]
+    public QBoolean BigTank;
+    [FieldOffset(48)]
+    public FP Fuel;
+    [FieldOffset(0)]
+    public Flavor FuelFlavor;
+    [FieldOffset(32)]
+    public QBoolean MusicOff;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 19429;
@@ -1148,21 +1250,29 @@ namespace Quantum {
         hash = hash * 31 + SecondTurret.GetHashCode();
         hash = hash * 31 + BigHopper.GetHashCode();
         hash = hash * 31 + Engine.GetHashCode();
+        hash = hash * 31 + BigTank.GetHashCode();
+        hash = hash * 31 + Fuel.GetHashCode();
+        hash = hash * 31 + (Byte)FuelFlavor;
+        hash = hash * 31 + MusicOff.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Truck*)ptr;
+        serializer.Stream.Serialize((Byte*)&p->FuelFlavor);
         serializer.Stream.Serialize((Byte*)&p->HopperFlavor);
         serializer.Stream.Serialize(&p->HopperRounds);
         serializer.Stream.Serialize(&p->PlowLevel);
         PlayerRef.Serialize(&p->Driver, serializer);
         QBoolean.Serialize(&p->Armor, serializer);
         QBoolean.Serialize(&p->BigHopper, serializer);
+        QBoolean.Serialize(&p->BigTank, serializer);
         QBoolean.Serialize(&p->Engine, serializer);
+        QBoolean.Serialize(&p->MusicOff, serializer);
         QBoolean.Serialize(&p->SecondTurret, serializer);
         QBoolean.Serialize(&p->Spikes, serializer);
         QBoolean.Serialize(&p->Turret, serializer);
+        FP.Serialize(&p->Fuel, serializer);
         FP.Serialize(&p->Speed, serializer);
         FP.Serialize(&p->Steer, serializer);
         FP.Serialize(&p->TurretCooldown, serializer);
@@ -1170,7 +1280,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Zombie : Quantum.IComponent {
-    public const Int32 SIZE = 56;
+    public const Int32 SIZE = 80;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     public ZombieKind Kind;
@@ -1186,6 +1296,8 @@ namespace Quantum {
     public FP AttackCooldown;
     [FieldOffset(32)]
     public FPVector3 Velocity;
+    [FieldOffset(56)]
+    public FPVector3 Wander;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 15287;
@@ -1196,6 +1308,7 @@ namespace Quantum {
         hash = hash * 31 + FrozenTimer.GetHashCode();
         hash = hash * 31 + AttackCooldown.GetHashCode();
         hash = hash * 31 + Velocity.GetHashCode();
+        hash = hash * 31 + Wander.GetHashCode();
         return hash;
       }
     }
@@ -1208,6 +1321,7 @@ namespace Quantum {
         FP.Serialize(&p->FrozenTimer, serializer);
         FP.Serialize(&p->Timer, serializer);
         FPVector3.Serialize(&p->Velocity, serializer);
+        FPVector3.Serialize(&p->Wander, serializer);
     }
   }
   public static unsafe partial class Constants {
@@ -1269,6 +1383,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Projectile>();
       BuildSignalsArrayOnComponentAdded<Quantum.RoadChunk>();
       BuildSignalsArrayOnComponentRemoved<Quantum.RoadChunk>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Scenery>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Scenery>();
       BuildSignalsArrayOnComponentAdded<Quantum.Station>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Station>();
       BuildSignalsArrayOnComponentAdded<Quantum.Survivor>();
@@ -1301,6 +1417,7 @@ namespace Quantum {
       i->Drop = i->Drop.Update(this.Number, input.Drop);
       i->Reload = i->Reload.Update(this.Number, input.Reload);
       i->Sprint = i->Sprint.Update(this.Number, input.Sprint);
+      i->Crouch = i->Crouch.Update(this.Number, input.Crouch);
     }
     public Input* GetPlayerInput(PlayerRef player) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
@@ -1408,6 +1525,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(QueryOptions), 2);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
       typeRegistry.Register(typeof(Quantum.RoadChunk), Quantum.RoadChunk.SIZE);
+      typeRegistry.Register(typeof(Quantum.Scenery), Quantum.Scenery.SIZE);
       typeRegistry.Register(typeof(Shape2D), Shape2D.SIZE);
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
       typeRegistry.Register(typeof(SpringJoint), SpringJoint.SIZE);
@@ -1419,6 +1537,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
       typeRegistry.Register(typeof(Quantum.Truck), Quantum.Truck.SIZE);
+      typeRegistry.Register(typeof(Quantum.TutorialStep), 1);
       typeRegistry.Register(typeof(Quantum.UpgradeKind), 1);
       typeRegistry.Register(typeof(View), View.SIZE);
       typeRegistry.Register(typeof(Quantum.Zombie), Quantum.Zombie.SIZE);
@@ -1427,7 +1546,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 10)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 11)
         .AddBuiltInComponents()
         .Add<Quantum.Attached>(Quantum.Attached.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.ChunkOwned>(Quantum.ChunkOwned.Serialize, null, null, ComponentFlags.None)
@@ -1435,6 +1554,7 @@ namespace Quantum {
         .Add<Quantum.PlayerLink>(Quantum.PlayerLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Projectile>(Quantum.Projectile.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.RoadChunk>(Quantum.RoadChunk.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.Scenery>(Quantum.Scenery.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Station>(Quantum.Station.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Survivor>(Quantum.Survivor.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Truck>(Quantum.Truck.Serialize, null, null, ComponentFlags.Singleton)
@@ -1452,6 +1572,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ItemKind>();
       FramePrinter.EnsurePrimitiveNotStripped<QueryOptions>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.StationKind>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.TutorialStep>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.UpgradeKind>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ZombieKind>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ZombieState>();

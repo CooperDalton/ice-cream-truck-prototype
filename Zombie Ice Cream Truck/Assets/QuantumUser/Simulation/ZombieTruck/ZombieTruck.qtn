@@ -14,19 +14,22 @@ input {
   button Drop;
   button Reload;
   button Sprint;
+  button Crouch;
 }
 
 enum ItemKind : Byte {
-  None, ScoopPistol, SundaeShotgun, SprinkleSMG, LongSpoon, ConeLauncher, BananaHarpoon,
-  Scooper, Pint, Scoop, SprinkleJar, SecondScoop,
-  MilkCrate, SugarSack, CocoaBag, StrawberryBasket, MintBundle, Tub
+  None, ScoopPistol, SundaeShotgun, SprinkleSMG, LongSpoon, ConeLauncher, BananaHarpoon, SoftServeHose, SundaeBazooka, JackpotBlaster,
+  PlainCone, WaffleCone, DoubleDip,
+  Pint, Scoop, SprinkleJar, SecondScoop,
+  MilkCrate, SugarSack, CocoaBag, StrawberryBasket, MintBundle, CoffeeSack, NutBag, Tub
 }
 
 enum Flavor : Byte {
-  None, Vanilla, Chocolate, Strawberry, Mint
+  None, Vanilla, Chocolate, Strawberry, Mint, Coffee, RockyRoad, Neapolitan
 }
 
-// Count means: stack size for scoops, scoops in a pint or tub, rounds loaded in a gun.
+// Count means: stack size for scoops and ingredient packs, scoops in a pint or tub, rounds loaded in a gun, bites left on a
+// melee cone.
 struct Item {
   ItemKind Kind;
   Flavor Flavor;
@@ -40,13 +43,16 @@ component PlayerLink {
 component Survivor {
   array<Item>[6] Hotbar;
   Int32 Selected;
-  Item Carried;
   FP Health;
   bool Dead;
   FP YawOffset;
   FP Pitch;
   entity_ref Standing;
   bool Driving;
+  // On the ladder between the kitchen and the roof hatch.
+  bool Climbing;
+  // Holding crouch: lower eyes and a slow walk.
+  bool Crouching;
   Int32 TurretSeat;
   FP FireCooldown;
   FP DropHeld;
@@ -69,6 +75,12 @@ singleton component Truck {
   bool SecondTurret;
   bool BigHopper;
   bool Engine;
+  bool BigTank;
+  // Ice cream in the tank, in scoops. The truck burns it by the meter and can't accelerate on an empty tank.
+  FP Fuel;
+  Flavor FuelFlavor;
+  // The driver can switch the music box off (right click); zombies then only hear the engine.
+  bool MusicOff;
 }
 
 // Entities that ride the truck at a fixed spot (stations, items resting on it, zombies clinging to it).
@@ -78,13 +90,18 @@ component Attached {
 }
 
 enum StationKind : Byte {
-  Churn, Freezer, Counter, GunRack, Hopper, Bell, Turret, GunCrate, Shop, DepotExit
+  Churn, Freezer, Counter, GunRack, Hopper, Bell, Turret, GunCrate, Shop, DepotExit, FuelIntake, SlotMachine, Shopkeeper,
+  RearDoor, Hatch
 }
 
 enum UpgradeKind : Byte {
-  None, Plow, Spikes, Armor, Turret, SecondTurret, BigHopper, Engine, SecondScoop
+  None, Plow, Spikes, Armor, Turret, SecondTurret, BigHopper, Engine, SecondScoop, BigTank
 }
 
+// Slots hold stored items; a shop pedestal without an upgrade sells Slots[0], and the slot machine keeps its three
+// reels in Slots[0..2] (Flavor None = brain) and the pending prize tier in Slots[3].Count. Index counts the
+// shopkeeper's lines; Timer is the slot machine's spin. Open is a gun crate's lid, or whether the rear door or roof hatch
+// stands open.
 component Station {
   StationKind Kind;
   array<Item>[4] Slots;
@@ -95,6 +112,7 @@ component Station {
   UpgradeKind Upgrade;
   Int32 Price;
   Int32 Index;
+  FP Timer;
 }
 
 component Pickup {
@@ -103,20 +121,24 @@ component Pickup {
   bool Resting;
 }
 
+// Scoop grenades and launcher cones fall under gravity; sundae rockets fly straight.
 component Projectile {
   Flavor Flavor;
   FPVector3 Velocity;
   player_ref Owner;
   FP Age;
   FP Radius;
+  Int32 Damage;
+  bool Rocket;
 }
 
 enum ZombieKind : Byte {
   Walker, Sprinter, Bloater
 }
 
+// Idle zombies shuffle about until they notice someone, the truck's music box or a noise, then chase.
 enum ZombieState : Byte {
-  Chasing, Climbing, OnTruck, Dead
+  Chasing, Climbing, OnTruck, Dead, Idle
 }
 
 component Zombie {
@@ -127,15 +149,27 @@ component Zombie {
   FP FrozenTimer;
   FP AttackCooldown;
   FPVector3 Velocity;
+  // Idle zombies shuffle this way until their Timer runs out and they pick another (zero: stand still).
+  FPVector3 Wander;
 }
 
 enum ChunkKind : Byte {
-  Straight, Rural, CurveLeft, CurveRight, Junction, Broken, Dairy, GasStation, Garden, Wreck, Depot
+  Straight, Rural, CurveLeft, CurveRight, Junction, Broken, Dairy, GasStation, Garden, Wreck, School, Park, Fairground, Depot
 }
 
 component RoadChunk {
   Int32 Index;
   ChunkKind Kind;
+  // Hot spots release their horde once, when the truck first comes close.
+  bool Triggered;
+}
+
+// A 20 m scenery block (houses, a farm, forest...) filling a grid cell beside the road, solid like the road chunks.
+// Block indexes ZombieTruckSettings.SceneryPrototypes.
+component Scenery {
+  Int32 CellX;
+  Int32 CellY;
+  Int32 Block;
 }
 
 // Stations and pickups placed by a road chunk; removed together with it.
@@ -144,7 +178,12 @@ component ChunkOwned {
 }
 
 enum GamePhase : Byte {
-  Driving, Depot, Wiped
+  Driving, Depot, Wiped, Tutorial
+}
+
+// The first run of a session opens with the truck parked and these steps to walk through, in order.
+enum TutorialStep : Byte {
+  GrabMilk, MilkIn, GrabSugar, SugarIn, Crank, Freezer, Scoop, Fuel, Fight, Drive
 }
 
 global {
@@ -160,6 +199,13 @@ global {
   FPVector3 RoadEnd;
   FP RoadHeading;
   entity_ref DepotChunk;
+  TutorialStep Tutorial;
+  // Set once the tutorial has been finished or skipped; later runs (after a wipe) start straight on the road.
+  bool TutorialDone;
+}
+
+event TutorialAdvanced {
+  TutorialStep Step;
 }
 
 event ShotFired {
@@ -247,8 +293,58 @@ event ItemPickedUp {
 
 event Purchased {
   UpgradeKind Upgrade;
+  Item Item;
   Int32 Price;
   FPVector3 Position;
+}
+
+event ShopDenied {
+  FPVector3 Position;
+}
+
+event MeleeSwung {
+  player_ref Player;
+  ItemKind Weapon;
+  Flavor Flavor;
+  bool Hit;
+}
+
+// Tier: 0 dud, 1 spread, 2 jackpot blast.
+event JackpotShot {
+  player_ref Player;
+  Int32 Tier;
+  FPVector3 Position;
+}
+
+event HordeReleased {
+  ChunkKind Chunk;
+  FPVector3 Position;
+}
+
+event Refueled {
+  FPVector3 Position;
+  Int32 Scoops;
+  Flavor Flavor;
+}
+
+event OutOfFuel {
+  FPVector3 Position;
+}
+
+event SlotsPulled {
+  entity_ref Machine;
+}
+
+// Tier: 0 nothing, 1 pair, 2 jackpot, 3 brains.
+event SlotsResult {
+  entity_ref Machine;
+  Int32 Tier;
+  Flavor Flavor;
+}
+
+event ShopkeeperTalked {
+  entity_ref Keeper;
+  Int32 Line;
 }
 
 event PhaseChanged {

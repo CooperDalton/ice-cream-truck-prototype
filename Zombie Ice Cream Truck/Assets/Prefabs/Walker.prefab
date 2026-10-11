@@ -484,21 +484,25 @@ MonoBehaviour:
     - {fileID: 3301347454168993295}
     - {fileID: 1178836894518663572}
     Head: {fileID: 7638008960185411888}
+    Walk: {fileID: 479916693464640659}
   - Root: {fileID: 4092457384957334895}
     Limbs:
     - {fileID: 7753602374733093510}
     - {fileID: 2500014546575787728}
     Head: {fileID: 8003512596161804164}
+    Walk: {fileID: 6406955135501354192}
   - Root: {fileID: 6364454484518510090}
     Limbs:
     - {fileID: 6849592669464985691}
     - {fileID: 8373225501881683414}
     Head: {fileID: 1893562789276571653}
+    Walk: {fileID: 4685538069289850187}
   - Root: {fileID: 5543195017283849213}
     Limbs:
     - {fileID: 6838776740561335485}
     - {fileID: 7478970713933086287}
     Head: {fileID: 5466102795783367824}
+    Walk: {fileID: 102214631414345107}
   iceBlock: {fileID: 8650451989134397374}
   neckGeyserPrefab: {fileID: 1487737515447809961, guid: de3c7f1bc94be4f29a4c5b9c015dd79d, type: 3}
   iceShatterPrefab: {fileID: 6278385561507113682, guid: d3125458c8b2f64949472ef745c55810, type: 3}
@@ -511,6 +515,9 @@ MonoBehaviour:
   groanInterval: {x: 2.5, y: 8}
   tumbleSpeed: 540
   limbSpeed: 7
+  climbLean: 25
+  lungeDistance: 0.4
+  lungeLean: 30
 --- !u!1 &8650451989134397374
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,6 +705,7 @@ MonoBehaviour:
   - {fileID: 5190093704137091893}
   arms: []
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 0.8
 --- !u!4 &5190093704137091893 stripped
@@ -817,6 +825,7 @@ MonoBehaviour:
   - {fileID: 2190219110032095322}
   arms: []
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 0.8
 --- !u!4 &6838776740561335485 stripped
@@ -931,6 +940,7 @@ MonoBehaviour:
   - {fileID: 671075094137196740}
   arms: []
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 0.8
 --- !u!4 &7481935355226496514 stripped
@@ -1045,6 +1055,7 @@ MonoBehaviour:
   - {fileID: 3884920717050908064}
   arms: []
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 0.8
 --- !u!4 &6849592669464985691 stripped

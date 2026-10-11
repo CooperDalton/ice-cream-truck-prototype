@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 // Turns simulation events into one-shot effects: tracers, muzzle flashes and smoke, sprinkle casings, flavor splats,
 // kill bursts with gibs and flying limbs, head pops, flavor explosions, ground splats, truck crashes, popups, screen
-// shake and screen gore. Every effect is an authored prefab; this only places, tints and times them.
+// shake and screen gore, plus the shop, slot machine, fuel and Jackpot Blaster callouts. Every effect is an authored prefab; this only places, tints and times them.
 public class CombatEffects : MonoBehaviour
 {
     [Serializable]
@@ -56,6 +56,10 @@ public class CombatEffects : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventPurchased e) => OnPurchased(e));
         QuantumEvent.Subscribe(this, (EventSurvivorRevived e) => OnRevived(e));
         QuantumEvent.Subscribe(this, (EventStationUsed e) => OnStationUsed(e));
+        QuantumEvent.Subscribe(this, (EventJackpotShot e) => OnJackpotShot(e));
+        QuantumEvent.Subscribe(this, (EventSlotsResult e) => OnSlotsResult(e));
+        QuantumEvent.Subscribe(this, (EventRefueled e) => ShowPopup(e.Position.ToUnityVector3() + Vector3.up * 1.6f, $"+{e.Scoops} FUEL", FlavorPalette.Of(e.Flavor), 1.2f));
+        QuantumEvent.Subscribe(this, (EventShopDenied e) => ShowPopup(e.Position.ToUnityVector3() + Vector3.up * 2.4f, "NOT ENOUGH $", Pink, 1.2f));
     }
 
     private static bool IsLocal(PlayerRef player)
@@ -75,8 +79,9 @@ public class CombatEffects : MonoBehaviour
         tracer.SetPosition(0, start);
         tracer.SetPosition(1, to);
         tracer.startColor = tracer.endColor = FlavorPalette.Of(e.Flavor);
-        tracer.widthMultiplier = e.Gun == ItemKind.LongSpoon ? 0.09f : 0.04f;
-        Destroy(tracer.gameObject, e.Gun == ItemKind.LongSpoon ? tracerLifetime * 4 : tracerLifetime);
+        var thick = e.Gun == ItemKind.LongSpoon || e.Gun == ItemKind.SoftServeHose;
+        tracer.widthMultiplier = e.Gun == ItemKind.SoftServeHose ? 0.14f : thick ? 0.09f : 0.04f;
+        Destroy(tracer.gameObject, thick ? tracerLifetime * 4 : tracerLifetime);
         foreach (var flash in muzzleFlashes)
         {
             if (flash.Gun != e.Gun) continue;
@@ -91,7 +96,7 @@ public class CombatEffects : MonoBehaviour
             Emit(casings, start - direction * 0.2f, side * Random.Range(1.5f, 3f) + Vector3.up * Random.Range(1.5f, 3f), 0.12f, color, 1.5f, 1);
         }
         // Shots that hit the ground leave a little flavor splat there.
-        if (to.y < 0.25f && e.Gun != ItemKind.ConeLauncher && e.Gun != ItemKind.BananaHarpoon) GroundSplat(to, FlavorPalette.Of(e.Flavor), 0.25f, 0.5f);
+        if (to.y < 0.25f && e.Gun != ItemKind.ConeLauncher && e.Gun != ItemKind.SundaeBazooka && e.Gun != ItemKind.BananaHarpoon) GroundSplat(to, FlavorPalette.Of(e.Flavor), 0.25f, 0.5f);
     }
 
     private void OnHit(EventZombieHit e)
@@ -193,7 +198,44 @@ public class CombatEffects : MonoBehaviour
     {
         var position = e.Position.ToUnityVector3();
         Instantiate(confettiBurst, position + Vector3.up * 1.5f, Quaternion.identity).Play(Gold, 1f);
-        ShowPopup(position + Vector3.up * 2.8f, UpgradeName(e.Upgrade) + "!", Mint, 1.4f);
+        var name = e.Upgrade == UpgradeKind.None ? GameHud.Name(e.Item).ToUpper() : UpgradeName(e.Upgrade);
+        ShowPopup(position + Vector3.up * 2.8f, name + "!", Mint, 1.4f);
+    }
+
+    private void OnJackpotShot(EventJackpotShot e)
+    {
+        var position = e.Position.ToUnityVector3();
+        if (e.Tier == 2)
+        {
+            Instantiate(confettiBurst, position, Quaternion.identity).Play(Gold, 2f);
+            ShowPopup(position + Vector3.up * 2f, "JACKPOT!", Gold, 2f);
+        }
+        else if (IsLocal(e.Player))
+        {
+            ShowPopup(position + Vector3.up * 0.4f, e.Tier == 1 ? "TWO OF A KIND" : "dud", e.Tier == 1 ? Mint : Color.gray, 0.6f);
+        }
+    }
+
+    private void OnSlotsResult(EventSlotsResult e)
+    {
+        var position = viewUpdater.GetView(e.Machine).transform.position + Vector3.up * 2.4f;
+        switch (e.Tier)
+        {
+            case 2:
+                Instantiate(confettiBurst, position, Quaternion.identity).Play(Gold, 2.5f);
+                ShowPopup(position, "JACKPOT!!", Gold, 2.2f);
+                break;
+            case 1:
+                Instantiate(confettiBurst, position, Quaternion.identity).Play(FlavorPalette.Of(e.Flavor), 1f);
+                ShowPopup(position, "PAIR! FREE TUB", Mint, 1.4f);
+                break;
+            case 3:
+                ShowPopup(position, "BRAINS!!", Pink, 2f);
+                break;
+            default:
+                ShowPopup(position, "no luck", Color.gray, 1f);
+                break;
+        }
     }
 
     private void OnRevived(EventSurvivorRevived e)
@@ -226,6 +268,7 @@ public class CombatEffects : MonoBehaviour
             case UpgradeKind.BigHopper: return "BIG HOPPER";
             case UpgradeKind.Engine: return "BIG ENGINE";
             case UpgradeKind.SecondScoop: return "SECOND SCOOP";
+            case UpgradeKind.BigTank: return "SUNDAE TANK";
             default: return upgrade.ToString().ToUpper();
         }
     }

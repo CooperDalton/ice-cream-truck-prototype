@@ -571,6 +571,7 @@ MonoBehaviour:
     - {fileID: 5238688045289574834}
     - {fileID: 7087510903543810804}
     Head: {fileID: 6988611351096571764}
+    Walk: {fileID: 5966465018145629704}
   iceBlock: {fileID: 2698143711049731599}
   neckGeyserPrefab: {fileID: 1487737515447809961, guid: de3c7f1bc94be4f29a4c5b9c015dd79d, type: 3}
   iceShatterPrefab: {fileID: 6278385561507113682, guid: d3125458c8b2f64949472ef745c55810, type: 3}
@@ -581,6 +582,9 @@ MonoBehaviour:
   groanInterval: {x: 2.5, y: 8}
   tumbleSpeed: 540
   limbSpeed: 7
+  climbLean: 25
+  lungeDistance: 0.4
+  lungeLean: 30
 --- !u!1001 &3760524665587954243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -673,6 +677,7 @@ MonoBehaviour:
   - {fileID: 8045896534706925676}
   arms: []
   legSwing: 28
+  legOffset: 0
   armSwing: 14
   strideLength: 0.8
 --- !u!4 &5238688045289574834 stripped

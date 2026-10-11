@@ -58,7 +58,7 @@ namespace Quantum
                 var projectile = pair.Component;
                 var transform = f.Unsafe.GetPointer<Transform3D>(pair.Entity);
                 projectile->Age += dt;
-                projectile->Velocity += FPVector3.Down * 12 * dt;
+                if (!projectile->Rocket) projectile->Velocity += FPVector3.Down * 12 * dt;
                 var step = projectile->Velocity * dt;
                 var hit = f.Physics3D.Raycast(transform->Position, step.Normalized, step.Magnitude, -1, QueryOptions.HitSolids);
                 var exploded = hit.HasValue || projectile->Age > 6;
@@ -71,7 +71,7 @@ namespace Quantum
                 }
                 transform->Position = position;
                 if (!exploded) continue;
-                Combat.Explode(f, position, projectile->Radius, 3, projectile->Flavor, false, projectile->Owner);
+                Combat.Explode(f, position, projectile->Radius, projectile->Damage, projectile->Flavor, false, projectile->Owner);
                 f.Destroy(pair.Entity);
             }
         }

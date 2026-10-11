@@ -11,12 +11,13 @@ namespace Quantum
             var shape = Shape3D.CreatePersistentCompound();
             foreach (var box in settings.TruckColliders)
             {
-                var part = Shape3D.CreateBox(box.Extents, box.Center);
+                var part = Shape3D.CreateBox(box.Extents, box.Center, FPQuaternion.Euler(box.Pitch, 0, 0));
                 shape.Compound.AddShape(f, ref part, true);
             }
             f.Add(truck, PhysicsCollider3D.Create(f, shape));
             shape.Compound.FreePersistent(f);
             f.Add(truck, new Truck());
+            f.Global->TutorialDone = f.RuntimeConfig.SkipTutorial;
             Run.Start(f, truck);
         }
 

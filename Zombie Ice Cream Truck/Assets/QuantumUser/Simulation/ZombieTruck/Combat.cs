@@ -6,14 +6,21 @@ namespace Quantum
     // Damage, flavor effects, kills, explosions and survivor health.
     public static unsafe class Combat
     {
-        // Flavor effects: chocolate tips money, mint freezes, strawberry splashes onto neighbours.
+        // Flavor effects: chocolate tips money, mint freezes, strawberry splashes onto neighbours, rocky road hits harder
+        // and Neapolitan does chocolate and strawberry at once. Coffee's pierce is handled by the weapons.
         public static void DamageZombie(Frame f, EntityRef entity, Zombie* zombie, Int32 damage, bool headshot, Flavor flavor,
             FPVector3 point, FPVector3 push, PlayerRef source)
         {
             if (zombie->State == ZombieState.Dead) return;
             var settings = f.FindAsset(f.RuntimeConfig.Settings);
+            if (zombie->State == ZombieState.Idle) zombie->State = ZombieState.Chasing;
             f.Events.ZombieHit(source, entity, point, headshot, flavor);
-            if (flavor == Flavor.Chocolate)
+            if (flavor == Flavor.RockyRoad)
+            {
+                damage += settings.RockyRoadBonus;
+                push *= 2;
+            }
+            if (flavor == Flavor.Chocolate || flavor == Flavor.Neapolitan)
             {
                 f.Global->Money += settings.ChocolateTip;
                 f.Events.TipEarned(point, settings.ChocolateTip);
@@ -22,7 +29,7 @@ namespace Quantum
             {
                 zombie->FrozenTimer = settings.FreezeTime;
             }
-            if (flavor == Flavor.Strawberry)
+            if (flavor == Flavor.Strawberry || flavor == Flavor.Neapolitan)
             {
                 foreach (var other in f.Unsafe.GetComponentBlockIterator<Zombie>())
                 {
@@ -49,7 +56,7 @@ namespace Quantum
             zombie->Velocity = impulse;
             f.Remove<Attached>(entity);
             f.Remove<PhysicsCollider3D>(entity);
-            var reward = settings.Zombies[(int)zombie->Kind].Reward + (flavor == Flavor.Chocolate ? settings.ChocolateTip * 2 : 0);
+            var reward = settings.Zombies[(int)zombie->Kind].Reward + (flavor == Flavor.Chocolate || flavor == Flavor.Neapolitan ? settings.ChocolateTip * 2 : 0);
             f.Global->Money += reward;
             f.Global->Kills++;
             f.Events.ZombieKilled(source, entity, zombie->Kind, position, impulse, headshot, runOver, flavor, reward);
@@ -64,6 +71,7 @@ namespace Quantum
         {
             var settings = f.FindAsset(f.RuntimeConfig.Settings);
             f.Events.Explosion(position, radius, flavor, bloater);
+            ZombieSystem.Alert(f, position, settings.ExplosionNoise);
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<Zombie>())
             {
                 if (pair.Component->State == ZombieState.Dead) continue;
@@ -94,15 +102,10 @@ namespace Quantum
             survivor->Dead = true;
             survivor->Health = 0;
             survivor->TurretSeat = 0;
+            survivor->Climbing = false;
             var truck = f.Unsafe.GetPointerSingleton<Truck>();
             if (survivor->Driving) truck->Driver = PlayerRef.None;
             survivor->Driving = false;
-            if (survivor->Carried.Kind != ItemKind.None)
-            {
-                var position = f.Unsafe.GetPointer<Transform3D>(entity)->Position;
-                Inventory.SpawnPickup(f, survivor->Carried, position + FPVector3.Up, FPVector3.Up * 2, false);
-                survivor->Carried = default;
-            }
             f.Events.SurvivorDied(player);
         }
 

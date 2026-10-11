@@ -9,7 +9,6 @@ public class FirstPersonCamera : MonoBehaviour
     [SerializeField] private QuantumEntityViewUpdater viewUpdater;
     [SerializeField] private SurvivorInput input;
     [SerializeField] private Camera eye;
-    [SerializeField] private float eyeHeight = 1.5f;
     [SerializeField] private Vector3 spectateOffset = new Vector3(0, 2.6f, -3.5f);
     [SerializeField] private float fieldOfView = 75f;
     [SerializeField] private float aimFieldOfView = 55f;
@@ -20,6 +19,7 @@ public class FirstPersonCamera : MonoBehaviour
     private QuantumEntityView hiddenView;
     private float trauma;
     private float kick;
+    private float eyeHeight;
 
     public void AddTrauma(float amount)
     {
@@ -46,10 +46,14 @@ public class FirstPersonCamera : MonoBehaviour
         }
         if (!survivor.Dead)
         {
+            // Crouching lowers the eyes smoothly; the simulation uses the same two heights for aiming and reach.
+            var settings = frame.FindAsset(frame.RuntimeConfig.Settings);
+            var wantedEye = (survivor.Crouching ? settings.CrouchEyeHeight : settings.EyeHeight).AsFloat;
+            eyeHeight = eyeHeight == 0 ? wantedEye : Mathf.Lerp(eyeHeight, wantedEye, 1 - Mathf.Exp(-14 * Time.deltaTime));
             transform.SetPositionAndRotation(view.transform.position + Vector3.up * eyeHeight,
                 Quaternion.Euler(input.Pitch - kick, input.Yaw + survivor.YawOffset.AsFloat, 0));
             var held = survivor.Hotbar[survivor.Selected].Kind;
-            var aiming = input.Aiming && survivor.Carried.Kind == ItemKind.None && Inventory.Gun(held).Pellets > 0 && !survivor.Driving;
+            var aiming = input.Aiming && Inventory.Gun(held).Pellets > 0 && !survivor.Driving;
             var targetFov = !aiming ? fieldOfView : held == ItemKind.LongSpoon ? scopeFieldOfView : aimFieldOfView;
             eye.fieldOfView = Mathf.Lerp(eye.fieldOfView, targetFov, 1 - Mathf.Exp(-14 * Time.deltaTime));
         }

@@ -47,12 +47,14 @@ namespace Quantum
                     global->TruckChunk = pair.Component->Index;
                 }
             }
+            var roadChanged = false;
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<RoadChunk>())
             {
                 var chunkPosition = f.Unsafe.GetPointer<Transform3D>(pair.Entity)->Position;
                 if (pair.Component->Index < global->TruckChunk && (chunkPosition - truckPosition).SqrMagnitude > settings.ChunkDespawnBehind * settings.ChunkDespawnBehind)
                 {
                     Run.RemoveChunk(f, pair.Entity, pair.Component->Index);
+                    roadChanged = true;
                 }
             }
             var depotDone = global->DepotChunk.IsValid;
@@ -60,7 +62,9 @@ namespace Quantum
             {
                 Run.AddChunk(f, settings);
                 depotDone = global->DepotChunk.IsValid;
+                roadChanged = true;
             }
+            if (roadChanged) Run.UpdateScenery(f, settings);
 
             if (global->Phase == GamePhase.Driving && f.Exists(global->DepotChunk))
             {
