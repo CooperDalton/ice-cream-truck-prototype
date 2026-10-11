@@ -437,7 +437,7 @@ public static partial class DivorcedDadsSceneBuilder
 
         // Bottom left: the controls panel. Bottom right: ammo.
         var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 16), TextAnchor.LowerLeft, 16, HudLavender);
-        help.text = "<color=#ffe14a>F1</color> controls";
+        help.text = "<color=#ffe14a>F1</color> controls   <color=#ffe14a>P</color> debug";
         var controls = Panel(root, "Controls", "panel", new Vector2(0, 0), new Vector2(16, 40), new Vector2(312, 250));
         var controlsText = PanelText(controls, "Text", body, 17, Color.white, 20, TextAnchor.UpperLeft);
         controlsText.rectTransform.offsetMax = new Vector2(-12, -12);
@@ -455,6 +455,18 @@ public static partial class DivorcedDadsSceneBuilder
         var ammoLabel = PanelText(ammoPanel, "Label", body, 17, HudMint, 82, TextAnchor.LowerLeft);
         ammoLabel.rectTransform.offsetMin = new Vector2(82, 10);
 
+        // Debug menu (P): the cheat list, keys 1-9 (DadsCheatSystem.Cheat order).
+        var debugPanel = Panel(root, "Debug Menu", "panel_gold", new Vector2(1, 0.5f), new Vector2(-16, -90), new Vector2(360, 300));
+        var debugText = PanelText(debugPanel, "Text", body, 18, Color.white, 18, TextAnchor.UpperLeft);
+        debugText.rectTransform.offsetMax = new Vector2(-12, -14);
+        debugText.lineSpacing = 1.1f;
+        debugText.text = "DEBUG  (P to close)\n" + string.Join("\n", new[]
+        {
+            "+$500", "+$100 of today's sales", "fill the freezer (fancy flavors)", "every upgrade", "fill the minigun hopper",
+            "repair the truck", "skip to the next part of the day", "clear strikes and heat", "truck to Big Dairy's lot",
+        }.Select((line, i) => $"<color=#ffe14a>{i + 1}</color>  {line}"));
+        debugPanel.gameObject.SetActive(false);
+
         // Black flash when taking the wheel on moving day drives the truck to Big Dairy's lot (under the card).
         var fade = Overlay(root, "Fade");
 
@@ -470,6 +482,7 @@ public static partial class DivorcedDadsSceneBuilder
         cardStamp.rectTransform.sizeDelta = new Vector2(420, 60);
         cardStamp.rectTransform.localRotation = Quaternion.Euler(0, 0, 12);
 
+        Set(canvas.gameObject.AddComponent<DadsDebugMenu>(), ("input", input), ("panel", debugPanel.gameObject));
         var hud = canvas.gameObject.AddComponent<DadsHud>();
         Set(hud,
             ("input", input), ("eye", eye), ("crosshair", crosshair.gameObject), ("turretReticle", reticle.gameObject), ("lessonPanel", lessonPanel), ("lessonText", lessons), ("lessonMarker", marker.rectTransform), ("fade", fade),

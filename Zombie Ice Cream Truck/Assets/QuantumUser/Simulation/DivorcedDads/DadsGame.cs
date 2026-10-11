@@ -124,7 +124,7 @@ namespace Quantum
         }
 
         // Stops the van with nobody at the wheel and moves it, with everything riding on it, to a parking spot.
-        static void ParkVan(Frame f, FPVector3 position, FP yaw)
+        public static void ParkVan(Frame f, FPVector3 position, FP yaw)
         {
             var vanEntity = f.GetSingletonEntityRef<Van>();
             var van = f.Unsafe.GetPointer<Van>(vanEntity);
@@ -220,11 +220,19 @@ namespace Quantum
 
         public static void Buy(Frame f, Fixture* shop, FPVector3 position)
         {
-            var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
             var run = f.Unsafe.GetPointerSingleton<DadsRun>();
             if (SoldOut(run, shop->Upgrade) || run->Money < shop->Price) return;
             run->Money -= shop->Price;
-            switch (shop->Upgrade)
+            Grant(f, shop->Upgrade, position);
+            f.Events.Bought(shop->Upgrade, shop->Price, position);
+        }
+
+        // What an upgrade does once the dads have it (bought at the lot, or handed out by the debug menu).
+        public static void Grant(Frame f, Upgrade upgrade, FPVector3 position)
+        {
+            var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
+            var run = f.Unsafe.GetPointerSingleton<DadsRun>();
+            switch (upgrade)
             {
                 case Upgrade.ScoopPistol:
                     run->Pistol = true;
@@ -247,7 +255,7 @@ namespace Quantum
                     break;
                 case Upgrade.MapleGrovePermit:
                 case Upgrade.HillsidePermit:
-                    run->Permits = shop->Upgrade == Upgrade.MapleGrovePermit ? 1 : 2;
+                    run->Permits = upgrade == Upgrade.MapleGrovePermit ? 1 : 2;
                     foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
                     {
                         var gate = pair.Component;
@@ -258,7 +266,6 @@ namespace Quantum
                     }
                     break;
             }
-            f.Events.Bought(shop->Upgrade, shop->Price, position);
         }
 
         static DadSlot Loaded(DadItem gun, Int32 rounds, Treat treat)

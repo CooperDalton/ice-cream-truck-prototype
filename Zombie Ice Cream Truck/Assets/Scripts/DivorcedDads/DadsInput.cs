@@ -16,6 +16,8 @@ public class DadsInput : MonoBehaviour
     public int SelectedSlot { get; private set; }
     public EntityRef LocalEntity { get; private set; }
     public bool Aiming { get; private set; }
+    // The debug menu takes the number keys while it is open.
+    public bool MenuOpen { get; set; }
 
     private void OnEnable()
     {
@@ -41,7 +43,7 @@ public class DadsInput : MonoBehaviour
         var mouse = Mouse.current;
         if (keyboard.escapeKey.wasPressedThisFrame) Cursor.lockState = CursorLockMode.None;
         if (mouse.leftButton.wasPressedThisFrame) Cursor.lockState = CursorLockMode.Locked;
-        for (int i = 0; i < hotbarSize; i++)
+        for (int i = 0; i < hotbarSize && !MenuOpen; i++)
         {
             if (keyboard[Key.Digit1 + i].wasPressedThisFrame) SelectedSlot = i;
         }

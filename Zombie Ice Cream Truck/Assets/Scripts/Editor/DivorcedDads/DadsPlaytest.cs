@@ -207,6 +207,20 @@ public static class DadsPlaytest
         return steps;
     }
 
+    // The debug menu: open it with P, then cash, a full freezer, every upgrade and skipping the morning.
+    static List<Step> DebugMenu()
+    {
+        var steps = new List<Step> { new Step { Name = "d00_start", Duration = 9f }, new Step { Name = "open menu", Duration = 0.2f, Keys = new[] { Key.P } } };
+        steps.Add(new Step { Name = "release", Duration = 0.2f });
+        foreach (var key in new[] { Key.Digit1, Key.Digit3, Key.Digit4, Key.Digit5, Key.Digit7 })
+        {
+            steps.Add(new Step { Name = $"cheat {key}", Duration = 0.2f, Keys = new[] { key } });
+            steps.Add(new Step { Name = $"after {key}", Duration = 0.3f });
+        }
+        steps.Add(new Step { Name = "d01_cheated", Duration = 0.5f, Snap = true });
+        return steps;
+    }
+
     static List<Step> Lamps()
     {
         var steps = new List<Step> { new Step { Name = "a00_start", Duration = 3f } };
@@ -956,7 +970,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : scenario == "flats" ? Flats() : scenario == "turret" ? Turret() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : scenario == "flats" ? Flats() : scenario == "turret" ? Turret() : scenario == "debug" ? DebugMenu() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
@@ -1091,7 +1105,7 @@ public static class DadsPlaytest
             var toQueue = QueueFace(frame).Value - position;
             dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} local {LocalOfDad(frame):F2} climbing {dad.Climbing} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} hotbar {hotbar}";
         }
-        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} damage {van.Damage.AsFloat:F2} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
+        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} damage {van.Damage.AsFloat:F2} hopper {van.HopperRounds} upgrades pistol {run.Pistol} shotgun {run.Shotgun} cone {run.ConeSize} speaker {run.Loudspeaker} minigun {run.Minigun} permits {run.Permits} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
     }
 
     // Renders the PS1 game camera, then the display camera (dithered game image plus HUD) into a texture of the given size.

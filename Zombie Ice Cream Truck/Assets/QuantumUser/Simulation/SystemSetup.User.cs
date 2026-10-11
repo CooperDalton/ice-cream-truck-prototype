@@ -15,6 +15,7 @@ namespace Quantum
                 systems.Add(new VanSystem());
                 systems.Add(new NpcSystem());
                 systems.Add(new GlobSystem());
+                systems.Add(new DadsCheatSystem());
                 return;
             }
             systems.Add(new GameSetupSystem());
