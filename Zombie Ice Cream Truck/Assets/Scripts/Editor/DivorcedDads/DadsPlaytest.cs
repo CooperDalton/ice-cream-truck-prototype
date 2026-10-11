@@ -138,6 +138,9 @@ public static class DadsPlaytest
             new Step { Name = "p05_churning", Duration = 0.5f, Snap = true },
             new Step { Name = "wait churn", Duration = 2.5f },
             new Step { Name = "p06_churned", Duration = 0.3f, Snap = true },
+            // Backing away from the churn once dropped dads through the van floor.
+            new Step { Name = "back up", Duration = 1.5f, Keys = new[] { Key.S }, LookAt = f => Fixture(f, FixtureKind.Churn, -1) + Vector3.up * 1.2f },
+            new Step { Name = "p07_backed_up", Duration = 1f, Snap = true },
         });
         return steps;
     }
