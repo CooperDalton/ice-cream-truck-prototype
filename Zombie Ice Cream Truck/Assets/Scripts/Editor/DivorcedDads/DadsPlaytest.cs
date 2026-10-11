@@ -19,7 +19,7 @@ using UnityEngine.InputSystem.LowLevel;
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
 // kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
 // tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it),
-// ladder (a jump under the kitchen ceiling, up the ladder onto the roof, back down through the hatch, out the back door
+// lamps (drives out of the lot and mows down a street lamp), ladder (a jump under the kitchen ceiling, up the ladder onto the roof, back down through the hatch, out the back door
 // and in again).
 public static class DadsPlaytest
 {
@@ -166,6 +166,34 @@ public static class DadsPlaytest
         steps.Add(new Step { Name = "wait next day", Duration = 15f, Done = f => f.GetSingleton<DadsRun>().Phase == DayPhase.Morning });
         steps.Add(new Step { Name = "n05_next_morning", Duration = 2f, Snap = true });
         return steps;
+    }
+
+    static List<Step> Lamps()
+    {
+        var steps = new List<Step> { new Step { Name = "a00_start", Duration = 3f } };
+        steps.AddRange(ToSeat());
+        steps.Add(new Step { Name = "drive out", Duration = 60f, DriveTo = f => Flats(f), Done = f => Arrived(f, Flats(f), 8) });
+        steps.Add(new Step { Name = "ram lamp", Duration = 25f, DriveTo = f => LampNear(f, Flats(f)), Ram = true, Record = true, Done = f => f.GetSingleton<Van>().Damage > 0 });
+        steps.Add(new Step { Name = "a01_felled", Duration = 1.2f, Snap = true, LookPitch = 0, Record = true });
+        steps.Add(new Step { Name = "stop", Duration = 3f, Keys = new[] { Key.S }, Done = f => Mathf.Abs(f.GetSingleton<Van>().Speed.AsFloat) < 0.3f });
+        steps.Add(new Step { Name = "a02_after", Duration = 0.5f, Snap = true });
+        return steps;
+    }
+
+    // The standing street lamp closest to a point.
+    static Vector3 LampNear(Frame frame, Vector3 point)
+    {
+        var best = point;
+        var bestDistance = float.MaxValue;
+        foreach (var pair in frame.GetComponentIterator<Quantum.Fixture>())
+        {
+            if (pair.Component.Kind != FixtureKind.LampPost || pair.Component.Open) continue;
+            var position = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
+            if ((position - point).sqrMagnitude >= bestDistance) continue;
+            bestDistance = (position - point).sqrMagnitude;
+            best = position;
+        }
+        return best;
     }
 
     static List<Step> Ladder()
@@ -889,7 +917,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
@@ -1024,7 +1052,7 @@ public static class DadsPlaytest
             var toQueue = QueueFace(frame).Value - position;
             dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} local {LocalOfDad(frame):F2} climbing {dad.Climbing} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} hotbar {hotbar}";
         }
-        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
+        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} damage {van.Damage.AsFloat:F2} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
     }
 
     // Renders the PS1 game camera, then the display camera (dithered game image plus HUD) into a texture of the given size.

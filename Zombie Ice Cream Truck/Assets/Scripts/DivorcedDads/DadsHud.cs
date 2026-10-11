@@ -46,6 +46,9 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private GameObject jinglePanel;
     [SerializeField] private GameObject speedPanel;
     [SerializeField] private Text speedText;
+    [Tooltip("The van's condition, shown once it has taken damage.")]
+    [SerializeField] private GameObject truckPanel;
+    [SerializeField] private Image truckFill;
     [SerializeField] private GameObject phaseBanner;
     [SerializeField] private Text phaseText;
     [Tooltip("Seconds the banner announces a new phase of the day.")]
@@ -230,6 +233,8 @@ public class DadsHud : MonoBehaviour
         var speed = Mathf.Abs(van.Speed.AsFloat);
         speedPanel.SetActive(speed > 0.5f);
         speedText.text = Mathf.RoundToInt(speed * 2.237f) + " MPH";
+        truckPanel.SetActive(van.Damage > 0);
+        truckFill.fillAmount = 1 - van.Damage.AsFloat;
         phaseText.text = PhaseBanner(run);
         phaseBanner.SetActive(phaseText.text != "" && Time.time - phaseShownAt < bannerTime);
 

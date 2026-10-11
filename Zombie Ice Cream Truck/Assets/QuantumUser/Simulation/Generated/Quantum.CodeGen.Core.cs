@@ -102,6 +102,7 @@ namespace Quantum {
     Plate,
     Gate,
     RearDoor,
+    LampPost,
   }
   public enum Flavor : byte {
     None,
@@ -1770,17 +1771,17 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Van : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 112;
+    public const Int32 SIZE = 120;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(96)]
-    public FP Speed;
     [FieldOffset(104)]
+    public FP Speed;
+    [FieldOffset(112)]
     public FP Steer;
     [FieldOffset(8)]
     public PlayerRef Driver;
     [FieldOffset(12)]
     public QBoolean Jingle;
-    [FieldOffset(80)]
+    [FieldOffset(88)]
     public FP Honk;
     [FieldOffset(64)]
     public FP Bell;
@@ -1790,8 +1791,10 @@ namespace Quantum {
     public Int32 HopperRounds;
     [FieldOffset(0)]
     public Treat HopperTreat;
-    [FieldOffset(88)]
+    [FieldOffset(96)]
     public FP Shake;
+    [FieldOffset(80)]
+    public FP Damage;
     [FieldOffset(16)]
     [FramePrinter.FixedArrayAttribute(typeof(EntityRef), 6)]
     private fixed Byte _Queue_[48];
@@ -1813,6 +1816,7 @@ namespace Quantum {
         hash = hash * 31 + HopperRounds.GetHashCode();
         hash = hash * 31 + (Byte)HopperTreat;
         hash = hash * 31 + Shake.GetHashCode();
+        hash = hash * 31 + Damage.GetHashCode();
         hash = hash * 31 + HashCodeUtils.GetArrayHashCode(Queue);
         return hash;
       }
@@ -1826,6 +1830,7 @@ namespace Quantum {
         FixedArray.Serialize(p->Queue, serializer, Statics.SerializeEntityRef);
         FP.Serialize(&p->Bell, serializer);
         FP.Serialize(&p->BellCooldown, serializer);
+        FP.Serialize(&p->Damage, serializer);
         FP.Serialize(&p->Honk, serializer);
         FP.Serialize(&p->Shake, serializer);
         FP.Serialize(&p->Speed, serializer);

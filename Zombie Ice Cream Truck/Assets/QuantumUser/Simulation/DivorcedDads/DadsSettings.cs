@@ -86,6 +86,11 @@ namespace Quantum
         public FP VanWheelbase = FP._3 + FP._0_50;
         public FP CrashBounce = FP._0_25;
         public FP CrashMinSpeed = 3;
+        // Lamp posts stop the van like a wall below LampBreakSpeed; above it they go down and dent the van.
+        public FP LampBreakSpeed = 6;
+        public FP LampDamage = FP._0_10 - FP._0_02;
+        // Top speed lost at full damage.
+        public FP DamageSlowdown = FP._0_33;
         public FP KnockSpeed = FP._3 + FP._0_50;
         public DadsBox[] VanColliders;
         public FPVector3 VanHalfSize;

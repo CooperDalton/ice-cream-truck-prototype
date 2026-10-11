@@ -3,7 +3,8 @@ using UnityEngine;
 
 // The van: spinning and steering wheels, the steering wheel, the churn crank while a batch is churning, the bell
 // mallet, the minigun hopper gauge, the bought loudspeaker and roof minigun, the fat kid rocking it, engine sound,
-// the music-box jingle (only while it is switched on), exhaust, road dust and headlights after dusk.
+// the music-box jingle (only while it is switched on), exhaust, road dust, headlights after dusk, and smoke from under
+// the hood once lamp posts have dented it.
 public class VanView : QuantumEntityViewComponent
 {
     [SerializeField] private Transform body;
@@ -21,6 +22,7 @@ public class VanView : QuantumEntityViewComponent
     [SerializeField] private AudioSource music;
     [SerializeField] private ParticleSystem exhaust;
     [SerializeField] private ParticleSystem[] wheelDust;
+    [SerializeField] private ParticleSystem hoodSmoke;
     private float spin;
     private float crankAngle;
     private float malletSwing;
@@ -78,6 +80,8 @@ public class VanView : QuantumEntityViewComponent
         music.maxDistance = run.Loudspeaker ? 110 : 70;
         SetRate(exhaust, 6 + 30 * pace * throttle);
         foreach (var dust in wheelDust) SetRate(dust, Mathf.Abs(speed) > 4 ? 25 * pace : 0);
+        var damage = van.Damage.AsFloat;
+        SetRate(hoodSmoke, damage > 0.2f ? 30 * damage : 0);
     }
 
     private static void SetRate(ParticleSystem particles, float rate)

@@ -108,6 +108,7 @@ public class DadsAudio : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventFatKidArrived e) => OnFatKid(e));
         QuantumEvent.Subscribe(this, (EventVanSlammed e) => OnSlammed(e));
         QuantumEvent.Subscribe(this, (EventVanCrashed e) => Play(crash, e.Position, 1f));
+        QuantumEvent.Subscribe(this, (EventLampFelled e) => Play(crash, e.Position, 0.8f, default, false, 1.3f));
         QuantumEvent.Subscribe(this, (EventBrainFreeze e) => { if (QuantumRunner.Default.Game.PlayerIsLocal(e.Player)) Play(brainFreeze, default(FPVector3), 1f, default, true); });
         QuantumEvent.Subscribe(this, (EventDayPhaseChanged e) => OnPhase(e));
         QuantumEvent.Subscribe(this, (EventCollected e) => OnCollected(e));

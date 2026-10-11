@@ -641,6 +641,7 @@ namespace Quantum.Prototypes {
     public Int32 HopperRounds;
     public Quantum.QEnum8<Treat> HopperTreat;
     public FP Shake;
+    public FP Damage;
     [ArrayLengthAttribute(6)]
     public MapEntityId[] Queue = new MapEntityId[6];
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -659,6 +660,7 @@ namespace Quantum.Prototypes {
         result.HopperRounds = this.HopperRounds;
         result.HopperTreat = this.HopperTreat;
         result.Shake = this.Shake;
+        result.Damage = this.Damage;
         for (int i = 0, count = PrototypeValidator.CheckLength(Queue, 6, in context); i < count; ++i) {
           PrototypeValidator.FindMapEntity(this.Queue[i], in context, out *result.Queue.GetPointer(i));
         }

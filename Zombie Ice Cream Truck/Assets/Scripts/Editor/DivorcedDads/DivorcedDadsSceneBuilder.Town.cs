@@ -42,7 +42,6 @@ public static partial class DivorcedDadsSceneBuilder
     class TownBuild
     {
         public Transform Root;
-        public List<GameObject> Lamps = new List<GameObject>();
         public Vector3 Min;
         public Vector3 Max;
         public Vector3 YardMin;
@@ -121,11 +120,18 @@ public static partial class DivorcedDadsSceneBuilder
                     piece = "Town Straight";
                     turn = open.Contains(1) || open.Contains(3) ? 1 : 0;
                 }
-                // Road dressing (bins, bushes, hydrants) is decoration: the van crosses sidewalks into lots and driveways.
+                // Road dressing (bins, bushes, hydrants) is decoration: the van crosses sidewalks into lots and driveways. The
+                // street lamps become fixtures the van can mow down (lit at night on every other cell).
                 var road = Place(Model(piece == "Crossroads" ? Town : "Road", piece), town.Root, center, Quaternion.Euler(0, turn * 90, 0));
-                foreach (var socket in road.GetComponentsInChildren<Transform>().Where(t => t.name.EndsWith("socket light")).ToList())
+                foreach (var lamp in road.GetComponentsInChildren<Transform>().Where(t => t.name == $"{piece} lamp 0" || t.name == $"{piece} lamp 1").ToList())
                 {
-                    if ((x + z) % 2 == 0) town.Lamps.Add(StreetLight(socket));
+                    fixtures.Add(new FixturePlacement
+                    {
+                        Kind = FixtureKind.LampPost, Index = (x + z) % 2 == 0 ? 1 : 0, Position = lamp.position.ToFPVector3(),
+                        Yaw = FP.FromFloat_UNSAFE(lamp.rotation.eulerAngles.y), Center = new Vector3(0, 2f, 0).ToFPVector3(),
+                        HalfSize = new Vector3(0.15f, 2f, 0.15f).ToFPVector3(),
+                    });
+                    lamp.gameObject.SetActive(false);
                 }
                 var district = DistrictOf(x);
                 // Connector roads count as the district past their gate.
@@ -313,7 +319,7 @@ public static partial class DivorcedDadsSceneBuilder
         foreach (var fixture in fixtures)
         {
             var position = fixture.Position.ToUnityVector3();
-            var radius = fixture.Kind == FixtureKind.Gate ? 0 : fixture.Kind == FixtureKind.CoffeeTable ? 0.5f : 1.1f;
+            var radius = fixture.Kind == FixtureKind.Gate || fixture.Kind == FixtureKind.LampPost ? 0 : fixture.Kind == FixtureKind.CoffeeTable ? 0.5f : 1.1f;
             Clear(solid, min, position, radius);
         }
         DropSpecks(solid, 3);

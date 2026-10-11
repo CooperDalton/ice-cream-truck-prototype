@@ -1,9 +1,9 @@
 using Quantum;
 using UnityEngine;
 
-// The only clock the dads get: the sun crosses the sky with the day clock, the light warms through the afternoon,
-// the street lamps come on at dusk and the town goes dark blue at night. Also swaps the ambience and the music:
-// Greensleeves at Big Dairy's lot in the morning, birds by day, crickets and the sneaky curfew tune at night.
+// The sun crosses the sky with the day clock, the light warms through the afternoon and the town goes dark blue at
+// night (street lamps light themselves, LampView). Also swaps the ambience and the music: Greensleeves at Big Dairy's
+// lot in the morning, birds by day, crickets and the sneaky curfew tune at night.
 public class DayNight : MonoBehaviour
 {
     [SerializeField] private Light sun;
@@ -12,12 +12,10 @@ public class DayNight : MonoBehaviour
     [SerializeField] private Gradient ambientColor;
     [SerializeField] private Gradient skyColor;
     [SerializeField] private AnimationCurve sunIntensity;
-    [SerializeField] private GameObject[] streetLamps;
     [SerializeField] private AudioSource lotMusic;
     [SerializeField] private AudioSource birds;
     [SerializeField] private AudioSource crickets;
     [SerializeField] private AudioSource curfewMusic;
-    private bool lampsOn;
 
     private void Update()
     {
@@ -37,12 +35,6 @@ public class DayNight : MonoBehaviour
         RenderSettings.fogColor = skyColor.Evaluate(clock);
         sky.backgroundColor = RenderSettings.fogColor;
 
-        var dark = clock >= settings.DuskAt.AsFloat - 0.03f;
-        if (dark != lampsOn)
-        {
-            lampsOn = dark;
-            foreach (var lamp in streetLamps) lamp.SetActive(dark);
-        }
         var atLot = run.Phase == DayPhase.Morning || run.Phase == DayPhase.Collection;
         var night = run.Phase == DayPhase.Night;
         Fade(lotMusic, atLot ? 0.45f : 0, dt);

@@ -211,6 +211,8 @@ public static partial class DivorcedDadsSceneBuilder
             ("music", Loop(root.transform, "Jingle", "music_entertainer", 8, 70, 0.5f, false)),
             ("exhaust", Emitter(root.transform, "Exhaust", new Vector3(0.8f, 0.35f, -3.05f), new Vector3(0, 0.3f, -1),
                 new Layer { Row = FxRow.Smoke, Speed = new Vector2(1, 2), Size = new Vector2(0.25f, 0.4f), Life = new Vector2(1f, 1.6f), Gravity = -0.06f, Grow = 3, Color = new Color(0.55f, 0.52f, 0.6f), Cone = 15 })),
+            ("hoodSmoke", Emitter(root.transform, "Hood Smoke", new Vector3(0, 1.3f, 3.0f), new Vector3(0, 1, 0.3f),
+                new Layer { Row = FxRow.Smoke, Speed = new Vector2(0.8f, 1.6f), Size = new Vector2(0.35f, 0.6f), Life = new Vector2(1.2f, 2f), Gravity = -0.08f, Grow = 3, Color = new Color(0.32f, 0.3f, 0.38f), Cone = 20 })),
             ("wheelDust", new[] { -1, 1 }.Select(side => (Object)Emitter(root.transform, $"Wheel Dust {side}", new Vector3(side * 1f, 0.1f, -2.2f), new Vector3(0, 0.4f, -1),
                 new Layer { Row = FxRow.Smoke, Speed = new Vector2(0.5f, 1.5f), Size = new Vector2(0.4f, 0.8f), Life = new Vector2(0.6f, 1f), Gravity = -0.02f, Grow = 2, Color = new Color(0.75f, 0.62f, 0.5f), Cone = 30 })).ToArray()));
         return SavePrefab(root);
@@ -519,6 +521,13 @@ public static partial class DivorcedDadsSceneBuilder
         {
             var gate = Place(Model(Items, "Gate"), root.transform, Vector3.zero, Quaternion.identity);
             Set(root.AddComponent<HingeView>(), ("part", Child(gate, "Gate arm")), ("openEuler", new Vector3(0, 0, -80)), ("speed", 2f));
+        });
+        prefabs[(int)FixtureKind.LampPost] = BuildFixture(FixtureKind.LampPost, root =>
+        {
+            var pole = new GameObject("Pole").transform;
+            pole.SetParent(root.transform, false);
+            var model = Place(Model("Road", "Street Lamp"), pole, Vector3.zero, Quaternion.identity);
+            Set(root.AddComponent<LampView>(), ("pole", pole), ("lamp", StreetLight(Child(model, "Street Lamp socket light"))));
         });
         prefabs[(int)FixtureKind.RearDoor] = BuildFixture(FixtureKind.RearDoor, root =>
         {

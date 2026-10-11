@@ -87,6 +87,8 @@ MonoBehaviour:
       Value: 1385447839115986048
   - Id:
       Value: 1391343894306443063
+  - Id:
+      Value: 1495296401353477961
   LootPrototypes:
   - Id:
       Value: 0
@@ -162,6 +164,12 @@ MonoBehaviour:
     RawValue: 16384
   CrashMinSpeed:
     RawValue: 196608
+  LampBreakSpeed:
+    RawValue: 393216
+  LampDamage:
+    RawValue: 5243
+  DamageSlowdown:
+    RawValue: 21845
   KnockSpeed:
     RawValue: 229376
   VanColliders:
@@ -4396,6 +4404,5830 @@ MonoBehaviour:
     RawValue: 655
   MaxCops: 6
   TownFixtures:
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 491520
+    Yaw:
+      RawValue: 5898241
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -484966
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16646144
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15990784
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16646144
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15990784
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16646144
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15990784
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15335424
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14680064
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15335424
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14680064
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15335424
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14680064
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14254080
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13277594
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14090240
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13434880
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -13271040
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -14247526
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12713984
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12058624
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12713984
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12058624
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12713984
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -12058624
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11403264
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10747904
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11403264
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10747904
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -11403264
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10747904
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10158080
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -9502720
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -8781824
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -8126464
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -7471104
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6815744
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6225920
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -5570560
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4849664
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4194304
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4849664
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4194304
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4849664
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -4194304
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -3538944
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2883584
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -3538944
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2883584
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -3538944
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2883584
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2457600
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1481113
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2293760
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1638400
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -1474560
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -2451046
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -917504
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -262143
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -917504
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -262143
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -917504
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -262143
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 393215
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1048576
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 393215
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1048576
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 393215
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1048576
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1474559
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2451046
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1638400
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2293760
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2274099
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1658060
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 2457600
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 1481113
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3014656
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3670016
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3014656
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3670016
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3014656
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 3670016
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4325376
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4980736
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4325376
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4980736
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4325376
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 4980736
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 5570560
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6225920
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6206259
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 5590221
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 6946816
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 7602176
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 8257536
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 8912896
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 9502720
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10158080
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10138419
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 9522381
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10878976
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 11534336
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10878976
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 11534336
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 10878976
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 11534336
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12189696
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12845056
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12189696
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12845056
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12189696
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 12845056
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13271040
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14247526
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13434880
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -543948
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14090240
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 543948
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14070579
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13454541
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14254080
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 13277594
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14811136
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 15466496
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14811136
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 15466496
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 14811136
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 15466496
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16121856
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -4240179
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16777216
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -3624140
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16121856
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -308019
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16777216
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 308019
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16121856
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3624140
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 16777216
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 4240179
+    Yaw:
+      RawValue: 11796480
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2883584
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -2228224
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -1572864
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -917504
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: -491520
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 484966
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1048576
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 1703936
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 18002740
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 2359296
+    Yaw:
+      RawValue: 17694720
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
+  - Kind: 18
+    Index: 1
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 17386700
+      Y:
+        RawValue: 9830
+      Z:
+        RawValue: 3014656
+    Yaw:
+      RawValue: 5898240
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 9830
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 9830
+    Trigger: 0
   - Kind: 8
     Index: 0
     Upgrade: 0

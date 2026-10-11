@@ -99,6 +99,8 @@ namespace Quantum
             run->Due = Math.Min(run->Debt, scheduled + run->Carry);
 
             ParkVan(f, settings.LotPark, settings.LotYaw);
+            // Big Dairy's mechanic beats the dents out overnight.
+            f.Unsafe.GetPointerSingleton<Van>()->Damage = 0;
             var vanTransform = f.Unsafe.GetPointer<Transform3D>(f.GetSingletonEntityRef<Van>());
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
             {
@@ -108,6 +110,8 @@ namespace Quantum
                 fixture->Count = 0;
                 fixture->Open = fixture->Kind == FixtureKind.Gate && run->Permits >= fixture->Index;
                 if (fixture->Kind == FixtureKind.Gate) f.Unsafe.GetPointer<PhysicsCollider3D>(pair.Entity)->Enabled = !fixture->Open;
+                // Knocked-down lamp posts stand again.
+                if (fixture->Kind == FixtureKind.LampPost) f.Unsafe.GetPointer<PhysicsCollider3D>(pair.Entity)->Enabled = true;
             }
 
             int index = 0;

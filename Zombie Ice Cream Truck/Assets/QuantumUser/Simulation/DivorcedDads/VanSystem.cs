@@ -2,7 +2,8 @@ namespace Quantum
 {
     using Photon.Deterministic;
 
-    // Drives the van, stops it against buildings, closed gates and solid fixtures (ramming the nut tree shakes it),
+    // Drives the van, stops it against buildings, closed gates and solid fixtures (ramming the nut tree shakes it, lamp
+    // posts go down at speed and dent the van, which slows it),
     // carries everyone and everything riding it, and bowls over kids, cops and dads it hits at speed. The fat kid is
     // the exception: he stops the van like a wall.
     public unsafe class VanSystem : SystemMainThread
@@ -37,7 +38,7 @@ namespace Quantum
                 van->Speed -= FPMath.Sign(van->Speed) * rolling;
             }
             van->Speed -= van->Speed * settings.VanDrag * dt;
-            van->Speed = FPMath.Clamp(van->Speed, -settings.VanReverseSpeed, settings.VanMaxSpeed);
+            van->Speed = FPMath.Clamp(van->Speed, -settings.VanReverseSpeed, settings.VanMaxSpeed * (1 - van->Damage * settings.DamageSlowdown));
             van->Steer = FPMath.Lerp(van->Steer, drive.X * settings.VanMaxSteer, dt * 4);
 
             // Bicycle model: yaw rate follows speed and steering angle over the wheelbase.
@@ -55,6 +56,17 @@ namespace Quantum
                 var hit = hits[i];
                 var solidFixture = hit.Entity.IsValid && f.Has<Fixture>(hit.Entity) && !f.Has<Riding>(hit.Entity) && !hit.IsTrigger;
                 if (!hit.IsStatic && !solidFixture) continue;
+                if (solidFixture && f.Unsafe.GetPointer<Fixture>(hit.Entity)->Kind == FixtureKind.LampPost && FPMath.Abs(van->Speed) >= settings.LampBreakSpeed)
+                {
+                    // Mowed down: the post falls, the van loses some speed and takes a dent.
+                    f.Unsafe.GetPointer<Fixture>(hit.Entity)->Open = true;
+                    f.Unsafe.GetPointer<PhysicsCollider3D>(hit.Entity)->Enabled = false;
+                    van->Speed *= FP._0_75;
+                    van->Damage = FPMath.Min(1, van->Damage + settings.LampDamage);
+                    van->Shake = FP._0_20;
+                    f.Events.LampFelled(hit.Entity, f.Get<Transform3D>(hit.Entity).Position);
+                    continue;
+                }
                 var bumper = oldPosition + transform->Forward * settings.VanHalfSize.Z * FPMath.Sign(van->Speed) + FPVector3.Up * FP._1_50;
                 if (FPMath.Abs(van->Speed) > settings.CrashMinSpeed) f.Events.VanCrashed(bumper, van->Speed);
                 if (solidFixture && FPMath.Abs(van->Speed) > 4)

@@ -98,7 +98,7 @@ public static partial class DivorcedDadsSceneBuilder
         foreach (var child in screen.GetComponentsInChildren<Transform>(true).Concat(hud.GetComponentsInChildren<Transform>(true))) child.gameObject.layer = UiLayer;
         BuildEffectsObject(gameplay, fx, viewUpdater, cameraRig, hud);
         BuildAudio(gameplay, camera.transform, viewUpdater, input);
-        BuildDayNight(gameplay, sun, camera, town);
+        BuildDayNight(gameplay, sun, camera);
 
         var map = AssetDatabase.LoadAssetAtPath<Map>($"{ConfigFolder}/DivorcedDadsMap.asset");
         if (map == null)
@@ -136,7 +136,7 @@ public static partial class DivorcedDadsSceneBuilder
         EditorBuildSettings.scenes = scenes.ToArray();
     }
 
-    static void BuildDayNight(Transform gameplay, Light sun, Camera sky, TownBuild town)
+    static void BuildDayNight(Transform gameplay, Light sun, Camera sky)
     {
         var dayNight = new GameObject("Day Night").AddComponent<DayNight>();
         dayNight.transform.SetParent(gameplay, false);
@@ -151,7 +151,7 @@ public static partial class DivorcedDadsSceneBuilder
         serialized.FindProperty("skyColor").gradientValue = skyColor;
         serialized.FindProperty("sunIntensity").animationCurveValue = intensity;
         serialized.ApplyModifiedPropertiesWithoutUndo();
-        Set(dayNight, ("sun", sun), ("sky", sky), ("streetLamps", town.Lamps.Cast<Object>().ToArray()),
+        Set(dayNight, ("sun", sun), ("sky", sky),
             ("lotMusic", Ambience(dayNight.transform, "Lot Music", "Dads/music_greensleeves")),
             ("birds", Ambience(dayNight.transform, "Birds", "Dads/birds_loop")),
             ("crickets", Ambience(dayNight.transform, "Crickets", "Dads/crickets_loop")),
@@ -355,6 +355,16 @@ public static partial class DivorcedDadsSceneBuilder
         PanelText(jinglePanel, "Jingle Text", title, 11, HudMint, 48, TextAnchor.MiddleLeft).text = "JINGLE ON";
         var speedPanel = Panel(root, "Speed", "panel_mint", new Vector2(1, 1), new Vector2(-16, -212), new Vector2(180, 46));
         var speed = PanelText(speedPanel, "Speed Text", title, 13, Color.white, 18, TextAnchor.MiddleLeft);
+        // The van's condition once lamp posts have dented it.
+        var truckPanel = Panel(root, "Truck", "panel", new Vector2(1, 1), new Vector2(-16, -266), new Vector2(180, 46));
+        PanelText(truckPanel, "Truck Text", title, 11, Color.white, 14, TextAnchor.MiddleLeft).text = "TRUCK";
+        var truckBar = Panel(truckPanel, "Bar", "bar_back", new Vector2(1, 0.5f), new Vector2(-10, 0), new Vector2(96, 22));
+        var truckFill = HudImage(truckBar, "Condition", "DadsHUD/bar_fill", new Vector2(0.5f, 0.5f), Vector2.zero);
+        Stretch(truckFill.rectTransform);
+        truckFill.rectTransform.offsetMin = new Vector2(4, 4);
+        truckFill.rectTransform.offsetMax = new Vector2(-4, -4);
+        truckFill.type = Image.Type.Filled;
+        truckFill.fillMethod = Image.FillMethod.Horizontal;
 
         // Moving day: the lesson checklist (where the jingle and speed go once the truck is moving), and the arrow that
         // bobs over the next thing to use, its pivot on the arrow's tip.
@@ -465,7 +475,7 @@ public static partial class DivorcedDadsSceneBuilder
             ("scoopIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Scoop{t.Replace(" ", "")}")).ToArray()),
             ("moneyText", money), ("dayIcon", dayIcon), ("dayText", day), ("heatPanel", heatPanel.gameObject), ("heatBadges", badges),
             ("debtText", debt), ("debtFill", debtFill), ("dueText", due), ("strikeIcons", strikes), ("jinglePanel", jinglePanel.gameObject),
-            ("speedPanel", speedPanel.gameObject), ("speedText", speed),
+            ("speedPanel", speedPanel.gameObject), ("speedText", speed), ("truckPanel", truckPanel.gameObject), ("truckFill", truckFill),
             ("phaseBanner", banner.gameObject), ("phaseText", phase), ("tipText", tip), ("promptPanel", promptPanel.gameObject), ("promptText", prompt),
             ("slotIcons", slotIcons), ("slotBadges", slotBadges), ("slotCounts", slotCounts), ("slotSelected", slotSelected), ("selectedName", selectedName),
             ("ammoPanel", ammoPanel.gameObject), ("ammoIcon", ammoIcon), ("ammoText", ammo), ("ammoLabel", ammoLabel),

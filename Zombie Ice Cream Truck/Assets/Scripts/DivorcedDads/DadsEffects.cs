@@ -35,6 +35,7 @@ public class DadsEffects : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventGlobFired e) => OnFired(e));
         QuantumEvent.Subscribe(this, (EventGlobSplat e) => OnSplat(e));
         QuantumEvent.Subscribe(this, (EventKidPaid e) => OnPaid(e));
+        QuantumEvent.Subscribe(this, (EventLampFelled e) => OnLamp(e));
         QuantumEvent.Subscribe(this, (EventKidRefused e) => Say(e.Position.ToUnityVector3(), 2f, "EWW! POOR PEOPLE\nICE CREAM!", Pink, 1.1f));
         QuantumEvent.Subscribe(this, (EventSugarAlert e) => Say(e.Position.ToUnityVector3(), 2.2f, "SUGAR ALERT!\nMOM IS CALLING THE COPS", Siren, 1.2f));
         QuantumEvent.Subscribe(this, (EventUhOh e) => Say(e.Position.ToUnityVector3(), 2f, "uh oh...", Green, 1.2f));
@@ -105,6 +106,14 @@ public class DadsEffects : MonoBehaviour
             Instantiate(gasBurst, position + Vector3.up * 1.5f, Quaternion.identity).Play(Green, 1.5f);
             cameraRig.Jolt(0.5f, 0, false);
         }
+    }
+
+    private void OnLamp(EventLampFelled e)
+    {
+        var position = e.Position.ToUnityVector3();
+        Instantiate(crashBurst, position + Vector3.up * 1.2f, Quaternion.identity).Play(Color.white, 1f);
+        Instantiate(dustBurst, position + Vector3.up * 0.3f, Quaternion.identity).Play(new Color(0.85f, 0.78f, 0.7f), 1f);
+        Say(position, 3f, "CLANG!", Color.white, 1.4f);
     }
 
     private void OnGas(EventGasReleased e)

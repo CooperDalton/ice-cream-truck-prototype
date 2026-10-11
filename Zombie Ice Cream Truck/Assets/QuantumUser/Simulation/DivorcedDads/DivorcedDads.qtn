@@ -60,6 +60,8 @@ singleton component Van {
   Int32 HopperRounds;
   Treat HopperTreat;
   FP Shake;
+  // 0 (fine) to 1 (wrecked): mowing down lamp posts dents it and lowers its top speed. Fixed every morning.
+  FP Damage;
   array<entity_ref>[6] Queue;
 }
 
@@ -99,7 +101,7 @@ enum FixtureKind : Byte {
   Churn, Tub, ConeCounter, GunRack, Hopper, Bell, Turret,
   Shop, Collector, TimeClock,
   MudPuddle, StrawberryPatch, CoffeeTable, NutTree, Vault, Plate, Gate,
-  RearDoor
+  RearDoor, LampPost
 }
 
 enum Upgrade : Byte {
@@ -367,6 +369,11 @@ event FatKidArrived {
 event VanSlammed {
   FPVector3 Position;
   Int32 Stolen;
+}
+
+event LampFelled {
+  entity_ref Lamp;
+  FPVector3 Position;
 }
 
 event VanCrashed {

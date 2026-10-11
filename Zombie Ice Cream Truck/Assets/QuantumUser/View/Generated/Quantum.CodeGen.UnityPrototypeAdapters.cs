@@ -145,6 +145,7 @@ namespace Quantum.Prototypes.Unity {
     public Int32 HopperRounds;
     public Quantum.QEnum8<Treat> HopperTreat;
     public FP Shake;
+    public FP Damage;
     [ArrayLengthAttribute(6)]
     public Quantum.QuantumEntityPrototype[] Queue = new Quantum.QuantumEntityPrototype[6];
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.VanPrototype prototype);
@@ -160,6 +161,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.HopperRounds, out result.HopperRounds);
       converter.Convert(this.HopperTreat, out result.HopperTreat);
       converter.Convert(this.Shake, out result.Shake);
+      converter.Convert(this.Damage, out result.Damage);
       converter.Convert(this.Queue, out result.Queue);
       ConvertUser(converter, ref result);
       return result;
