@@ -19,7 +19,7 @@ using UnityEngine.InputSystem.LowLevel;
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
 // kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
 // tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it),
-// lamps (drives out of the lot and mows down a street lamp), ladder (a jump under the kitchen ceiling, up the ladder onto the roof, back down through the hatch, out the back door
+// turret (buys the minigun, loads its hopper, climbs up to it and fires down the road), lamps (drives out of the lot and mows down a street lamp), ladder (a jump under the kitchen ceiling, up the ladder onto the roof, back down through the hatch, out the back door
 // and in again).
 public static class DadsPlaytest
 {
@@ -179,6 +179,32 @@ public static class DadsPlaytest
             new Step { Name = "f03_patch_b", Duration = 1f, Snap = true, CameraAt = new Vector3(-174f, 3f, -42f), CameraLook = new Vector3(-174f, 0.3f, -36f) },
             new Step { Name = "f04_patch_c", Duration = 1f, Snap = true, CameraAt = new Vector3(-172f, 3f, 20f), CameraLook = new Vector3(-172f, 0.3f, 26f) },
         };
+    }
+
+    static List<Step> Turret()
+    {
+        var steps = new List<Step> { new Step { Name = "g00_start", Duration = 9f } };
+        steps.AddRange(GetOut());
+        steps.Add(new Step { Name = "to minigun shop", Duration = 25f, Target = f => Approach(f, Fixture(f, FixtureKind.Shop, 7), 1.1f), LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 7), 0.9f) });
+        steps.Add(new Step { Name = "face shop", Duration = 0.6f, LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 7), 0.9f) });
+        steps.Add(new Step { Name = "buy minigun", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 7), 0.9f) });
+        steps.AddRange(GetIn());
+        steps.Add(new Step { Name = "to hopper", Duration = 5f, Target = f => Approach(f, Fixture(f, FixtureKind.Hopper, -1), 0.9f) });
+        steps.Add(new Step { Name = "face hopper", Duration = 0.8f, LookAt = f => Raised(Fixture(f, FixtureKind.Hopper, -1), 1.3f) });
+        steps.Add(new Step { Name = "load hopper", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.Hopper, -1), 1.3f) });
+        steps.Add(new Step { Name = "to ladder", Duration = 5f, Target = f => VanPoint(f, new Vector3(0.72f, 0.8f, -2.42f)) });
+        steps.Add(new Step { Name = "face ladder", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(2.5f, 2.2f, -2.42f)) });
+        steps.Add(new Step { Name = "climb out", Duration = 4f, Keys = new[] { Key.W }, LookPitch = 0, Done = f => !Me(f).Climbing && LocalOfDad(f).y > 2.5f });
+        steps.Add(new Step { Name = "to turret", Duration = 6f, Target = f => Approach(f, Fixture(f, FixtureKind.Turret, -1), 1.6f), LookAt = f => Raised(Fixture(f, FixtureKind.Turret, -1), 1.3f) });
+        steps.Add(new Step { Name = "face turret", Duration = 0.6f, LookAt = f => Raised(Fixture(f, FixtureKind.Turret, -1), 1.3f) });
+        steps.Add(new Step { Name = "man turret", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.Turret, -1), 1.3f) });
+        steps.Add(new Step { Name = "g01_manned", Duration = 1.5f, Snap = true, LookAt = f => VanPoint(f, new Vector3(4f, 0f, 22f)) });
+        steps.Add(new Step { Name = "fire", Duration = 1.5f, Fire = true, LookAt = f => VanPoint(f, new Vector3(4f, 0f, 22f)), Record = true });
+        steps.Add(new Step { Name = "g02_fired", Duration = 0.4f, Snap = true, LookAt = f => VanPoint(f, new Vector3(4f, 0f, 22f)) });
+        steps.Add(new Step { Name = "swing", Duration = 1.2f, LookAt = f => VanPoint(f, new Vector3(-20f, 2f, 5f)), Record = true });
+        steps.Add(new Step { Name = "fire side", Duration = 1f, Fire = true, LookAt = f => VanPoint(f, new Vector3(-20f, 2f, 5f)), Record = true });
+        steps.Add(new Step { Name = "g03_side", Duration = 0.4f, Snap = true, LookAt = f => VanPoint(f, new Vector3(-20f, 2f, 5f)) });
+        return steps;
     }
 
     static List<Step> Lamps()
@@ -880,7 +906,7 @@ public static class DadsPlaytest
         PlayerPrefs.SetInt(TutorialMemory.PlayedKey, 0);
         if (scenario == "shop") settings.StartingMoney = 200;
         if (scenario == "maple") settings.StartingMoney = 400;
-        if (scenario == "chaos") settings.StartingMoney = 1500;
+        if (scenario == "chaos" || scenario == "turret") settings.StartingMoney = 1500;
         if (scenario == "finale")
         {
             settings.StartingMoney = 500;
@@ -930,7 +956,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : scenario == "flats" ? Flats() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "ladder" ? Ladder() : scenario == "lamps" ? Lamps() : scenario == "flats" ? Flats() : scenario == "turret" ? Turret() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)

@@ -7,7 +7,8 @@ Nine-slice frames (borders set by DivorcedDadsSceneBuilder.SpriteBorders, drawn 
   panel_gold.png     dark panel, gold rim (Big Dairy)     bar_back.png       progress bar trough
   card.png           big story card, cream rim            banner.png         pink banner with frosting drips (tiled)
 Plain sprites: bar_fill.png (candy stripes), bar_fill_mint.png, and 16 x 16 glyphs: sun, moon, badge (heat), note
-(jingle), carton (Big Dairy), strike, crosshair, and marker (the tutorial's bobbing arrow, pointing down)."""
+(jingle), carton (Big Dairy), strike, crosshair, and marker (the tutorial's bobbing arrow, pointing down); reticle.png
+(32 x 32) is the roof minigun's sight."""
 import os
 from fx_sprites import write_png
 
@@ -187,6 +188,24 @@ MARKER = ["................",
           "................"]
 
 
+def reticle():
+    """Ring with gaps on the axes, inner ticks and a pink center dot, every stroke outlined in ink."""
+    img = canvas(32, 32)
+    for color, grow in ((INK, 1), (MINT, 0)):
+        for y in range(32):
+            for x in range(32):
+                dx, dy = x - 15.5, y - 15.5
+                d = (dx * dx + dy * dy) ** 0.5
+                gap = min(abs(dx), abs(dy)) < 3 - grow
+                ring = 12 - grow <= d < 14 + grow and not gap
+                tick = (abs(dx) < 1 + grow and 4 - grow <= abs(dy) < 10 + grow) or (abs(dy) < 1 + grow and 4 - grow <= abs(dx) < 10 + grow)
+                if ring or tick:
+                    img[y][x] = rgba(color)
+    for x, y in ((15, 15), (16, 15), (15, 16), (16, 16)):
+        img[y][x] = rgba(PINK)
+    return img
+
+
 def stripes(light, mid, dark):
     fill = canvas(64, 12)
     for y in range(12):
@@ -234,6 +253,7 @@ def main():
     save("carton.png", from_rows(CARTON, {"o": INK, "W": WHITE, "K": INK, "P": PINK}))
     save("strike.png", from_rows(STRIKE, {"o": INK, "R": RED}))
     save("crosshair.png", from_rows(CROSS, {"o": INK, "W": WHITE}))
+    save("reticle.png", reticle())
     save("marker.png", from_rows(MARKER, {"o": INK, "P": YEL, "W": WHITE, "D": GOLD_D}))
     print("wrote", OUT)
 

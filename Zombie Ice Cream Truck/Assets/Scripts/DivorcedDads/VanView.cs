@@ -2,7 +2,8 @@ using Quantum;
 using UnityEngine;
 
 // The van: spinning and steering wheels, the steering wheel, the churn crank while a batch is churning, the bell
-// mallet, the minigun hopper gauge, the bought loudspeaker and roof minigun, the fat kid rocking it, engine sound,
+// mallet, the minigun hopper gauge, the bought loudspeaker and roof minigun (turning and tilting with its gunner's view,
+// barrels spinning while it fires), the fat kid rocking it, engine sound,
 // the music-box jingle (only while it is switched on), exhaust, road dust, headlights after dusk, and smoke from under
 // the hood once lamp posts have dented it.
 public class VanView : QuantumEntityViewComponent
@@ -17,6 +18,9 @@ public class VanView : QuantumEntityViewComponent
     [SerializeField] private Transform bellMallet;
     [SerializeField] private GameObject loudspeaker;
     [SerializeField] private GameObject minigun;
+    [SerializeField] private Transform minigunYaw;
+    [SerializeField] private Transform minigunPitch;
+    [SerializeField] private Transform minigunBarrels;
     [SerializeField] private GameObject[] headlights;
     [SerializeField] private AudioSource engineSound;
     [SerializeField] private AudioSource music;
@@ -30,6 +34,11 @@ public class VanView : QuantumEntityViewComponent
     private Quaternion crankRest;
     private Quaternion needleRest;
     private Quaternion malletRest;
+    private Quaternion yawRest;
+    private Quaternion pitchRest;
+    private Quaternion barrelsRest;
+    private float barrelSpin;
+    private float barrelAngle;
 
     public override void OnInitialize()
     {
@@ -37,7 +46,11 @@ public class VanView : QuantumEntityViewComponent
         crankRest = churnCrank.localRotation;
         needleRest = gaugeNeedle.localRotation;
         malletRest = bellMallet.localRotation;
+        yawRest = minigunYaw.localRotation;
+        pitchRest = minigunPitch.localRotation;
+        barrelsRest = minigunBarrels.localRotation;
         QuantumEvent.Subscribe(this, (EventBellRung e) => malletSwing = 1);
+        QuantumEvent.Subscribe(this, (EventGlobFired e) => { if (e.Turret) barrelSpin = 0.25f; });
     }
 
     public override void OnUpdateView()
@@ -63,6 +76,20 @@ public class VanView : QuantumEntityViewComponent
         bellMallet.localRotation = malletRest * Quaternion.Euler(0, 0, Mathf.Sin(malletSwing * Mathf.PI * 3) * 70f * malletSwing);
         loudspeaker.SetActive(run.Loudspeaker);
         minigun.SetActive(run.Minigun);
+        // The gun follows its gunner's view; unmanned it swings back to face forward.
+        var yawTarget = minigunYaw.parent.rotation * yawRest;
+        var pitchTarget = pitchRest;
+        foreach (var pair in frame.GetComponentIterator<Dad>())
+        {
+            if (!pair.Component.Turret) continue;
+            yawTarget = frame.Get<Transform3D>(pair.Entity).Rotation.ToUnityQuaternion();
+            pitchTarget = pitchRest * Quaternion.Euler(pair.Component.Pitch.AsFloat, 0, 0);
+        }
+        minigunYaw.rotation = Quaternion.Slerp(minigunYaw.rotation, yawTarget, 1 - Mathf.Exp(-25 * dt));
+        minigunPitch.localRotation = Quaternion.Slerp(minigunPitch.localRotation, pitchTarget, 1 - Mathf.Exp(-25 * dt));
+        barrelSpin = Mathf.MoveTowards(barrelSpin, 0, dt);
+        barrelAngle += (barrelSpin > 0 ? 1500f : 0) * dt;
+        minigunBarrels.localRotation = barrelsRest * Quaternion.Euler(0, 0, barrelAngle);
         var dark = run.Clock.AsFloat > settings.DuskAt.AsFloat - 0.05f;
         foreach (var light in headlights) light.SetActive(dark);
 

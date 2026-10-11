@@ -158,7 +158,9 @@ namespace Quantum
                 filter.Transform->Teleport(f, van.TransformPoint(exit));
                 return;
             }
-            filter.Transform->Position = van.TransformPoint(dad->Driving ? settings.DriverSeat : settings.TurretStand);
+            filter.Transform->Position = dad->Driving
+                ? van.TransformPoint(settings.DriverSeat)
+                : van.TransformPoint(settings.TurretBase) + filter.Transform->Rotation * settings.TurretGunner;
             filter.Controller->Velocity = FPVector3.Zero;
             dad->Standing = f.GetSingletonEntityRef<Van>();
             if (dad->Driving)
@@ -178,11 +180,20 @@ namespace Quantum
             if (!input->Fire.IsDown || dad->FireCooldown > 0 || vanState->HopperRounds <= 0) return;
             vanState->HopperRounds--;
             dad->FireCooldown = FP._0_10 - FP._0_02;
+            // The gun turns with the gunner's view. Shots leave its muzzle for whatever the sight looks at, lobbed just
+            // enough to land there despite the drop, with a little spray.
             var aim = filter.Transform->Rotation * FPQuaternion.Euler(dad->Pitch, 0, 0);
-            var spread = FPQuaternion.Euler(f.RNG->Next(-FP._1_50, FP._1_50), f.RNG->Next(-FP._1_50, FP._1_50), 0);
-            var direction = aim * spread * FPVector3.Forward;
-            var muzzle = van.TransformPoint(settings.TurretMuzzle);
-            FireGlob(f, dad->Player, vanState->HopperTreat, muzzle, direction * settings.GlobSpeed * FP._1_25 + van.Forward * vanState->Speed, 1);
+            var pivot = van.TransformPoint(settings.TurretPivot);
+            var eye = pivot + aim * settings.TurretEye;
+            var look = aim * FPVector3.Forward;
+            var sighted = f.Physics3D.Raycast(eye, look, settings.TurretRange, -1, QueryOptions.HitStatics);
+            var target = sighted.HasValue ? sighted.Value.Point : eye + look * settings.TurretRange;
+            var muzzle = pivot + aim * settings.TurretMuzzle;
+            var speed = settings.GlobSpeed * FP._1_25;
+            var spread = FPQuaternion.Euler(f.RNG->Next(-FP._0_75, FP._0_75), f.RNG->Next(-FP._0_75, FP._0_75), 0);
+            var direction = spread * (target - muzzle).Normalized;
+            var flight = (target - muzzle).Magnitude / speed;
+            FireGlob(f, dad->Player, vanState->HopperTreat, muzzle, direction * speed + FPVector3.Up * settings.GlobGravity * flight * FP._0_50, 1);
             f.Events.GlobFired(dad->Player, DadItem.None, vanState->HopperTreat, muzzle, direction, true);
         }
 

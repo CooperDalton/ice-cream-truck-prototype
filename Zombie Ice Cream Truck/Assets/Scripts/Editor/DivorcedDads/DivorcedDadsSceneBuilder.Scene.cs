@@ -320,7 +320,10 @@ public static partial class DivorcedDadsSceneBuilder
         }
         var cough = Overlay(root, "Cough Tint");
         var frozen = Overlay(root, "Brain Freeze Tint");
-        HudImage(root, "Crosshair", "DadsHUD/crosshair", new Vector2(0.5f, 0.5f), new Vector2(32, 32));
+        var crosshair = HudImage(root, "Crosshair", "DadsHUD/crosshair", new Vector2(0.5f, 0.5f), new Vector2(32, 32));
+        // The roof minigun's sight, in place of the crosshair while manning it.
+        var reticle = HudImage(root, "Minigun Reticle", "DadsHUD/reticle", new Vector2(0.5f, 0.5f), new Vector2(128, 128));
+        reticle.gameObject.SetActive(false);
 
         // Top left: cash, the day, heat.
         var moneyPanel = Panel(root, "Money", "panel", new Vector2(0, 1), new Vector2(16, -16), new Vector2(212, 60));
@@ -469,7 +472,7 @@ public static partial class DivorcedDadsSceneBuilder
 
         var hud = canvas.gameObject.AddComponent<DadsHud>();
         Set(hud,
-            ("input", input), ("eye", eye), ("lessonPanel", lessonPanel), ("lessonText", lessons), ("lessonMarker", marker.rectTransform), ("fade", fade),
+            ("input", input), ("eye", eye), ("crosshair", crosshair.gameObject), ("turretReticle", reticle.gameObject), ("lessonPanel", lessonPanel), ("lessonText", lessons), ("lessonMarker", marker.rectTransform), ("fade", fade),
             ("minigunIcon", HudSprite("DadsIcons/Minigun")), ("sunIcon", HudSprite("DadsHUD/sun")), ("moonIcon", HudSprite("DadsHUD/moon")),
             ("coneIcons", new Object[] { HudSprite("DadsIcons/Cone"), HudSprite("DadsIcons/WaffleCone"), HudSprite("DadsIcons/DoubleWaffleCone") }),
             ("scoopIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Scoop{t.Replace(" ", "")}")).ToArray()),

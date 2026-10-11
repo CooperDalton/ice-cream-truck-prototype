@@ -102,8 +102,16 @@ namespace Quantum
         public FPVector3 HatchTop;
         public FPVector3 RearInside;
         public FPVector3 RearOutside;
-        public FPVector3 TurretStand;
+        // The roof minigun on its platform, van-local: the gun's base (the platform top) and its pitch pivot. Offsets from
+        // there: the gunner's feet (turning with the gun), the sight the camera looks through and the muzzle (both turning
+        // and tilting with the aim).
+        public FPVector3 TurretBase;
+        public FPVector3 TurretPivot;
+        public FPVector3 TurretGunner;
+        public FPVector3 TurretEye;
         public FPVector3 TurretMuzzle;
+        // How far the sight looks for something to aim at; shots converge there.
+        public FP TurretRange = 60;
         // Van-local ground point outside the serving window where the queue starts; the line grows outward along -X.
         public FPVector3 WindowOutside;
         public FixturePlacement[] VanFixtures;

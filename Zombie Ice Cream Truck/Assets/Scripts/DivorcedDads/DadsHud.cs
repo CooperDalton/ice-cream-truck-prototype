@@ -26,6 +26,9 @@ public class DadsHud : MonoBehaviour
 
     [SerializeField] private DadsInput input;
     [SerializeField] private Camera eye;
+    [SerializeField] private GameObject crosshair;
+    [Tooltip("Replaces the crosshair while manning the roof minigun.")]
+    [SerializeField] private GameObject turretReticle;
     [SerializeField] private ItemIcon[] icons;
     [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
     [SerializeField] private Sprite[] scoopIcons;
@@ -241,6 +244,8 @@ public class DadsHud : MonoBehaviour
 
         if (!input.LocalEntity.IsValid) return;
         var dad = frame.Get<Dad>(input.LocalEntity);
+        crosshair.SetActive(!dad.Turret);
+        turretReticle.SetActive(dad.Turret);
         coughTint.color = Color.Lerp(coughTint.color, new Color(0.45f, 0.8f, 0.2f, dad.Coughing > 0 ? 0.35f : 0), 1 - Mathf.Exp(-6 * dt));
         frozenTint.color = Color.Lerp(frozenTint.color, new Color(0.7f, 0.9f, 1f, dad.Frozen > 0 ? 0.45f : 0), 1 - Mathf.Exp(-8 * dt));
         for (int i = 0; i < slotIcons.Length; i++)

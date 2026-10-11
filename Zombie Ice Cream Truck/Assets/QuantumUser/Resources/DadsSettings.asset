@@ -574,20 +574,43 @@ MonoBehaviour:
       RawValue: 3276
     Z:
       RawValue: -235929
-  TurretStand:
+  TurretBase:
     X:
       RawValue: 0
     Y:
-      RawValue: 192675
+      RawValue: 251658
     Z:
-      RawValue: -85196
+      RawValue: -29491
+  TurretPivot:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 289996
+    Z:
+      RawValue: -29491
+  TurretGunner:
+    X:
+      RawValue: 0
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -52428
+  TurretEye:
+    X:
+      RawValue: 36044
+    Y:
+      RawValue: 55705
+    Z:
+      RawValue: -98304
   TurretMuzzle:
     X:
       RawValue: 0
     Y:
-      RawValue: 224788
+      RawValue: 0
     Z:
-      RawValue: 33423
+      RawValue: 94371
+  TurretRange:
+    RawValue: 3932160
   WindowOutside:
     X:
       RawValue: -219545
@@ -781,16 +804,16 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 34655
+        RawValue: 78197
       Z:
-        RawValue: 17989
+        RawValue: 26984
     HalfSize:
       X:
-        RawValue: 26302
+        RawValue: 39453
       Y:
-        RawValue: 34655
+        RawValue: 78197
       Z:
-        RawValue: 47546
+        RawValue: 71319
     Trigger: 0
   - Kind: 1
     Index: 0

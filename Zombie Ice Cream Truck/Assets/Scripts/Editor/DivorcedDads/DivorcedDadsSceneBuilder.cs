@@ -34,6 +34,10 @@ public static partial class DivorcedDadsSceneBuilder
     // Indexed by Treat (None first).
     static readonly string[] Treats = { null, "Mud", "Strawberry", "Coffee", "Rocky Road", "Gold Leaf" };
     static readonly string[] Cones = { "Cone", "Waffle Cone", "Double Waffle Cone" };
+    // The roof minigun stands on a platform this tall, scaled up from the weapon art.
+    const float TurretRise = 0.8f;
+    const float TurretScale = 1.5f;
+
     // The truck art drives on the right; this is America, so the Dads van mirrors the driving position to the left.
     static readonly string[] DriverSide = { "driver seat", "steering wheel", "steering column", "instruments", "pedal brake", "pedal gas" };
     // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own), the freezer's sliding glass
@@ -181,7 +185,14 @@ public static partial class DivorcedDadsSceneBuilder
             var center = part.parent.InverseTransformPoint(part.TransformPoint(LocalBounds(part).center));
             part.localPosition -= new Vector3(2 * center.x, 0, 0);
         }
-        var minigun = Place(Model("Weapons", "Soft Serve Minigun"), model.transform, Child(model, $"{Truck} socket turret").position, Quaternion.identity);
+        // The minigun, bigger, on a raised platform with a deck the gunner stands on behind it.
+        var platform = new GameObject("Turret Platform").transform;
+        platform.SetParent(model.transform, false);
+        platform.position = Child(model, $"{Truck} socket turret").position;
+        Primitive(PrimitiveType.Cylinder, platform, "Post", new Vector3(0, TurretRise / 2, 0), new Vector3(0.45f, TurretRise / 2, 0.45f), Material("Dads Pedestal", new Color(1f, 0.31f, 0.64f)), false);
+        Primitive(PrimitiveType.Cylinder, platform, "Deck", new Vector3(0, TurretRise - 0.04f, -0.2f), new Vector3(1.8f, 0.04f, 1.8f), Material("Dads Turret Deck", new Color(0.22f, 0.95f, 0.76f)), false);
+        var minigun = Place(Model("Weapons", "Soft Serve Minigun"), platform, new Vector3(0, TurretRise, 0), Quaternion.identity);
+        minigun.transform.localScale = Vector3.one * TurretScale;
         var speaker = Place(Model(Items, "Loudspeaker"), model.transform, Child(model, $"{Truck} socket upgrade turret2").position + new Vector3(0.3f, 0, 0.4f), Quaternion.identity);
         var lights = new List<Object>();
         foreach (var side in new[] { -0.75f, 0.75f })
@@ -206,7 +217,9 @@ public static partial class DivorcedDadsSceneBuilder
             ("churnCrank", Child(model, $"{Truck} churn crank")),
             ("gaugeNeedle", Child(model, $"{Truck} gauge needle")),
             ("bellMallet", Child(model, $"{Truck} bell mallet")),
-            ("loudspeaker", speaker), ("minigun", minigun), ("headlights", lights.ToArray()),
+            ("loudspeaker", speaker), ("minigun", platform.gameObject), ("minigunYaw", Child(minigun, "Soft Serve Minigun yaw")),
+            ("minigunPitch", Child(minigun, "Soft Serve Minigun pitch")), ("minigunBarrels", Child(minigun, "Soft Serve Minigun barrels")),
+            ("headlights", lights.ToArray()),
             ("engineSound", Loop(root.transform, "Engine", "engine_loop", 4, 60, 0.6f, true)),
             ("music", Loop(root.transform, "Jingle", "music_entertainer", 8, 70, 0.5f, false)),
             ("exhaust", Emitter(root.transform, "Exhaust", new Vector3(0.8f, 0.35f, -3.05f), new Vector3(0, 0.3f, -1),
@@ -646,10 +659,20 @@ public static partial class DivorcedDadsSceneBuilder
 
         var turretSocket = Child(truck, $"{Truck} socket turret").position;
         var minigun = Place(Model("Weapons", "Soft Serve Minigun"), null, Vector3.zero, Quaternion.identity);
-        var muzzle = Child(minigun, "Soft Serve Minigun socket muzzle").position;
+        var pitchPivot = Child(minigun, "Soft Serve Minigun pitch").position * TurretScale;
+        var muzzle = Child(minigun, "Soft Serve Minigun socket muzzle").position * TurretScale;
         var turretBounds = LocalBounds(minigun.transform, true);
-        settings.TurretStand = (turretSocket + new Vector3(0, -0.1f, -0.85f)).ToFPVector3();
-        settings.TurretMuzzle = (turretSocket + muzzle).ToFPVector3();
+        var gunBase = turretSocket + Vector3.up * TurretRise;
+        settings.TurretBase = gunBase.ToFPVector3();
+        settings.TurretPivot = (gunBase + pitchPivot).ToFPVector3();
+        settings.TurretGunner = new Vector3(0, 0, -0.8f).ToFPVector3();
+        // Over the gun's right shoulder, clear of its hopper, looking along its barrels.
+        settings.TurretEye = new Vector3(0.55f, 0.85f, -1.5f).ToFPVector3();
+        settings.TurretMuzzle = (muzzle - pitchPivot).ToFPVector3();
+        // Platform and gun in one box (E target from the roof, and what dads bump into up there).
+        var turretTop = TurretRise + turretBounds.max.y * TurretScale;
+        var turretCenter = new Vector3(0, turretTop / 2, turretBounds.center.z * TurretScale);
+        var turretHalf = new Vector3(Mathf.Max(0.5f, turretBounds.extents.x * TurretScale), turretTop / 2, turretBounds.extents.z * TurretScale);
 
         var placements = new List<FixturePlacement>
         {
@@ -664,7 +687,7 @@ public static partial class DivorcedDadsSceneBuilder
                 Kind = FixtureKind.RearDoor, Position = Child(truck, $"{Truck} rear door").position.ToFPVector3(),
                 Center = new Vector3(-0.45f, 0.925f, 0).ToFPVector3(), HalfSize = new Vector3(0.45f, 0.925f, 0.04f).ToFPVector3(),
             },
-            new FixturePlacement { Kind = FixtureKind.Turret, Position = turretSocket.ToFPVector3(), Center = turretBounds.center.ToFPVector3(), HalfSize = turretBounds.extents.ToFPVector3() },
+            new FixturePlacement { Kind = FixtureKind.Turret, Position = turretSocket.ToFPVector3(), Center = turretCenter.ToFPVector3(), HalfSize = turretHalf.ToFPVector3() },
         };
         // Four tubs in the freezer rack; their boxes are as deep as the rack so they also stop dads walking into it.
         for (int i = 0; i < 4; i++)

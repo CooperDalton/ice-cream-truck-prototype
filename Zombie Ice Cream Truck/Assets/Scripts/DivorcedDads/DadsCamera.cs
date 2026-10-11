@@ -3,8 +3,8 @@ using UnityEngine;
 
 // Puts the camera at the local dad's eyes, using the locally accumulated look angles plus the van rotation the
 // simulation carried him through. While he tumbles after being run over (or sits in the back of a cruiser) the camera
-// pulls out behind his body so the player gets to watch. On top of that: trauma screen shake, a punch-in lunge for
-// cone shoves, recoil kick and the aim zoom.
+// pulls out behind his body so the player gets to watch, and on the roof minigun it looks down the gun's back through
+// its sight. On top of that: trauma screen shake, a punch-in lunge for cone shoves, recoil kick and the aim zoom.
 public class DadsCamera : MonoBehaviour
 {
     [SerializeField] private QuantumEntityViewUpdater viewUpdater;
@@ -14,6 +14,7 @@ public class DadsCamera : MonoBehaviour
     [SerializeField] private Vector3 tumbleOffset = new Vector3(0, 2.8f, -4.2f);
     [SerializeField] private float fieldOfView = 75f;
     [SerializeField] private float aimFieldOfView = 55f;
+    [SerializeField] private float turretFieldOfView = 60f;
     [SerializeField] private float maxShakeAngle = 6f;
     [SerializeField] private float maxShakeOffset = 0.12f;
     [SerializeField] private float traumaDecay = 1.4f;
@@ -61,6 +62,15 @@ public class DadsCamera : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, body + behind, 1 - Mathf.Exp(-5 * dt));
             transform.rotation = Quaternion.LookRotation(body + Vector3.up * 0.6f - transform.position);
             eye.fieldOfView = fieldOfView;
+        }
+        else if (dad.Turret)
+        {
+            var settings = frame.FindAsset(frame.RuntimeConfig.DadsSettings);
+            var truck = viewUpdater.GetView(frame.GetSingletonEntityRef<Van>()).transform;
+            var aim = Quaternion.Euler(input.Pitch - kick, input.Yaw + dad.YawOffset.AsFloat, 0);
+            var pivot = truck.TransformPoint(settings.TurretPivot.ToUnityVector3());
+            transform.SetPositionAndRotation(pivot + aim * settings.TurretEye.ToUnityVector3(), aim);
+            eye.fieldOfView = Mathf.Lerp(eye.fieldOfView, turretFieldOfView, 1 - Mathf.Exp(-14 * dt));
         }
         else
         {
