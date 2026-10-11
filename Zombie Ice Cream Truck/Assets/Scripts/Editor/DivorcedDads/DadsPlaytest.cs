@@ -17,7 +17,8 @@ using UnityEngine.InputSystem.LowLevel;
 // In an open editor: DadsPlaytest.Run("serve"). Headless: Unity -batchmode -projectPath <project>
 // -executeMethod DadsPlaytest.RunFromCommandLine -logFile <log> with PLAYTEST_SCENARIO set (no -quit).
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
-// kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out).
+// kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
+// tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it).
 public static class DadsPlaytest
 {
     const string ScenePath = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
@@ -163,6 +164,80 @@ public static class DadsPlaytest
         steps.Add(new Step { Name = "wait next day", Duration = 15f, Done = f => f.GetSingleton<DadsRun>().Phase == DayPhase.Morning });
         steps.Add(new Step { Name = "n05_next_morning", Duration = 2f, Snap = true });
         return steps;
+    }
+
+    // Moving day: mud from the puddle into the churn, a cone for the kid, strawberries and nuts churned, then the wheel.
+    static List<Step> Tutorial()
+    {
+        var steps = new List<Step>
+        {
+            new Step { Name = "u00_start", Duration = 3f, Snap = true, LookPitch = 5 },
+            new Step { Name = "u01_lessons", Duration = 7f, Snap = true, LookPitch = 5 },
+            new Step { Name = "to mud", Duration = 20f, Target = f => Approach(f, Fixture(f, FixtureKind.MudPuddle, -1), 1.2f), LookAt = f => Fixture(f, FixtureKind.MudPuddle, -1) },
+            new Step { Name = "face mud", Duration = 0.6f, LookAt = f => Fixture(f, FixtureKind.MudPuddle, -1) },
+            new Step { Name = "grab mud", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Fixture(f, FixtureKind.MudPuddle, -1) },
+            new Step { Name = "u02_mud", Duration = 1f, Snap = true, LookPitch = 5 },
+        };
+        steps.AddRange(YardIn());
+        steps.AddRange(Churn("u03_churned"));
+        steps.Add(new Step { Name = "to freezer", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.15f, 0.8f, -2.3f)) });
+        steps.Add(new Step { Name = "face tub", Duration = 1f, LookAt = f => Tub(f, TubOf(f, Treat.Mud)), Keys = new[] { Key.Digit1 } });
+        steps.Add(new Step { Name = "plop", Duration = 0.2f, Fire = true, LookAt = f => Tub(f, TubOf(f, Treat.Mud)) });
+        steps.Add(new Step { Name = "release", Duration = 0.4f, LookAt = f => Tub(f, TubOf(f, Treat.Mud)) });
+        steps.Add(new Step { Name = "u04_scooped", Duration = 0.5f, Snap = true });
+        steps.Add(new Step { Name = "to window", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.25f, 0.8f, -0.8f)) });
+        steps.Add(new Step { Name = "wait for kid", Duration = 40f, LookAt = f => QueueFace(f), Done = f => QueueCount(f) >= 1, Record = true });
+        steps.Add(new Step { Name = "kid walks up", Duration = 8f, LookAt = f => QueueFace(f), Done = f => KidAtWindow(f), Record = true });
+        steps.Add(new Step { Name = "u05_kid", Duration = 0.5f, Snap = true, LookAt = f => QueueFace(f) });
+        steps.Add(new Step { Name = "shove", Duration = 0.25f, Fire = true, LookAt = f => QueueFace(f), Record = true });
+        steps.Add(new Step { Name = "shove after", Duration = 2.5f, LookAt = f => QueueFace(f), Record = true });
+        steps.Add(new Step { Name = "u06_served", Duration = 0.3f, Snap = true });
+        steps.AddRange(GetOut());
+        steps.Add(new Step { Name = "to patch", Duration = 30f, Target = f => Approach(f, Fixture(f, FixtureKind.StrawberryPatch, -1), 1.1f), LookAt = f => Fixture(f, FixtureKind.StrawberryPatch, -1) });
+        steps.Add(new Step { Name = "face patch", Duration = 0.6f, LookAt = f => Fixture(f, FixtureKind.StrawberryPatch, -1) });
+        steps.Add(new Step { Name = "pick", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Fixture(f, FixtureKind.StrawberryPatch, -1) });
+        steps.Add(new Step { Name = "u07_berries", Duration = 0.8f, Snap = true, LookPitch = 5 });
+        steps.AddRange(YardIn());
+        steps.AddRange(Churn("u08_berries_churned"));
+        steps.AddRange(GetOut());
+        steps.Add(new Step { Name = "to tree", Duration = 30f, Target = f => Approach(f, Fixture(f, FixtureKind.NutTree, -1), 1.4f), LookAt = f => Raised(Fixture(f, FixtureKind.NutTree, -1), 1.2f) });
+        for (int i = 0; i < 5; i++)
+        {
+            steps.Add(new Step { Name = $"shake {i}", Duration = 0.25f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.NutTree, -1), 1.2f) });
+            steps.Add(new Step { Name = $"shake release {i}", Duration = 0.25f, LookAt = f => Raised(Fixture(f, FixtureKind.NutTree, -1), 1.2f) });
+        }
+        steps.Add(new Step { Name = "u09_nuts", Duration = 2f, Snap = true, LookAt = f => NearestLoot(f) });
+        steps.Add(new Step { Name = "to sack", Duration = 10f, Target = f => Approach(f, NearestLoot(f), 1f), LookAt = f => NearestLoot(f) });
+        steps.Add(new Step { Name = "face sack", Duration = 0.6f, LookAt = f => NearestLoot(f) });
+        steps.Add(new Step { Name = "pick up", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => NearestLoot(f) });
+        steps.AddRange(YardIn());
+        steps.AddRange(Churn("u10_nuts_churned"));
+        steps.Add(new Step { Name = "u11_stocked", Duration = 1f, Snap = true, LookPitch = 5 });
+        steps.AddRange(ToSeat());
+        steps.Add(new Step { Name = "to the lot", Duration = 1.2f, Record = true });
+        steps.Add(new Step { Name = "u12_lot", Duration = 3f, Snap = true, LookPitch = 0 });
+        steps.Add(new Step { Name = "drive out", Duration = 60f, DriveTo = f => Flats(f), Done = f => Arrived(f, Flats(f), 6) });
+        steps.Add(new Step { Name = "u13_day", Duration = 0.5f, Snap = true });
+        return steps;
+    }
+
+    // From the yard into the back of the truck, past its yard-side rear corner (the serving window faces the yard).
+    static IEnumerable<Step> YardIn()
+    {
+        yield return new Step { Name = "to corner", Duration = 30f, Target = f => VanPoint(f, new Vector3(-2.4f, 0.05f, -4.4f)) };
+        yield return new Step { Name = "to rear", Duration = 10f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.8f)) };
+        yield return new Step { Name = "face van", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
+        yield return new Step { Name = "get in", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
+        yield return new Step { Name = "settle in", Duration = 0.6f };
+    }
+
+    static IEnumerable<Step> Churn(string snap)
+    {
+        yield return new Step { Name = "to churn", Duration = 5f, Target = f => VanPoint(f, new Vector3(-0.05f, 0.8f, 0.4f)) };
+        yield return new Step { Name = "face churn", Duration = 0.8f, LookAt = f => Fixture(f, FixtureKind.Churn, -1) + Vector3.up * 1.2f };
+        yield return new Step { Name = "churn", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Fixture(f, FixtureKind.Churn, -1) + Vector3.up * 1.2f };
+        yield return new Step { Name = "wait churn", Duration = 2.5f };
+        yield return new Step { Name = snap, Duration = 0.5f, Snap = true };
     }
 
     // Maple Grove: buy the permit and a pistol, drive through the gate to the park, ram the nut tree, churn rocky road,
@@ -526,6 +601,15 @@ public static class DadsPlaytest
         return count;
     }
 
+    // The first kid in line has reached their spot at the serving window.
+    static bool KidAtWindow(Frame frame)
+    {
+        var settings = frame.FindAsset(frame.RuntimeConfig.DadsSettings);
+        var spot = VanPoint(frame, settings.WindowOutside.ToUnityVector3()).Value;
+        var face = QueueFace(frame).Value;
+        return new Vector2(face.x - spot.x, face.z - spot.z).magnitude < 0.4f;
+    }
+
     static Vector3? QueueFace(Frame frame)
     {
         var queue = frame.GetSingleton<Van>().Queue;
@@ -690,7 +774,8 @@ public static class DadsPlaytest
         }
         // Scenario shortcuts live on the settings asset for this play session only; Finish puts them back.
         var settings = AssetDatabase.LoadAssetAtPath<DadsSettings>("Assets/QuantumUser/Resources/DadsSettings.asset");
-        SessionState.SetString("DivorcedDads.Playtest.Restore", JsonUtility.ToJson(new Shortcuts { Money = settings.StartingMoney, DayLength = settings.DayLength.AsFloat, Day = settings.StartingDay }));
+        SessionState.SetString("DivorcedDads.Playtest.Restore", JsonUtility.ToJson(new Shortcuts { Money = settings.StartingMoney, DayLength = settings.DayLength.AsFloat, Day = settings.StartingDay, Tutorial = settings.Tutorial }));
+        settings.Tutorial = scenario == "tutorial";
         if (scenario == "shop") settings.StartingMoney = 200;
         if (scenario == "maple") settings.StartingMoney = 400;
         if (scenario == "chaos") settings.StartingMoney = 1500;
@@ -716,6 +801,7 @@ public static class DadsPlaytest
         public int Money;
         public float DayLength;
         public int Day;
+        public bool Tutorial;
     }
 
     // Entering play mode reloads scripts, which drops static state and event hooks; pick the run back up afterwards.
@@ -742,7 +828,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
@@ -872,7 +958,7 @@ public static class DadsPlaytest
             var toQueue = QueueFace(frame).Value - position;
             dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} carried {dad.Carried.Kind} hotbar {hotbar}";
         }
-        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
+        return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
     }
 
     // Renders the PS1 game camera, then the display camera (dithered game image plus HUD) into a texture of the given size.
@@ -913,6 +999,7 @@ public static class DadsPlaytest
         settings.StartingMoney = restore.Money;
         settings.DayLength = FP.FromFloat_UNSAFE(restore.DayLength);
         settings.StartingDay = restore.Day;
+        settings.Tutorial = restore.Tutorial;
         InputSystem.RemoveDevice(keyboard);
         InputSystem.RemoveDevice(mouse);
         start = 0;

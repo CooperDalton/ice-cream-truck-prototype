@@ -7,7 +7,7 @@ namespace Quantum
     // lunch money, knockdowns, and the feeding rules every way of serving ice cream goes through.
     public static unsafe class DadsGame
     {
-        public static void StartRun(Frame f)
+        public static void StartRun(Frame f, bool tutorial)
         {
             var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
             var run = f.Unsafe.GetPointerSingleton<DadsRun>();
@@ -28,12 +28,48 @@ namespace Quantum
                 }
                 for (int i = 0; i < fixture->Slots.Length; i++) *fixture->Slots.GetPointer(i) = default;
                 if (fixture->Kind != FixtureKind.Tub) continue;
-                // Day one starts with a tub of the only ice cream the dads can afford.
-                fixture->Treat = fixture->Index == 0 ? Treat.Mud : Treat.None;
-                fixture->Count = fixture->Index == 0 ? settings.ScoopsPerBatch : 0;
+                // Day one starts with a tub of the only ice cream the dads can afford; on moving day they make it themselves.
+                var stocked = fixture->Index == 0 && !tutorial;
+                fixture->Treat = stocked ? Treat.Mud : Treat.None;
+                fixture->Count = stocked ? settings.ScoopsPerBatch : 0;
             }
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<Dad>()) GiveLoadout(pair.Component);
+            if (!tutorial)
+            {
+                StartDay(f);
+                return;
+            }
+            // Moving day: the truck waits outside the trailer and the dads learn the ropes on foot (they are placed in
+            // the yard as they join).
+            run->Phase = DayPhase.Tutorial;
+            run->Due = Math.Min(run->Debt, settings.Dues[run->Day - 1]);
+            ParkVan(f, settings.TutorialPark, settings.TutorialYaw);
+            f.Events.DayPhaseChanged(DayPhase.Tutorial, run->Day);
+        }
+
+        // Taking the wheel on moving day drives the truck to Big Dairy's lot: the first morning starts with that dad still
+        // at the wheel. Skipping the lessons still leaves a tub of mud to sell.
+        public static void FinishTutorial(Frame f, EntityRef driver)
+        {
+            var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
+            var stocked = false;
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
+            {
+                if (pair.Component->Kind == FixtureKind.Tub && pair.Component->Count > 0) stocked = true;
+            }
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
+            {
+                if (stocked || pair.Component->Kind != FixtureKind.Tub || pair.Component->Index != 0) continue;
+                pair.Component->Treat = Treat.Mud;
+                pair.Component->Count = settings.ScoopsPerBatch;
+            }
+            f.Events.LessonLearned(Lesson.Drive);
             StartDay(f);
+            var dad = f.Unsafe.GetPointer<Dad>(driver);
+            dad->Driving = true;
+            // The truck turned on the way over; so does the driver's view.
+            dad->YawOffset += settings.LotYaw - settings.TutorialYaw;
+            f.Unsafe.GetPointerSingleton<Van>()->Driver = dad->Player;
         }
 
         // Morning at Big Dairy's lot: the van parks, everyone climbs in the back, the town resets.
@@ -62,21 +98,8 @@ namespace Quantum
             var scheduled = run->Day <= settings.Dues.Length ? settings.Dues[run->Day - 1] : 0;
             run->Due = Math.Min(run->Debt, scheduled + run->Carry);
 
-            var vanEntity = f.GetSingletonEntityRef<Van>();
-            var van = f.Unsafe.GetPointer<Van>(vanEntity);
-            van->Speed = 0;
-            van->Steer = 0;
-            van->Driver = PlayerRef.None;
-            van->Jingle = false;
-            for (int i = 0; i < van->Queue.Length; i++) *van->Queue.GetPointer(i) = EntityRef.None;
-            var vanTransform = f.Unsafe.GetPointer<Transform3D>(vanEntity);
-            vanTransform->Teleport(f, settings.LotPark, FPQuaternion.Euler(0, settings.LotYaw, 0));
-            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Riding>())
-            {
-                var transform = f.Unsafe.GetPointer<Transform3D>(pair.Entity);
-                transform->Teleport(f, vanTransform->TransformPoint(pair.Component->LocalPosition), vanTransform->Rotation * pair.Component->LocalRotation);
-            }
-
+            ParkVan(f, settings.LotPark, settings.LotYaw);
+            var vanTransform = f.Unsafe.GetPointer<Transform3D>(f.GetSingletonEntityRef<Van>());
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
             {
                 var fixture = pair.Component;
@@ -94,6 +117,25 @@ namespace Quantum
                 index++;
             }
             f.Events.DayPhaseChanged(DayPhase.Morning, run->Day);
+        }
+
+        // Stops the van with nobody at the wheel and moves it, with everything riding on it, to a parking spot.
+        static void ParkVan(Frame f, FPVector3 position, FP yaw)
+        {
+            var vanEntity = f.GetSingletonEntityRef<Van>();
+            var van = f.Unsafe.GetPointer<Van>(vanEntity);
+            van->Speed = 0;
+            van->Steer = 0;
+            van->Driver = PlayerRef.None;
+            van->Jingle = false;
+            for (int i = 0; i < van->Queue.Length; i++) *van->Queue.GetPointer(i) = EntityRef.None;
+            var vanTransform = f.Unsafe.GetPointer<Transform3D>(vanEntity);
+            vanTransform->Teleport(f, position, FPQuaternion.Euler(0, yaw, 0));
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Riding>())
+            {
+                var transform = f.Unsafe.GetPointer<Transform3D>(pair.Entity);
+                transform->Teleport(f, vanTransform->TransformPoint(pair.Component->LocalPosition), vanTransform->Rotation * pair.Component->LocalRotation);
+            }
         }
 
         // Puts a dad back in the kitchen at the back of the van, clearing seats, tumbles and arrests.

@@ -101,7 +101,8 @@ namespace Quantum
         public Int32 HopperCapacity = 120;
         public Int32 RoundsPerScoop = 4;
 
-        public FP ShoveRange = FP._3 + FP._0_50 + FP._0_10;
+        // Reaches a kid standing anywhere around their queue spot outside the serving window from the kitchen aisle.
+        public FP ShoveRange = 4;
         public FP ShoveAngle = 40;
         public FP ShoveCooldown = FP._0_50;
         public Int32 PistolClip = 10;
@@ -159,6 +160,12 @@ namespace Quantum
         public FPVector3 LotPark;
         public FP LotYaw;
         public FP LotRadius = 22;
+        // Moving day, the tutorial yard south of town: where the truck waits, where the dads start and where their kid
+        // walks over from.
+        public FPVector3 TutorialPark;
+        public FP TutorialYaw;
+        public FPVector3 TutorialStart;
+        public FPVector3 TutorialKid;
 
         public FP DayLength = 300;
         public FP DuskAt = FP._0_75 - FP._0_05;
@@ -167,7 +174,8 @@ namespace Quantum
         public FP CollectionTime = 7;
         public FP EndTime = 15;
         public Int32 StartingConeSize = 1;
-        // Play-test shortcuts: start the run on a later day and with cash in hand.
+        // Play-test shortcuts: skip the tutorial, start the run on a later day and with cash in hand.
+        public bool Tutorial = true;
         public Int32 StartingDay = 1;
         public Int32 StartingMoney;
     }

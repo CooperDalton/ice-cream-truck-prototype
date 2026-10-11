@@ -39,8 +39,14 @@ component Dad {
   FP Busted;
 }
 
+// Tutorial: moving day at the trailer, before the first morning at Big Dairy's lot.
 enum DayPhase : Byte {
-  Morning, Day, Dusk, Night, Collection, Won, Repo
+  Tutorial, Morning, Day, Dusk, Night, Collection, Won, Repo
+}
+
+// The tutorial's steps, in order. Drive is last: taking the wheel (at any step) ends the tutorial.
+enum Lesson : Byte {
+  Mud, Board, Churn, Scoop, Serve, Strawberries, Nuts, Drive
 }
 
 singleton component Van {
@@ -80,6 +86,7 @@ singleton component DadsRun {
   FP SpawnTimer;
   FP CopTimer;
   bool FatKidSpawned;
+  Lesson Lesson;
 }
 
 // Entities that ride the van at a fixed spot (kitchen fixtures, dropped items resting on it).
@@ -358,6 +365,10 @@ event VanSlammed {
 event VanCrashed {
   FPVector3 Position;
   FP Speed;
+}
+
+event LessonLearned {
+  Lesson Lesson;
 }
 
 event DayPhaseChanged {

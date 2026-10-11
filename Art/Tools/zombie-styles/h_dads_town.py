@@ -1662,6 +1662,84 @@ def vault_mansion(kit, root, p):
         socket(kit, root, f"kid {i}", (x, y, SIDE), 0)
 
 
+# ---------------------------------------------------------------- Moving Day (the tutorial yard)
+def tex_dad_box():
+    c = sign_tex("DAD", 16, 16, "#d8a868", INK, 1)
+    c.rect(0, 13, 15, 14, "#f0d8a0")
+    c.rect(0, 0, 15, 0, "#a87a40")
+    return c
+
+
+def moving_pile(kit, root, p):
+    """Dad's stuff, thrown out on the lawn: taped boxes, an armchair, a floor lamp and the TV."""
+    box = tm(kit, "dad box", tex_dad_box)
+    for i, (x, y, z, s, rz) in enumerate(((0.0, 0.0, 0.0, 0.6, 10), (0.7, 0.1, 0.0, 0.5, -15), (0.3, 0.05, 0.6, 0.45, 30),
+                                          (-0.8, -0.5, 0.0, 0.55, 5), (1.4, -0.6, 0.0, 0.4, 40))):
+        tbox(kit, f"{p} box {i}", (x, y, z + s / 2), (s, s, s), box, root, rot=(0, 0, rz), uv={'all': (0, 0, 1, 1)})
+    seat = solid(kit, "armchair", "#8a6fd0", 0.35, shade="#6a4fb0")
+    chair = kit.empty(f"{p} armchair", root, (-1.2, 1.4, 0), (0, 0, 160))
+    tbox(kit, f"{p} chair seat", (0, 0, 0.25), (0.9, 0.8, 0.5), seat, chair)
+    tbox(kit, f"{p} chair back", (0, 0.35, 0.75), (0.9, 0.2, 0.6), seat, chair)
+    for sx in (1, -1):
+        tbox(kit, f"{p} chair arm {sx}", (sx * 0.42, 0, 0.6), (0.16, 0.8, 0.25), seat, chair)
+    tv = kit.empty(f"{p} tv", root, (0.9, 1.3, 0), (0, 0, -20))
+    tbox(kit, f"{p} tv body", (0, 0, 0.3), (0.7, 0.55, 0.6), solid(kit, "tv", "#4a3a6e", 0.3), tv)
+    tbox(kit, f"{p} tv screen", (0, -0.28, 0.32), (0.55, 0.02, 0.42), solid(kit, "tv screen", "#6f8cff", 0.8), tv)
+    tube(kit, f"{p} lamp pole", [(-1.9, 0.6, 0.0), (-1.9, 0.6, 1.5)], 0.03, solid(kit, "lamp pole", STEEL), root, sides=4)
+    tube(kit, f"{p} lamp shade", [(-1.9, 0.6, 1.4), (-1.9, 0.6, 1.75)], [0.28, 0.16], solid(kit, "lamp shade", YEL, 0.6), root,
+         sides=8)
+
+
+def yard_sign(kit, root, p, text, fg):
+    tube(kit, f"{p} stake", [(0, 0, 0), (0, 0, 1.0)], 0.03, solid(kit, "sign stake", WHITE, 0.35), root, sides=4)
+    plate(kit, f"{p} board", root, (0, 0, 1.1), (1.0, 0.04, 0.5), tm(kit, f"yard sign {text}", lambda: sign_tex(text, 32, 16, WHITE, fg, 2, border=fg)))
+
+
+def moving_day(kit, root, p):
+    """The tutorial yard, front (-Y) on the road where the truck is parked. Left: the ex's house behind a picket fence,
+    with dad's stuff dumped on her lawn. Right: dad's trailer on a dirt lot with a mud puddle, a strawberry patch and a
+    nut tree. The fronts stay open so the kid can walk straight from her porch to the serving window."""
+    R = kit.rand
+    ground(kit, root, p)
+    props = kit.empty(f"{p} props", root)
+    walkm = road.ground_mats(kit)[1]
+    concrete = tm(kit, "driveway", lambda: stops.tex_concrete(R), 0.25, 'REPEAT')
+    dirt = tm(kit, "lot dirt", lambda: tex_dirt_lot(R), 0.2, 'REPEAT')
+    # hers
+    baked(kit, root, f"{p} house", (-10.0, 5.0, SIDE), -90, lambda piv: house_c(kit, piv, f"{p} house", 1))
+    pad(kit, props, f"{p} path", -10.6, -B2, -9.4, 0.8, walkm)
+    pad(kit, props, f"{p} drive", -16.8, -B2, -14.2, 1.0, concrete)
+    at(kit, props, lambda k, r, n: car(k, r, n, "#8f5bff"), f"{p} her car", -15.5, -8.0, 0, z=SIDE + 0.012)
+    at(kit, props, flower_bed, f"{p} bed 0", -12.8, 0.4, 0)
+    at(kit, props, flower_bed, f"{p} bed 1", -7.2, 0.4, 0)
+    at(kit, props, road.mailbox, f"{p} her mailbox", -8.7, -18.9, 0)
+    at(kit, props, lambda k, r, n: yard_sign(k, r, n, "HERS", PINK), f"{p} her sign", -12.5, -14.5, 0)
+    at(kit, props, moving_pile, f"{p} dads stuff", -4.0, -5.5, 0)
+    fence_line(kit, props, road.picket_fence, f"{p} her side fence", (-19.4, -19.4), (-19.4, 19.4), 2.0, picket_post(kit))
+    fence_line(kit, props, road.picket_fence, f"{p} her back fence", (-19.4, 19.4), (-0.2, 19.4), 2.0, picket_post(kit))
+    fence_line(kit, props, road.picket_fence, f"{p} divider", (-0.2, -11.0), (-0.2, 19.4), 2.0, picket_post(kit))
+    at(kit, props, road.round_tree, f"{p} her tree", -16.0, 15.0, 30, 0.95)
+    at(kit, props, road.bush, f"{p} her bush", -3.0, 12.0, 0, 0.8)
+    # his
+    pad(kit, props, f"{p} dirt", 0.3, -19.5, 19.5, 19.5, dirt, 4.0)
+    baked(kit, root, f"{p} trailer", (11.0, 10.5, SIDE), 0, lambda piv: trailer(kit, piv, f"{p} trailer", "#c8d8ff", ORNG))
+    at(kit, props, lawn_chair, f"{p} chair", 5.5, 6.0, 200)
+    at(kit, props, road.trash_can, f"{p} trash", 3.0, 12.5, 20)
+    at(kit, props, tire_pile, f"{p} tires", 17.0, 16.0, 40)
+    at(kit, props, road.mailbox, f"{p} his mailbox", 8.7, -18.9, 0)
+    at(kit, props, lambda k, r, n: yard_sign(k, r, n, "HIS", BLUE), f"{p} his sign", 7.0, 6.5, 0)
+    post = chain_post(kit)
+    fence_line(kit, props, road.chainlink_fence, f"{p} his side fence", (19.6, -19.6), (19.6, 19.6), 2.5, post)
+    fence_line(kit, props, road.chainlink_fence, f"{p} his back fence", (0.2, 19.6), (19.6, 19.6), 2.5, post)
+    bake_props(kit, root, props, p)
+    socket(kit, root, "kid", (-10.0, -2.0, SIDE), 0)
+    socket(kit, root, "dad", (10.0, 4.5, SIDE), 0)
+    socket(kit, root, "mud 0", (4.0, -11.0, SIDE))
+    socket(kit, root, "patch 0", (15.5, -7.0, SIDE), 0)
+    socket(kit, root, "nut tree", (12.0, -15.5, SIDE))
+    socket(kit, root, "tutorial park", (2.0, -28.0, SIDE), 90)
+
+
 # ---------------------------------------------------------------- batch
 ASSET_FNS = [
     ("Crossroads", crossroads),
@@ -1678,6 +1756,7 @@ ASSET_FNS = [
     ("Mansion Block A", lambda k, r, n: mansion_block(k, r, n, 0)),
     ("Mansion Block B", lambda k, r, n: mansion_block(k, r, n, 1)),
     ("Vault Mansion", vault_mansion),
+    ("Moving Day", moving_day),
 ]
 ASSETS = [(n, (lambda f, n: lambda kit, root: f(kit, root, n))(f, n)) for n, f in ASSET_FNS]
 
@@ -1709,6 +1788,6 @@ CLOSE = ((-16, -40, 14), (0, -2, 1.0), 30)
 SCENES = [dict(name="town layout", build=town_layout, cam=((-38, -62, 34), (20, -2, 0), 30), res=(1800, 1000)),
           dict(name="street view", build=town_layout, cam=((-29.0, -24.0, 1.7), (10, -2, 1.5), 22), res=(1600, 900))]
 for nm in ("Big Dairy Lot", "Trailer Lot A", "Suburb Block B", "Park Block", "School Block", "Coffee Strip", "Mansion Block A",
-           "Vault Mansion", "Creek Fill", "Crossroads"):
+           "Vault Mansion", "Moving Day", "Creek Fill", "Crossroads"):
     cam = CLOSE if nm not in ("Creek Fill", "Crossroads") else ((-8, -20, 8), (0, 0, 0.5), 30)
     SCENES.append(dict(name=f"close {nm}", build=one(nm), cam=cam, res=(1600, 900)))

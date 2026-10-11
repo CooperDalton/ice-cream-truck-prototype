@@ -91,7 +91,7 @@ public static partial class DivorcedDadsSceneBuilder
         image.material = AssetDatabase.LoadAssetAtPath<Material>($"{MaterialFolder}/PS1 Dither.mat");
         image.raycastTarget = false;
 
-        var hud = BuildHud(input, display);
+        var hud = BuildHud(input, display, camera);
         foreach (var child in screen.GetComponentsInChildren<Transform>(true).Concat(hud.GetComponentsInChildren<Transform>(true))) child.gameObject.layer = UiLayer;
         BuildEffectsObject(gameplay, fx, viewUpdater, cameraRig, hud);
         BuildAudio(gameplay, camera.transform, viewUpdater, input);
@@ -230,7 +230,7 @@ public static partial class DivorcedDadsSceneBuilder
             ("oof", Clip("Dads/oof")), ("tumble", Clip("Dads/tumble")), ("busted", Clip("Dads/busted")), ("ticket", Clip("Dads/ticket")),
             ("whistle", Clip("Dads/whistle")), ("siren", Clip("Dads/siren_loop")), ("brainFreeze", Clip("Dads/brain_freeze")),
             ("rooster", Clip("Dads/rooster")), ("duskChime", Clip("Dads/dusk_chime")), ("fanfare", Clip("Dads/fanfare")),
-            ("sadTrombone", Clip("Dads/sad_trombone")));
+            ("sadTrombone", Clip("Dads/sad_trombone")), ("lessonDing", Clip("Dads/lesson_ding")));
     }
 
     static AudioClip Clip(string name)
@@ -305,7 +305,7 @@ public static partial class DivorcedDadsSceneBuilder
 
     // Candy PS1 HUD on a 1280 x 720 reference canvas, laid out like the zombie HUD: nine-slice frames with an icon and
     // pixel-font text, the hotbar along the bottom, the prompt panel under the crosshair, and the story card.
-    static DadsHud BuildHud(DadsInput input, Camera display)
+    static DadsHud BuildHud(DadsInput input, Camera display, Camera eye)
     {
         var canvas = Canvas("HUD", 10, display, 0.5f);
         var root = canvas.transform;
@@ -355,6 +355,16 @@ public static partial class DivorcedDadsSceneBuilder
         PanelText(jinglePanel, "Jingle Text", title, 11, HudMint, 48, TextAnchor.MiddleLeft).text = "JINGLE ON";
         var speedPanel = Panel(root, "Speed", "panel_mint", new Vector2(1, 1), new Vector2(-16, -212), new Vector2(180, 46));
         var speed = PanelText(speedPanel, "Speed Text", title, 13, Color.white, 18, TextAnchor.MiddleLeft);
+
+        // Moving day: the lesson checklist (where the jingle and speed go once the truck is moving), and the arrow that
+        // bobs over the next thing to use, its pivot on the arrow's tip.
+        var lessonPanel = Panel(root, "Lessons", "panel_mint", new Vector2(1, 1), new Vector2(-16, -158), new Vector2(300, 290));
+        var lessons = PanelText(lessonPanel, "Lesson Text", body, 18, Color.white, 18, TextAnchor.UpperLeft);
+        lessons.rectTransform.offsetMax = new Vector2(-10, -14);
+        lessons.lineSpacing = 1.1f;
+        lessons.verticalOverflow = VerticalWrapMode.Overflow;
+        var marker = HudImage(root, "Lesson Marker", "DadsHUD/marker", Vector2.zero, new Vector2(48, 48));
+        marker.rectTransform.pivot = new Vector2(0.5f, 0);
 
         // Phase banner across the top, the next-step tip under it.
         var banner = HudImage(root, "Phase Banner", "DadsHUD/banner", new Vector2(0.5f, 1), new Vector2(720, 24 * HudFrameScale));
@@ -456,7 +466,10 @@ public static partial class DivorcedDadsSceneBuilder
         var ammoLabel = PanelText(ammoPanel, "Label", body, 17, HudMint, 82, TextAnchor.LowerLeft);
         ammoLabel.rectTransform.offsetMin = new Vector2(82, 10);
 
-        // The story card: each morning's intro, Big Dairy's collection, the win and the repo.
+        // Black flash when taking the wheel on moving day drives the truck to Big Dairy's lot (under the card).
+        var fade = Overlay(root, "Fade");
+
+        // The story card: moving day, each morning's intro, Big Dairy's collection, the win and the repo.
         var card = Panel(root, "Card", "card", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(760, 420));
         var cardGroup = card.gameObject.AddComponent<CanvasGroup>();
         var cardTitle = HudText(card, "Title", title, new Vector2(0.5f, 1), new Vector2(0, -34), TextAnchor.UpperCenter, 28, HudYellow);
@@ -470,7 +483,8 @@ public static partial class DivorcedDadsSceneBuilder
 
         var hud = canvas.gameObject.AddComponent<DadsHud>();
         Set(hud,
-            ("input", input), ("minigunIcon", HudSprite("DadsIcons/Minigun")), ("sunIcon", HudSprite("DadsHUD/sun")), ("moonIcon", HudSprite("DadsHUD/moon")),
+            ("input", input), ("eye", eye), ("lessonPanel", lessonPanel), ("lessonText", lessons), ("lessonMarker", marker.rectTransform), ("fade", fade),
+            ("minigunIcon", HudSprite("DadsIcons/Minigun")), ("sunIcon", HudSprite("DadsHUD/sun")), ("moonIcon", HudSprite("DadsHUD/moon")),
             ("coneIcons", new Object[] { HudSprite("DadsIcons/Cone"), HudSprite("DadsIcons/WaffleCone"), HudSprite("DadsIcons/DoubleWaffleCone") }),
             ("scoopIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Scoop{t.Replace(" ", "")}")).ToArray()),
             ("tubIcons", Treats.Select(t => t == null ? null : (Object)HudSprite($"DadsIcons/Tub{t.Replace(" ", "")}")).ToArray()),

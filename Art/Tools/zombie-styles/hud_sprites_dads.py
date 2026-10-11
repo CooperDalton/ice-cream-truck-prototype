@@ -7,7 +7,7 @@ Nine-slice frames (borders set by DivorcedDadsSceneBuilder.SpriteBorders, drawn 
   panel_gold.png     dark panel, gold rim (Big Dairy)     bar_back.png       progress bar trough
   card.png           big story card, cream rim            banner.png         pink banner with frosting drips (tiled)
 Plain sprites: bar_fill.png (candy stripes), bar_fill_mint.png, and 16 x 16 glyphs: sun, moon, badge (heat), note
-(jingle), carton (Big Dairy), strike, crosshair."""
+(jingle), carton (Big Dairy), strike, crosshair, and marker (the tutorial's bobbing arrow, pointing down)."""
 import os
 from fx_sprites import write_png
 
@@ -169,6 +169,22 @@ CROSS = ["................",
          "......oWWo......",
          "......oWWo......",
          "................"]
+MARKER = ["................",
+          "....oooooooo....",
+          "....oPWPPPPo....",
+          "....oPWPPPPo....",
+          "....oPPPPPPo....",
+          "....oPPPPPPo....",
+          ".oooooPPPPDooooo",
+          ".oPPPPPPPPPPPDo.",
+          "..oPWPPPPPPPDo..",
+          "...oPPPPPPPDo...",
+          "....oPPPPPDo....",
+          ".....oPPPDo.....",
+          "......oPDo......",
+          ".......oo.......",
+          "................",
+          "................"]
 
 
 def stripes(light, mid, dark):
@@ -218,6 +234,7 @@ def main():
     save("carton.png", from_rows(CARTON, {"o": INK, "W": WHITE, "K": INK, "P": PINK}))
     save("strike.png", from_rows(STRIKE, {"o": INK, "R": RED}))
     save("crosshair.png", from_rows(CROSS, {"o": INK, "W": WHITE}))
+    save("marker.png", from_rows(MARKER, {"o": INK, "P": YEL, "W": WHITE, "D": GOLD_D}))
     print("wrote", OUT)
 
 

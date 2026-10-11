@@ -193,6 +193,7 @@ namespace Quantum.Prototypes {
     public FP SpawnTimer;
     public FP CopTimer;
     public QBoolean FatKidSpawned;
+    public Quantum.QEnum8<Lesson> Lesson;
     partial void MaterializeUser(Frame frame, ref Quantum.DadsRun result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.DadsRun component = default;
@@ -222,6 +223,7 @@ namespace Quantum.Prototypes {
         result.SpawnTimer = this.SpawnTimer;
         result.CopTimer = this.CopTimer;
         result.FatKidSpawned = this.FatKidSpawned;
+        result.Lesson = this.Lesson;
         MaterializeUser(frame, ref result, in context);
     }
   }

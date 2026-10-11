@@ -31,7 +31,7 @@ namespace Quantum
             {
                 DadsGame.CreateFixture(f, placement, placement.Position, FPQuaternion.Euler(0, placement.Yaw, 0));
             }
-            DadsGame.StartRun(f);
+            DadsGame.StartRun(f, settings.Tutorial);
         }
 
         public void OnPlayerAdded(Frame f, PlayerRef player, bool firstTime)
@@ -45,6 +45,12 @@ namespace Quantum
             var dad = new Dad { Player = player };
             DadsGame.GiveLoadout(&dad);
             f.Add(entity, dad);
+            if (f.GetSingleton<DadsRun>().Phase == DayPhase.Tutorial)
+            {
+                // Moving day: everyone starts out in the trailer yard, side by side.
+                f.Unsafe.GetPointer<Transform3D>(entity)->Teleport(f, settings.TutorialStart + new FPVector3(index * FP._1_50, 0, 0));
+                return;
+            }
             var van = f.Get<Transform3D>(f.GetSingletonEntityRef<Van>());
             DadsGame.BoardVan(f, entity, f.Unsafe.GetPointer<Dad>(entity), van, index);
         }

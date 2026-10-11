@@ -566,6 +566,15 @@ def brain_freeze():
     return mix(crackle * 0.7, tinkle, at(brr * 5, 0.25))
 
 
+def lesson_ding():
+    """Tutorial step done: a quick rising C-E-G sparkle."""
+    def tine(name, length=0.6):
+        f = note_freq(name)
+        t = t_axis(length)
+        return (np.sin(2 * np.pi * f * t) + 0.35 * np.sin(2 * np.pi * 2 * f * t)) * env(length, 0.004, 0.3)
+    return mix(*(at(tine(n) * a, d) for d, n, a in ((0, "C6", 0.8), (0.08, "E6", 0.85), (0.16, "G6", 1.0))))
+
+
 # ------------------------------------------------------------------------------------------------ ambience loops
 
 def birds_loop():
@@ -710,6 +719,7 @@ SOUNDS = {
     "crickets_loop": (crickets_loop, {"peak": 0.4, "max_rms_db": -26, "loop": True}),
     "music_greensleeves": (greensleeves, {"peak": 0.8, "max_rms_db": -14, "gritty": False, "loop": True}),
     "music_curfew_loop": (curfew, {"peak": 0.8, "max_rms_db": -14, "gritty": False, "loop": True}),
+    "lesson_ding": (lesson_ding, {"max_rms_db": -14}),
 }
 
 

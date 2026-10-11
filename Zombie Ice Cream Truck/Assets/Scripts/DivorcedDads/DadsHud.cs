@@ -1,4 +1,5 @@
 using System;
+using Photon.Deterministic;
 using Quantum;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,8 +8,9 @@ using UnityEngine.UI;
 // The Divorced Dads HUD, in the same candy PS1 style as the zombie mode: cash on hand, the day with a sun or moon,
 // heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed, the freezer tubs,
 // the hotbar with item icons, the carried ingredient, ammo, what pressing E would do, a hint for what to do next, the
-// controls panel (F1), screen splats, cough and brain freeze tints, and the story cards (each morning, Big Dairy's
-// collection, the win, the repo). Every panel, text and image is authored in the scene; this only fills in values,
+// controls panel (F1), screen splats, cough and brain freeze tints, the story cards (moving day, each morning, Big
+// Dairy's collection, the win, the repo), and on moving day the lesson checklist with a bobbing arrow over whatever
+// to use next. Every panel, text and image is authored in the scene; this only fills in values,
 // swaps icons and shows or hides panels.
 public class DadsHud : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class DadsHud : MonoBehaviour
     private const string End = "</color>";
 
     [SerializeField] private DadsInput input;
+    [SerializeField] private Camera eye;
     [SerializeField] private ItemIcon[] icons;
     [Tooltip("Indexed by Treat; element 0 (None) is empty.")]
     [SerializeField] private Sprite[] scoopIcons;
@@ -74,13 +77,26 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private Text cardTitle;
     [SerializeField] private Text cardBody;
     [SerializeField] private Text cardStamp;
+    [SerializeField] private RectTransform lessonPanel;
+    [SerializeField] private Text lessonText;
+    [Tooltip("Bobbing arrow over the next thing to use, anchored to the bottom left corner of the canvas.")]
+    [SerializeField] private RectTransform lessonMarker;
+    [SerializeField] private Image fade;
     [SerializeField] private float splatTime = 2.5f;
     [SerializeField] private float introTime = 7f;
     [SerializeField] private Color emptyColor = new Color(1f, 0.31f, 0.64f);
     [TextArea]
+    [SerializeField] private string tutorialIntro = "Three years ago you went out for milk.\nYou never came back.\n\nShe kept the house. You got the trailer next door\nand an ice cream truck that BIG DAIRY owns.\n\nYour kid is coming over. Make some ice cream.";
+    [Tooltip("Checklist line per Lesson.")]
+    [SerializeField] private string[] lessonNames =
+    {
+        "Scoop up some mud", "Climb in the truck", "Churn the mud", "Scoop a cone", "Serve your kid", "Churn strawberries",
+        "Churn some nuts", "Take the wheel",
+    };
+    [TextArea]
     [SerializeField] private string[] dayIntros =
     {
-        "Three years ago you went out for milk.\nYou never came back.\n\nNow you're divorced, deep in debt to BIG DAIRY,\nand all you've got left is this ice cream truck.\n\nFeed the kids. Pay the man. Win them back.",
+        "Welcome to BIG DAIRY's lot.\nHe owns the truck, the loan,\nand every sweet tooth in town.\n\nFeed the kids. Pay the man. Win them back.",
         "Meanwhile, at your ex's house...\nYour kid asked who the guy in the truck is.\nYour ex said \"nobody, sweetie.\"",
         "Meanwhile, at your ex's house...\nThe kids made a video about you.\nIt has four views. All yours.",
         "Big Dairy sent a fruit basket.\nIt's all milk.",
@@ -99,11 +115,13 @@ public class DadsHud : MonoBehaviour
     private DadItem lastSelectedKind;
     private float selectedShownAt;
     private bool controlsToggled;
+    private float lessonPunch;
 
     private void OnEnable()
     {
         QuantumEvent.Subscribe(this, (EventDayPhaseChanged e) => OnPhase(e));
         QuantumEvent.Subscribe(this, (EventCollected e) => OnCollected(e));
+        QuantumEvent.Subscribe(this, (EventLessonLearned e) => OnLesson(e));
         splatAge = new float[screenSplats.Length];
         for (int i = 0; i < splatAge.Length; i++) splatAge[i] = splatTime;
         card.alpha = 0;
@@ -125,6 +143,7 @@ public class DadsHud : MonoBehaviour
 
     private void OnPhase(EventDayPhaseChanged e)
     {
+        if (e.Phase == DayPhase.Tutorial) ShowCard("MOVING DAY", tutorialIntro, "", Color.clear, introTime + 2);
         if (e.Phase == DayPhase.Morning)
         {
             ShowCard("DAY " + e.Day, dayIntros[Mathf.Min(e.Day, dayIntros.Length) - 1], "", Color.clear, introTime);
@@ -137,6 +156,13 @@ public class DadsHud : MonoBehaviour
         {
             ShowCard("REPOSSESSED", "Big Dairy took the truck.\nYou are now divorced dads with nothing.\n\nAgain.", "STRIKE 3", new Color(1f, 0.2f, 0.3f), 15);
         }
+    }
+
+    // Each lesson punches the checklist; taking the wheel fades through black to Big Dairy's lot.
+    private void OnLesson(EventLessonLearned e)
+    {
+        lessonPunch = 1;
+        if (e.Lesson == Lesson.Drive) fade.color = Color.black;
     }
 
     private void OnCollected(EventCollected e)
@@ -267,7 +293,120 @@ public class DadsHud : MonoBehaviour
         promptText.text = prompt;
         // Seat controls get out of the way of the windshield once they have been read.
         promptPanel.SetActive(prompt != "" && (!(dad.Driving || dad.Turret) || Time.time - promptShownAt < 4f));
-        tipText.text = Tip(frame, dad, run);
+        var tutorial = run.Phase == DayPhase.Tutorial;
+        lessonPanel.gameObject.SetActive(tutorial);
+        lessonMarker.gameObject.SetActive(tutorial);
+        if (!tutorial)
+        {
+            tipText.text = Tip(frame, dad, run);
+            return;
+        }
+        tipText.text = Coach(frame, dad, settings, run, out var target);
+        Mark(target);
+        var list = "MOVING DAY";
+        for (int i = 0; i < lessonNames.Length; i++)
+        {
+            var done = i < (int)run.Lesson;
+            var line = (done ? "<color=#38f2c3>+ " : i == (int)run.Lesson ? "<color=#ffe14a>> " : "<color=#b8a8e8>  ") + lessonNames[i] + End;
+            list += "\n" + line;
+        }
+        lessonText.text = list + "\n\n<color=#b8a8e8>Skip: take the wheel</color>";
+    }
+
+    // Puts the arrow over a world point, or on the screen edge pointing toward it when it is off screen or behind.
+    private void Mark(Vector3 target)
+    {
+        var point = eye.WorldToViewportPoint(target + Vector3.up * (0.7f + 0.2f * Mathf.Sin(Time.time * 5f)));
+        var offset = new Vector2(point.x - 0.5f, point.y - 0.5f);
+        if (point.z < 0) offset = -offset;
+        if (offset.sqrMagnitude < 0.000001f) offset = Vector2.down;
+        var limit = new Vector2(0.45f, 0.38f);
+        var edge = point.z < 0 || Mathf.Abs(offset.x) > limit.x || Mathf.Abs(offset.y) > limit.y;
+        if (edge) offset /= Mathf.Max(Mathf.Abs(offset.x) / limit.x, Mathf.Abs(offset.y) / limit.y);
+        var canvas = ((RectTransform)lessonMarker.parent).rect.size;
+        lessonMarker.anchoredPosition = (offset + new Vector2(0.5f, 0.5f)) * canvas;
+        // The arrow sprite points down: turn it toward the target along the edge.
+        lessonMarker.localRotation = edge ? Quaternion.Euler(0, 0, Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg + 90) : Quaternion.identity;
+    }
+
+    // Moving day's coaching line for the current lesson, and where its arrow goes.
+    private static string Coach(Frame frame, Dad dad, DadsSettings settings, DadsRun run, out Vector3 target)
+    {
+        var vanTransform = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>());
+        var churn = Nearest(frame, FixtureKind.Churn, vanTransform.Position) + Vector3.up;
+        var held = dad.Hotbar[dad.Selected];
+        switch (run.Lesson)
+        {
+            case Lesson.Mud:
+                target = Nearest(frame, FixtureKind.MudPuddle, vanTransform.Position);
+                return $"Look at the mud puddle by your trailer and press {Key}E{End} to fill a bucket.";
+            case Lesson.Board:
+                target = vanTransform.TransformPoint(settings.RearOutside).ToUnityVector3() + Vector3.up;
+                return $"Carry it to the back of the truck and press {Key}E{End} at the rear door to climb in.";
+            case Lesson.Churn:
+                target = churn;
+                return $"Press {Key}E{End} on the flavor churn to dump the mud in.  Out comes a tub of ice cream!";
+            case Lesson.Scoop:
+                foreach (var pair in frame.GetComponentIterator<Fixture>())
+                {
+                    if (pair.Component.Kind != FixtureKind.Tub || pair.Component.Treat != Treat.Mud) continue;
+                    target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
+                    return held.Kind == DadItem.Cone ? $"{Key}CLICK{End} the freezer tub to plop a scoop of mud on your cone." : $"Press {Key}1{End} to hold your cone, then {Key}CLICK{End} the tub.";
+                }
+                target = churn;
+                return "The mud's all gone!  Churn another bucket.";
+            case Lesson.Serve:
+                foreach (var pair in frame.GetComponentIterator<Npc>())
+                {
+                    target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3() + Vector3.up * 1.4f;
+                    if (pair.Component.State == NpcState.Queue) return $"Your kid's at the window.  Face them and {Key}CLICK{End} to shove the cone in.  Yes, they pay.";
+                    return "Your kid's coming over from your ex's house.  Meet them at the serving window.";
+                }
+                target = vanTransform.TransformPoint(settings.WindowOutside).ToUnityVector3();
+                return held.Kind == DadItem.Cone && held.Count == 0 ? "Scoop another cone first." : "Wait for your kid at the serving window.";
+            case Lesson.Strawberries:
+                if (dad.Carried.Kind == DadItem.StrawberryBasket)
+                {
+                    target = churn;
+                    return "Into the churn with them.  Every flavor gets its own tub.";
+                }
+                target = Nearest(frame, FixtureKind.StrawberryPatch, vanTransform.Position);
+                return $"Kids pay more for fancier flavors.  Pick strawberries from the patch ({Key}E{End}).";
+            case Lesson.Nuts:
+                if (dad.Carried.Kind == DadItem.NutSack)
+                {
+                    target = churn;
+                    return "Churn the nuts into Rocky Road.  Its last bite knocks kids flat.";
+                }
+                foreach (var pair in frame.GetComponentIterator<Loot>())
+                {
+                    if (pair.Component.Item.Kind != DadItem.NutSack) continue;
+                    target = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
+                    return $"Grab a sack of nuts ({Key}E{End}).";
+                }
+                target = Nearest(frame, FixtureKind.NutTree, vanTransform.Position) + Vector3.up * 3;
+                return $"Shake the nut tree: keep pressing {Key}E{End} on it until the nuts drop.";
+            default:
+                target = vanTransform.TransformPoint(settings.DriverSeat).ToUnityVector3() + Vector3.up;
+                return $"Stocked up!  Press {Key}E{End} by the driver's door and take the wheel.  Big Dairy is waiting.";
+        }
+    }
+
+    // The tutorial's fixtures are the ones closest to the truck parked outside the trailer.
+    private static Vector3 Nearest(Frame frame, FixtureKind kind, FPVector3 from)
+    {
+        var best = Vector3.zero;
+        var bestDistance = float.MaxValue;
+        foreach (var pair in frame.GetComponentIterator<Fixture>())
+        {
+            if (pair.Component.Kind != kind) continue;
+            var position = frame.Get<Transform3D>(pair.Entity).Position;
+            var distance = (position - from).SqrMagnitude.AsFloat;
+            if (distance >= bestDistance) continue;
+            bestDistance = distance;
+            best = position.ToUnityVector3();
+        }
+        return best;
     }
 
     private void UpdateOverlays(float dt)
@@ -282,6 +421,9 @@ public class DadsHud : MonoBehaviour
             splat.color = color;
             splat.rectTransform.anchoredPosition += Vector2.down * 25f * dt * (1 - fade + 0.2f);
         }
+        fade.color = Color.Lerp(fade.color, Color.clear, dt * 1.5f);
+        lessonPunch = Mathf.MoveTowards(lessonPunch, 0, dt * 3);
+        lessonPanel.localScale = Vector3.one * (1 + 0.06f * lessonPunch);
         cardTimer -= dt;
         card.alpha = Mathf.MoveTowards(card.alpha, cardTimer > 0 ? 1 : 0, dt * 3);
         // The stamp slams down a second after the card, with Big Dairy's stamp sound.
@@ -303,6 +445,7 @@ public class DadsHud : MonoBehaviour
     // No clock on screen: the time of day in words, from the sun's progress.
     private static string TimeOfDay(DadsRun run, DadsSettings settings)
     {
+        if (run.Phase == DayPhase.Tutorial) return "MOVING DAY";
         if (run.Phase == DayPhase.Morning) return "AT THE LOT";
         if (run.Phase == DayPhase.Collection || run.Phase == DayPhase.Won || run.Phase == DayPhase.Repo) return "PAYDAY";
         if (run.Phase == DayPhase.Night) return run.Clock.AsFloat >= 1 ? "MIDNIGHT" : "NIGHT";
@@ -315,6 +458,7 @@ public class DadsHud : MonoBehaviour
     {
         switch (run.Phase)
         {
+            case DayPhase.Tutorial: return "MOVING DAY!  Stock the truck, then take the wheel";
             case DayPhase.Morning: return "BIG DAIRY'S LOT!  Shop, load up, then drive out and sell";
             case DayPhase.Dusk: return "The kids are heading home.  Back to the lot soon!";
             case DayPhase.Night: return "SUGAR CURFEW!  Cops are out and the jingle draws them";

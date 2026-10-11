@@ -67,6 +67,7 @@ public class DadsAudio : MonoBehaviour
     [SerializeField] private AudioClip duskChime;
     [SerializeField] private AudioClip fanfare;
     [SerializeField] private AudioClip sadTrombone;
+    [SerializeField] private AudioClip lessonDing;
     private float stompTimer;
     private float coughTimer;
     private float coinTimer;
@@ -109,6 +110,7 @@ public class DadsAudio : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventBrainFreeze e) => { if (QuantumRunner.Default.Game.PlayerIsLocal(e.Player)) Play(brainFreeze, default(FPVector3), 1f, default, true); });
         QuantumEvent.Subscribe(this, (EventDayPhaseChanged e) => OnPhase(e));
         QuantumEvent.Subscribe(this, (EventCollected e) => OnCollected(e));
+        QuantumEvent.Subscribe(this, (EventLessonLearned e) => Play(lessonDing, default(FPVector3), 0.8f, default, true));
     }
 
     private FPVector3 ViewPosition(EntityRef entity)

@@ -851,7 +851,7 @@ MonoBehaviour:
   HopperCapacity: 120
   RoundsPerScoop: 4
   ShoveRange:
-    RawValue: 235930
+    RawValue: 262144
   ShoveAngle:
     RawValue: 2621440
   ShoveCooldown:
@@ -5356,6 +5356,90 @@ MonoBehaviour:
       Z:
         RawValue: 19660
     Trigger: 0
+  - Kind: 10
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -15990784
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -8454144
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 58982
+      Y:
+        RawValue: 16384
+      Z:
+        RawValue: 49152
+    Trigger: 1
+  - Kind: 13
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16515072
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -8159232
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 32768
+      Y:
+        RawValue: 131072
+      Z:
+        RawValue: 32768
+    Trigger: 0
+  - Kind: 11
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: -16744448
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: -8716288
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 55705
+      Y:
+        RawValue: 19660
+      Z:
+        RawValue: 29491
+    Trigger: 1
   LotPark:
     X:
       RawValue: -15728640
@@ -5367,6 +5451,29 @@ MonoBehaviour:
     RawValue: 0
   LotRadius:
     RawValue: 1441792
+  TutorialPark:
+    X:
+      RawValue: -15859712
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -7340032
+  TutorialYaw:
+    RawValue: 17694720
+  TutorialStart:
+    X:
+      RawValue: -16384000
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -9469952
+  TutorialKid:
+    X:
+      RawValue: -15073280
+    Y:
+      RawValue: 0
+    Z:
+      RawValue: -9043968
   DayLength:
     RawValue: 19660800
   DuskAt:
@@ -5379,5 +5486,6 @@ MonoBehaviour:
   EndTime:
     RawValue: 983040
   StartingConeSize: 1
+  Tutorial: 1
   StartingDay: 1
   StartingMoney: 0

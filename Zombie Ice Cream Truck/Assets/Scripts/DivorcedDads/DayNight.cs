@@ -46,7 +46,7 @@ public class DayNight : MonoBehaviour
         var atLot = run.Phase == DayPhase.Morning || run.Phase == DayPhase.Collection;
         var night = run.Phase == DayPhase.Night;
         Fade(lotMusic, atLot ? 0.45f : 0, dt);
-        Fade(birds, run.Phase == DayPhase.Day ? 0.5f : 0, dt);
+        Fade(birds, run.Phase == DayPhase.Day || run.Phase == DayPhase.Tutorial ? 0.5f : 0, dt);
         Fade(crickets, run.Phase == DayPhase.Dusk || night ? 0.5f : 0, dt);
         Fade(curfewMusic, night ? 0.35f : 0, dt);
     }

@@ -618,6 +618,27 @@ namespace Quantum
             }
         }
 
+        // Moving day's only customer: the dads' own kid, walking over from the ex's porch for a scoop of mud.
+        public static void SpawnOwnKid(Frame f, DadsSettings settings)
+        {
+            var look = f.RNG->Next(0, settings.KidLooks.Length);
+            var entity = f.Create(settings.KidLooks[look]);
+            f.Unsafe.GetPointer<Transform3D>(entity)->Teleport(f, settings.TutorialKid);
+            f.Add(entity, new Npc
+            {
+                Kind = NpcKind.Kid,
+                Look = look,
+                State = NpcState.Approach,
+                Timer = 600,
+                Home = settings.TutorialKid,
+                Goal = settings.TutorialKid,
+                Hunger = settings.Npcs[(int)NpcKind.Kid].Hunger,
+                Wants = Treat.Mud,
+                QueueSlot = -1,
+                Spot = -1,
+            });
+        }
+
         // Kids appear at their hangout spot; cops at a road spot (index into RoadSpots instead).
         static void SpawnKid(Frame f, DadsSettings settings, int index, NpcKind kind)
         {

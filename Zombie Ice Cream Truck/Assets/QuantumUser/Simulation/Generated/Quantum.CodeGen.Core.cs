@@ -74,6 +74,7 @@ namespace Quantum {
     GoldLeaf,
   }
   public enum DayPhase : byte {
+    Tutorial,
     Morning,
     Day,
     Dusk,
@@ -132,6 +133,16 @@ namespace Quantum {
     StrawberryBasket,
     MintBundle,
     Tub,
+  }
+  public enum Lesson : byte {
+    Mud,
+    Board,
+    Churn,
+    Scoop,
+    Serve,
+    Strawberries,
+    Nuts,
+    Drive,
   }
   public enum NpcKind : byte {
     Kid,
@@ -1142,6 +1153,8 @@ namespace Quantum {
     public FP CopTimer;
     [FieldOffset(48)]
     public QBoolean FatKidSpawned;
+    [FieldOffset(1)]
+    public Lesson Lesson;
     public override readonly Int32 GetHashCode() {
       unchecked { 
         var hash = 9949;
@@ -1167,12 +1180,14 @@ namespace Quantum {
         hash = hash * 31 + SpawnTimer.GetHashCode();
         hash = hash * 31 + CopTimer.GetHashCode();
         hash = hash * 31 + FatKidSpawned.GetHashCode();
+        hash = hash * 31 + (Byte)Lesson;
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (DadsRun*)ptr;
         serializer.Stream.Serialize((Byte*)&p->Phase);
+        serializer.Stream.Serialize((Byte*)&p->Lesson);
         serializer.Stream.Serialize(&p->Carry);
         serializer.Stream.Serialize(&p->ConeSize);
         serializer.Stream.Serialize(&p->Day);
@@ -2060,6 +2075,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Joint), Joint.SIZE);
       typeRegistry.Register(typeof(Joint3D), Joint3D.SIZE);
       typeRegistry.Register(typeof(LayerMask), LayerMask.SIZE);
+      typeRegistry.Register(typeof(Quantum.Lesson), 1);
       typeRegistry.Register(typeof(Quantum.Loot), Quantum.Loot.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
@@ -2155,6 +2171,7 @@ namespace Quantum {
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.GamePhase>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.InputButtons>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.ItemKind>();
+      FramePrinter.EnsurePrimitiveNotStripped<Quantum.Lesson>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.NpcKind>();
       FramePrinter.EnsurePrimitiveNotStripped<Quantum.NpcState>();
       FramePrinter.EnsurePrimitiveNotStripped<QueryOptions>();

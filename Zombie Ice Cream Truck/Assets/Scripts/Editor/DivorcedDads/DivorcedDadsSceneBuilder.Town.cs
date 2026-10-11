@@ -12,7 +12,8 @@ using Object = UnityEngine.Object;
 // The Flats (trailers, mud and Big Dairy's lot) -> Maple Grove (houses, park, school, coffee strip) -> Hillside Estates
 // (mansions and the vault). Roads are the zombie mode's road chunks picked by how many neighbours each road cell has.
 // Every building, fence and prop between 0.4 m and 1.9 m is rasterized into static box colliders baked into the
-// Quantum map; sockets in the block art become kid hangouts, cop patrol points and fixture placements.
+// Quantum map; sockets in the block art become kid hangouts, cop patrol points and fixture placements. South of The
+// Flats, walled off from town, is the tutorial yard (Moving Day: the ex's house and dad's trailer on a dead-end street).
 public static partial class DivorcedDadsSceneBuilder
 {
     const float Cell = 20f;
@@ -35,6 +36,8 @@ public static partial class DivorcedDadsSceneBuilder
     const float SolidFrom = 0.4f;
     const float SolidTo = 1.9f;
     const float ColliderHeight = 3f;
+    // Grass between the town's south edge and the tutorial yard's street.
+    const float YardGap = 30f;
 
     class TownBuild
     {
@@ -42,6 +45,10 @@ public static partial class DivorcedDadsSceneBuilder
         public List<GameObject> Lamps = new List<GameObject>();
         public Vector3 Min;
         public Vector3 Max;
+        public Vector3 YardMin;
+        public Vector3 YardMax;
+        // The collider grid covers the town and the yard.
+        public Vector3 GridMin;
     }
 
     static Vector3 CellCenter(int x, int z)
@@ -161,19 +168,34 @@ public static partial class DivorcedDadsSceneBuilder
 
         town.Min = CellCenter(0, 0) - new Vector3(Cell / 2, 0, Cell / 2);
         town.Max = CellCenter(Columns - 1, Rows - 1) + new Vector3(Cell / 2, 0, Cell / 2);
+        BuildYard(town, collided, fixtures, kidSpots, settings);
         var solid = BuildColliders(town, collided, fixtures);
         // The vault puzzle has to be reachable on foot: plan the plate and the vault like kid spots and report them.
         var puzzle = fixtures.Where(p => p.Kind == FixtureKind.Plate || p.Kind == FixtureKind.Vault)
             .Select(p => new TownSpot { Position = p.Position + (p.Kind == FixtureKind.Vault ? (Quaternion.Euler(0, p.Yaw.AsFloat, 0) * Vector3.forward * 1.5f).ToFPVector3() : default) }).ToList();
         var puzzleBlocks = puzzle.Select(p => spotBlocks[kidSpots.FindIndex(k => (k.Position.ToUnityVector3() - p.Position.ToUnityVector3()).sqrMagnitude < 40 * 40)]).ToList();
-        PlanPaths(solid, town.Min, puzzle, puzzleBlocks);
+        PlanPaths(solid, town.GridMin, puzzle, puzzleBlocks);
         settings.PuzzleRoutes = puzzle.ToArray();
-        PlanPaths(solid, town.Min, kidSpots, spotBlocks);
+        PlanPaths(solid, town.GridMin, kidSpots, spotBlocks);
         settings.KidSpots = kidSpots.ToArray();
         settings.RoadSpots = roadSpots.ToArray();
         settings.TownFixtures = fixtures.ToArray();
         Debug.Log($"DivorcedDadsSceneBuilder: {kidSpots.Count} kid spots, {roadSpots.Count} road spots, {fixtures.Count} town fixtures");
         return town;
+    }
+
+    // Moving Day, the tutorial: the yard block (lined up with Big Dairy's lot) facing a dead-end street of four road cells
+    // where the truck waits, walled in on its own south of town.
+    static void BuildYard(TownBuild town, List<GameObject> collided, List<FixturePlacement> fixtures, List<TownSpot> kidSpots, DadsSettings settings)
+    {
+        var street = new Vector3((CellCenter(1, 0).x + CellCenter(2, 0).x) / 2, 0, town.Min.z - YardGap - Cell / 2);
+        var block = Place(Model(Town, "Moving Day"), town.Root, street + new Vector3(0, 0, -Cell * 1.5f), Quaternion.identity);
+        collided.Add(block);
+        ReadSockets(block, "Moving Day", 0, kidSpots, fixtures, settings);
+        for (int i = 0; i < 4; i++) Place(Model("Road", "Town Straight"), town.Root, street + new Vector3((i - 1.5f) * Cell, 0, 0), Quaternion.Euler(0, 90, 0));
+        town.YardMin = street + new Vector3(-Cell * 2, 0, -Cell * 2.5f);
+        town.YardMax = street + new Vector3(Cell * 2, 0, Cell / 2);
+        town.GridMin = new Vector3(town.Min.x, 0, town.YardMin.z);
     }
 
     static GameObject StreetLight(Transform socket)
@@ -197,6 +219,8 @@ public static partial class DivorcedDadsSceneBuilder
             var position = new Vector3(socket.position.x, 0, socket.position.z);
             var yaw = FP.FromFloat_UNSAFE(Quaternion.LookRotation(Flat(socket.forward)).eulerAngles.y);
             if (purpose.StartsWith("kid ")) kidSpots.Add(new TownSpot { Position = position.ToFPVector3(), District = district });
+            else if (purpose == "kid") settings.TutorialKid = position.ToFPVector3();
+            else if (purpose == "dad") settings.TutorialStart = position.ToFPVector3();
             else if (purpose.StartsWith("mud ")) fixtures.Add(Fixture(FixtureKind.MudPuddle, position, yaw, new Vector3(0, 0.25f, 0), new Vector3(0.9f, 0.25f, 0.75f), true));
             else if (purpose.StartsWith("patch ")) fixtures.Add(Fixture(FixtureKind.StrawberryPatch, position, yaw, new Vector3(0, 0.3f, 0), new Vector3(0.85f, 0.3f, 0.45f), true));
             else if (purpose.StartsWith("cup ")) fixtures.Add(Fixture(FixtureKind.CoffeeTable, socket.position, yaw, new Vector3(0, 0.15f, 0), new Vector3(0.3f, 0.2f, 0.3f), true));
@@ -214,6 +238,11 @@ public static partial class DivorcedDadsSceneBuilder
                 shop.Upgrade = ShopStock[index].upgrade;
                 shop.Price = ShopStock[index].price;
                 fixtures.Add(shop);
+            }
+            else if (purpose == "tutorial park")
+            {
+                settings.TutorialPark = position.ToFPVector3();
+                settings.TutorialYaw = yaw;
             }
             else if (purpose == "truck park")
             {
@@ -245,8 +274,9 @@ public static partial class DivorcedDadsSceneBuilder
     // static Quantum colliders, plus walls around the town. Writes Library/CodexPlaytests/dads_colliders.png to check.
     static bool[,] BuildColliders(TownBuild town, List<GameObject> pieces, List<FixturePlacement> fixtures)
     {
-        var width = Mathf.CeilToInt((town.Max.x - town.Min.x) / ColliderCell);
-        var depth = Mathf.CeilToInt((town.Max.z - town.Min.z) / ColliderCell);
+        var min = town.GridMin;
+        var width = Mathf.CeilToInt((town.Max.x - min.x) / ColliderCell);
+        var depth = Mathf.CeilToInt((town.Max.z - min.z) / ColliderCell);
         var solid = new bool[width, depth];
         foreach (var piece in pieces)
         {
@@ -270,8 +300,8 @@ public static partial class DivorcedDadsSceneBuilder
                         {
                             var p = a + (b - a) * (i / (float)steps) + (c - a) * (j / (float)steps);
                             if (p.y < SolidFrom || p.y > SolidTo) continue;
-                            var x = Mathf.FloorToInt((p.x - town.Min.x) / ColliderCell);
-                            var z = Mathf.FloorToInt((p.z - town.Min.z) / ColliderCell);
+                            var x = Mathf.FloorToInt((p.x - min.x) / ColliderCell);
+                            var z = Mathf.FloorToInt((p.z - min.z) / ColliderCell);
                             if (x >= 0 && z >= 0 && x < width && z < depth) solid[x, z] = true;
                         }
                     }
@@ -283,7 +313,7 @@ public static partial class DivorcedDadsSceneBuilder
         {
             var position = fixture.Position.ToUnityVector3();
             var radius = fixture.Kind == FixtureKind.Gate ? 0 : fixture.Kind == FixtureKind.CoffeeTable ? 0.5f : 1.1f;
-            Clear(solid, town.Min, position, radius);
+            Clear(solid, min, position, radius);
         }
         DropSpecks(solid, 3);
 
@@ -306,19 +336,25 @@ public static partial class DivorcedDadsSceneBuilder
                     for (int cx = x; cx <= x1; cx++) owner[cx, cz] = count;
                 }
                 var size = new Vector3((x1 - x + 1) * ColliderCell, ColliderHeight, (z1 - z + 1) * ColliderCell);
-                var center = new Vector3(town.Min.x + x * ColliderCell + size.x / 2, ColliderHeight / 2, town.Min.z + z * ColliderCell + size.z / 2);
+                var center = new Vector3(min.x + x * ColliderCell + size.x / 2, ColliderHeight / 2, min.z + z * ColliderCell + size.z / 2);
                 StaticBox(colliders, $"Box {count}", center, size);
             }
         }
-        var span = town.Max - town.Min;
-        var middle = (town.Max + town.Min) / 2;
-        StaticBox(colliders, "Wall North", new Vector3(middle.x, 2, town.Max.z + 0.5f), new Vector3(span.x + 2, 4, 1));
-        StaticBox(colliders, "Wall South", new Vector3(middle.x, 2, town.Min.z - 0.5f), new Vector3(span.x + 2, 4, 1));
-        StaticBox(colliders, "Wall East", new Vector3(town.Max.x + 0.5f, 2, middle.z), new Vector3(1, 4, span.z + 2));
-        StaticBox(colliders, "Wall West", new Vector3(town.Min.x - 0.5f, 2, middle.z), new Vector3(1, 4, span.z + 2));
-        WriteColliderImage(owner, town.Min, fixtures);
+        Walls(colliders, "Town", town.Min, town.Max);
+        Walls(colliders, "Yard", town.YardMin, town.YardMax);
+        WriteColliderImage(owner, min, fixtures);
         Debug.Log($"DivorcedDadsSceneBuilder: {count} town collider boxes");
         return solid;
+    }
+
+    static void Walls(Transform parent, string name, Vector3 min, Vector3 max)
+    {
+        var span = max - min;
+        var middle = (max + min) / 2;
+        StaticBox(parent, $"{name} Wall North", new Vector3(middle.x, 2, max.z + 0.5f), new Vector3(span.x + 2, 4, 1));
+        StaticBox(parent, $"{name} Wall South", new Vector3(middle.x, 2, min.z - 0.5f), new Vector3(span.x + 2, 4, 1));
+        StaticBox(parent, $"{name} Wall East", new Vector3(max.x + 0.5f, 2, middle.z), new Vector3(1, 4, span.z + 2));
+        StaticBox(parent, $"{name} Wall West", new Vector3(min.x - 0.5f, 2, middle.z), new Vector3(1, 4, span.z + 2));
     }
 
     // For every kid spot: a breadth-first search on the collider grid (walls grown by a kid's radius) from the spot to
