@@ -127,7 +127,7 @@ public static partial class DivorcedDadsSceneBuilder
         // The Quantum sample menu (quick play, regions, party codes) lists every scene info in Resources, so this one adds
         // Divorced Dads next to the zombie mode for online games.
         var sceneInfo = ScriptableObject.CreateInstance<QuantumMenuSceneInfo>();
-        sceneInfo.Name = "Divorced Dads";
+        sceneInfo.Name = "Big Milk Strikes Back";
         sceneInfo.ScenePath = ScenePath;
         sceneInfo.RuntimeConfig = runner.RuntimeConfig;
         ReplaceAsset(sceneInfo, $"{ConfigFolder}/DivorcedDadsSceneInfo.asset");

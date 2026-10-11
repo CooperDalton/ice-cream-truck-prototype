@@ -17,7 +17,7 @@ public static class GameMenuBuilder
     static readonly (string name, string scene)[] Games =
     {
         ("Zombie Ice Cream Truck", "Assets/QuantumUser/Scenes/QuantumGameScene.unity"),
-        ("Divorced Dads", "Assets/QuantumUser/Scenes/DivorcedDads.unity"),
+        ("Big Milk Strikes Back", "Assets/QuantumUser/Scenes/DivorcedDads.unity"),
     };
     static readonly Color Ink = new Color(0.11f, 0.06f, 0.2f);
     static readonly Color Yellow = new Color(1f, 0.88f, 0.29f);
