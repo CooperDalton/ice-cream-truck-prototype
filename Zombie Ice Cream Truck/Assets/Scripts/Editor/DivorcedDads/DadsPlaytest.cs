@@ -190,6 +190,10 @@ public static class DadsPlaytest
         };
         steps.AddRange(GetOut());
         steps.Add(new Step { Name = "l04_outside", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -2f)) });
+        // Back in from the side: along the back of the van onto the rear step, then through the door.
+        steps.Add(new Step { Name = "to side of step", Duration = 6f, Target = f => VanPoint(f, new Vector3(1.6f, 0.05f, -3.2f)) });
+        steps.Add(new Step { Name = "onto step sideways", Duration = 4f, Target = f => VanPoint(f, new Vector3(0f, 0.05f, -3.2f)), Record = true });
+        steps.Add(new Step { Name = "l04_on_step", Duration = 0.5f, Snap = true, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -2f)) });
         steps.AddRange(Enter());
         steps.Add(new Step { Name = "l05_back_in", Duration = 0.5f, Snap = true, LookPitch = 0 });
         return steps;

@@ -95,19 +95,20 @@ namespace Quantum
             if (dad->Standing.IsValid && f.Has<Riding>(dad->Standing)) dad->Standing = f.GetSingletonEntityRef<Van>();
         }
 
-        // Steps straight up onto a ledge ahead that is no higher than StepHeight and has room above it: how a dad gets up
-        // the truck's rear step and in through the open back door.
+        // Steps straight up onto a ledge right in front (its edge within the controller's reach, so he lands on it rather
+        // than beside it) that is no higher than StepHeight and has room above it: how a dad gets up the truck's rear step
+        // and in through the open back door, from behind or from the side.
         static void StepUp(Frame f, ref Filter filter, FPVector3 direction, DadsSettings settings)
         {
             if (direction.SqrMagnitude < FP._0_01 || !filter.Controller->Grounded) return;
             var position = filter.Transform->Position;
             var forward = direction.Normalized;
             // Only ledges at least 10 cm above the feet: the ground he stands on is never a step.
-            var above = position + forward * FP._0_50 + FPVector3.Up * (settings.StepHeight + FP._0_05);
+            var above = position + forward * FP._0_33 + FPVector3.Up * (settings.StepHeight + FP._0_05);
             var ledge = f.Physics3D.Raycast(above, FPVector3.Down, settings.StepHeight - FP._0_05, -1, QueryOptions.HitSolids | QueryOptions.ComputeDetailedInfo);
             if (!ledge.HasValue || ledge.Value.Normal.Y < FP._0_75) return;
             var rise = ledge.Value.Point.Y - position.Y;
-            if (f.Physics3D.Raycast(position + FPVector3.Up * (rise + 1), forward, FP._0_50, -1, QueryOptions.HitSolids).HasValue) return;
+            if (f.Physics3D.Raycast(position + FPVector3.Up * (rise + 1), forward, FP._0_33, -1, QueryOptions.HitSolids).HasValue) return;
             filter.Transform->Position = position + FPVector3.Up * rise;
         }
 

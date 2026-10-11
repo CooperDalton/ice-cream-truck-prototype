@@ -91,10 +91,10 @@ public class DadsHud : MonoBehaviour
         "Scoop up some mud", "Climb in the truck", "Churn the mud", "Scoop a cone", "Serve your kid", "Churn strawberries",
         "Churn some nuts", "Take the wheel",
     };
+    [Tooltip("Morning cards from day 2 on (day 1 spells out the rules instead); the last one repeats.")]
     [TextArea]
     [SerializeField] private string[] dayIntros =
     {
-        "Welcome to BIG DAIRY's lot.\nHe owns the truck, the loan,\nand every sweet tooth in town.\n\nFeed the kids. Pay the man. Win them back.",
         "Meanwhile, at your ex's house...\nYour kid asked who the guy in the truck is.\nYour ex said \"nobody, sweetie.\"",
         "Meanwhile, at your ex's house...\nThe kids made a video about you.\nIt has four views. All yours.",
         "Big Dairy sent a fruit basket.\nIt's all milk.",
@@ -146,7 +146,11 @@ public class DadsHud : MonoBehaviour
         if (e.Phase == DayPhase.Tutorial) ShowCard("TUTORIAL", tutorialIntro, "", Color.clear, introTime + 2);
         if (e.Phase == DayPhase.Morning)
         {
-            ShowCard("DAY " + e.Day, dayIntros[Mathf.Min(e.Day, dayIntros.Length) - 1], "", Color.clear, introTime);
+            var due = QuantumRunner.Default.Game.Frames.Predicted.GetSingleton<DadsRun>().Due;
+            var body = e.Day == 1
+                ? $"Big Dairy wants {Key}${due}{End} in sales by tonight.\nCome up short and it's a strike.\nThree strikes and he takes the truck."
+                : dayIntros[Mathf.Min(e.Day - 1, dayIntros.Length) - 1];
+            ShowCard("DAY " + e.Day, body, "", Color.clear, introTime);
         }
         if (e.Phase == DayPhase.Won)
         {
