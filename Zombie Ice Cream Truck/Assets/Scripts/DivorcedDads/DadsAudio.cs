@@ -100,6 +100,7 @@ public class DadsAudio : MonoBehaviour
         QuantumEvent.Subscribe(this, (EventTheft e) => Play(baristaHey, e.Position, 1f));
         QuantumEvent.Subscribe(this, (EventTreeShaken e) => OnTree(e));
         QuantumEvent.Subscribe(this, (EventVaultChanged e) => Play(e.Open ? vaultOpen : plateClick, ViewPosition(e.Vault), 1f));
+        QuantumEvent.Subscribe(this, (EventSwung e) => Play(e.Open ? gateOpen : plateClick, ViewPosition(e.Fixture), 0.7f));
         QuantumEvent.Subscribe(this, (EventGateOpened e) => Play(gateOpen, ViewPosition(e.Gate), 1f));
         QuantumEvent.Subscribe(this, (EventBought e) => Play(cashRegister, e.Position, 1f, default, true));
         QuantumEvent.Subscribe(this, (EventHonked e) => Play(honk, e.Position, 1f));

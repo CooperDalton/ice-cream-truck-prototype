@@ -101,6 +101,8 @@ namespace Quantum {
     Vault,
     Plate,
     Gate,
+    RearDoor,
+    Hatch,
   }
   public enum Flavor : byte {
     None,
@@ -1019,43 +1021,45 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Dad : Quantum.IComponent {
-    public const Int32 SIZE = 160;
+    public const Int32 SIZE = 168;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(4)]
     public PlayerRef Player;
-    [FieldOffset(24)]
+    [FieldOffset(28)]
     [FramePrinter.FixedArrayAttribute(typeof(DadSlot), 4)]
     private fixed Byte _Hotbar_[32];
     [FieldOffset(0)]
     public Int32 Selected;
-    [FieldOffset(16)]
+    [FieldOffset(20)]
     public DadSlot Carried;
-    [FieldOffset(128)]
-    public FP YawOffset;
-    [FieldOffset(120)]
-    public FP Pitch;
-    [FieldOffset(64)]
-    public EntityRef Standing;
-    [FieldOffset(8)]
-    public QBoolean Driving;
-    [FieldOffset(12)]
-    public QBoolean Turret;
-    [FieldOffset(96)]
-    public FP FireCooldown;
-    [FieldOffset(88)]
-    public FP DropHeld;
-    [FieldOffset(56)]
-    public EntityRef LookTarget;
-    [FieldOffset(112)]
-    public FP Knocked;
     [FieldOffset(136)]
-    public FPVector3 Fling;
-    [FieldOffset(80)]
-    public FP Coughing;
-    [FieldOffset(104)]
-    public FP Frozen;
+    public FP YawOffset;
+    [FieldOffset(128)]
+    public FP Pitch;
     [FieldOffset(72)]
+    public EntityRef Standing;
+    [FieldOffset(12)]
+    public QBoolean Driving;
+    [FieldOffset(16)]
+    public QBoolean Turret;
+    [FieldOffset(104)]
+    public FP FireCooldown;
+    [FieldOffset(96)]
+    public FP DropHeld;
+    [FieldOffset(64)]
+    public EntityRef LookTarget;
+    [FieldOffset(120)]
+    public FP Knocked;
+    [FieldOffset(144)]
+    public FPVector3 Fling;
+    [FieldOffset(88)]
+    public FP Coughing;
+    [FieldOffset(112)]
+    public FP Frozen;
+    [FieldOffset(80)]
     public FP Busted;
+    [FieldOffset(8)]
+    public QBoolean Climbing;
     public readonly FixedArray<DadSlot> Hotbar {
       get {
         fixed (byte* p = _Hotbar_) { return new FixedArray<DadSlot>(p, 8, 4); }
@@ -1081,6 +1085,7 @@ namespace Quantum {
         hash = hash * 31 + Coughing.GetHashCode();
         hash = hash * 31 + Frozen.GetHashCode();
         hash = hash * 31 + Busted.GetHashCode();
+        hash = hash * 31 + Climbing.GetHashCode();
         return hash;
       }
     }
@@ -1088,6 +1093,7 @@ namespace Quantum {
         var p = (Dad*)ptr;
         serializer.Stream.Serialize(&p->Selected);
         PlayerRef.Serialize(&p->Player, serializer);
+        QBoolean.Serialize(&p->Climbing, serializer);
         QBoolean.Serialize(&p->Driving, serializer);
         QBoolean.Serialize(&p->Turret, serializer);
         Quantum.DadSlot.Serialize(&p->Carried, serializer);

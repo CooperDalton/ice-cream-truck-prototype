@@ -144,6 +144,7 @@ namespace Quantum
             var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
             dad->Driving = false;
             dad->Turret = false;
+            dad->Climbing = false;
             dad->Knocked = 0;
             dad->Busted = 0;
             dad->Fling = FPVector3.Zero;
@@ -380,6 +381,7 @@ namespace Quantum
             var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
             if (dad->Knocked > 0) return;
             LeaveSeat(f, dad);
+            dad->Climbing = false;
             dad->Knocked = settings.KnockTime;
             dad->Fling = fling;
             dad->Standing = EntityRef.None;

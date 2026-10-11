@@ -37,6 +37,7 @@ component Dad {
   FP Coughing;
   FP Frozen;
   FP Busted;
+  bool Climbing;
 }
 
 // Tutorial: moving day at the trailer, before the first morning at Big Dairy's lot.
@@ -98,7 +99,8 @@ component Riding {
 enum FixtureKind : Byte {
   Churn, Tub, ConeCounter, GunRack, Hopper, Bell, Turret,
   Shop, Collector, TimeClock,
-  MudPuddle, StrawberryPatch, CoffeeTable, NutTree, Vault, Plate, Gate
+  MudPuddle, StrawberryPatch, CoffeeTable, NutTree, Vault, Plate, Gate,
+  RearDoor, Hatch
 }
 
 enum Upgrade : Byte {
@@ -327,6 +329,11 @@ event TreeShaken {
 
 event VaultChanged {
   entity_ref Vault;
+  bool Open;
+}
+
+event Swung {
+  entity_ref Fixture;
   bool Open;
 }
 

@@ -332,7 +332,11 @@ public class DadsHud : MonoBehaviour
                 return $"{Key}E{End}  fill a bucket at the mud puddle";
             case Lesson.Board:
                 target = vanTransform.TransformPoint(settings.RearOutside).ToUnityVector3() + Vector3.up;
-                return $"{Key}E{End}  climb in the back of the truck";
+                foreach (var pair in frame.GetComponentIterator<Fixture>())
+                {
+                    if (pair.Component.Kind == FixtureKind.RearDoor && !pair.Component.Open) return $"{Key}E{End}  open the back door";
+                }
+                return "Walk in the back of the truck";
             case Lesson.Churn:
                 target = churn;
                 return $"{Key}E{End}  dump the mud in the churn";
@@ -513,22 +517,14 @@ public class DadsHud : MonoBehaviour
         if (target.IsValid && frame.TryGet(target, out Loot loot)) return $"{Key}E{End}  pick up {Label(loot.Item, run.ConeSize)}";
         if (target.IsValid && frame.TryGet(target, out Fixture fixture)) return FixturePrompt(frame, fixture, dad, run);
 
+        if (dad.Climbing) return $"{Key}W/S{End} climb   {Key}SPACE{End} let go";
         var van = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>());
         var local = van.InverseTransformPoint(frame.Get<Transform3D>(entity).Position);
-        // Same nearest-spot rule as DadSystem.Interact.
-        var nearest = settings.InteractRange * settings.InteractRange;
-        var prompt = "";
+        // Same rules as DadSystem.Interact (the driver's seat) and DadSystem.Climb (the ladder).
         var canDrive = !frame.GetSingleton<Van>().Driver.IsValid && dad.Carried.Kind == DadItem.None;
-        var spots = new[] { (settings.LadderBottom, "climb to the roof"), (settings.HatchTop, "climb down into the kitchen"),
-            (settings.RearOutside, "get in the truck"), (settings.RearInside, "get out the back"), (settings.DriverSeat, canDrive ? "drive" : "") };
-        foreach (var (spot, text) in spots)
-        {
-            var distance = (local - spot).SqrMagnitude;
-            if (distance >= nearest || text == "") continue;
-            nearest = distance;
-            prompt = $"{Key}E{End}  {text}";
-        }
-        return prompt;
+        if (canDrive && (local - settings.DriverSeat).SqrMagnitude < settings.InteractRange * settings.InteractRange) return $"{Key}E{End}  drive";
+        var ladder = new FPVector3(local.X - settings.Ladder.X, 0, local.Z - settings.Ladder.Z);
+        return FPMath.Abs(local.Y - settings.Ladder.Y) < FP._0_50 && ladder.SqrMagnitude < FP._0_50 ? $"{Key}W{End}  climb the ladder (face it)" : "";
     }
 
     private static unsafe string FixturePrompt(Frame frame, Fixture fixture, Dad dad, DadsRun run)
@@ -548,6 +544,8 @@ public class DadsHud : MonoBehaviour
             case FixtureKind.ConeCounter: return $"{Key}E{End}  grab a cone";
             case FixtureKind.GunRack: return DadSystem.IsGun(held.Kind) ? $"{Key}E{End}  hang up your gun" : $"{Key}E{End}  take a gun";
             case FixtureKind.Hopper: return run.Minigun ? $"MINIGUN HOPPER  ({frame.GetSingleton<Van>().HopperRounds})\n{Key}E{End} pour in the fullest tub" : "MINIGUN HOPPER\nbuy the Soft Serve Minigun at the lot";
+            case FixtureKind.RearDoor: return $"{Key}E{End}  {(fixture.Open ? "close" : "open")} the back door";
+            case FixtureKind.Hatch: return $"{Key}E{End}  {(fixture.Open ? "close" : "open")} the roof hatch";
             case FixtureKind.Bell: return frame.GetSingleton<Van>().BellCooldown > 0 ? "the bell is still ringing" : $"{Key}E{End}  ring the dinner bell (kids come running)";
             case FixtureKind.Turret: return $"{Key}E{End}  man the soft serve minigun";
             case FixtureKind.Shop:

@@ -3,9 +3,9 @@ namespace Quantum
     using System;
     using Photon.Deterministic;
 
-    // Everything a dad does with his hands and feet: walking, the van's seats and doors, gathering ingredients,
-    // loading cones and guns at the freezer tubs, shoving cones into faces, shooting, throwing, tumbling after being
-    // run over, and sitting out an arrest.
+    // Everything a dad does with his hands and feet: walking (stepping up into the van), the van's seats, doors and
+    // ladder, gathering ingredients, loading cones and guns at the freezer tubs, shoving cones into faces, shooting,
+    // throwing, tumbling after being run over, and sitting out an arrest.
     public unsafe class DadSystem : SystemMainThreadFilter<DadSystem.Filter>
     {
         public struct Filter
@@ -72,6 +72,7 @@ namespace Quantum
                 Use(f, ref filter, input, eye, look, settings);
             }
 
+            if (Climb(f, ref filter, input, van, settings)) return;
             var move = new FPVector3(input->Move.X, 0, input->Move.Y);
             if (move.SqrMagnitude > 1) move = move.Normalized;
             var speed = input->Sprint.IsDown ? settings.SprintSpeed : settings.WalkSpeed;
@@ -79,9 +80,67 @@ namespace Quantum
             if (dad->Coughing > 0 || dad->Frozen > 0) speed *= FP._0_50;
             filter.Controller->MaxSpeed = speed;
             if (input->Jump.WasPressed && dad->Carried.Kind == DadItem.None) filter.Controller->Jump(f);
-            filter.Controller->Move(f, filter.Entity, filter.Transform->Rotation * move);
+            var direction = filter.Transform->Rotation * move;
+            StepUp(f, ref filter, direction, settings);
+            filter.Controller->Move(f, filter.Entity, direction);
             var ground = f.Physics3D.Raycast(filter.Transform->Position + FPVector3.Up * FP._0_25, FPVector3.Down, FP._0_75, -1, QueryOptions.HitSolids);
             dad->Standing = ground.HasValue ? ground.Value.Entity : EntityRef.None;
+            // Standing on the closed hatch (or anything else riding the van) is standing on the van.
+            if (dad->Standing.IsValid && f.Has<Riding>(dad->Standing)) dad->Standing = f.GetSingletonEntityRef<Van>();
+        }
+
+        // Steps straight up onto a ledge ahead that is no higher than StepHeight and has room above it: how a dad gets up
+        // the truck's rear step and in through the open back door.
+        static void StepUp(Frame f, ref Filter filter, FPVector3 direction, DadsSettings settings)
+        {
+            if (direction.SqrMagnitude < FP._0_01 || !filter.Controller->Grounded) return;
+            var position = filter.Transform->Position;
+            var forward = direction.Normalized;
+            // Only ledges at least 10 cm above the feet: the ground he stands on is never a step.
+            var above = position + forward * FP._0_50 + FPVector3.Up * (settings.StepHeight + FP._0_05);
+            var ledge = f.Physics3D.Raycast(above, FPVector3.Down, settings.StepHeight - FP._0_05, -1, QueryOptions.HitSolids | QueryOptions.ComputeDetailedInfo);
+            if (!ledge.HasValue || ledge.Value.Normal.Y < FP._0_75) return;
+            var rise = ledge.Value.Point.Y - position.Y;
+            if (f.Physics3D.Raycast(position + FPVector3.Up * (rise + 1), forward, FP._0_50, -1, QueryOptions.HitSolids).HasValue) return;
+            filter.Transform->Position = position + FPVector3.Up * rise;
+        }
+
+        // The ladder from the kitchen up through the roof hatch. Walking into it facing the wall gets a dad on, as does
+        // stepping into the open hatch from the roof. W climbs toward where he looks (up, or down when looking down), S the
+        // other way, jump lets go. Out of the top of the open hatch he steps onto the roof; a closed hatch stops him under it.
+        static bool Climb(Frame f, ref Filter filter, Input* input, Transform3D van, DadsSettings settings)
+        {
+            var dad = filter.Dad;
+            var local = van.InverseTransformPoint(filter.Transform->Position);
+            var dx = local.X - settings.Ladder.X;
+            var dz = local.Z - settings.Ladder.Z;
+            var open = false;
+            foreach (var pair in f.Unsafe.GetComponentBlockIterator<Fixture>())
+            {
+                if (pair.Component->Kind == FixtureKind.Hatch) open = pair.Component->Open;
+            }
+            if (!dad->Climbing)
+            {
+                var facing = FPVector3.Dot(filter.Transform->Forward, van.Right) > FP._0_50;
+                var below = FPMath.Abs(local.Y - settings.Ladder.Y) < FP._0_50 && dx * dx + dz * dz < FP._0_25 && input->Move.Y > 0 && facing;
+                var above = open && local.Y > settings.RoofHeight - FP._0_25 && FPMath.Abs(dx) < FP._0_33 && FPMath.Abs(dz) < FP._0_33;
+                if (!below && !above) return false;
+                dad->Climbing = true;
+                if (above) local.Y = settings.RoofHeight - FP._0_50;
+            }
+            var climb = input->Move.Y * (dad->Pitch > 40 ? -1 : 1);
+            var y = FPMath.Min(local.Y + climb * settings.ClimbSpeed * f.DeltaTime, open ? settings.RoofHeight : settings.RoofHeight - 2);
+            filter.Controller->Velocity = FPVector3.Zero;
+            dad->Standing = f.GetSingletonEntityRef<Van>();
+            if (open && y >= settings.RoofHeight)
+            {
+                dad->Climbing = false;
+                filter.Transform->Position = van.TransformPoint(settings.HatchTop);
+                return true;
+            }
+            if (input->Jump.WasPressed || y <= settings.Ladder.Y) dad->Climbing = false;
+            filter.Transform->Position = van.TransformPoint(new FPVector3(settings.Ladder.X, FPMath.Max(y, settings.Ladder.Y), settings.Ladder.Z));
+            return true;
         }
 
         // Driver: W/S/A/D drive, click honks, right click toggles the jingle. Turret: click fires the soft serve minigun.
@@ -141,30 +200,13 @@ namespace Quantum
                 return;
             }
 
-            // Fixed spots on the van: driver seat, ladder, roof hatch and rear door. The nearest one in range is used.
+            // The driver's seat is the one spot on the van used with E alone; doors, the hatch and the ladder are walked through.
             var vanState = f.Unsafe.GetPointerSingleton<Van>();
             var local = van.InverseTransformPoint(filter.Transform->Position);
-            var nearest = settings.InteractRange * settings.InteractRange;
-            var spots = stackalloc FPVector3[] { settings.LadderBottom, settings.HatchTop, settings.RearOutside, settings.RearInside, settings.DriverSeat };
-            var partners = stackalloc FPVector3[] { settings.HatchTop, settings.LadderBottom, settings.RearInside, settings.RearOutside };
-            var canDrive = !vanState->Driver.IsValid && dad->Carried.Kind == DadItem.None;
-            var best = -1;
-            for (int i = 0; i < 5; i++)
-            {
-                var distance = (local - spots[i]).SqrMagnitude;
-                if (distance >= nearest || (i == 4 && !canDrive)) continue;
-                nearest = distance;
-                best = i;
-            }
-            if (best < 0) return;
-            if (best == 4)
-            {
-                dad->Driving = true;
-                vanState->Driver = dad->Player;
-                return;
-            }
-            filter.Transform->Teleport(f, van.TransformPoint(partners[best]));
-            filter.Controller->Velocity = FPVector3.Zero;
+            if ((local - settings.DriverSeat).SqrMagnitude >= settings.InteractRange * settings.InteractRange) return;
+            if (vanState->Driver.IsValid || dad->Carried.Kind != DadItem.None) return;
+            dad->Driving = true;
+            vanState->Driver = dad->Player;
         }
 
         static void UseFixture(Frame f, ref Filter filter, EntityRef entity, Fixture* fixture, DadsSettings settings)
@@ -232,6 +274,13 @@ namespace Quantum
                     fullest->Count -= poured;
                     if (fullest->Count == 0) fullest->Treat = Treat.None;
                     f.Events.Refilled(dad->Player, vanState->HopperTreat);
+                    return;
+                case FixtureKind.RearDoor:
+                case FixtureKind.Hatch:
+                    // Closed they are solid (the hatch can be walked on); open they still answer to E.
+                    fixture->Open = !fixture->Open;
+                    f.Unsafe.GetPointer<PhysicsCollider3D>(entity)->IsTrigger = fixture->Open;
+                    f.Events.Swung(entity, fixture->Open);
                     return;
                 case FixtureKind.Bell:
                     if (vanState->BellCooldown > 0) return;

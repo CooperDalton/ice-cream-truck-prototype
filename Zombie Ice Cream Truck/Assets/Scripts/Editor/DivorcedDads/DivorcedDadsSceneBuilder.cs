@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Photon.Deterministic;
 using Quantum;
+using Quantum.Editor;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -33,10 +34,11 @@ public static partial class DivorcedDadsSceneBuilder
     // Indexed by Treat (None first).
     static readonly string[] Treats = { null, "Mud", "Strawberry", "Coffee", "Rocky Road", "Gold Leaf" };
     static readonly string[] Cones = { "Cone", "Waffle Cone", "Double Waffle Cone" };
-    // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own) and the freezer's sliding glass lids.
     // The truck art drives on the right; this is America, so the Dads van mirrors the driving position to the left.
     static readonly string[] DriverSide = { "driver seat", "steering wheel", "steering column", "instruments", "pedal brake", "pedal gas" };
-    static readonly string[] TruckDecor = { "freezer lid a", "freezer lid b", "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
+    // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own), the freezer's sliding glass
+    // lids, and the back door and roof hatch lid (they swing as fixtures of their own).
+    static readonly string[] TruckDecor = { "freezer lid a", "freezer lid b", "rear door", "hatch lid", "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
 
     // Hand-measured from the truck art (h_truck.py layout), same as the zombie mode: floor top 0.75, ceiling 2.86,
     // roof 2.92, walls at x +-1.15, cab front z 2.35, bulkhead z 0.95 (1 m doorway), rear wall z -2.95 (0.9 m door),
@@ -66,6 +68,9 @@ public static partial class DivorcedDadsSceneBuilder
         new Vector3(1.12f, 3.2f, -0.3f), new Vector3(0.03f, 0.3f, 2.65f),
         new Vector3(0, 3.2f, 2.32f), new Vector3(1.15f, 0.3f, 0.03f),
         new Vector3(0, 3.2f, -2.92f), new Vector3(1.15f, 0.3f, 0.03f),
+        // The rear step under the back door, solid down to the chassis bottom so nobody slips under it: dads step up onto
+        // it, then into the kitchen.
+        new Vector3(0, 0.2475f, -3.2f), new Vector3(0.475f, 0.1975f, 0.15f),
     };
 
     static readonly (Upgrade upgrade, int price)[] ShopStock =
@@ -101,6 +106,8 @@ public static partial class DivorcedDadsSceneBuilder
         var cash = BuildCash();
         var glob = BuildGlob();
         var gas = BuildGas(fx);
+        // The simulation finds entity prototypes through the Quantum asset DB, which only lists new ones after a refresh.
+        QuantumUnityDBUtilities.RefreshGlobalDB(true);
 
         var controller = ScriptableObject.CreateInstance<CharacterController3DConfig>();
         controller.Offset = new Vector3(0, 0.3f, 0).ToFPVector3();
@@ -473,8 +480,24 @@ public static partial class DivorcedDadsSceneBuilder
             var gate = Place(Model(Items, "Gate"), root.transform, Vector3.zero, Quaternion.identity);
             Set(root.AddComponent<HingeView>(), ("part", Child(gate, "Gate arm")), ("openEuler", new Vector3(0, 0, -80)), ("speed", 2f));
         });
+        prefabs[(int)FixtureKind.RearDoor] = BuildFixture(FixtureKind.RearDoor, root => Hinged(root, truckModel, "rear door", new Vector3(0, -100, 0)));
+        prefabs[(int)FixtureKind.Hatch] = BuildFixture(FixtureKind.Hatch, root => Hinged(root, truckModel, "hatch lid", null));
         Object.DestroyImmediate(truck);
         return prefabs;
+    }
+
+    // A swinging part of the truck art as a fixture of its own: hinge at the fixture's origin, closed until opened. With no
+    // openEuler the art is modeled open (the hatch lid), and that pose becomes the open one.
+    static void Hinged(GameObject root, GameObject truckModel, string name, Vector3? openEuler)
+    {
+        var truck = Object.Instantiate(truckModel);
+        var part = Child(truck, $"{Truck} {name}");
+        part.SetParent(root.transform, false);
+        part.localPosition = Vector3.zero;
+        var open = openEuler ?? part.localEulerAngles;
+        if (openEuler == null) part.localRotation = Quaternion.identity;
+        Object.DestroyImmediate(truck);
+        Set(root.AddComponent<HingeView>(), ("part", part), ("openEuler", open), ("speed", 6f));
     }
 
     static GameObject BuildFixture(FixtureKind kind, Action<GameObject> dress)
@@ -569,7 +592,8 @@ public static partial class DivorcedDadsSceneBuilder
         settings.RoofHeight = FP.FromFloat_UNSAFE(2.92f);
         settings.DriverSeat = new Vector3(-0.55f, 0.47f, 1.4f).ToFPVector3();
         settings.CabStand = new Vector3(0f, 0.8f, 1.5f).ToFPVector3();
-        settings.LadderBottom = new Vector3(0.53f, 0.8f, -2.2f).ToFPVector3();
+        // Under the middle of the roof hatch, on the kitchen floor.
+        settings.Ladder = new Vector3(0.72f, 0.75f, -2.42f).ToFPVector3();
         settings.HatchTop = new Vector3(0.74f, 2.95f, -1.8f).ToFPVector3();
         settings.RearInside = new Vector3(0, 0.8f, -2.5f).ToFPVector3();
         settings.RearOutside = new Vector3(0, 0.05f, -3.6f).ToFPVector3();
@@ -591,6 +615,18 @@ public static partial class DivorcedDadsSceneBuilder
             VanFixture(truck, FixtureKind.GunRack, "gun rack", "Gun Rack"),
             VanFixture(truck, FixtureKind.Hopper, "hopper gauge", "Hopper Gauge"),
             VanFixture(truck, FixtureKind.Bell, "roof bell", "Roof Bell"),
+            // Hinged at the art's pivots: the back door fills the 0.9 x 1.85 m doorway toward -X, the closed hatch lid
+            // covers the roof opening toward +Z.
+            new FixturePlacement
+            {
+                Kind = FixtureKind.RearDoor, Position = Child(truck, $"{Truck} rear door").position.ToFPVector3(),
+                Center = new Vector3(-0.45f, 0.925f, 0).ToFPVector3(), HalfSize = new Vector3(0.45f, 0.925f, 0.04f).ToFPVector3(),
+            },
+            new FixturePlacement
+            {
+                Kind = FixtureKind.Hatch, Position = Child(truck, $"{Truck} hatch lid").position.ToFPVector3(),
+                Center = new Vector3(0, 0, 0.32f).ToFPVector3(), HalfSize = new Vector3(0.33f, 0.03f, 0.31f).ToFPVector3(),
+            },
             new FixturePlacement { Kind = FixtureKind.Turret, Position = turretSocket.ToFPVector3(), Center = turretBounds.center.ToFPVector3(), HalfSize = turretBounds.extents.ToFPVector3() },
         };
         // Four tubs in the freezer rack; their boxes are as deep as the rack so they also stop dads walking into it.

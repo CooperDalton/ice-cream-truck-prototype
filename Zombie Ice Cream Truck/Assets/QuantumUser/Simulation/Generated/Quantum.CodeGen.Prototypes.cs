@@ -124,6 +124,7 @@ namespace Quantum.Prototypes {
     public FP Coughing;
     public FP Frozen;
     public FP Busted;
+    public QBoolean Climbing;
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Dad component = default;
         Materialize((Frame)f, ref component, in context);
@@ -149,6 +150,7 @@ namespace Quantum.Prototypes {
         result.Coughing = this.Coughing;
         result.Frozen = this.Frozen;
         result.Busted = this.Busted;
+        result.Climbing = this.Climbing;
     }
   }
   [System.SerializableAttribute()]

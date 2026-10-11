@@ -85,6 +85,10 @@ MonoBehaviour:
       Value: 1323338481870816612
   - Id:
       Value: 1385447839115986048
+  - Id:
+      Value: 1391343894306443063
+  - Id:
+      Value: 1498067494435911385
   LootPrototypes:
   - Id:
       Value: 0
@@ -138,6 +142,10 @@ MonoBehaviour:
     RawValue: 196608
   FrozenTime:
     RawValue: 81920
+  StepHeight:
+    RawValue: 32768
+  ClimbSpeed:
+    RawValue: 163840
   VanMaxSpeed:
     RawValue: 1048576
   VanReverseSpeed:
@@ -483,6 +491,20 @@ MonoBehaviour:
         RawValue: 1966
   - Center:
       X:
+        RawValue: 0
+      Y:
+        RawValue: 16220
+      Z:
+        RawValue: -209715
+    Extents:
+      X:
+        RawValue: 31129
+      Y:
+        RawValue: 12943
+      Z:
+        RawValue: 9830
+  - Center:
+      X:
         RawValue: 60587
       Y:
         RawValue: 89343
@@ -518,13 +540,13 @@ MonoBehaviour:
       RawValue: 52428
     Z:
       RawValue: 98304
-  LadderBottom:
+  Ladder:
     X:
-      RawValue: 34734
+      RawValue: 47185
     Y:
-      RawValue: 52428
+      RawValue: 49152
     Z:
-      RawValue: -144179
+      RawValue: -158597
   HatchTop:
     X:
       RawValue: 48496
@@ -707,6 +729,62 @@ MonoBehaviour:
         RawValue: 36039
       Z:
         RawValue: 17367
+    Trigger: 0
+  - Kind: 17
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 29163
+      Y:
+        RawValue: 52428
+      Z:
+        RawValue: -191365
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: -29491
+      Y:
+        RawValue: 60620
+      Z:
+        RawValue: 0
+    HalfSize:
+      X:
+        RawValue: 29491
+      Y:
+        RawValue: 60620
+      Z:
+        RawValue: 2621
+    Trigger: 0
+  - Kind: 18
+    Index: 0
+    Upgrade: 0
+    Price: 0
+    Position:
+      X:
+        RawValue: 48496
+      Y:
+        RawValue: 195952
+      Z:
+        RawValue: -179568
+    Yaw:
+      RawValue: 0
+    Center:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 20971
+    HalfSize:
+      X:
+        RawValue: 21626
+      Y:
+        RawValue: 1966
+      Z:
+        RawValue: 20316
     Trigger: 0
   - Kind: 6
     Index: 0

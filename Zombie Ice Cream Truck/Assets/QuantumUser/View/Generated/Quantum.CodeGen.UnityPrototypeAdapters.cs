@@ -69,6 +69,7 @@ namespace Quantum.Prototypes.Unity {
     public FP Coughing;
     public FP Frozen;
     public FP Busted;
+    public QBoolean Climbing;
     partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.DadPrototype prototype);
     public override Quantum.Prototypes.DadPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
       var result = new Quantum.Prototypes.DadPrototype();
@@ -89,6 +90,7 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.Coughing, out result.Coughing);
       converter.Convert(this.Frozen, out result.Frozen);
       converter.Convert(this.Busted, out result.Busted);
+      converter.Convert(this.Climbing, out result.Climbing);
       ConvertUser(converter, ref result);
       return result;
     }

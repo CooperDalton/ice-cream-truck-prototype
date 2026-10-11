@@ -18,7 +18,8 @@ using UnityEngine.InputSystem.LowLevel;
 // -executeMethod DadsPlaytest.RunFromCommandLine -logFile <log> with PLAYTEST_SCENARIO set (no -quit).
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
 // kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
-// tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it).
+// tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it),
+// hatch (up the ladder into the shut hatch, open it, out onto the roof, back down through it, out the back door and in).
 public static class DadsPlaytest
 {
     const string ScenePath = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
@@ -42,6 +43,8 @@ public static class DadsPlaytest
         // Walks these points in order (then Target, if any).
         public Func<Frame, Vector3[]> Route;
         public Func<Frame, bool> Done;
+        // Skips the step entirely (no keys pressed) when true as it starts.
+        public Func<Frame, bool> Skip;
         public Vector3? CameraAt;
         public Vector3? CameraLook;
     }
@@ -110,10 +113,10 @@ public static class DadsPlaytest
         var steps = new List<Step>
         {
             new Step { Name = "p00_start", Duration = 3f, Snap = true },
-            new Step { Name = "to back door", Duration = 4f, Target = f => VanPoint(f, new Vector3(0f, 0.8f, -2.45f)) },
-            new Step { Name = "face door", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) },
-            new Step { Name = "get out", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) },
-            new Step { Name = "settle", Duration = 0.7f },
+        };
+        steps.AddRange(GetOut());
+        steps.AddRange(new[]
+        {
             new Step { Name = "to shop", Duration = 20f, Target = f => Approach(f, Fixture(f, FixtureKind.Shop, 0), 1.1f), LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 0), 0.9f) },
             new Step { Name = "p01_shop", Duration = 0.8f, Snap = true, LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 0), 0.9f) },
             new Step { Name = "buy", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.Shop, 0), 0.9f) },
@@ -123,17 +126,18 @@ public static class DadsPlaytest
             new Step { Name = "to mud", Duration = 40f, Target = f => Approach(f, Fixture(f, FixtureKind.MudPuddle, -1), 1.2f), LookAt = f => Fixture(f, FixtureKind.MudPuddle, -1) },
             new Step { Name = "grab mud", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Fixture(f, FixtureKind.MudPuddle, -1) },
             new Step { Name = "p04_mud", Duration = 0.8f, Snap = true, LookPitch = 0 },
-            new Step { Name = "back to van", Duration = 40f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.8f)) },
-            new Step { Name = "face van", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) },
-            new Step { Name = "get in", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) },
-            new Step { Name = "settle in", Duration = 0.6f },
+            new Step { Name = "back to van", Duration = 40f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.9f)) },
+        });
+        steps.AddRange(Enter());
+        steps.AddRange(new[]
+        {
             new Step { Name = "to churn", Duration = 5f, Target = f => VanPoint(f, new Vector3(-0.05f, 0.8f, 0.4f)) },
             new Step { Name = "face churn", Duration = 0.8f, LookAt = f => Fixture(f, FixtureKind.Churn, -1) + Vector3.up * 1.2f },
             new Step { Name = "churn", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Fixture(f, FixtureKind.Churn, -1) + Vector3.up * 1.2f },
             new Step { Name = "p05_churning", Duration = 0.5f, Snap = true },
             new Step { Name = "wait churn", Duration = 2.5f },
             new Step { Name = "p06_churned", Duration = 0.3f, Snap = true },
-        };
+        });
         return steps;
     }
 
@@ -154,16 +158,47 @@ public static class DadsPlaytest
         steps.Add(new Step { Name = "leave seat", Duration = 0.3f, Keys = new[] { Key.E } });
         for (int i = 0; i < 4; i++) steps.Add(new Step { Name = $"settle {i}", Duration = 0.15f });
         steps.Add(new Step { Name = "to doorway", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) });
-        steps.Add(new Step { Name = "to back", Duration = 5f, Target = f => VanPoint(f, new Vector3(0f, 0.8f, -2.45f)) });
-        steps.Add(new Step { Name = "face door", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) });
-        steps.Add(new Step { Name = "get out", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) });
-        steps.Add(new Step { Name = "settle", Duration = 0.7f });
+        steps.AddRange(GetOut());
         steps.Add(new Step { Name = "to clock", Duration = 30f, Target = f => Approach(f, Fixture(f, FixtureKind.TimeClock, -1), 1.1f), LookAt = f => Raised(Fixture(f, FixtureKind.TimeClock, -1), 1.3f) });
         steps.Add(new Step { Name = "clock out", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => Raised(Fixture(f, FixtureKind.TimeClock, -1), 1.3f) });
         steps.Add(new Step { Name = "n04_collection", Duration = 2.5f, Snap = true });
         steps.Add(new Step { Name = "wait next day", Duration = 15f, Done = f => f.GetSingleton<DadsRun>().Phase == DayPhase.Morning });
         steps.Add(new Step { Name = "n05_next_morning", Duration = 2f, Snap = true });
         return steps;
+    }
+
+    static List<Step> Hatch()
+    {
+        var ladder = new Vector3(0.72f, 0.8f, -2.42f);
+        var wall = new Vector3(2.5f, 2.2f, -2.42f);
+        var hatch = new Vector3(0.74f, 3f, -2.42f);
+        var steps = new List<Step>
+        {
+            new Step { Name = "h00_start", Duration = 3f, Snap = true, LookPitch = 0 },
+            new Step { Name = "to ladder", Duration = 4f, Target = f => VanPoint(f, ladder) },
+            new Step { Name = "face ladder", Duration = 0.8f, LookAt = f => VanPoint(f, wall) },
+            new Step { Name = "h01_ladder", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, wall) },
+            new Step { Name = "climb to shut hatch", Duration = 2.5f, Keys = new[] { Key.W }, LookAt = f => VanPoint(f, wall) },
+            new Step { Name = "h02_under_hatch", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, hatch) },
+            new Step { Name = "look up", Duration = 0.6f, LookAt = f => VanPoint(f, hatch) },
+            new Step { Name = "open hatch", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, hatch) },
+            new Step { Name = "h03_hatch_open", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, hatch) },
+            new Step { Name = "climb out", Duration = 4f, Keys = new[] { Key.W }, LookPitch = 0, Done = f => !Me(f).Climbing && LocalOfDad(f).y > 2.5f, Record = true },
+            new Step { Name = "h04_roof", Duration = 1f, Snap = true, LookPitch = 15 },
+            new Step { Name = "into hatch", Duration = 6f, Target = f => VanPoint(f, hatch), LookPitch = 60, Done = f => Me(f).Climbing, Record = true },
+            new Step { Name = "climb down", Duration = 4f, Keys = new[] { Key.W }, LookPitch = 60, Done = f => !Me(f).Climbing, Record = true },
+            new Step { Name = "h05_back_down", Duration = 0.5f, Snap = true, LookPitch = 0 },
+        };
+        steps.AddRange(GetOut());
+        steps.Add(new Step { Name = "h06_outside", Duration = 0.8f, Snap = true, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -2f)) });
+        steps.AddRange(Enter());
+        steps.Add(new Step { Name = "h07_back_in", Duration = 0.5f, Snap = true, LookPitch = 0 });
+        return steps;
+    }
+
+    static Dad Me(Frame frame)
+    {
+        return frame.Get<Dad>(input.LocalEntity);
     }
 
     // Moving day: mud from the puddle into the churn, a cone for the kid, strawberries and nuts churned, then the wheel.
@@ -225,10 +260,8 @@ public static class DadsPlaytest
     static IEnumerable<Step> YardIn()
     {
         yield return new Step { Name = "to corner", Duration = 30f, Target = f => VanPoint(f, new Vector3(-2.4f, 0.05f, -4.4f)) };
-        yield return new Step { Name = "to rear", Duration = 10f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.8f)) };
-        yield return new Step { Name = "face van", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
-        yield return new Step { Name = "get in", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
-        yield return new Step { Name = "settle in", Duration = 0.6f };
+        yield return new Step { Name = "to rear", Duration = 10f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.9f)) };
+        foreach (var step in Enter()) yield return step;
     }
 
     static IEnumerable<Step> Churn(string snap)
@@ -268,7 +301,9 @@ public static class DadsPlaytest
         for (int i = 0; i < 4; i++) steps.Add(new Step { Name = $"settle {i}", Duration = 0.15f });
         steps.Add(new Step { Name = "to doorway", Duration = 4f, Target = f => VanPoint(f, new Vector3(-0.1f, 0.8f, 0.6f)) });
         steps.AddRange(GetOut());
-        steps.Add(new Step { Name = "to nuts", Duration = 30f, Target = f => Approach(f, NearestLoot(f), 0.9f), LookAt = f => NearestLoot(f) });
+        // Around the van's side: straight ahead would lead back in through the open back door.
+        steps.Add(new Step { Name = "to nuts", Duration = 30f, Route = f => new[] { VanPoint(f, new Vector3(2.6f, 0.05f, -3.9f)).Value, VanPoint(f, new Vector3(2.6f, 0.05f, 4.2f)).Value },
+            Target = f => Approach(f, NearestLoot(f), 0.9f), LookAt = f => NearestLoot(f) });
         steps.Add(new Step { Name = "face nuts", Duration = 0.8f, LookAt = f => NearestLoot(f) + Vector3.up * 0.2f });
         steps.Add(new Step { Name = "grab nuts", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => NearestLoot(f) + Vector3.up * 0.2f });
         steps.Add(new Step { Name = "m04_nuts", Duration = 0.6f, Snap = true, LookPitch = 0 });
@@ -468,8 +503,26 @@ public static class DadsPlaytest
     {
         yield return new Step { Name = "to back door", Duration = 5f, Target = f => VanPoint(f, new Vector3(0f, 0.8f, -2.45f)) };
         yield return new Step { Name = "face door", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) };
-        yield return new Step { Name = "get out", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)) };
-        yield return new Step { Name = "settle out", Duration = 0.7f };
+        yield return new Step { Name = "open door", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.4f, -4f)), Skip = f => DoorOpen(f) };
+        yield return new Step { Name = "step out", Duration = 5f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -4.2f)) };
+    }
+
+    // From behind the van: open the back door if it is shut and walk up the step into the kitchen.
+    static IEnumerable<Step> Enter()
+    {
+        yield return new Step { Name = "face van", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
+        yield return new Step { Name = "open door", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)), Skip = f => DoorOpen(f) };
+        yield return new Step { Name = "walk in", Duration = 5f, Target = f => VanPoint(f, new Vector3(0, 0.8f, -2.3f)) };
+        yield return new Step { Name = "settle in", Duration = 0.4f };
+    }
+
+    static bool DoorOpen(Frame frame)
+    {
+        foreach (var pair in frame.GetComponentIterator<Quantum.Fixture>())
+        {
+            if (pair.Component.Kind == FixtureKind.RearDoor) return pair.Component.Open;
+        }
+        return false;
     }
 
     static IEnumerable<Step> GetIn()
@@ -477,10 +530,8 @@ public static class DadsPlaytest
         // Around the van's right side so the bot never walks into its bumper.
         yield return new Step { Name = "to side", Duration = 30f, Target = f => VanPoint(f, new Vector3(2.6f, 0.05f, Mathf.Clamp(LocalOfDad(f).z, -4f, 4f))) };
         yield return new Step { Name = "to corner", Duration = 10f, Target = f => VanPoint(f, new Vector3(2.4f, 0.05f, -4.4f)) };
-        yield return new Step { Name = "to rear", Duration = 10f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.8f)) };
-        yield return new Step { Name = "face van", Duration = 0.8f, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
-        yield return new Step { Name = "get in", Duration = 0.3f, Keys = new[] { Key.E }, LookAt = f => VanPoint(f, new Vector3(0f, 1.2f, -2f)) };
-        yield return new Step { Name = "settle in", Duration = 0.6f };
+        yield return new Step { Name = "to rear", Duration = 10f, Target = f => VanPoint(f, new Vector3(0, 0.05f, -3.9f)) };
+        foreach (var step in Enter()) yield return step;
     }
 
     // From the sidewalk into a block along the planned path of the spot nearest to the goal (reversed).
@@ -572,16 +623,20 @@ public static class DadsPlaytest
         return best;
     }
 
-    // The fixture of a kind (with this index, or the nearest one when index is -1).
+    // The fixture of a kind (with this index, or the nearest one when index is -1). Outside the tutorial the walled-off
+    // tutorial yard's puddle, patch and tree don't count.
     static Vector3 Fixture(Frame frame, FixtureKind kind, int index)
     {
         var from = frame.Get<Transform3D>(input.LocalEntity).Position.ToUnityVector3();
+        var yard = frame.FindAsset(frame.RuntimeConfig.DadsSettings).TutorialPark.ToUnityVector3();
+        var tutorial = frame.GetSingleton<DadsRun>().Phase == DayPhase.Tutorial;
         var best = Vector3.zero;
         var bestDistance = float.MaxValue;
         foreach (var pair in frame.GetComponentIterator<Quantum.Fixture>())
         {
             if (pair.Component.Kind != kind || (index >= 0 && pair.Component.Index != index)) continue;
             var position = frame.Get<Transform3D>(pair.Entity).Position.ToUnityVector3();
+            if (!tutorial && (position - yard).sqrMagnitude < 60 * 60) continue;
             var distance = (position - from).sqrMagnitude;
             if (distance >= bestDistance) continue;
             bestDistance = distance;
@@ -828,7 +883,7 @@ public static class DadsPlaytest
         {
             start = now;
             stepStart = now;
-            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : Serve();
+            steps = scenario == "tour" ? Tour() : scenario == "shop" ? Shop() : scenario == "night" ? Night() : scenario == "maple" ? Maple() : scenario == "chaos" ? Chaos() : scenario == "ride" ? Ride() : scenario == "finale" ? Finale() : scenario == "cops" ? Cops() : scenario == "tutorial" ? Tutorial() : scenario == "hatch" ? Hatch() : Serve();
             Log($"play mode started: {scenario}");
         }
         if (now - start > 420)
@@ -909,6 +964,11 @@ public static class DadsPlaytest
         if (step.Snap) Capture(System.IO.Path.Combine(OutDir, step.Name + ".png"), 1280, 720);
         Log($"step '{step.Name}' done: {State(frame)}");
         stepIndex++;
+        while (stepIndex < steps.Count && steps[stepIndex].Skip != null && steps[stepIndex].Skip(frame))
+        {
+            Log($"step '{steps[stepIndex].Name}' skipped");
+            stepIndex++;
+        }
         stepStart = now;
         routeIndex = 0;
         if (stepIndex >= steps.Count) Finish("all steps done");
@@ -956,7 +1016,7 @@ public static class DadsPlaytest
             var facing = frame.Get<Transform3D>(input.LocalEntity).Rotation.ToUnityQuaternion().eulerAngles.y;
             var vanYaw = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>()).Rotation.ToUnityQuaternion().eulerAngles.y;
             var toQueue = QueueFace(frame).Value - position;
-            dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} carried {dad.Carried.Kind} hotbar {hotbar}";
+            dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} local {LocalOfDad(frame):F2} climbing {dad.Climbing} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} carried {dad.Carried.Kind} hotbar {hotbar}";
         }
         return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
     }

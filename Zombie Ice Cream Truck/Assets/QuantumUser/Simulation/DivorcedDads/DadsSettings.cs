@@ -73,6 +73,9 @@ namespace Quantum
         public FP KnockTime = FP._2 + FP._0_25;
         public FP BustedTime = 3;
         public FP FrozenTime = FP._1_25;
+        // Ledges a dad steps straight up onto: the truck's rear step, then its floor.
+        public FP StepHeight = FP._0_50;
+        public FP ClimbSpeed = FP._2 + FP._0_50;
 
         public FP VanMaxSpeed = 16;
         public FP VanReverseSpeed = 6;
@@ -89,7 +92,8 @@ namespace Quantum
         public FP RoofHeight = 3;
         public FPVector3 DriverSeat;
         public FPVector3 CabStand;
-        public FPVector3 LadderBottom;
+        // Van-local line the ladder is climbed on (x, z) from the kitchen floor (y) up through the roof hatch.
+        public FPVector3 Ladder;
         public FPVector3 HatchTop;
         public FPVector3 RearInside;
         public FPVector3 RearOutside;
