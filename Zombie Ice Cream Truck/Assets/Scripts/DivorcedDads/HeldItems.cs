@@ -3,8 +3,8 @@ using Quantum;
 using UnityEngine;
 
 // The models a dad can hold, prepared once and switched on and off: the cone (sugar, waffle or double waffle by the
-// van's cone upgrade) with up to three scoops stacked on it, the guns, and the bulky ingredients carried in both
-// hands. Used by both the first-person view model and the third-person body.
+// van's cone upgrade) with up to three scoops stacked on it, the guns, and the ingredients. Used by both the
+// first-person view model and the third-person body.
 public class HeldItems : MonoBehaviour
 {
     [Serializable]
@@ -36,9 +36,8 @@ public class HeldItems : MonoBehaviour
     private int shownScoops = -1;
 
     // Returns true when what is shown changed (the view model dips like a quick holster).
-    public bool Show(DadSlot held, DadSlot carried, int coneSize)
+    public bool Show(DadSlot item, int coneSize)
     {
-        var item = carried.Kind != DadItem.None ? carried : held;
         // One number for the whole stack: count and the three flavors in base 6.
         var scoops = item.Kind == DadItem.Cone ? item.Count * 216 + (int)item.Scoops[0] + (int)item.Scoops[1] * 6 + (int)item.Scoops[2] * 36 : 0;
         if (item.Kind == shownKind && coneSize == shownSize && scoops == shownScoops) return false;

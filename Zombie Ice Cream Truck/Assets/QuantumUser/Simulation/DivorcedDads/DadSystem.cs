@@ -67,7 +67,7 @@ namespace Quantum
             {
                 UseTub(f, dad, target, tub, settings);
             }
-            else if (input->Fire.IsDown && dad->FireCooldown <= 0 && dad->Carried.Kind == DadItem.None && dad->Coughing <= 0)
+            else if (input->Fire.IsDown && dad->FireCooldown <= 0 && dad->Coughing <= 0)
             {
                 Use(f, ref filter, input, eye, look, settings);
             }
@@ -76,10 +76,9 @@ namespace Quantum
             var move = new FPVector3(input->Move.X, 0, input->Move.Y);
             if (move.SqrMagnitude > 1) move = move.Normalized;
             var speed = input->Sprint.IsDown ? settings.SprintSpeed : settings.WalkSpeed;
-            if (dad->Carried.Kind != DadItem.None) speed = settings.WalkSpeed * FP._0_75;
             if (dad->Coughing > 0 || dad->Frozen > 0) speed *= FP._0_50;
             filter.Controller->MaxSpeed = speed;
-            if (input->Jump.WasPressed && dad->Carried.Kind == DadItem.None) filter.Controller->Jump(f);
+            if (input->Jump.WasPressed) filter.Controller->Jump(f);
             var direction = filter.Transform->Rotation * move;
             StepUp(f, ref filter, direction, settings);
             filter.Controller->Move(f, filter.Entity, direction);
@@ -199,7 +198,7 @@ namespace Quantum
             var vanState = f.Unsafe.GetPointerSingleton<Van>();
             var local = van.InverseTransformPoint(filter.Transform->Position);
             if ((local - settings.DriverSeat).SqrMagnitude >= settings.InteractRange * settings.InteractRange) return;
-            if (vanState->Driver.IsValid || dad->Carried.Kind != DadItem.None) return;
+            if (vanState->Driver.IsValid) return;
             dad->Driving = true;
             vanState->Driver = dad->Player;
         }
@@ -210,15 +209,16 @@ namespace Quantum
             var run = f.Unsafe.GetPointerSingleton<DadsRun>();
             var vanState = f.Unsafe.GetPointerSingleton<Van>();
             var position = f.Unsafe.GetPointer<Transform3D>(entity)->Position;
-            var emptyHanded = dad->Carried.Kind == DadItem.None;
             switch (fixture->Kind)
             {
                 case FixtureKind.Churn:
-                    var treat = TreatOf(dad->Carried.Kind);
-                    if (treat == Treat.None || fixture->Timer > 0 || FreeTub(f, treat, settings) == null) return;
-                    fixture->Input = dad->Carried.Kind;
+                    var slot = IngredientSlot(dad);
+                    if (slot < 0 || fixture->Timer > 0) return;
+                    var ingredient = dad->Hotbar.GetPointer(slot);
+                    if (FreeTub(f, TreatOf(ingredient->Kind), settings) == null) return;
+                    fixture->Input = ingredient->Kind;
                     fixture->Timer = settings.ChurnTime;
-                    dad->Carried = default;
+                    *ingredient = default;
                     f.Events.ChurnStarted(entity, fixture->Input);
                     return;
                 case FixtureKind.Tub:
@@ -226,7 +226,6 @@ namespace Quantum
                     return;
                 case FixtureKind.ConeCounter:
                     var selected = dad->Hotbar.GetPointer(dad->Selected);
-                    if (!emptyHanded) return;
                     if (selected->Kind != DadItem.None && !TryAdd(dad, new DadSlot { Kind = DadItem.Cone })) return;
                     if (selected->Kind == DadItem.None) *selected = new DadSlot { Kind = DadItem.Cone };
                     f.Events.ConeTaken(dad->Player);
@@ -283,7 +282,6 @@ namespace Quantum
                     f.Events.BellRung(position);
                     return;
                 case FixtureKind.Turret:
-                    if (!emptyHanded) return;
                     foreach (var other in f.Unsafe.GetComponentBlockIterator<Dad>())
                     {
                         if (other.Component->Turret) return;
@@ -300,19 +298,16 @@ namespace Quantum
                     if (parked && working) DadsGame.Collect(f);
                     return;
                 case FixtureKind.MudPuddle:
-                    if (!emptyHanded) return;
-                    dad->Carried = new DadSlot { Kind = DadItem.MudBucket };
+                    if (!TryAdd(dad, new DadSlot { Kind = DadItem.MudBucket })) return;
                     f.Events.Gathered(dad->Player, DadItem.MudBucket, position, entity);
                     return;
                 case FixtureKind.StrawberryPatch:
-                    if (!emptyHanded || fixture->Timer > 0) return;
-                    dad->Carried = new DadSlot { Kind = DadItem.StrawberryBasket };
+                    if (fixture->Timer > 0 || !TryAdd(dad, new DadSlot { Kind = DadItem.StrawberryBasket })) return;
                     fixture->Timer = 50;
                     f.Events.Gathered(dad->Player, DadItem.StrawberryBasket, position, entity);
                     return;
                 case FixtureKind.CoffeeTable:
-                    if (!emptyHanded || fixture->Timer > 0) return;
-                    dad->Carried = new DadSlot { Kind = DadItem.IcedCoffee };
+                    if (fixture->Timer > 0 || !TryAdd(dad, new DadSlot { Kind = DadItem.IcedCoffee })) return;
                     fixture->Timer = 40;
                     run->Heat += FP._0_50;
                     f.Events.Gathered(dad->Player, DadItem.IcedCoffee, position, entity);
@@ -322,8 +317,7 @@ namespace Quantum
                     DadsGame.ShakeTree(f, entity, fixture, 1);
                     return;
                 case FixtureKind.Vault:
-                    if (!emptyHanded || !fixture->Open || fixture->Timer > 0) return;
-                    dad->Carried = new DadSlot { Kind = DadItem.GoldLeaf };
+                    if (!fixture->Open || fixture->Timer > 0 || !TryAdd(dad, new DadSlot { Kind = DadItem.GoldLeaf })) return;
                     fixture->Timer = 60;
                     f.Events.Gathered(dad->Player, DadItem.GoldLeaf, position, entity);
                     return;
@@ -474,18 +468,9 @@ namespace Quantum
             var held = dad->DropHeld;
             dad->DropHeld = 0;
             var selected = dad->Hotbar.GetPointer(dad->Selected);
-            if (dad->Carried.Kind == DadItem.None && selected->Kind == DadItem.None) return;
-            DadSlot item;
-            if (dad->Carried.Kind != DadItem.None)
-            {
-                item = dad->Carried;
-                dad->Carried = default;
-            }
-            else
-            {
-                item = *selected;
-                *selected = default;
-            }
+            if (selected->Kind == DadItem.None) return;
+            var item = *selected;
+            *selected = default;
             var thrown = held >= settings.ThrowHoldTime;
             var power = thrown ? FPMath.Lerp(settings.ThrowSpeedMin, settings.ThrowSpeedMax, held - settings.ThrowHoldTime) : FP._1_50;
             var velocity = look * power + FPVector3.Up * (thrown ? 2 : 1);
@@ -569,15 +554,20 @@ namespace Quantum
             return kind == DadItem.ScoopPistol || kind == DadItem.SundaeShotgun;
         }
 
-        // Bulky ingredients go in both hands; everything else into the first free hotbar slot.
+        // The selected hotbar slot if it holds an ingredient, else the first one that does, else -1.
+        public static int IngredientSlot(Dad* dad)
+        {
+            if (TreatOf(dad->Hotbar.GetPointer(dad->Selected)->Kind) != Treat.None) return dad->Selected;
+            for (int i = 0; i < dad->Hotbar.Length; i++)
+            {
+                if (TreatOf(dad->Hotbar.GetPointer(i)->Kind) != Treat.None) return i;
+            }
+            return -1;
+        }
+
+        // Into the selected hotbar slot if it is empty, else the first free one.
         public static bool TryAdd(Dad* dad, DadSlot item)
         {
-            if (item.Kind >= DadItem.MudBucket)
-            {
-                if (dad->Carried.Kind != DadItem.None) return false;
-                dad->Carried = item;
-                return true;
-            }
             if (dad->Hotbar.GetPointer(dad->Selected)->Kind == DadItem.None)
             {
                 *dad->Hotbar.GetPointer(dad->Selected) = item;

@@ -66,8 +66,8 @@ public class DadsViewModel : MonoBehaviour
             var dad = frame.Get<Dad>(input.LocalEntity);
             visible = dad.Knocked <= 0 && dad.Busted <= 0 && !dad.Driving && !dad.Turret;
             var item = dad.Hotbar[dad.Selected];
-            aiming = input.Aiming && dad.Carried.Kind == DadItem.None && DadSystem.IsGun(item.Kind);
-            if (held.Show(item, dad.Carried, frame.GetSingleton<DadsRun>().ConeSize)) dip = Mathf.Max(dip, 0.6f);
+            aiming = input.Aiming && DadSystem.IsGun(item.Kind);
+            if (held.Show(item, frame.GetSingleton<DadsRun>().ConeSize)) dip = Mathf.Max(dip, 0.6f);
         }
         arms.SetActive(visible);
         UpdateSway(aiming, dt);

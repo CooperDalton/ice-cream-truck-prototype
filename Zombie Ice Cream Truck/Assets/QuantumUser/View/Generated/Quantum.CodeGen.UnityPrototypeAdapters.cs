@@ -55,7 +55,6 @@ namespace Quantum.Prototypes.Unity {
     [ArrayLengthAttribute(4)]
     public Quantum.Prototypes.DadSlotPrototype[] Hotbar = new Quantum.Prototypes.DadSlotPrototype[4];
     public Int32 Selected;
-    public Quantum.Prototypes.DadSlotPrototype Carried;
     public FP YawOffset;
     public FP Pitch;
     public Quantum.QuantumEntityPrototype Standing;
@@ -76,7 +75,6 @@ namespace Quantum.Prototypes.Unity {
       converter.Convert(this.Player, out result.Player);
       converter.Convert(this.Hotbar, out result.Hotbar);
       converter.Convert(this.Selected, out result.Selected);
-      converter.Convert(this.Carried, out result.Carried);
       converter.Convert(this.YawOffset, out result.YawOffset);
       converter.Convert(this.Pitch, out result.Pitch);
       converter.Convert(this.Standing, out result.Standing);

@@ -73,7 +73,7 @@ namespace Quantum
             foreach (var pair in f.Unsafe.GetComponentBlockIterator<Dad>())
             {
                 var dad = pair.Component;
-                carrying |= dad->Carried.Kind == DadItem.MudBucket;
+                for (int i = 0; i < dad->Hotbar.Length; i++) carrying |= dad->Hotbar[i].Kind == DadItem.MudBucket;
                 var local = van.InverseTransformPoint(f.Unsafe.GetPointer<Transform3D>(pair.Entity)->Position);
                 inside |= dad->Standing == vanEntity && local.Y < settings.RoofHeight - 1;
                 for (int i = 0; i < dad->Hotbar.Length; i++) scooped |= dad->Hotbar[i].Kind == DadItem.Cone && dad->Hotbar[i].Count > 0;

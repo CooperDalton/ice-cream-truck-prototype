@@ -159,7 +159,6 @@ namespace Quantum
         {
             for (int i = 0; i < dad->Hotbar.Length; i++) *dad->Hotbar.GetPointer(i) = default;
             dad->Hotbar.GetPointer(0)->Kind = DadItem.Cone;
-            dad->Carried = default;
             dad->Selected = 0;
         }
 
@@ -375,7 +374,7 @@ namespace Quantum
             f.Events.NpcKnocked(entity, npc->Kind, position, velocity.Magnitude, npc->Fed >= npc->Hunger);
         }
 
-        // Sends a dad tumbling: he lets go of the wheel or turret and drops whatever he was carrying.
+        // Sends a dad tumbling: he lets go of the wheel, the turret or the ladder.
         public static void KnockDad(Frame f, EntityRef entity, Dad* dad, FPVector3 fling)
         {
             var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
@@ -386,11 +385,6 @@ namespace Quantum
             dad->Fling = fling;
             dad->Standing = EntityRef.None;
             var position = f.Unsafe.GetPointer<Transform3D>(entity)->Position;
-            if (dad->Carried.Kind != DadItem.None)
-            {
-                SpawnLoot(f, dad->Carried, position + FPVector3.Up, fling * FP._0_50, false);
-                dad->Carried = default;
-            }
             f.Events.DadKnocked(dad->Player, position);
         }
 

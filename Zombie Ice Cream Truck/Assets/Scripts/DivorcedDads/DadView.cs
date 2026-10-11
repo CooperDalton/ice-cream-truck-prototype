@@ -18,7 +18,7 @@ public class DadView : QuantumEntityViewComponent
     public override void OnUpdateView()
     {
         var dad = GetPredictedQuantumComponent<Dad>();
-        held.Show(dad.Hotbar[dad.Selected], dad.Carried, PredictedFrame.GetSingleton<DadsRun>().ConeSize);
+        held.Show(dad.Hotbar[dad.Selected], PredictedFrame.GetSingleton<DadsRun>().ConeSize);
         var knocked = dad.Knocked > 0 || dad.Busted > 0;
         if (knocked && !down) spinAxis = Quaternion.Euler(0, Random.Range(-40f, 40f), 0) * Vector3.right;
         down = knocked;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 // The Divorced Dads HUD, in the same candy PS1 style as the zombie mode: cash on hand, the day with a sun or moon,
 // heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed,
-// the hotbar with item icons, the carried ingredient, ammo, what pressing E would do, a hint for what to do next, the
+// the hotbar with item icons, ammo, what pressing E would do, a hint for what to do next, the
 // controls panel (F1), screen splats, cough and brain freeze tints, the story cards (moving day, each morning, Big
 // Dairy's collection, the win, the repo), and on moving day the lesson checklist with a bobbing arrow over whatever
 // to use next. Every panel, text and image is authored in the scene; this only fills in values,
@@ -59,9 +59,6 @@ public class DadsHud : MonoBehaviour
     [SerializeField] private GameObject[] slotSelected;
     [SerializeField] private Text selectedName;
     [SerializeField] private float nameShowTime = 1.6f;
-    [SerializeField] private GameObject carriedPanel;
-    [SerializeField] private Image carriedIcon;
-    [SerializeField] private Text carriedText;
     [SerializeField] private GameObject ammoPanel;
     [SerializeField] private Image ammoIcon;
     [SerializeField] private Text ammoText;
@@ -257,12 +254,6 @@ public class DadsHud : MonoBehaviour
         nameColor.a = Mathf.Clamp01(1 - (Time.time - selectedShownAt - nameShowTime) / 0.4f);
         selectedName.color = nameColor;
 
-        carriedPanel.SetActive(dad.Carried.Kind != DadItem.None);
-        if (carriedPanel.activeSelf)
-        {
-            carriedIcon.sprite = Icon(dad.Carried, run.ConeSize);
-            carriedText.text = $"{Label(dad.Carried, run.ConeSize)}\n{Key}E{End} at the churn   {Key}Q{End} drop";
-        }
 
         ammoPanel.SetActive(dad.Turret || DadSystem.IsGun(held.Kind));
         if (dad.Turret)
@@ -362,7 +353,7 @@ public class DadsHud : MonoBehaviour
                 target = vanTransform.TransformPoint(settings.WindowOutside).ToUnityVector3();
                 return held.Kind == DadItem.Cone && held.Count == 0 ? "Scoop another cone" : "Wait at the window";
             case Lesson.Strawberries:
-                if (dad.Carried.Kind == DadItem.StrawberryBasket)
+                if (Holds(dad, DadItem.StrawberryBasket))
                 {
                     target = churn;
                     return $"{Key}E{End}  dump them in the churn";
@@ -370,7 +361,7 @@ public class DadsHud : MonoBehaviour
                 target = Nearest(frame, FixtureKind.StrawberryPatch, vanTransform.Position);
                 return $"{Key}E{End}  pick strawberries";
             case Lesson.Nuts:
-                if (dad.Carried.Kind == DadItem.NutSack)
+                if (Holds(dad, DadItem.NutSack))
                 {
                     target = churn;
                     return $"{Key}E{End}  dump them in the churn";
@@ -462,7 +453,16 @@ public class DadsHud : MonoBehaviour
     }
 
     // One hint at a time for whatever the dads should be doing next.
-    private static string Tip(Frame frame, Dad dad, DadsRun run)
+    private static bool Holds(Dad dad, DadItem kind)
+    {
+        for (int i = 0; i < dad.Hotbar.Length; i++)
+        {
+            if (dad.Hotbar[i].Kind == kind) return true;
+        }
+        return false;
+    }
+
+    private static unsafe string Tip(Frame frame, Dad dad, DadsRun run)
     {
         var van = frame.GetSingleton<Van>();
         var stock = 0;
@@ -478,7 +478,7 @@ public class DadsHud : MonoBehaviour
         }
         if (run.Phase == DayPhase.Night || run.Phase == DayPhase.Dusk) return "Back to Big Dairy's lot and punch the clock";
         if (run.Phase != DayPhase.Morning && run.Phase != DayPhase.Day) return "";
-        if (dad.Carried.Kind != DadItem.None) return "Take it to the churn in the truck";
+        if (DadSystem.IngredientSlot(&dad) >= 0) return "Take your ingredients to the churn in the truck";
         if (stock == 0) return "Out of ice cream: churn some mud";
         if (held.Kind == DadItem.Cone && held.Count == 0) return "CLICK a freezer tub to scoop your cone";
         if (DadSystem.IsGun(held.Kind) && held.Count == 0) return "E at a freezer tub to reload";
@@ -523,7 +523,7 @@ public class DadsHud : MonoBehaviour
         var van = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>());
         var local = van.InverseTransformPoint(frame.Get<Transform3D>(entity).Position);
         // Same rules as DadSystem.Interact (the driver's seat) and DadSystem.Climb (the ladder).
-        var canDrive = !frame.GetSingleton<Van>().Driver.IsValid && dad.Carried.Kind == DadItem.None;
+        var canDrive = !frame.GetSingleton<Van>().Driver.IsValid;
         if (canDrive && (local - settings.DriverSeat).SqrMagnitude < settings.InteractRange * settings.InteractRange) return $"{Key}E{End}  drive";
         var ladder = new FPVector3(local.X - settings.Ladder.X, 0, local.Z - settings.Ladder.Z);
         return FPMath.Abs(local.Y - settings.Ladder.Y) < FP._0_50 && ladder.SqrMagnitude < FP._0_50 ? $"{Key}W{End}  climb the ladder (face it)" : "";
@@ -536,7 +536,7 @@ public class DadsHud : MonoBehaviour
         {
             case FixtureKind.Churn:
                 if (fixture.Timer > 0) return "CHURNING...";
-                return DadSystem.TreatOf(dad.Carried.Kind) != Treat.None ? $"{Key}E{End}  dump it in the churn" : "FLAVOR CHURN\nbring mud, strawberries, iced coffee, nuts or gold";
+                return DadSystem.IngredientSlot(&dad) >= 0 ? $"{Key}E{End}  dump in {Label(dad.Hotbar[DadSystem.IngredientSlot(&dad)], run.ConeSize)}" : "FLAVOR CHURN\nbring mud, strawberries, iced coffee, nuts or gold";
             case FixtureKind.Tub:
                 if (fixture.Count == 0) return "EMPTY TUB";
                 var flavor = $"{TreatPalette.Name(fixture.Treat).ToUpper()} TUB";
@@ -556,7 +556,7 @@ public class DadsHud : MonoBehaviour
             case FixtureKind.TimeClock:
                 if (run.Phase == DayPhase.Morning) return "TIME CLOCK\ngo sell some ice cream first";
                 return $"{Key}E{End}  clock out and pay Big Dairy ${run.Due}\n(park the truck in the lot first)";
-            case FixtureKind.MudPuddle: return dad.Carried.Kind == DadItem.None ? $"{Key}E{End}  scoop up some mud" : "hands full";
+            case FixtureKind.MudPuddle: return Holds(dad, DadItem.None) ? $"{Key}E{End}  scoop up some mud" : "hotbar full";
             case FixtureKind.StrawberryPatch: return fixture.Timer > 0 ? "picked clean (growing back)" : $"{Key}E{End}  pick strawberries";
             case FixtureKind.CoffeeTable: return fixture.Timer > 0 ? "no coffees left (restocking)" : $"{Key}E{End}  \"borrow\" some iced coffees";
             case FixtureKind.NutTree: return fixture.Timer > 0 ? "no nuts left (for now)" : $"{Key}E{End}  shake the tree (or ram it with the truck)";

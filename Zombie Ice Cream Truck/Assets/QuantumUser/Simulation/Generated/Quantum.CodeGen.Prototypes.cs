@@ -110,7 +110,6 @@ namespace Quantum.Prototypes {
     [ArrayLengthAttribute(4)]
     public Quantum.Prototypes.DadSlotPrototype[] Hotbar = new Quantum.Prototypes.DadSlotPrototype[4];
     public Int32 Selected;
-    public Quantum.Prototypes.DadSlotPrototype Carried;
     public FP YawOffset;
     public FP Pitch;
     public MapEntityId Standing;
@@ -136,7 +135,6 @@ namespace Quantum.Prototypes {
           this.Hotbar[i].Materialize(frame, ref *result.Hotbar.GetPointer(i), in context);
         }
         result.Selected = this.Selected;
-        this.Carried.Materialize(frame, ref result.Carried, in context);
         result.YawOffset = this.YawOffset;
         result.Pitch = this.Pitch;
         PrototypeValidator.FindMapEntity(this.Standing, in context, out result.Standing);

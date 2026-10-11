@@ -1020,42 +1020,40 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Dad : Quantum.IComponent {
-    public const Int32 SIZE = 168;
+    public const Int32 SIZE = 160;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(4)]
     public PlayerRef Player;
-    [FieldOffset(28)]
+    [FieldOffset(20)]
     [FramePrinter.FixedArrayAttribute(typeof(DadSlot), 4)]
     private fixed Byte _Hotbar_[32];
     [FieldOffset(0)]
     public Int32 Selected;
-    [FieldOffset(20)]
-    public DadSlot Carried;
-    [FieldOffset(136)]
-    public FP YawOffset;
     [FieldOffset(128)]
+    public FP YawOffset;
+    [FieldOffset(120)]
     public FP Pitch;
-    [FieldOffset(72)]
+    [FieldOffset(64)]
     public EntityRef Standing;
     [FieldOffset(12)]
     public QBoolean Driving;
     [FieldOffset(16)]
     public QBoolean Turret;
-    [FieldOffset(104)]
-    public FP FireCooldown;
     [FieldOffset(96)]
-    public FP DropHeld;
-    [FieldOffset(64)]
-    public EntityRef LookTarget;
-    [FieldOffset(120)]
-    public FP Knocked;
-    [FieldOffset(144)]
-    public FPVector3 Fling;
+    public FP FireCooldown;
     [FieldOffset(88)]
-    public FP Coughing;
+    public FP DropHeld;
+    [FieldOffset(56)]
+    public EntityRef LookTarget;
     [FieldOffset(112)]
-    public FP Frozen;
+    public FP Knocked;
+    [FieldOffset(136)]
+    public FPVector3 Fling;
     [FieldOffset(80)]
+    public FP Coughing;
+    [FieldOffset(104)]
+    public FP Frozen;
+    [FieldOffset(72)]
     public FP Busted;
     [FieldOffset(8)]
     public QBoolean Climbing;
@@ -1070,7 +1068,6 @@ namespace Quantum {
         hash = hash * 31 + Player.GetHashCode();
         hash = hash * 31 + HashCodeUtils.GetArrayHashCode(Hotbar);
         hash = hash * 31 + Selected.GetHashCode();
-        hash = hash * 31 + Carried.GetHashCode();
         hash = hash * 31 + YawOffset.GetHashCode();
         hash = hash * 31 + Pitch.GetHashCode();
         hash = hash * 31 + Standing.GetHashCode();
@@ -1095,7 +1092,6 @@ namespace Quantum {
         QBoolean.Serialize(&p->Climbing, serializer);
         QBoolean.Serialize(&p->Driving, serializer);
         QBoolean.Serialize(&p->Turret, serializer);
-        Quantum.DadSlot.Serialize(&p->Carried, serializer);
         FixedArray.Serialize(p->Hotbar, serializer, Statics.SerializeDadSlot);
         EntityRef.Serialize(&p->LookTarget, serializer);
         EntityRef.Serialize(&p->Standing, serializer);

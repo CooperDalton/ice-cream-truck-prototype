@@ -69,7 +69,7 @@ public class DadsCamera : MonoBehaviour
             var rotation = Quaternion.Euler(input.Pitch - kick, input.Yaw + dad.YawOffset.AsFloat, 0);
             transform.SetPositionAndRotation(view.transform.position + Vector3.up * eyeHeight + rotation * Vector3.forward * punch, rotation);
             var held = dad.Hotbar[dad.Selected].Kind;
-            var aiming = input.Aiming && dad.Carried.Kind == DadItem.None && DadSystem.IsGun(held) && !dad.Driving;
+            var aiming = input.Aiming && DadSystem.IsGun(held) && !dad.Driving;
             eye.fieldOfView = Mathf.Lerp(eye.fieldOfView, aiming ? aimFieldOfView : fieldOfView, 1 - Mathf.Exp(-14 * dt));
         }
 

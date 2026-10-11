@@ -421,10 +421,6 @@ public static partial class DivorcedDadsSceneBuilder
         }
         var selectedName = HudText(root, "Selected Name", body, new Vector2(0.5f, 0), new Vector2(0, 100), TextAnchor.LowerCenter, 22, Color.white);
 
-        // Carried ingredient, above the hotbar.
-        var carriedPanel = Panel(root, "Carried", "panel", new Vector2(0.5f, 0), new Vector2(0, 132), new Vector2(400, 62));
-        var carriedIcon = Icon(carriedPanel, "Icon", "DadsIcons/MudBucket", new Vector2(36, 0), 50);
-        var carried = PanelText(carriedPanel, "Text", body, 18, HudYellow, 72, TextAnchor.MiddleLeft);
 
         // Bottom left: the controls panel. Bottom right: ammo.
         var help = HudText(root, "Help Hint", body, new Vector2(0, 0), new Vector2(20, 16), TextAnchor.LowerLeft, 16, HudLavender);
@@ -472,7 +468,6 @@ public static partial class DivorcedDadsSceneBuilder
             ("speedPanel", speedPanel.gameObject), ("speedText", speed),
             ("phaseBanner", banner.gameObject), ("phaseText", phase), ("tipText", tip), ("promptPanel", promptPanel.gameObject), ("promptText", prompt),
             ("slotIcons", slotIcons), ("slotBadges", slotBadges), ("slotCounts", slotCounts), ("slotSelected", slotSelected), ("selectedName", selectedName),
-            ("carriedPanel", carriedPanel.gameObject), ("carriedIcon", carriedIcon), ("carriedText", carried),
             ("ammoPanel", ammoPanel.gameObject), ("ammoIcon", ammoIcon), ("ammoText", ammo), ("ammoLabel", ammoLabel),
             ("controlsPanel", controls.gameObject), ("screenSplats", splats), ("coughTint", cough), ("frozenTint", frozen),
             ("card", cardGroup), ("cardTitle", cardTitle), ("cardBody", cardBody), ("cardStamp", cardStamp));

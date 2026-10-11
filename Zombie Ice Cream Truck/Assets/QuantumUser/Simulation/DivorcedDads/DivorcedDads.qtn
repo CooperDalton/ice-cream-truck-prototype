@@ -5,7 +5,7 @@ enum Treat : Byte {
   None, Mud, Strawberry, Coffee, RockyRoad, GoldLeaf
 }
 
-// Items from MudBucket onward are bulky ingredients: carried in both hands instead of the hotbar.
+// Items from MudBucket onward are ingredients for the churn.
 enum DadItem : Byte {
   None, Cone, ScoopPistol, SundaeShotgun,
   MudBucket, StrawberryBasket, IcedCoffee, NutSack, GoldLeaf
@@ -23,7 +23,6 @@ component Dad {
   player_ref Player;
   array<DadSlot>[4] Hotbar;
   Int32 Selected;
-  DadSlot Carried;
   FP YawOffset;
   FP Pitch;
   entity_ref Standing;

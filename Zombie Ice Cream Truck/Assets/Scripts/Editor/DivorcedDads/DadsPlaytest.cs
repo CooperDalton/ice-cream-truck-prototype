@@ -1014,7 +1014,7 @@ public static class DadsPlaytest
             var facing = frame.Get<Transform3D>(input.LocalEntity).Rotation.ToUnityQuaternion().eulerAngles.y;
             var vanYaw = frame.Get<Transform3D>(frame.GetSingletonEntityRef<Van>()).Rotation.ToUnityQuaternion().eulerAngles.y;
             var toQueue = QueueFace(frame).Value - position;
-            dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} local {LocalOfDad(frame):F2} climbing {dad.Climbing} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} carried {dad.Carried.Kind} hotbar {hotbar}";
+            dadText = $"yaw {facing:F0} van {vanYaw:F0} queueDir {Mathf.Atan2(toQueue.x, toQueue.z) * Mathf.Rad2Deg:F0} inputYaw {input.Yaw:F0} offset {dad.YawOffset.AsFloat:F0} | dad {position:F1} local {LocalOfDad(frame):F2} climbing {dad.Climbing} driving {dad.Driving} onVan {dad.Standing == frame.GetSingletonEntityRef<Van>()} hotbar {hotbar}";
         }
         return $"fps {1f / Time.smoothDeltaTime:F0} tick {frame.Number} {run.Phase} lesson {run.Lesson} day {run.Day} clock {run.Clock.AsFloat:F2} money {run.Money} debt {run.Debt} due {run.Due} fed {run.KidsFed} heat {run.Heat.AsFloat:F1} | van {vanPosition:F1} speed {van.Speed.AsFloat:F1} jingle {van.Jingle} queue {QueueCount(frame)} | kids {kids} ({string.Join(",", states.Select(p => p.Key + ":" + p.Value))}, nearest {nearest:F0}m) cops {cops} {fedText} tubs {tubs} | {dadText}";
     }
