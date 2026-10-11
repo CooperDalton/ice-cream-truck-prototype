@@ -162,13 +162,13 @@ namespace Quantum
             dad->Selected = 0;
         }
 
-        // Big Dairy takes today's installment. A short payment is a strike and the rest rolls into tomorrow.
+        // Big Dairy counts today's sales toward tonight's installment; the dads' cash stays theirs for the shop. Selling less
+        // than the installment is a strike and the rest rolls into tomorrow.
         public static void Collect(Frame f)
         {
             var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
             var run = f.Unsafe.GetPointerSingleton<DadsRun>();
-            var paid = Math.Min(run->Money, run->Due);
-            run->Money -= paid;
+            var paid = Math.Min(run->Earned, run->Due);
             run->Debt -= paid;
             run->Paid = paid;
             run->Carry = run->Due - paid;
@@ -474,7 +474,7 @@ namespace Quantum
             SpawnCash(f, amount, position + FPVector3.Up * (npc->Kind == NpcKind.FatKid ? 2 : 1));
             run->KidsFed++;
             run->Earned += amount;
-            f.Events.KidPaid(entity, npc->Kind, amount, tip > 0, position);
+            f.Events.KidPaid(entity, npc->Kind, amount, tip, position);
             if (npc->Kind != NpcKind.FatKid) return;
             // The fat kid's burp bowls over everyone around him.
             foreach (var other in f.Unsafe.GetComponentBlockIterator<Npc>())

@@ -90,7 +90,15 @@ public class DadsEffects : MonoBehaviour
     {
         var position = e.Position.ToUnityVector3();
         Instantiate(sparkleBurst, position + Vector3.up * 1.2f, Quaternion.identity).Play(Gold, e.Kind == NpcKind.FatKid ? 2.5f : 1f);
-        Say(e.Position.ToUnityVector3(), e.Kind == NpcKind.FatKid ? 3.2f : 2f, "+$" + e.Amount + (e.Tip ? "  TIP!" : ""), Gold, e.Kind == NpcKind.FatKid ? 2f : 1.3f);
+        // The lunch money rides above the kid's head as they walk off; the favorite-flavor bonus gets its own bigger line.
+        var kid = viewUpdater.GetView(e.Kid).transform;
+        var head = e.Kind == NpcKind.FatKid ? 3.2f : 2f;
+        Say(kid.position, head, "+$" + (e.Amount - e.Bonus), Gold, e.Kind == NpcKind.FatKid ? 2f : 1.4f, kid, 2.5f);
+        if (e.Bonus > 0)
+        {
+            Say(kid.position, head + 0.55f, "FAVORITE!  +$" + e.Bonus, Mint, 1.7f, kid, 3f);
+            Instantiate(confettiBurst, kid.position + Vector3.up * (head + 0.4f), Quaternion.identity).Play(Mint, 1.2f);
+        }
         if (e.Kind == NpcKind.FatKid)
         {
             Say(e.Position.ToUnityVector3(), 4.2f, "*BUUUURP*", Green, 2.2f);
@@ -203,10 +211,10 @@ public class DadsEffects : MonoBehaviour
     }
 
     // Floating words; skipped when too far away to read.
-    private void Say(Vector3 position, float height, string message, Color color, float size)
+    private void Say(Vector3 position, float height, string message, Color color, float size, Transform follow = null, float seconds = 0)
     {
         var point = position + Vector3.up * height;
         if (Vector3.Distance(point, cameraRig.transform.position) > 60) return;
-        Instantiate(popupPrefab, point, Quaternion.identity).Show(message, color, size);
+        Instantiate(popupPrefab, point, Quaternion.identity).Show(message, color, size, follow, seconds);
     }
 }

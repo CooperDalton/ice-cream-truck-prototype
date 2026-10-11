@@ -160,12 +160,12 @@ namespace Quantum {
         _f.AddEvent(ev);
         return ev;
       }
-      public EventKidPaid KidPaid(EntityRef Kid, NpcKind Kind, Int32 Amount, QBoolean Tip, FPVector3 Position) {
+      public EventKidPaid KidPaid(EntityRef Kid, NpcKind Kind, Int32 Amount, Int32 Bonus, FPVector3 Position) {
         var ev = _f.Context.AcquireEvent<EventKidPaid>(EventKidPaid.ID);
         ev.Kid = Kid;
         ev.Kind = Kind;
         ev.Amount = Amount;
-        ev.Tip = Tip;
+        ev.Bonus = Bonus;
         ev.Position = Position;
         _f.AddEvent(ev);
         return ev;
@@ -688,7 +688,7 @@ namespace Quantum {
     public EntityRef Kid;
     public NpcKind Kind;
     public Int32 Amount;
-    public QBoolean Tip;
+    public Int32 Bonus;
     public FPVector3 Position;
     protected EventKidPaid(Int32 id, EventFlags flags) : 
         base(id, flags) {
@@ -710,7 +710,7 @@ namespace Quantum {
         hash = hash * 31 + Kid.GetHashCode();
         hash = hash * 31 + Kind.GetHashCode();
         hash = hash * 31 + Amount.GetHashCode();
-        hash = hash * 31 + Tip.GetHashCode();
+        hash = hash * 31 + Bonus.GetHashCode();
         hash = hash * 31 + Position.GetHashCode();
         return hash;
       }

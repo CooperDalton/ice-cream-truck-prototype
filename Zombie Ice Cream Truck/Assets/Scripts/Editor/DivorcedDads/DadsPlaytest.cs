@@ -19,7 +19,8 @@ using UnityEngine.InputSystem.LowLevel;
 // Scenarios: tour (aerial views of the town), serve (day one: load a cone, drive out, jingle, serve the queue, shove
 // kids at the window), shop (spend at the lot, gather mud, churn it), night (short day: dusk, curfew, cops, clock out),
 // tutorial (moving day from the trailer yard to the first drive out of Big Dairy's lot; every other scenario skips it),
-// ladder (up the ladder onto the roof, back down through the hatch, out the back door and in again).
+// ladder (a jump under the kitchen ceiling, up the ladder onto the roof, back down through the hatch, out the back door
+// and in again).
 public static class DadsPlaytest
 {
     const string ScenePath = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
@@ -175,6 +176,9 @@ public static class DadsPlaytest
         var steps = new List<Step>
         {
             new Step { Name = "l00_start", Duration = 3f, Snap = true, LookPitch = 0 },
+            new Step { Name = "jump", Duration = 0.15f, Keys = new[] { Key.Space }, LookPitch = -30 },
+            new Step { Name = "l00_jump_peak", Duration = 0.25f, Snap = true, LookPitch = -30 },
+            new Step { Name = "land", Duration = 1f, LookPitch = 0 },
             new Step { Name = "to ladder", Duration = 4f, Target = f => VanPoint(f, ladder) },
             new Step { Name = "face ladder", Duration = 0.8f, LookAt = f => VanPoint(f, wall) },
             new Step { Name = "l01_ladder", Duration = 0.3f, Snap = true, LookAt = f => VanPoint(f, hatch) },

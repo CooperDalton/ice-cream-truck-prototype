@@ -37,7 +37,7 @@ public class CollectorView : QuantumEntityViewComponent
             lineTimer = 5;
             line = (line + 1) % lines.Length;
         }
-        speech.text = run.Phase == DayPhase.Morning ? lines[line] + "\n\nTONIGHT: $" + run.Due : lines[line];
+        speech.text = run.Phase == DayPhase.Morning ? lines[line] + "\n\nSELL $" + run.Due + " TODAY" : lines[line];
         speech.transform.rotation = DadsCamera.Instance.transform.rotation;
     }
 }

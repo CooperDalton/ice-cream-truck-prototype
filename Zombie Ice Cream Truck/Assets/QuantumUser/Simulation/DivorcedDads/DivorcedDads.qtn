@@ -209,11 +209,12 @@ event KidFed {
   FPVector3 Position;
 }
 
+// Amount includes Bonus, the tip for serving the flavor the kid wanted.
 event KidPaid {
   entity_ref Kid;
   NpcKind Kind;
   Int32 Amount;
-  bool Tip;
+  Int32 Bonus;
   FPVector3 Position;
 }
 

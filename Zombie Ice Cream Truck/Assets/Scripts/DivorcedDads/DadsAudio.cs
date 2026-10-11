@@ -130,6 +130,7 @@ public class DadsAudio : MonoBehaviour
         if (e.Kind == NpcKind.FatKid) Play(fatKidBurp, e.Position, 1f);
         else Play(kidYay[Random.Range(0, kidYay.Length)], e.Position, 0.9f, default, false, Random.Range(0.9f, 1.25f));
         Play(coinBurst, e.Position, 0.8f);
+        if (e.Bonus > 0) Play(cashRegister, e.Position, 1f);
     }
 
     private void OnNpcKnocked(EventNpcKnocked e)

@@ -82,6 +82,13 @@ namespace Quantum
             var direction = filter.Transform->Rotation * move;
             StepUp(f, ref filter, direction, settings);
             filter.Controller->Move(f, filter.Entity, direction);
+            // The controller is a ball at the feet: keep the head (and the camera) under ceilings like the van's roof.
+            var up = f.Physics3D.Raycast(filter.Transform->Position + FPVector3.Up * FP._0_25, FPVector3.Up, settings.EyeHeight + FP._0_50, -1, QueryOptions.HitSolids);
+            if (up.HasValue && filter.Transform->Position.Y > up.Value.Point.Y - settings.EyeHeight - FP._0_20)
+            {
+                filter.Transform->Position.Y = up.Value.Point.Y - settings.EyeHeight - FP._0_20;
+                if (filter.Controller->Velocity.Y > 0) filter.Controller->Velocity.Y = 0;
+            }
             var ground = f.Physics3D.Raycast(filter.Transform->Position + FPVector3.Up * FP._0_25, FPVector3.Down, FP._0_75, -1, QueryOptions.HitSolids);
             dad->Standing = ground.HasValue ? ground.Value.Entity : EntityRef.None;
             // Standing on top of anything riding the van is standing on the van.

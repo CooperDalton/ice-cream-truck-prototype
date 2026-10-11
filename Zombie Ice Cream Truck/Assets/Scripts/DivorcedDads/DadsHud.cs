@@ -168,7 +168,7 @@ public class DadsHud : MonoBehaviour
     private void OnCollected(EventCollected e)
     {
         var shortPaid = e.Paid < e.Due;
-        var body = $"Big Dairy takes {Key}${e.Paid}{End} of the ${e.Due} you owe tonight.\n\n" + (e.Debt > 0 ? $"Still owed: ${e.Debt}" : "That's the last of it.");
+        var body = $"Today's sales cover {Key}${e.Paid}{End} of the ${e.Due} you owe.\nYour cash stays in your pocket.\n\n" + (e.Debt > 0 ? $"Still owed: ${e.Debt}" : "That's the last of it.");
         ShowCard("PAYDAY, DAY " + e.Day, body, shortPaid ? "STRIKE " + e.Strikes + "/3" : "PAID", shortPaid ? new Color(1f, 0.2f, 0.3f) : new Color(0.22f, 0.95f, 0.76f), 7);
     }
 
@@ -220,7 +220,7 @@ public class DadsHud : MonoBehaviour
         foreach (var due in settings.Dues) total += due;
         debtText.text = "OWED $" + run.Debt;
         debtFill.fillAmount = 1 - (float)run.Debt / total;
-        dueText.text = "TONIGHT $" + run.Due;
+        dueText.text = $"TODAY ${run.Earned}/${run.Due}";
         for (int i = 0; i < strikeIcons.Length; i++) strikeIcons[i].color = i < run.Strikes ? Color.white : new Color(1, 1, 1, 0.15f);
         jinglePanel.SetActive(van.Jingle);
         var speed = Mathf.Abs(van.Speed.AsFloat);
@@ -552,10 +552,10 @@ public class DadsHud : MonoBehaviour
             case FixtureKind.Shop:
                 if (DadsGame.SoldOut(&run, fixture.Upgrade)) return ShopTag.Name(fixture.Upgrade) + "\nnot available";
                 return run.Money >= fixture.Price ? $"{Key}E{End}  buy {ShopTag.Name(fixture.Upgrade)} for ${fixture.Price}" : $"{ShopTag.Name(fixture.Upgrade)}  ${fixture.Price}\nyou're broke";
-            case FixtureKind.Collector: return $"BIG DAIRY\n\"You got my ${run.Due}?\"";
+            case FixtureKind.Collector: return $"BIG DAIRY\n\"Sell me ${run.Due} worth today.\"";
             case FixtureKind.TimeClock:
                 if (run.Phase == DayPhase.Morning) return "TIME CLOCK\ngo sell some ice cream first";
-                return $"{Key}E{End}  clock out and pay Big Dairy ${run.Due}\n(park the truck in the lot first)";
+                return $"{Key}E{End}  clock out (sold ${run.Earned} of ${run.Due})\n(park the truck in the lot first)";
             case FixtureKind.MudPuddle: return Holds(dad, DadItem.None) ? $"{Key}E{End}  scoop up some mud" : "hotbar full";
             case FixtureKind.StrawberryPatch: return fixture.Timer > 0 ? "picked clean (growing back)" : $"{Key}E{End}  pick strawberries";
             case FixtureKind.CoffeeTable: return fixture.Timer > 0 ? "no coffees left (restocking)" : $"{Key}E{End}  \"borrow\" some iced coffees";

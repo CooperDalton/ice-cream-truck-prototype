@@ -126,7 +126,7 @@ namespace Quantum
                         npc->Timer = 75;
                         break;
                     }
-                    Walk(f, transform, AroundVan(vanTransform, settings, transform->Position, window), stats.RunSpeed, dt);
+                    Walk(f, transform, window, stats.RunSpeed, dt);
                     break;
                 case NpcState.Queue:
                     if (!parked || npc->Timer <= 0)
@@ -137,7 +137,7 @@ namespace Quantum
                         break;
                     }
                     var spot = vanTransform.TransformPoint(settings.WindowOutside + FPVector3.Left * settings.QueueSpacing * npc->QueueSlot);
-                    if (!Walk(f, transform, AroundVan(vanTransform, settings, transform->Position, spot), stats.WalkSpeed, dt)) Face(transform, vanTransform.Position);
+                    if (!Walk(f, transform, spot, stats.WalkSpeed, dt)) Face(transform, vanTransform.Position);
                     break;
                 case NpcState.Happy:
                     if (npc->Timer <= 0)
@@ -436,14 +436,45 @@ namespace Quantum
             return true;
         }
 
-        // The serving window is on the van's -X side; kids on the other side walk around the nearer end first.
+        // Where to head for to reach a goal without walking into the van (it only nudges people aside): straight there if the
+        // way is clear or the goal is at the van itself (the fat kid charging it), otherwise around the nearer end, first
+        // to the corner on this side, then from past the end to the corner on the goal's side.
         static FPVector3 AroundVan(Transform3D van, DadsSettings settings, FPVector3 position, FPVector3 goal)
         {
-            var half = settings.VanHalfSize;
-            var local = van.InverseTransformPoint(position);
-            if (local.X < -half.X) return goal;
-            var end = local.Z < 0 ? -half.Z - 1 : half.Z + 1;
-            return FPMath.Abs(local.Z) < half.Z + FP._0_50 ? van.TransformPoint(new FPVector3(local.X, 0, end)) : van.TransformPoint(new FPVector3(-half.X - 1, 0, end));
+            var half = settings.VanHalfSize + new FPVector3(FP._0_50, 0, FP._0_50);
+            var from = van.InverseTransformPoint(position);
+            var to = van.InverseTransformPoint(goal);
+            if ((FPMath.Abs(to.X) < half.X && FPMath.Abs(to.Z) < half.Z) || !Crosses(from, to, half)) return goal;
+            var corner = settings.VanHalfSize + new FPVector3(1, 0, 1);
+            if (FPMath.Abs(from.Z) < half.Z)
+            {
+                var end = from.Z + to.Z < 0 ? -1 : 1;
+                return van.TransformPoint(new FPVector3(FPMath.Sign(from.X) * corner.X, 0, end * corner.Z));
+            }
+            return van.TransformPoint(new FPVector3(FPMath.Sign(to.X) * corner.X, 0, FPMath.Sign(from.Z) * corner.Z));
+        }
+
+        // Whether the segment between two van-local points passes through the rectangle |x| < half.X, |z| < half.Z.
+        static bool Crosses(FPVector3 a, FPVector3 b, FPVector3 half)
+        {
+            FP enter = 0, exit = 1;
+            var dx = b.X - a.X;
+            var dz = b.Z - a.Z;
+            var p = stackalloc FP[] { -dx, dx, -dz, dz };
+            var q = stackalloc FP[] { a.X + half.X, half.X - a.X, a.Z + half.Z, half.Z - a.Z };
+            for (int i = 0; i < 4; i++)
+            {
+                if (p[i] == 0)
+                {
+                    if (q[i] < 0) return false;
+                    continue;
+                }
+                var r = q[i] / p[i];
+                if (p[i] < 0) enter = FPMath.Max(enter, r);
+                else exit = FPMath.Min(exit, r);
+                if (enter > exit) return false;
+            }
+            return true;
         }
 
         static bool TakeSlot(Frame f, EntityRef entity, Npc* npc, Van* van)
@@ -524,13 +555,17 @@ namespace Quantum
             }
         }
 
-        // Walks toward a goal, sidestepping walls. Returns false once it has arrived.
+        // Walks toward a goal, around the van and sidestepping walls. Returns false once it has arrived.
         static bool Walk(Frame f, Transform3D* transform, FPVector3 goal, FP speed, FP dt)
         {
-            var toGoal = goal - transform->Position;
+            var arrival = goal - transform->Position;
+            arrival.Y = 0;
+            if (arrival.SqrMagnitude < FP._0_25 * FP._0_25) return false;
+            var settings = f.FindAsset(f.RuntimeConfig.DadsSettings);
+            var toGoal = AroundVan(f.Get<Transform3D>(f.GetSingletonEntityRef<Van>()), settings, transform->Position, goal) - transform->Position;
             toGoal.Y = 0;
             var distance = toGoal.Magnitude;
-            if (distance < FP._0_25) return false;
+            if (distance < FP._0_01) return false;
             var direction = toGoal / distance;
             var eye = transform->Position + FPVector3.Up * FP._0_75;
             if (f.Physics3D.Raycast(eye, direction, FP._1, -1, QueryOptions.HitStatics).HasValue)
