@@ -188,15 +188,15 @@ public static class ZombieTruckSceneBuilder
         };
         settings.HotSpotLoot = new[]
         {
-            new Loot { Kind = ItemKind.MilkCrate, Count = 1 }, new Loot { Kind = ItemKind.MilkCrate, Count = 1 }, new Loot { Kind = ItemKind.MilkCrate, Count = 1 },
-            new Loot { Kind = ItemKind.SugarSack, Count = 1 }, new Loot { Kind = ItemKind.SugarSack, Count = 1 }, new Loot { Kind = ItemKind.SugarSack, Count = 1 },
-            new Loot { Kind = ItemKind.CocoaBag, Count = 1 }, new Loot { Kind = ItemKind.StrawberryBasket, Count = 1 }, new Loot { Kind = ItemKind.MintBundle, Count = 1 },
-            new Loot { Kind = ItemKind.CoffeeSack, Count = 1 }, new Loot { Kind = ItemKind.CoffeeSack, Count = 1 }, new Loot { Kind = ItemKind.NutBag, Count = 1 }, new Loot { Kind = ItemKind.NutBag, Count = 1 },
-            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Vanilla, Count = Inventory.ScoopsPerTub }, new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Chocolate, Count = Inventory.ScoopsPerTub },
-            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Coffee, Count = Inventory.ScoopsPerTub }, new Loot { Kind = ItemKind.Tub, Flavor = Flavor.RockyRoad, Count = Inventory.ScoopsPerTub },
-            new Loot { Kind = ItemKind.Tub, Flavor = Flavor.Neapolitan, Count = Inventory.ScoopsPerTub },
-            new Loot { Kind = ItemKind.Pint, Flavor = Flavor.Strawberry, Count = Inventory.ScoopsPerPint }, new Loot { Kind = ItemKind.Pint, Flavor = Flavor.Mint, Count = Inventory.ScoopsPerPint },
-            new Loot { Kind = ItemKind.Scoop, Flavor = Flavor.RockyRoad, Count = 6 },
+            new LootEntry { Kind = ItemKind.MilkCrate, Count = 1 }, new LootEntry { Kind = ItemKind.MilkCrate, Count = 1 }, new LootEntry { Kind = ItemKind.MilkCrate, Count = 1 },
+            new LootEntry { Kind = ItemKind.SugarSack, Count = 1 }, new LootEntry { Kind = ItemKind.SugarSack, Count = 1 }, new LootEntry { Kind = ItemKind.SugarSack, Count = 1 },
+            new LootEntry { Kind = ItemKind.CocoaBag, Count = 1 }, new LootEntry { Kind = ItemKind.StrawberryBasket, Count = 1 }, new LootEntry { Kind = ItemKind.MintBundle, Count = 1 },
+            new LootEntry { Kind = ItemKind.CoffeeSack, Count = 1 }, new LootEntry { Kind = ItemKind.CoffeeSack, Count = 1 }, new LootEntry { Kind = ItemKind.NutBag, Count = 1 }, new LootEntry { Kind = ItemKind.NutBag, Count = 1 },
+            new LootEntry { Kind = ItemKind.Tub, Flavor = Flavor.Vanilla, Count = Inventory.ScoopsPerTub }, new LootEntry { Kind = ItemKind.Tub, Flavor = Flavor.Chocolate, Count = Inventory.ScoopsPerTub },
+            new LootEntry { Kind = ItemKind.Tub, Flavor = Flavor.Coffee, Count = Inventory.ScoopsPerTub }, new LootEntry { Kind = ItemKind.Tub, Flavor = Flavor.RockyRoad, Count = Inventory.ScoopsPerTub },
+            new LootEntry { Kind = ItemKind.Tub, Flavor = Flavor.Neapolitan, Count = Inventory.ScoopsPerTub },
+            new LootEntry { Kind = ItemKind.Pint, Flavor = Flavor.Strawberry, Count = Inventory.ScoopsPerPint }, new LootEntry { Kind = ItemKind.Pint, Flavor = Flavor.Mint, Count = Inventory.ScoopsPerPint },
+            new LootEntry { Kind = ItemKind.Scoop, Flavor = Flavor.RockyRoad, Count = 6 },
         };
         settings.ShopWeapons = new[]
         {
