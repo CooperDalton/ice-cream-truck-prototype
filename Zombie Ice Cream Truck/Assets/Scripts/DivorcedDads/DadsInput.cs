@@ -18,6 +18,8 @@ public class DadsInput : MonoBehaviour
     public bool Aiming { get; private set; }
     // The debug menu takes the number keys while it is open.
     public bool MenuOpen { get; set; }
+    // Set by the play-test bot to walk the other local players around (by local slot); unset, they stand still.
+    public static System.Func<int, Quantum.Input> BotInput;
 
     private void OnEnable()
     {
@@ -62,7 +64,7 @@ public class DadsInput : MonoBehaviour
     {
         if (callback.PlayerSlot != 0)
         {
-            callback.SetInput(new Quantum.Input(), DeterministicInputFlags.Repeatable);
+            callback.SetInput(BotInput?.Invoke(callback.PlayerSlot) ?? new Quantum.Input(), DeterministicInputFlags.Repeatable);
             return;
         }
         var keyboard = Keyboard.current;
