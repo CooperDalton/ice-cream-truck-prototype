@@ -1,5 +1,21 @@
-// Divorced Dads: a separate game mode in its own scene. It shares only the input struct with the zombie mode
-// (ZombieTruck.qtn); every component, enum and event here is its own.
+#define PLAYER_COUNT 4
+#pragma max_players PLAYER_COUNT
+
+input {
+  FPVector2 Move;
+  FP Yaw;
+  FP Pitch;
+  FP Gesture;
+  Byte Slot;
+  button Jump;
+  button Fire;
+  button Aim;
+  button Interact;
+  button Drop;
+  button Reload;
+  button Sprint;
+  button Crouch;
+}
 
 enum Treat : Byte {
   None, Mud, Strawberry, Coffee, RockyRoad, GoldLeaf

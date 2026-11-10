@@ -25,7 +25,6 @@ public static partial class DivorcedDadsSceneBuilder
     const string MaterialFolder = "Assets/Materials";
     const string ConfigFolder = "Assets/QuantumUser/Resources";
     const string ScenePath = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
-    const string ZombieScenePath = "Assets/QuantumUser/Scenes/QuantumGameScene.unity";
     const string Truck = "Ice Cream Truck";
     const int UiLayer = 5;
 
@@ -40,11 +39,11 @@ public static partial class DivorcedDadsSceneBuilder
 
     // The truck art drives on the right; this is America, so the Dads van mirrors the driving position to the left.
     static readonly string[] DriverSide = { "driver seat", "steering wheel", "steering column", "instruments", "pedal brake", "pedal gas" };
-    // Truck art the Dads van does without: the zombie mode's stock (fixtures bring their own), the freezer's sliding glass
+    // Truck art the Dads van does without: the truck's original stock (fixtures bring their own), the freezer's sliding glass
     // lids, the back door (it swings as a fixture of its own) and the roof hatch lid (the hatch is always open).
     static readonly string[] TruckDecor = { "freezer lid a", "freezer lid b", "rear door", "hatch lid", "freezer tub 1", "freezer tub 2", "freezer tub 3", "counter pint 1", "counter pint 3", "counter scoop", "counter tub", "churn tub", "rack pistol", "rack shotgun", "plow" };
 
-    // Hand-measured from the truck art (h_truck.py layout), same as the zombie mode: floor top 0.75, ceiling 2.86,
+    // Hand-measured from the truck art (h_truck.py layout): floor top 0.75, ceiling 2.86,
     // roof 2.92, walls at x +-1.15, cab front z 2.35, bulkhead z 0.95 (1 m doorway), rear wall z -2.95 (0.9 m door),
     // serving window on -X.
     static readonly Vector3[] TruckBoxes =

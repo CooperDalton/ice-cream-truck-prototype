@@ -1,4 +1,0 @@
-var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var g=scene.GetRootGameObjects().SelectMany(o=>o.GetComponents<TycoonGameManager>()).Single();var ui=g.hud;
-ui.panel.transform.SetAsLastSibling();ui.resultsText=UnityEngine.Object.Instantiate(ui.panelText,ui.panel.transform);ui.resultsText.name="Day results";ui.resultsText.rectTransform.anchoredPosition=new UnityEngine.Vector2(0,125);ui.resultsText.rectTransform.sizeDelta=new UnityEngine.Vector2(1080,275);ui.resultsText.fontSize=23;ui.resultsText.gameObject.SetActive(false);
-UnityEditor.PlayerSettings.defaultScreenWidth=1440;UnityEditor.PlayerSettings.defaultScreenHeight=900;UnityEditor.PlayerSettings.fullScreenMode=UnityEngine.FullScreenMode.Windowed;UnityEditor.PlayerSettings.resizableWindow=true;
-UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);UnityEditor.AssetDatabase.SaveAssets();return "Saved full day results, menu draw order, windowed player settings.";

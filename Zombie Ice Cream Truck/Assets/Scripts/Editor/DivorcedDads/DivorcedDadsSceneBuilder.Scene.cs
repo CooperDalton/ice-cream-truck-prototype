@@ -15,11 +15,9 @@ using Object = UnityEngine.Object;
 // first-person rig, day/night and ambience, effects, audio and the HUD; plus the effect prefabs and shared helpers.
 public static partial class DivorcedDadsSceneBuilder
 {
-    // The scene starts as a copy of the zombie scene for its Quantum runner, view updater and stats objects; everything
-    // else in it is rebuilt here.
+    // The scene keeps its Quantum runner, view updater and stats objects; everything else in it is rebuilt here.
     static Scene OpenScene()
     {
-        if (!File.Exists(ScenePath)) AssetDatabase.CopyAsset(ZombieScenePath, ScenePath);
         var scene = EditorSceneManager.OpenScene(ScenePath);
         var keep = new[] { "Main Camera", "Directional Light", "QuantumEntityViewUpdater", "QuantumDebugRunner", "QuantumMap", "QuantumStats" };
         foreach (var root in scene.GetRootGameObjects())
@@ -114,7 +112,6 @@ public static partial class DivorcedDadsSceneBuilder
         map.BucketsCount = 64;
         mapData.AssetRef = map;
         runner.RuntimeConfig.Map = map;
-        runner.RuntimeConfig.Settings = default;
         runner.RuntimeConfig.DadsSettings = settings;
         runner.MaxPlayerCount = 4;
         runner.LocalPlayers = new[] { new RuntimePlayer { PlayerNickname = "Dad 1" } };
@@ -125,7 +122,7 @@ public static partial class DivorcedDadsSceneBuilder
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         // The Quantum sample menu (quick play, regions, party codes) lists every scene info in Resources, so this one adds
-        // Divorced Dads next to the zombie mode for online games.
+        // Divorced Dads for online games.
         var sceneInfo = ScriptableObject.CreateInstance<QuantumMenuSceneInfo>();
         sceneInfo.Name = "Big Milk Strikes Back";
         sceneInfo.ScenePath = ScenePath;
@@ -266,7 +263,7 @@ public static partial class DivorcedDadsSceneBuilder
 
     const string Sprites = "Assets/Art/Sprites";
     const string Fonts = "Assets/Art/Fonts";
-    // HUD frames are pixel sprites drawn twice their size on the 1280 x 720 canvas, like the zombie HUD.
+    // HUD frames are pixel sprites drawn twice their size on the 1280 x 720 canvas.
     const float HudFrameScale = 2f;
     static readonly Color HudYellow = new Color(1f, 0.88f, 0.29f);
     static readonly Color HudMint = new Color(0.22f, 0.95f, 0.76f);
@@ -303,7 +300,7 @@ public static partial class DivorcedDadsSceneBuilder
         }
     }
 
-    // Candy PS1 HUD on a 1280 x 720 reference canvas, laid out like the zombie HUD: nine-slice frames with an icon and
+    // Candy PS1 HUD on a 1280 x 720 reference canvas, laid out as nine-slice frames with an icon and
     // pixel-font text, the hotbar along the bottom, the prompt panel under the crosshair, and the story card.
     static DadsHud BuildHud(DadsInput input, Camera display, Camera eye)
     {

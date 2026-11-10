@@ -1,8 +1,8 @@
-"""Export the PS1 (style H) asset library to the Zombie Ice Cream Truck Unity project.
+"""Export the PS1 (style H) asset library to the Unity project (Big Milk Strikes Back / Divorced Dads).
 
     blender -b --factory-startup --python export_unity.py -- [filter]
 
-filter: optional comma-separated asset names, slugs or module names (h_core, ...). Each asset is built alone at the
+filter: optional comma-separated asset names, slugs or module names (h_dads_town, ...). Each asset is built alone at the
 origin (seed 100 + its index in the module's ASSETS, like render_assets.py) and written as
 Assets/Art/PS1/<Category>/<Asset Name>.fbx with its textures as PNGs in <Category>/Textures/. Assets/Art/PS1/manifest.json
 gets bounds and every pivot/socket empty in Unity coordinates (entries for unfiltered assets are kept).
@@ -36,15 +36,16 @@ UNITY_PROJECT = os.path.join(REPO, "Zombie Ice Cream Truck")
 ART_REL = "Assets/Art/PS1"
 ART = os.path.join(UNITY_PROJECT, ART_REL)
 
-MODULES = ["h_core", "h_characters", "h_weapons", "h_items", "h_truck", "h_road", "h_stops", "h_fx", "h_scenery", "h_hotspots", "h_shop",
-           "h_dads_characters", "h_dads_items", "h_dads_town"]
-CATEGORY = {"h_core": "Zombies", "h_characters": "Characters", "h_weapons": "Weapons", "h_items": "Items",
-            "h_truck": "Truck", "h_road": "Road", "h_stops": "Stops", "h_fx": "FX", "h_scenery": "Scenery",
-            "h_hotspots": "Stops", "h_shop": "Shop",
+MODULES = ["h_weapons", "h_items", "h_truck", "h_road", "h_fx", "h_dads_characters", "h_dads_items", "h_dads_town"]
+CATEGORY = {"h_weapons": "Weapons", "h_items": "Items", "h_truck": "Truck", "h_road": "Road", "h_fx": "FX",
             "h_dads_characters": "Dads Characters", "h_dads_items": "Dads Items", "h_dads_town": "Dads Town"}
-ZOMBIE_CHARACTERS = {"Walker Worker", "Walker Mail Carrier", "Walker Granny", "Frozen Walker"}
-SKIP = {"Walker Hit", "Sprinter Climb", "Sprinter Hit", "Bloater Pop", "Player T-Pose",
-        "Walker Worker Hit", "Walker Mail Carrier Hit", "Walker Granny Hit"}
+# The libraries the Dads art builds on (made for the removed zombie mode) also hold assets the game does not use; only
+# these are exported from them. Every asset in the h_dads_* modules is exported.
+SHARED = {"h_weapons": {"Scoop Pistol", "Sundae Shotgun", "Soft Serve Minigun"},
+          "h_items": {"Strawberry Basket"},
+          "h_truck": {"Ice Cream Truck", "Churn", "Scoop Counter", "Gun Rack", "Hopper Gauge", "Roof Bell", "Ingredient Bins"},
+          "h_road": {"Street Lamp", "Town Straight", "Curve Left", "T Junction"},
+          "h_fx": {"Hit Star", "Pistol Muzzle Flash"}}
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 ONLY = set(args[0].split(",")) if args else None
@@ -293,13 +294,11 @@ def main():
     for module in MODULES:
         mod = importlib.import_module(module)
         for i, (name, fn) in enumerate(mod.ASSETS):
-            if name in SKIP:
+            if module in SHARED and name not in SHARED[module]:
                 continue
             if ONLY and not ({name, slug(name), module} & ONLY):
                 continue
-            # Chunk dressing joins the road chunk prefabs, whose colliders are read from Road/ meshes.
-            category = "Zombies" if name in ZOMBIE_CHARACTERS else "Road" if name.endswith(" Dressing") else CATEGORY[module]
-            assets[name] = export_asset(module, i, name, fn, category)
+            assets[name] = export_asset(module, i, name, fn, CATEGORY[module])
     os.makedirs(ART, exist_ok=True)
     manifest = {
         "coordinateMapping": "Unity coordinates: unity = (-blender.x, blender.z, -blender.y). Meters. Positions are "

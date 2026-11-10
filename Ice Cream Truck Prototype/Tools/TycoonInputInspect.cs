@@ -1,2 +1,0 @@
-var g=TycoonGameManager.Instance;
-return new {playerEnabled=g.player.enabled,manual=g.player.manualInput,focused=UnityEditor.EditorWindow.focusedWindow.GetType().FullName,focus=UnityEngine.Application.isFocused,mode=UnityEngine.InputSystem.InputSystem.settings.updateMode,keyboard=UnityEngine.InputSystem.Keyboard.current.enabled,menu=g.hud.menuOpen,panel=g.hud.AnyPanel,icon=g.catalog.bowlIcon!=null};

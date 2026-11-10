@@ -1,1 +1,0 @@
-UnityEditor.EditorApplication.delayCall+=()=>{try{TycoonTownAuthoring.Import();System.IO.File.WriteAllText("Library/CodexPlaytests/TownImport.txt","Imported all town prefabs.");}catch(System.Exception e){UnityEngine.Debug.LogException(e);System.IO.File.WriteAllText("Library/CodexPlaytests/TownImport.txt",e.ToString());}};return "Town import scheduled.";

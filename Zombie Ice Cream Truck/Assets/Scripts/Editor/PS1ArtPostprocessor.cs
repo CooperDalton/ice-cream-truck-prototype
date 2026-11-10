@@ -14,6 +14,14 @@ public class PS1ArtPostprocessor : AssetPostprocessor
     const float Smoothness = 0.15f;
     const float AlphaCutoff = 0.5f;
 
+    // Reimports every PS1 model and texture, for when the material or texture rules here change.
+    [MenuItem("Tools/Reimport PS1 Art")]
+    public static void ReimportArt()
+    {
+        AssetDatabase.ImportAsset("Assets/Art/PS1", ImportAssetOptions.ImportRecursive | ImportAssetOptions.ForceUpdate);
+        Debug.Log("PS1ArtPostprocessor: reimported the PS1 art");
+    }
+
     void OnPreprocessTexture()
     {
         if (!assetPath.StartsWith(ArtFolder))
@@ -42,10 +50,8 @@ public class PS1ArtPostprocessor : AssetPostprocessor
         importer.importLights = false;
         importer.importAnimation = false;
         importer.animationType = ModelImporterAnimationType.None;
-        // ZombieTruckSceneBuilder reads road, stop, shop and scenery triangles to generate the chunk and scenery colliders,
-        // DivorcedDadsSceneBuilder the Divorced Dads town blocks.
-        importer.isReadable = assetPath.StartsWith(ArtFolder + "Road/") || assetPath.StartsWith(ArtFolder + "Stops/") || assetPath.StartsWith(ArtFolder + "Shop/")
-            || assetPath.StartsWith(ArtFolder + "Scenery/") || assetPath.StartsWith(ArtFolder + "Dads Town/");
+        // DivorcedDadsSceneBuilder reads the road and town block triangles to bake the town colliders.
+        importer.isReadable = assetPath.StartsWith(ArtFolder + "Road/") || assetPath.StartsWith(ArtFolder + "Dads Town/");
         importer.materialImportMode = ModelImporterMaterialImportMode.ImportViaMaterialDescription;
         importer.materialLocation = ModelImporterMaterialLocation.InPrefab;
     }

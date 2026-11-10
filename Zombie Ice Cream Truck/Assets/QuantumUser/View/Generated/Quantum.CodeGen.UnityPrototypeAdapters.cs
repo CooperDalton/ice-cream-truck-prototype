@@ -94,48 +94,6 @@ namespace Quantum.Prototypes.Unity {
     }
   }
   [System.SerializableAttribute()]
-  public unsafe partial class SurvivorPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.SurvivorPrototype> {
-    [ArrayLengthAttribute(6)]
-    public Quantum.Prototypes.ItemPrototype[] Hotbar = new Quantum.Prototypes.ItemPrototype[6];
-    public Int32 Selected;
-    public FP Health;
-    public QBoolean Dead;
-    public FP YawOffset;
-    public FP Pitch;
-    public Quantum.QuantumEntityPrototype Standing;
-    public QBoolean Driving;
-    public QBoolean Climbing;
-    public QBoolean Crouching;
-    public Int32 TurretSeat;
-    public FP FireCooldown;
-    public FP DropHeld;
-    public FP WorkProgress;
-    public Quantum.QuantumEntityPrototype WorkTarget;
-    public Quantum.QuantumEntityPrototype LookTarget;
-    partial void ConvertUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.SurvivorPrototype prototype);
-    public override Quantum.Prototypes.SurvivorPrototype Convert(Quantum.QuantumEntityPrototypeConverter converter) {
-      var result = new Quantum.Prototypes.SurvivorPrototype();
-      converter.Convert(this.Hotbar, out result.Hotbar);
-      converter.Convert(this.Selected, out result.Selected);
-      converter.Convert(this.Health, out result.Health);
-      converter.Convert(this.Dead, out result.Dead);
-      converter.Convert(this.YawOffset, out result.YawOffset);
-      converter.Convert(this.Pitch, out result.Pitch);
-      converter.Convert(this.Standing, out result.Standing);
-      converter.Convert(this.Driving, out result.Driving);
-      converter.Convert(this.Climbing, out result.Climbing);
-      converter.Convert(this.Crouching, out result.Crouching);
-      converter.Convert(this.TurretSeat, out result.TurretSeat);
-      converter.Convert(this.FireCooldown, out result.FireCooldown);
-      converter.Convert(this.DropHeld, out result.DropHeld);
-      converter.Convert(this.WorkProgress, out result.WorkProgress);
-      converter.Convert(this.WorkTarget, out result.WorkTarget);
-      converter.Convert(this.LookTarget, out result.LookTarget);
-      ConvertUser(converter, ref result);
-      return result;
-    }
-  }
-  [System.SerializableAttribute()]
   public unsafe partial class VanPrototype : Quantum.QuantumUnityPrototypeAdapter<Quantum.Prototypes.VanPrototype> {
     public FP Speed;
     public FP Steer;

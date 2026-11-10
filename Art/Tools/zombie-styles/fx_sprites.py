@@ -3,9 +3,7 @@
 python3 fx_sprites.py  ->  Zombie Ice Cream Truck/Assets/Art/Sprites/
   fx_atlas.png       128x128, 8x8 cells of 16 px. Rows (top to bottom): blobs, stars, smoke puffs, sprinkles, sparks,
                      drops, rings, ice shards. Unity's texture sheet animation counts rows from the top.
-  screen_splat_N.png 64x64 big gore splats for the screen overlay (4 variants)
-  vignette.png       128x128 white radial edge mask (alpha), tinted at runtime
-  hitmarker.png      16x16 cross hit marker
+  screen_splat_N.png 64x64 big splats for the screen overlay (3 variants)
 """
 import math
 import os
@@ -188,15 +186,8 @@ def main():
                 for x in range(cell):
                     atlas[r * cell + y][c * cell + x] = img[y][x]
     write_png(os.path.join(OUT, "fx_atlas.png"), 128, 128, atlas)
-    for i in range(4):
+    for i in range(3):
         write_png(os.path.join(OUT, f"screen_splat_{i + 1}.png"), 64, 64, blob(rand, 64, rand.randint(4, 8), 1.6, drips=rand.randint(3, 6)))
-    vignette = [[(255, 255, 255, int(255 * min(1, max(0, (math.hypot(x - 63.5, y - 63.5) / 90 - 0.45) / 0.55) ** 1.5))) for x in range(128)] for y in range(128)]
-    write_png(os.path.join(OUT, "vignette.png"), 128, 128, vignette)
-    marker = blank(16)
-    for t in range(3, 7):
-        for x, y in ((t, t), (15 - t, t), (t, 15 - t), (15 - t, 15 - t)):
-            marker[y][x] = shade(255)
-    write_png(os.path.join(OUT, "hitmarker.png"), 16, 16, marker)
     print("wrote", OUT)
 
 

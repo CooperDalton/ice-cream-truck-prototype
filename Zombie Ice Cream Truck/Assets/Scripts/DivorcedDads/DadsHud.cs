@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// The Divorced Dads HUD, in the same candy PS1 style as the zombie mode: cash on hand, the day with a sun or moon,
+// The Divorced Dads HUD, in the candy PS1 style: cash on hand, the day with a sun or moon,
 // heat badges, Big Dairy's debt meter with tonight's installment and strikes, the jingle and speed,
 // the hotbar with item icons, ammo, what pressing E would do, a hint for what to do next, the
 // controls panel (F1), screen splats, cough and brain freeze tints, the story cards (moving day, each morning, Big

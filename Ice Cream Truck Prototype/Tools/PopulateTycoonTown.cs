@@ -1,1 +1,0 @@
-UnityEditor.EditorApplication.delayCall+=()=>{try{TycoonTownAuthoring.Populate();}catch(System.Exception e){UnityEngine.Debug.LogException(e);System.IO.File.WriteAllText("Library/CodexPlaytests/TownPopulation.txt",e.ToString());}};return "Town population scheduled.";

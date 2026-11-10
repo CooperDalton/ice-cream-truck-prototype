@@ -8,20 +8,15 @@ using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Builds the main menu scene (Tools > Build Main Menu) in the games' candy pixel style: pick a game, then single
-// player or multiplayer (GameMenu), and puts it first in the build so builds open on it.
+// Builds the main menu scene (Tools > Build Main Menu) in the game's candy pixel style: single player or multiplayer
+// (GameMenu), and puts it first in the build so builds open on it.
 public static class GameMenuBuilder
 {
     const string ScenePath = "Assets/Scenes/MainMenu.unity";
     const string Sprites = "Assets/Art/Sprites/DadsHUD";
-    static readonly (string name, string scene)[] Games =
-    {
-        ("Zombie Ice Cream Truck", "Assets/QuantumUser/Scenes/QuantumGameScene.unity"),
-        ("Big Milk Strikes Back", "Assets/QuantumUser/Scenes/DivorcedDads.unity"),
-    };
+    const string GameName = "Big Milk Strikes Back";
+    const string GameScene = "Assets/QuantumUser/Scenes/DivorcedDads.unity";
     static readonly Color Ink = new Color(0.11f, 0.06f, 0.2f);
-    static readonly Color Yellow = new Color(1f, 0.88f, 0.29f);
-    static readonly Color Mint = new Color(0.22f, 0.95f, 0.76f);
 
     [MenuItem("Tools/Build Main Menu")]
     public static void Build()
@@ -41,41 +36,19 @@ public static class GameMenuBuilder
         scaler.referenceResolution = new Vector2(1280, 720);
         var root = canvasObject.transform;
         var title = AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/Fonts/PressStart2P-Regular.ttf");
-        var body = AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/Fonts/PixelifySans-SemiBold.ttf");
         var menu = canvasObject.AddComponent<GameMenu>();
 
         var banner = Frame(root, "Banner", "banner", new Vector2(0, 250), new Vector2(900, 48), Image.Type.Tiled);
-        Label(banner.transform, "Title", title, 28, Color.white, Vector2.zero, "ICE CREAM TRUCK");
+        Label(banner.transform, "Title", title, 28, Color.white, Vector2.zero, GameName.ToUpper());
 
-        var games = Screen(root, "Games");
-        Label(games, "Prompt", body, 26, Mint, new Vector2(0, 140), "Pick a game");
-        for (int i = 0; i < Games.Length; i++)
-        {
-            var button = Button(games, Games[i].name, title, 20, new Vector2(i == 0 ? -240 : 240, -20), new Vector2(420, 200), Games[i].name.ToUpper());
-            UnityEventTools.AddIntPersistentListener(button.onClick, menu.Pick, i);
-        }
-
-        var modes = Screen(root, "Modes");
-        var modeTitle = Label(modes, "Game", title, 22, Yellow, new Vector2(0, 140), "");
-        var single = Button(modes, "Single Player", title, 18, new Vector2(-240, -20), new Vector2(420, 140), "SINGLE PLAYER");
+        var single = Button(root, "Single Player", title, 18, new Vector2(-240, -20), new Vector2(420, 140), "SINGLE PLAYER");
         UnityEventTools.AddBoolPersistentListener(single.onClick, menu.Play, false);
-        var multi = Button(modes, "Multiplayer", title, 18, new Vector2(240, -20), new Vector2(420, 140), "MULTIPLAYER");
+        var multi = Button(root, "Multiplayer", title, 18, new Vector2(240, -20), new Vector2(420, 140), "MULTIPLAYER");
         UnityEventTools.AddBoolPersistentListener(multi.onClick, menu.Play, true);
-        var back = Button(modes, "Back", body, 22, new Vector2(0, -200), new Vector2(200, 64), "Back");
-        UnityEventTools.AddPersistentListener(back.onClick, menu.Back);
-        modes.gameObject.SetActive(false);
 
         var serialized = new SerializedObject(menu);
-        var list = serialized.FindProperty("games");
-        list.arraySize = Games.Length;
-        for (int i = 0; i < Games.Length; i++)
-        {
-            list.GetArrayElementAtIndex(i).FindPropertyRelative("Name").stringValue = Games[i].name;
-            list.GetArrayElementAtIndex(i).FindPropertyRelative("ScenePath").stringValue = Games[i].scene;
-        }
-        serialized.FindProperty("gameScreen").objectReferenceValue = games.gameObject;
-        serialized.FindProperty("modeScreen").objectReferenceValue = modes.gameObject;
-        serialized.FindProperty("modeTitle").objectReferenceValue = modeTitle;
+        serialized.FindProperty("gameName").stringValue = GameName;
+        serialized.FindProperty("gameScene").stringValue = GameScene;
         serialized.ApplyModifiedPropertiesWithoutUndo();
 
         System.IO.Directory.CreateDirectory("Assets/Scenes");
@@ -83,16 +56,6 @@ public static class GameMenuBuilder
         EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) }
             .Concat(EditorBuildSettings.scenes.Where(s => s.path != ScenePath)).ToArray();
         Debug.Log("GameMenuBuilder: built the main menu");
-    }
-
-    static RectTransform Screen(Transform parent, string name)
-    {
-        var screen = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
-        screen.SetParent(parent, false);
-        screen.anchorMin = Vector2.zero;
-        screen.anchorMax = Vector2.one;
-        screen.offsetMin = screen.offsetMax = Vector2.zero;
-        return screen;
     }
 
     // A nine-slice HUD frame (drawn twice its pixel size, like the in-game HUD) centered at a position.

@@ -1,5 +1,5 @@
-"""Synthesizes every sound effect and the truck's music-box jingle for the Unity project, PS1-style (22 kHz, 16-bit mono,
-crunchy). Nothing is sampled; rerun to regenerate.
+"""Synthesizes the shared sound effects and the truck's music-box jingle for the Unity project, PS1-style (22 kHz, 16-bit
+mono, crunchy). Nothing is sampled; rerun to regenerate. sfx_dads.py builds the rest of the game's sounds on its synths.
 
 python3 sfx_synth.py  ->  Zombie Ice Cream Truck/Assets/Audio/*.wav
 
@@ -14,6 +14,9 @@ import numpy as np
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../Zombie Ice Cream Truck/Assets/Audio")
 RATE = 22050
 rng = np.random.default_rng(11)
+# The sounds the game uses. Every sound in main() is still synthesized, in order, so the shared random generator gives
+# these the same output as before; the others (from the removed zombie mode) are not written.
+USED = {"gun_minigun", "throw", "splat_land", "engine_loop", "bell", "pickup", "kaching", "crash"}
 
 
 # ------------------------------------------------------------------------------------------------ building blocks
@@ -566,8 +569,10 @@ def main():
         "sprinter_steps": sprinter_steps,
     }
     for name, make in sounds.items():
-        write(name, make())
-        print("wrote", name)
+        sound = make()
+        if name in USED:
+            write(name, sound)
+            print("wrote", name)
     write("music_entertainer", entertainer(), peak=0.8, gritty=False)
     print("wrote music_entertainer")
 

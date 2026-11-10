@@ -50,24 +50,6 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Attached))]
-  public unsafe partial class AttachedPrototype : ComponentPrototype<Quantum.Attached> {
-    public FPVector3 LocalPosition;
-    [UnitAttribute(Units.Degrees)]
-    public FPVector3 LocalRotation;
-    partial void MaterializeUser(Frame frame, ref Quantum.Attached result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Attached component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Attached result, in PrototypeMaterializationContext context = default) {
-        result.LocalPosition = this.LocalPosition;
-        result.LocalRotation = FPQuaternion.Euler(this.LocalRotation);
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Cash))]
   public unsafe partial class CashPrototype : ComponentPrototype<Quantum.Cash> {
     public Int32 Amount;
@@ -85,21 +67,6 @@ namespace Quantum.Prototypes {
         result.Velocity = this.Velocity;
         result.Age = this.Age;
         result.Resting = this.Resting;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.ChunkOwned))]
-  public unsafe partial class ChunkOwnedPrototype : ComponentPrototype<Quantum.ChunkOwned> {
-    public Int32 Chunk;
-    partial void MaterializeUser(Frame frame, ref Quantum.ChunkOwned result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.ChunkOwned component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.ChunkOwned result, in PrototypeMaterializationContext context = default) {
-        result.Chunk = this.Chunk;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -338,20 +305,6 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Item))]
-  public unsafe partial class ItemPrototype : StructPrototype {
-    public Quantum.QEnum8<ItemKind> Kind;
-    public Quantum.QEnum8<Flavor> Flavor;
-    public Int32 Count;
-    partial void MaterializeUser(Frame frame, ref Quantum.Item result, in PrototypeMaterializationContext context);
-    public void Materialize(Frame frame, ref Quantum.Item result, in PrototypeMaterializationContext context = default) {
-        result.Kind = this.Kind;
-        result.Flavor = this.Flavor;
-        result.Count = this.Count;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Loot))]
   public unsafe partial class LootPrototype : ComponentPrototype<Quantum.Loot> {
     public Quantum.Prototypes.DadSlotPrototype Item;
@@ -422,67 +375,6 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Pickup))]
-  public unsafe partial class PickupPrototype : ComponentPrototype<Quantum.Pickup> {
-    public Quantum.Prototypes.ItemPrototype Item;
-    public FPVector3 Velocity;
-    public QBoolean Resting;
-    partial void MaterializeUser(Frame frame, ref Quantum.Pickup result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Pickup component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Pickup result, in PrototypeMaterializationContext context = default) {
-        this.Item.Materialize(frame, ref result.Item, in context);
-        result.Velocity = this.Velocity;
-        result.Resting = this.Resting;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerLink))]
-  public unsafe partial class PlayerLinkPrototype : ComponentPrototype<Quantum.PlayerLink> {
-    public PlayerRef Player;
-    partial void MaterializeUser(Frame frame, ref Quantum.PlayerLink result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.PlayerLink component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.PlayerLink result, in PrototypeMaterializationContext context = default) {
-        result.Player = this.Player;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Projectile))]
-  public unsafe partial class ProjectilePrototype : ComponentPrototype<Quantum.Projectile> {
-    public Quantum.QEnum8<Flavor> Flavor;
-    public FPVector3 Velocity;
-    public PlayerRef Owner;
-    public FP Age;
-    public FP Radius;
-    public Int32 Damage;
-    public QBoolean Rocket;
-    partial void MaterializeUser(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Projectile component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context = default) {
-        result.Flavor = this.Flavor;
-        result.Velocity = this.Velocity;
-        result.Owner = this.Owner;
-        result.Age = this.Age;
-        result.Radius = this.Radius;
-        result.Damage = this.Damage;
-        result.Rocket = this.Rocket;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Riding))]
   public unsafe partial class RidingPrototype : ComponentPrototype<Quantum.Riding> {
     public FPVector3 LocalPosition;
@@ -497,173 +389,6 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Riding result, in PrototypeMaterializationContext context = default) {
         result.LocalPosition = this.LocalPosition;
         result.LocalRotation = FPQuaternion.Euler(this.LocalRotation);
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.RoadChunk))]
-  public unsafe partial class RoadChunkPrototype : ComponentPrototype<Quantum.RoadChunk> {
-    public Int32 Index;
-    public Quantum.QEnum8<ChunkKind> Kind;
-    public QBoolean Triggered;
-    partial void MaterializeUser(Frame frame, ref Quantum.RoadChunk result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.RoadChunk component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.RoadChunk result, in PrototypeMaterializationContext context = default) {
-        result.Index = this.Index;
-        result.Kind = this.Kind;
-        result.Triggered = this.Triggered;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Scenery))]
-  public unsafe partial class SceneryPrototype : ComponentPrototype<Quantum.Scenery> {
-    public Int32 CellX;
-    public Int32 CellY;
-    public Int32 Block;
-    partial void MaterializeUser(Frame frame, ref Quantum.Scenery result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Scenery component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Scenery result, in PrototypeMaterializationContext context = default) {
-        result.CellX = this.CellX;
-        result.CellY = this.CellY;
-        result.Block = this.Block;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Station))]
-  public unsafe partial class StationPrototype : ComponentPrototype<Quantum.Station> {
-    public Quantum.QEnum8<StationKind> Kind;
-    [ArrayLengthAttribute(4)]
-    public Quantum.Prototypes.ItemPrototype[] Slots = new Quantum.Prototypes.ItemPrototype[4];
-    public Int32 Milk;
-    public Int32 Sugar;
-    public Quantum.QEnum8<Flavor> Flavoring;
-    public QBoolean Open;
-    public Quantum.QEnum8<UpgradeKind> Upgrade;
-    public Int32 Price;
-    public Int32 Index;
-    public FP Timer;
-    partial void MaterializeUser(Frame frame, ref Quantum.Station result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Station component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Station result, in PrototypeMaterializationContext context = default) {
-        result.Kind = this.Kind;
-        for (int i = 0, count = PrototypeValidator.CheckLength(Slots, 4, in context); i < count; ++i) {
-          this.Slots[i].Materialize(frame, ref *result.Slots.GetPointer(i), in context);
-        }
-        result.Milk = this.Milk;
-        result.Sugar = this.Sugar;
-        result.Flavoring = this.Flavoring;
-        result.Open = this.Open;
-        result.Upgrade = this.Upgrade;
-        result.Price = this.Price;
-        result.Index = this.Index;
-        result.Timer = this.Timer;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Survivor))]
-  public unsafe class SurvivorPrototype : ComponentPrototype<Quantum.Survivor> {
-    [ArrayLengthAttribute(6)]
-    public Quantum.Prototypes.ItemPrototype[] Hotbar = new Quantum.Prototypes.ItemPrototype[6];
-    public Int32 Selected;
-    public FP Health;
-    public QBoolean Dead;
-    public FP YawOffset;
-    public FP Pitch;
-    public MapEntityId Standing;
-    public QBoolean Driving;
-    public QBoolean Climbing;
-    public QBoolean Crouching;
-    public Int32 TurretSeat;
-    public FP FireCooldown;
-    public FP DropHeld;
-    public FP WorkProgress;
-    public MapEntityId WorkTarget;
-    public MapEntityId LookTarget;
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Survivor component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Survivor result, in PrototypeMaterializationContext context = default) {
-        for (int i = 0, count = PrototypeValidator.CheckLength(Hotbar, 6, in context); i < count; ++i) {
-          this.Hotbar[i].Materialize(frame, ref *result.Hotbar.GetPointer(i), in context);
-        }
-        result.Selected = this.Selected;
-        result.Health = this.Health;
-        result.Dead = this.Dead;
-        result.YawOffset = this.YawOffset;
-        result.Pitch = this.Pitch;
-        PrototypeValidator.FindMapEntity(this.Standing, in context, out result.Standing);
-        result.Driving = this.Driving;
-        result.Climbing = this.Climbing;
-        result.Crouching = this.Crouching;
-        result.TurretSeat = this.TurretSeat;
-        result.FireCooldown = this.FireCooldown;
-        result.DropHeld = this.DropHeld;
-        result.WorkProgress = this.WorkProgress;
-        PrototypeValidator.FindMapEntity(this.WorkTarget, in context, out result.WorkTarget);
-        PrototypeValidator.FindMapEntity(this.LookTarget, in context, out result.LookTarget);
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Truck))]
-  public unsafe partial class TruckPrototype : ComponentPrototype<Quantum.Truck> {
-    public FP Speed;
-    public FP Steer;
-    public PlayerRef Driver;
-    public Int32 HopperRounds;
-    public Quantum.QEnum8<Flavor> HopperFlavor;
-    public FP TurretCooldown;
-    public Int32 PlowLevel;
-    public QBoolean Spikes;
-    public QBoolean Armor;
-    public QBoolean Turret;
-    public QBoolean SecondTurret;
-    public QBoolean BigHopper;
-    public QBoolean Engine;
-    public QBoolean BigTank;
-    public FP Fuel;
-    public Quantum.QEnum8<Flavor> FuelFlavor;
-    public QBoolean MusicOff;
-    partial void MaterializeUser(Frame frame, ref Quantum.Truck result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Truck component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Truck result, in PrototypeMaterializationContext context = default) {
-        result.Speed = this.Speed;
-        result.Steer = this.Steer;
-        result.Driver = this.Driver;
-        result.HopperRounds = this.HopperRounds;
-        result.HopperFlavor = this.HopperFlavor;
-        result.TurretCooldown = this.TurretCooldown;
-        result.PlowLevel = this.PlowLevel;
-        result.Spikes = this.Spikes;
-        result.Armor = this.Armor;
-        result.Turret = this.Turret;
-        result.SecondTurret = this.SecondTurret;
-        result.BigHopper = this.BigHopper;
-        result.Engine = this.Engine;
-        result.BigTank = this.BigTank;
-        result.Fuel = this.Fuel;
-        result.FuelFlavor = this.FuelFlavor;
-        result.MusicOff = this.MusicOff;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -703,35 +428,6 @@ namespace Quantum.Prototypes {
         for (int i = 0, count = PrototypeValidator.CheckLength(Queue, 6, in context); i < count; ++i) {
           PrototypeValidator.FindMapEntity(this.Queue[i], in context, out *result.Queue.GetPointer(i));
         }
-    }
-  }
-  [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Zombie))]
-  public unsafe partial class ZombiePrototype : ComponentPrototype<Quantum.Zombie> {
-    public Quantum.QEnum8<ZombieKind> Kind;
-    public Quantum.QEnum8<ZombieState> State;
-    public Int32 Health;
-    public FP Timer;
-    public FP FrozenTimer;
-    public FP AttackCooldown;
-    public FPVector3 Velocity;
-    public FPVector3 Wander;
-    partial void MaterializeUser(Frame frame, ref Quantum.Zombie result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Zombie component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Zombie result, in PrototypeMaterializationContext context = default) {
-        result.Kind = this.Kind;
-        result.State = this.State;
-        result.Health = this.Health;
-        result.Timer = this.Timer;
-        result.FrozenTimer = this.FrozenTimer;
-        result.AttackCooldown = this.AttackCooldown;
-        result.Velocity = this.Velocity;
-        result.Wander = this.Wander;
-        MaterializeUser(frame, ref result, in context);
     }
   }
 }

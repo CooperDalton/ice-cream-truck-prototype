@@ -1,1 +1,0 @@
-return UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Select(o => new { o.name, id=o.GetInstanceID(), prefab=UnityEditor.PrefabUtility.IsPartOfPrefabInstance(o) }).ToArray();

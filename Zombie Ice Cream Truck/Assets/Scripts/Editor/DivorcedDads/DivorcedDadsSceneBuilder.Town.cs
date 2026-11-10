@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 
 // The town: three districts of 40 m blocks between 20 m road cells, joined by single gated roads over a creek.
 // The Flats (trailers, mud and Big Dairy's lot) -> Maple Grove (houses, park, school, coffee strip) -> Hillside Estates
-// (mansions and the vault). Roads are the zombie mode's road chunks picked by how many neighbours each road cell has.
+// (mansions and the vault). Roads are the shared road chunks (Art/PS1/Road) picked by how many neighbours each road cell has.
 // Every building, fence and prop between 0.4 m and 1.9 m is rasterized into static box colliders baked into the
 // Quantum map; sockets in the block art become kid hangouts, cop patrol points and fixture placements. South of The
 // Flats, walled off from town, is the tutorial yard (Moving Day: the ex's house and dad's trailer on a dead-end street).
@@ -290,7 +290,7 @@ public static partial class DivorcedDadsSceneBuilder
             foreach (var filter in piece.GetComponentsInChildren<MeshFilter>())
             {
                 var mesh = filter.sharedMesh;
-                if (!mesh.isReadable) throw new System.InvalidOperationException($"{mesh.name} is not readable; run Tools > Zombie Truck > Reimport PS1 Art");
+                if (!mesh.isReadable) throw new System.InvalidOperationException($"{mesh.name} is not readable; run Tools > Reimport PS1 Art");
                 var matrix = filter.transform.localToWorldMatrix;
                 var vertices = mesh.vertices.Select(v => matrix.MultiplyPoint3x4(v)).ToArray();
                 var triangles = mesh.triangles;
