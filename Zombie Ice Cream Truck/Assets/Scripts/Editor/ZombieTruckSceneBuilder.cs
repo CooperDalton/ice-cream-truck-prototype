@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEditor.Rendering.Universal.ShaderGUI;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -1408,9 +1409,11 @@ public static class ZombieTruckSceneBuilder
         var gameplay = new GameObject("Gameplay").transform;
         var input = new GameObject("Survivor Input").AddComponent<SurvivorInput>();
         input.transform.SetParent(gameplay, false);
-        // The game renders into a small point-filtered texture shown full screen through the dither shader.
-        var lowRes = new RenderTexture(480, 270, 24) { filterMode = FilterMode.Point, name = "PS1 Screen" };
+        // The game renders into a fixed 1920 x 1080 point-filtered texture shown full screen, so the pixel look is the
+        // same at any window size. PixelLookFeature pixelates it on the game camera: big pixels near, smaller far.
+        var lowRes = new RenderTexture(1920, 1080, 24) { filterMode = FilterMode.Point, name = "PS1 Screen" };
         lowRes = ReplaceAsset(lowRes, "Assets/Art/PS1 Screen.renderTexture");
+        BuildPixelLook();
         camera.targetTexture = lowRes;
         camera.nearClipPlane = 0.05f;
         camera.fieldOfView = 75;
@@ -1432,13 +1435,6 @@ public static class ZombieTruckSceneBuilder
         image.transform.SetParent(screen.transform, false);
         Stretch(image.rectTransform);
         image.texture = lowRes;
-        var ditherMaterial = AssetDatabase.LoadAssetAtPath<Material>($"{MaterialFolder}/PS1 Dither.mat");
-        if (ditherMaterial == null)
-        {
-            ditherMaterial = new Material(Shader.Find("ZombieTruck/PS1 Dither"));
-            AssetDatabase.CreateAsset(ditherMaterial, $"{MaterialFolder}/PS1 Dither.mat");
-        }
-        image.material = ditherMaterial;
         image.raycastTarget = false;
 
         var hud = BuildHud(input, display);
@@ -2055,6 +2051,40 @@ public static class ZombieTruckSceneBuilder
     }
 
     // Screen-space canvases drawn by the display camera on the UI layer, so a camera render captures the whole frame.
+    // Adds the Pixel Look full-screen pass (PixelLookFeature) to the PC renderer once, with its material. Tune the pixel
+    // sizes and switch distances on Assets/Materials/Pixel Look.mat; rebuilding keeps them.
+    static void BuildPixelLook()
+    {
+        var material = AssetDatabase.LoadAssetAtPath<Material>($"{MaterialFolder}/Pixel Look.mat");
+        if (material == null)
+        {
+            material = new Material(Shader.Find("ZombieTruck/Pixel Look"));
+            AssetDatabase.CreateAsset(material, $"{MaterialFolder}/Pixel Look.mat");
+        }
+        var renderer = AssetDatabase.LoadAssetAtPath<UniversalRendererData>("Assets/Settings/PC_Renderer.asset");
+        var feature = renderer.rendererFeatures.OfType<PixelLookFeature>().FirstOrDefault();
+        if (feature == null)
+        {
+            feature = ScriptableObject.CreateInstance<PixelLookFeature>();
+            feature.name = "Pixel Look";
+            AssetDatabase.AddObjectToAsset(feature, renderer);
+            renderer.rendererFeatures.Add(feature);
+            // URP pairs each feature with its local file id in m_RendererFeatureMap, like the renderer inspector does.
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(feature, out _, out long localId);
+            var serialized = new SerializedObject(renderer);
+            var map = serialized.FindProperty("m_RendererFeatureMap");
+            map.arraySize++;
+            map.GetArrayElementAtIndex(map.arraySize - 1).longValue = localId;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+        feature.passMaterial = material;
+        feature.requirements = ScriptableRenderPassInput.Depth;
+        feature.injectionPoint = FullScreenPassRendererFeature.InjectionPoint.AfterRenderingPostProcessing;
+        renderer.SetDirty();
+        EditorUtility.SetDirty(feature);
+        EditorUtility.SetDirty(renderer);
+    }
+
     static Canvas Canvas(string name, int order, Camera display, float distance)
     {
         var go = new GameObject(name, typeof(Canvas), typeof(CanvasScaler));

@@ -9,6 +9,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.Rendering.Universal;
 
 // Headless play-test bot. Plays the gameplay scene through virtual keyboard and mouse devices (so the real input path
 // is exercised), captures the full frame (game plus HUD) at marked steps, records frame sequences for GIFs, and logs
@@ -49,6 +50,8 @@ public static class Playtest
         public Func<Frame, bool> Done;
         // Checked when the step comes up; the step is skipped (no input at all) if false.
         public Func<Frame, bool> When;
+        // Captures the frame as Pixel Look C and D (CaptureLooks) when the step ends, or every recorded frame with Record.
+        public bool Looks;
     }
 
     // PLAYTEST_SCENARIO=freezer grabs scoops from the freezer with E, packs three into a pint and puts the other five
@@ -404,6 +407,21 @@ public static class Playtest
             new Step { Name = "before the shot", Duration = 0.3f },
             new Step { Name = "shoot into the air", Duration = 0.6f, Fire = true, LookPitch = -40 },
             new Step { Name = "after the shot", Duration = 4f },
+        }).ToList();
+    }
+
+    // PLAYTEST_SCENARIO=looks compares Pixel Look C (4 / 2 / 2 px) and D (4 / 2 / 1 px) on the same frames: a still from
+    // the roof looking up the road at the zombies, a still from the driver's seat, then a recorded drive into them.
+    static List<Step> LookSteps()
+    {
+        return new[] { new Step { Name = "hide controls", Duration = 0.3f, Keys = new[] { Key.F1 } } }.Concat(ClimbUp()).Concat(new[]
+        {
+            new Step { Name = "wait for zombies", Duration = 10f, LookYaw = 0, LookPitch = 3 },
+            new Step { Name = "l1_roof", Duration = 0.5f, LookYaw = 0, LookPitch = 3, Looks = true },
+        }).Concat(ClimbDown()).Concat(ToSeat).Concat(new[]
+        {
+            new Step { Name = "l2_seat", Duration = 0.5f, LookYaw = 0, LookPitch = 2, Looks = true },
+            new Step { Name = "l3_drive", Duration = 7f, Keys = new[] { Key.W }, Record = true, Looks = true },
         }).ToList();
     }
 
@@ -797,7 +815,9 @@ public static class Playtest
                 : scenario == "hotshop" ? HotShopSteps() : scenario == "melee" ? MeleeSteps() : scenario == "scenery" ? ScenerySteps()
                 : scenario == "offroad" ? OffroadSteps() : scenario == "tutorial" ? TutorialSteps() : scenario == "crouch" ? CrouchSteps() : scenario == "zombies" ? ZombieSteps() : scenario == "doorway" ? DoorwaySteps()
                 : scenario == "tutorialskip" ? new List<Step> { new Step { Name = "x01_returning", Duration = 3f, Snap = true } }
-                : scenario == "music" ? MusicSteps() : DriveSteps();
+                : scenario == "music" ? MusicSteps() : scenario == "looks" ? LookSteps() : DriveSteps();
+            // Agents play-test on the user's machine; keep the game silent.
+            AudioListener.volume = 0;
             Log("play mode started");
         }
         if (now - start > 360)
@@ -889,12 +909,17 @@ public static class Playtest
         if (step.Record && now - lastRecord > 0.08)
         {
             lastRecord = now;
-            Directory.CreateDirectory(Path.Combine(OutDir, "frames", step.Name));
-            Capture(Path.Combine(OutDir, "frames", step.Name, $"{recordIndex++:D4}.png"), 640, 360);
+            if (step.Looks) CaptureLooks(Path.Combine(OutDir, "frames", step.Name), $"{recordIndex++:D4}.png");
+            else
+            {
+                Directory.CreateDirectory(Path.Combine(OutDir, "frames", step.Name));
+                Capture(Path.Combine(OutDir, "frames", step.Name, $"{recordIndex++:D4}.png"), 640, 360);
+            }
         }
 
         if (now - stepStart < step.Duration) return;
         if (step.Snap) Snap(step.Name);
+        if (step.Looks && !step.Record) CaptureLooks(Path.Combine(OutDir, "looks"), step.Name + ".png");
         Log($"step '{step.Name}' done: {State(frame, input)}");
         stepIndex++;
         stepStart = now;
@@ -938,7 +963,23 @@ public static class Playtest
         Capture(Path.Combine(OutDir, name + ".png"), 1280, 720);
     }
 
-    // Renders the PS1 game camera, then the display camera (dithered game image plus HUD) into a texture of the given size.
+    // Captures the frame at 1920 x 1080 as Pixel Look C (far pixels 2 px) into <folder>/c/<file> and D (far pixels 1 px)
+    // into <folder>/d/<file>, putting the material's far pixel size back afterwards.
+    static void CaptureLooks(string folder, string file)
+    {
+        var renderer = ((UniversalRenderPipelineAsset)UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline).rendererDataList[0];
+        var look = renderer.rendererFeatures.OfType<PixelLookFeature>().First().passMaterial;
+        var fine = look.GetFloat("_Fine");
+        foreach (var (variant, size) in new[] { ("c", 2f), ("d", 1f) })
+        {
+            look.SetFloat("_Fine", size);
+            Directory.CreateDirectory(Path.Combine(folder, variant));
+            Capture(Path.Combine(folder, variant, file), 1920, 1080);
+        }
+        look.SetFloat("_Fine", fine);
+    }
+
+    // Renders the game camera, then the display camera (game image plus HUD) into a texture of the given size.
     static void Capture(string path, int width, int height)
     {
         Camera.main.Render();

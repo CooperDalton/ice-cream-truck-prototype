@@ -24237,7 +24237,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1143998378702242041}
-  - {fileID: 3767374976413029103}
+  - {fileID: 5701454357879991214}
   m_Father: {fileID: 1103130689160624430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4650660335973677140
@@ -34215,7 +34215,7 @@ Transform:
   - {fileID: 4749048787655848972}
   - {fileID: 5525588670001989325}
   - {fileID: 2159990172279997659}
-  - {fileID: 4146815026753605813}
+  - {fileID: 6512389657373988200}
   - {fileID: 772431842395767885}
   - {fileID: 3258297008719018829}
   - {fileID: 3860741873066089048}
@@ -34530,7 +34530,7 @@ MonoBehaviour:
   basePlow: {fileID: 5970685877725690033}
   plowLevels:
   - {fileID: 1635373130180845153}
-  - {fileID: 3659072336630827535}
+  - {fileID: 5848899723263741906}
   spikes: {fileID: 140713331605577463}
   armor: {fileID: 2773121644239675895}
   engine: {fileID: 4530565063389790434}
@@ -35120,7 +35120,74 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd47da479e1bdb842a457f25696a557c, type: 3}
   m_PrefabInstance: {fileID: 3611505620649901491}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3729788537390118148
+--- !u!1001 &5071822600314065895
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1103130689160624430}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.04
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.44999996
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+      propertyPath: m_Name
+      value: Soft Serve Minigun
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+--- !u!4 &4749048787655848972 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+  m_PrefabInstance: {fileID: 5071822600314065895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5378373386496487094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
+  m_PrefabInstance: {fileID: 5071822600314065895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5230117305336679493
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -35177,12 +35244,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
---- !u!4 &3767374976413029103 stripped
+--- !u!4 &5701454357879991214 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-  m_PrefabInstance: {fileID: 3729788537390118148}
+  m_PrefabInstance: {fileID: 5230117305336679493}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &4469483116026394462
+--- !u!1001 &6767255057655739011
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -35251,82 +35318,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f293148d739e6dd7ba0fc659645976ff, type: 3}
---- !u!1 &3659072336630827535 stripped
+--- !u!1 &5848899723263741906 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f293148d739e6dd7ba0fc659645976ff, type: 3}
-  m_PrefabInstance: {fileID: 4469483116026394462}
+  m_PrefabInstance: {fileID: 6767255057655739011}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4146815026753605813 stripped
+--- !u!4 &6512389657373988200 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f293148d739e6dd7ba0fc659645976ff, type: 3}
-  m_PrefabInstance: {fileID: 4469483116026394462}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5071822600314065895
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1103130689160624430}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.04
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.44999996
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-      propertyPath: m_Name
-      value: Soft Serve Minigun
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
---- !u!4 &4749048787655848972 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-  m_PrefabInstance: {fileID: 5071822600314065895}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5378373386496487094 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f1c16b95c0c52588e8466a3f70ddfdab, type: 3}
-  m_PrefabInstance: {fileID: 5071822600314065895}
+  m_PrefabInstance: {fileID: 6767255057655739011}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6974427631034298758
 PrefabInstance:
