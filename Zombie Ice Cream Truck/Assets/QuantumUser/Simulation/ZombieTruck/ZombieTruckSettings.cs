@@ -69,7 +69,7 @@ namespace Quantum
 
     // One entry of the hot spot loot table (Item itself isn't serializable in an asset).
     [Serializable]
-    public struct Loot
+    public struct LootEntry
     {
         public ItemKind Kind;
         public Flavor Flavor;
@@ -210,7 +210,7 @@ namespace Quantum
         public FP HotSpotSpawnInterval = FP._0_25;
         public Int32 HotSpotMaxZombies = 70;
         // Random loot for pickups placed without an item (hot spot loot spots); repeats weight the odds.
-        public Loot[] HotSpotLoot;
+        public LootEntry[] HotSpotLoot;
         // Weapons the depot pedestals roll their stock from.
         public ItemKind[] ShopWeapons;
         public FP SlotSpinTime = 2;
