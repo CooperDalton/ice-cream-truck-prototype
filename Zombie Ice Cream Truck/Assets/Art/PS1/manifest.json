@@ -1,6 +1,1856 @@
 {
  "coordinateMapping": "Unity coordinates: unity = (-blender.x, blender.z, -blender.y). Meters. Positions are relative to the imported model root (the Blender '<Asset> root' empty at the origin). forward = the empty's Blender local -Y, up = its Blender local +Z; both equal the imported Transform.forward / Transform.up. path is the Transform path below the model root.",
  "assets": {
+  "Crew Carry Mint": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Crew Carry Mint.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint apron mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint arm mint_001.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint cooler mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint handle.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint hat mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint lid mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint lid 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint lid 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint pint lid 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint player head.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint player leg.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint shoe mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint skin.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint strap mint.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Mint torso mint.png"
+   ],
+   "triangles": 1056,
+   "boundsMin": [
+    -0.3428,
+    -0.0017,
+    -0.31
+   ],
+   "boundsMax": [
+    0.3432,
+    1.795,
+    0.5019
+   ],
+   "empties": [
+    {
+     "name": "Crew Carry Mint body",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body",
+     "position": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm L",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm L",
+     "position": [
+      -0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      0.3764,
+      -0.6407,
+      -0.6692
+     ],
+     "up": [
+      0.3141,
+      0.7678,
+      -0.5584
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm L forearm",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm L/Crew Carry Mint arm L forearm",
+     "position": [
+      -0.29,
+      1.17,
+      0.16
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm L wrist",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm L/Crew Carry Mint arm L forearm/Crew Carry Mint arm L wrist",
+     "position": [
+      -0.225,
+      1.0,
+      0.4
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint socket hand L",
+     "kind": "socket",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm L/Crew Carry Mint arm L forearm/Crew Carry Mint arm L wrist/Crew Carry Mint socket hand L",
+     "position": [
+      -0.2121,
+      0.9661,
+      0.4478
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm R",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm R",
+     "position": [
+      0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      -0.3764,
+      -0.6407,
+      -0.6692
+     ],
+     "up": [
+      -0.3141,
+      0.7678,
+      -0.5584
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm R forearm",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm R/Crew Carry Mint arm R forearm",
+     "position": [
+      0.29,
+      1.17,
+      0.16
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint arm R wrist",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm R/Crew Carry Mint arm R forearm/Crew Carry Mint arm R wrist",
+     "position": [
+      0.225,
+      1.0,
+      0.4
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint socket hand R",
+     "kind": "socket",
+     "path": "Crew Carry Mint body/Crew Carry Mint arm R/Crew Carry Mint arm R forearm/Crew Carry Mint arm R wrist/Crew Carry Mint socket hand R",
+     "position": [
+      0.2121,
+      0.9661,
+      0.4478
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Mint cooler pivot",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint cooler pivot",
+     "position": [
+      0.0,
+      1.17,
+      -0.2
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint head pivot",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint head pivot",
+     "position": [
+      0.0,
+      1.45,
+      0.005
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint socket camera",
+     "kind": "socket",
+     "path": "Crew Carry Mint body/Crew Carry Mint head pivot/Crew Carry Mint socket camera",
+     "position": [
+      0.0,
+      1.62,
+      0.105
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint leg L",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint leg L",
+     "position": [
+      -0.085,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint leg R",
+     "kind": "pivot",
+     "path": "Crew Carry Mint body/Crew Carry Mint leg R",
+     "position": [
+      0.085,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Mint socket carry",
+     "kind": "socket",
+     "path": "Crew Carry Mint body/Crew Carry Mint socket carry",
+     "position": [
+      0.0,
+      0.98,
+      0.42
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Crew Carry Pink": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Crew Carry Pink.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink apron pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink arm pink_001.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink cooler pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink handle.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink hat pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink lid pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint lid 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint lid 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink pint lid 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink player head.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink player leg.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink shoe pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink skin.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink strap pink.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Carry Pink torso pink.png"
+   ],
+   "triangles": 1056,
+   "boundsMin": [
+    -0.3428,
+    -0.0017,
+    -0.31
+   ],
+   "boundsMax": [
+    0.3432,
+    1.795,
+    0.5019
+   ],
+   "empties": [
+    {
+     "name": "Crew Carry Pink body",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body",
+     "position": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm L",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm L",
+     "position": [
+      -0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      0.3764,
+      -0.6407,
+      -0.6692
+     ],
+     "up": [
+      0.3141,
+      0.7678,
+      -0.5584
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm L forearm",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm L/Crew Carry Pink arm L forearm",
+     "position": [
+      -0.29,
+      1.17,
+      0.16
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm L wrist",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm L/Crew Carry Pink arm L forearm/Crew Carry Pink arm L wrist",
+     "position": [
+      -0.225,
+      1.0,
+      0.4
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink socket hand L",
+     "kind": "socket",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm L/Crew Carry Pink arm L forearm/Crew Carry Pink arm L wrist/Crew Carry Pink socket hand L",
+     "position": [
+      -0.2121,
+      0.9661,
+      0.4478
+     ],
+     "forward": [
+      -0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      -0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm R",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm R",
+     "position": [
+      0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      -0.3764,
+      -0.6407,
+      -0.6692
+     ],
+     "up": [
+      -0.3141,
+      0.7678,
+      -0.5584
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm R forearm",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm R/Crew Carry Pink arm R forearm",
+     "position": [
+      0.29,
+      1.17,
+      0.16
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink arm R wrist",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm R/Crew Carry Pink arm R forearm/Crew Carry Pink arm R wrist",
+     "position": [
+      0.225,
+      1.0,
+      0.4
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink socket hand R",
+     "kind": "socket",
+     "path": "Crew Carry Pink body/Crew Carry Pink arm R/Crew Carry Pink arm R forearm/Crew Carry Pink arm R wrist/Crew Carry Pink socket hand R",
+     "position": [
+      0.2121,
+      0.9661,
+      0.4478
+     ],
+     "forward": [
+      0.1475,
+      -0.8255,
+      -0.5448
+     ],
+     "up": [
+      0.2158,
+      0.5644,
+      -0.7968
+     ]
+    },
+    {
+     "name": "Crew Carry Pink cooler pivot",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink cooler pivot",
+     "position": [
+      0.0,
+      1.17,
+      -0.2
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink head pivot",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink head pivot",
+     "position": [
+      0.0,
+      1.45,
+      0.005
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink socket camera",
+     "kind": "socket",
+     "path": "Crew Carry Pink body/Crew Carry Pink head pivot/Crew Carry Pink socket camera",
+     "position": [
+      0.0,
+      1.62,
+      0.105
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink leg L",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink leg L",
+     "position": [
+      -0.085,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink leg R",
+     "kind": "pivot",
+     "path": "Crew Carry Pink body/Crew Carry Pink leg R",
+     "position": [
+      0.085,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Carry Pink socket carry",
+     "kind": "socket",
+     "path": "Crew Carry Pink body/Crew Carry Pink socket carry",
+     "position": [
+      0.0,
+      0.98,
+      0.42
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Crew Throw": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Crew Throw.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Crew Throw apron blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw arm blue_001.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw cherry.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw cooler blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw handle.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw hat blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw lid blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint lid 0.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint lid 1.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw pint lid 2.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw player head.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw player leg.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw scoop _ff4fa3.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw shoe blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw skin.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw strap blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw torso blue.png",
+    "Assets/Art/PS1/Characters/Textures/Crew Throw waffle.png"
+   ],
+   "triangles": 1144,
+   "boundsMin": [
+    -0.2548,
+    -0.0198,
+    -0.6495
+   ],
+   "boundsMax": [
+    0.4291,
+    1.8798,
+    0.7261
+   ],
+   "empties": [
+    {
+     "name": "Crew Throw body",
+     "kind": "pivot",
+     "path": "Crew Throw body",
+     "position": [
+      0.0,
+      -0.024,
+      0.0
+     ],
+     "forward": [
+      0.2419,
+      0.0,
+      0.9703
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Throw arm L",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw arm L",
+     "position": [
+      -0.1941,
+      1.366,
+      0.0484
+     ],
+     "forward": [
+      0.0356,
+      -0.9757,
+      0.2161
+     ],
+     "up": [
+      -0.1584,
+      -0.219,
+      -0.9628
+     ]
+    },
+    {
+     "name": "Crew Throw socket hand L",
+     "kind": "socket",
+     "path": "Crew Throw body/Crew Throw arm L/Crew Throw socket hand L",
+     "position": [
+      -0.1,
+      1.496,
+      0.62
+     ],
+     "forward": [
+      0.0356,
+      -0.9757,
+      0.2161
+     ],
+     "up": [
+      -0.1584,
+      -0.219,
+      -0.9628
+     ]
+    },
+    {
+     "name": "Crew Throw arm R",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw arm R",
+     "position": [
+      0.1941,
+      1.366,
+      -0.0484
+     ],
+     "forward": [
+      0.1513,
+      -0.9713,
+      -0.1834
+     ],
+     "up": [
+      -0.6182,
+      -0.2377,
+      0.7492
+     ]
+    },
+    {
+     "name": "Crew Throw arm R forearm",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw arm R/Crew Throw arm R forearm",
+     "position": [
+      0.3761,
+      1.436,
+      -0.269
+     ],
+     "forward": [
+      -0.3431,
+      -0.7008,
+      -0.6255
+     ],
+     "up": [
+      0.337,
+      -0.7134,
+      0.6144
+     ]
+    },
+    {
+     "name": "Crew Throw arm R wrist",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw arm R/Crew Throw arm R forearm/Crew Throw arm R wrist",
+     "position": [
+      0.2816,
+      1.636,
+      -0.4412
+     ],
+     "forward": [
+      -0.3431,
+      -0.7008,
+      -0.6255
+     ],
+     "up": [
+      0.337,
+      -0.7134,
+      0.6144
+     ]
+    },
+    {
+     "name": "Crew Throw cone pivot",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw arm R/Crew Throw arm R forearm/Crew Throw arm R wrist/Crew Throw cone pivot",
+     "position": [
+      0.2691,
+      1.6274,
+      -0.4694
+     ],
+     "forward": [
+      0.0005,
+      -0.526,
+      -0.8505
+     ],
+     "up": [
+      0.0003,
+      0.8505,
+      -0.526
+     ]
+    },
+    {
+     "name": "Crew Throw socket hand R",
+     "kind": "socket",
+     "path": "Crew Throw body/Crew Throw arm R/Crew Throw arm R forearm/Crew Throw arm R wrist/Crew Throw socket hand R",
+     "position": [
+      0.2614,
+      1.6788,
+      -0.4781
+     ],
+     "forward": [
+      -0.3431,
+      -0.7008,
+      -0.6255
+     ],
+     "up": [
+      0.337,
+      -0.7134,
+      0.6144
+     ]
+    },
+    {
+     "name": "Crew Throw cooler pivot",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw cooler pivot",
+     "position": [
+      -0.0484,
+      1.146,
+      -0.1941
+     ],
+     "forward": [
+      0.2419,
+      0.0,
+      0.9703
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Crew Throw head pivot",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw head pivot",
+     "position": [
+      0.0012,
+      1.426,
+      0.0049
+     ],
+     "forward": [
+      0.0348,
+      0.0698,
+      0.997
+     ],
+     "up": [
+      -0.0024,
+      0.9976,
+      -0.0697
+     ]
+    },
+    {
+     "name": "Crew Throw socket camera",
+     "kind": "socket",
+     "path": "Crew Throw body/Crew Throw head pivot/Crew Throw socket camera",
+     "position": [
+      0.0043,
+      1.6026,
+      0.0927
+     ],
+     "forward": [
+      0.0348,
+      0.0698,
+      0.997
+     ],
+     "up": [
+      -0.0024,
+      0.9976,
+      -0.0697
+     ]
+    },
+    {
+     "name": "Crew Throw leg L",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw leg L",
+     "position": [
+      -0.0825,
+      0.876,
+      0.0206
+     ],
+     "forward": [
+      0.2593,
+      0.2406,
+      0.9354
+     ],
+     "up": [
+      0.0399,
+      0.965,
+      -0.2593
+     ]
+    },
+    {
+     "name": "Crew Throw leg R",
+     "kind": "pivot",
+     "path": "Crew Throw body/Crew Throw leg R",
+     "position": [
+      0.0825,
+      0.876,
+      -0.0206
+     ],
+     "forward": [
+      0.2593,
+      -0.2406,
+      0.9354
+     ],
+     "up": [
+      -0.0399,
+      0.965,
+      0.2593
+     ]
+    }
+   ]
+  },
+  "Detective": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Detective.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Detective det head.png",
+    "Assets/Art/PS1/Characters/Textures/Detective det skin.png",
+    "Assets/Art/PS1/Characters/Textures/Detective eraser.png",
+    "Assets/Art/PS1/Characters/Textures/Detective fedora brim.png",
+    "Assets/Art/PS1/Characters/Textures/Detective fedora.png",
+    "Assets/Art/PS1/Characters/Textures/Detective notepad.png",
+    "Assets/Art/PS1/Characters/Textures/Detective pages.png",
+    "Assets/Art/PS1/Characters/Textures/Detective pencil wood.png",
+    "Assets/Art/PS1/Characters/Textures/Detective pencil.png",
+    "Assets/Art/PS1/Characters/Textures/Detective shoe _5a3418.png",
+    "Assets/Art/PS1/Characters/Textures/Detective slacks.png",
+    "Assets/Art/PS1/Characters/Textures/Detective sole.png",
+    "Assets/Art/PS1/Characters/Textures/Detective spiral.png",
+    "Assets/Art/PS1/Characters/Textures/Detective sunglasses frame.png",
+    "Assets/Art/PS1/Characters/Textures/Detective sunglasses lens.png",
+    "Assets/Art/PS1/Characters/Textures/Detective trench arm.png",
+    "Assets/Art/PS1/Characters/Textures/Detective trench dark.png",
+    "Assets/Art/PS1/Characters/Textures/Detective trench skirt.png",
+    "Assets/Art/PS1/Characters/Textures/Detective trench torso.png",
+    "Assets/Art/PS1/Characters/Textures/Detective trench.png"
+   ],
+   "triangles": 1336,
+   "boundsMin": [
+    -0.3038,
+    0.002,
+    -0.2199
+   ],
+   "boundsMax": [
+    0.3346,
+    1.7918,
+    0.3893
+   ],
+   "empties": [
+    {
+     "name": "Detective hips",
+     "kind": "pivot",
+     "path": "Detective hips",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Detective leg L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg L",
+     "position": [
+      -0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      -0.0007,
+      -0.0287,
+      -0.9996
+     ],
+     "up": [
+      0.026,
+      0.9992,
+      -0.0287
+     ]
+    },
+    {
+     "name": "Detective shin L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg L/Detective shin L",
+     "position": [
+      -0.0989,
+      0.4803,
+      0.0121
+     ],
+     "forward": [
+      0.0025,
+      0.0976,
+      -0.9952
+     ],
+     "up": [
+      0.0256,
+      0.9949,
+      0.0976
+     ]
+    },
+    {
+     "name": "Detective foot L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg L/Detective shin L/Detective foot L",
+     "position": [
+      -0.1099,
+      0.0525,
+      -0.0299
+     ],
+     "forward": [
+      -0.2425,
+      0.0,
+      0.9701
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Detective leg R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg R",
+     "position": [
+      0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0017,
+      -0.0639,
+      -0.998
+     ],
+     "up": [
+      -0.026,
+      0.9976,
+      -0.064
+     ]
+    },
+    {
+     "name": "Detective shin R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg R/Detective shin R",
+     "position": [
+      0.0989,
+      0.481,
+      0.0269
+     ],
+     "forward": [
+      -0.0016,
+      0.0625,
+      -0.998
+     ],
+     "up": [
+      -0.0257,
+      0.9977,
+      0.0625
+     ]
+    },
+    {
+     "name": "Detective foot R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective leg R/Detective shin R/Detective foot R",
+     "position": [
+      0.1099,
+      0.052,
+      0.0
+     ],
+     "forward": [
+      0.1483,
+      0.0,
+      0.9889
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Detective spine",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      -0.0698,
+      0.9976
+     ],
+     "up": [
+      0.0,
+      0.9976,
+      0.0698
+     ]
+    },
+    {
+     "name": "Detective arm L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm L",
+     "position": [
+      -0.2,
+      1.3888,
+      0.0342
+     ],
+     "forward": [
+      0.9879,
+      -0.1551,
+      0.0016
+     ],
+     "up": [
+      0.1516,
+      0.963,
+      -0.2228
+     ]
+    },
+    {
+     "name": "Detective forearm L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm L/Detective forearm L",
+     "position": [
+      -0.2424,
+      1.1192,
+      0.0966
+     ],
+     "forward": [
+      0.7162,
+      -0.0867,
+      -0.6925
+     ],
+     "up": [
+      -0.682,
+      0.1238,
+      -0.7208
+     ]
+    },
+    {
+     "name": "Detective hand L",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm L/Detective forearm L/Detective hand L",
+     "position": [
+      -0.0651,
+      1.087,
+      0.284
+     ],
+     "forward": [
+      0.1638,
+      -0.6157,
+      0.7708
+     ],
+     "up": [
+      -0.128,
+      -0.788,
+      -0.6022
+     ]
+    },
+    {
+     "name": "Detective notepad",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm L/Detective forearm L/Detective hand L/Detective notepad",
+     "position": [
+      -0.04,
+      1.2,
+      0.33
+     ],
+     "forward": [
+      0.1638,
+      -0.6157,
+      0.7708
+     ],
+     "up": [
+      0.128,
+      0.788,
+      0.6022
+     ]
+    },
+    {
+     "name": "Detective socket hand L",
+     "kind": "socket",
+     "path": "Detective hips/Detective spine/Detective arm L/Detective forearm L/Detective hand L/Detective socket hand L",
+     "position": [
+      -0.0549,
+      1.15,
+      0.3322
+     ],
+     "forward": [
+      0.1638,
+      -0.6157,
+      0.7708
+     ],
+     "up": [
+      -0.128,
+      -0.788,
+      -0.6022
+     ]
+    },
+    {
+     "name": "Detective arm R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm R",
+     "position": [
+      0.2,
+      1.3888,
+      0.0342
+     ],
+     "forward": [
+      -0.9631,
+      -0.2595,
+      0.0713
+     ],
+     "up": [
+      -0.2574,
+      0.8105,
+      -0.5262
+     ]
+    },
+    {
+     "name": "Detective forearm R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm R/Detective forearm R",
+     "position": [
+      0.2721,
+      1.1619,
+      0.1815
+     ],
+     "forward": [
+      -0.6807,
+      -0.6401,
+      -0.3562
+     ],
+     "up": [
+      0.7279,
+      -0.5363,
+      -0.4273
+     ]
+    },
+    {
+     "name": "Detective hand R",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm R/Detective forearm R/Detective hand R",
+     "position": [
+      0.0828,
+      1.3013,
+      0.2926
+     ],
+     "forward": [
+      -0.3875,
+      0.8428,
+      0.3735
+     ],
+     "up": [
+      0.7756,
+      0.5171,
+      -0.362
+     ]
+    },
+    {
+     "name": "Detective pencil",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective arm R/Detective forearm R/Detective hand R/Detective pencil",
+     "position": [
+      -0.0272,
+      1.2213,
+      0.3326
+     ],
+     "forward": [
+      0.5724,
+      -0.8032,
+      -0.1649
+     ],
+     "up": [
+      0.7719,
+      0.5957,
+      -0.2224
+     ]
+    },
+    {
+     "name": "Detective socket hand R",
+     "kind": "socket",
+     "path": "Detective hips/Detective spine/Detective arm R/Detective forearm R/Detective hand R/Detective socket hand R",
+     "position": [
+      0.0208,
+      1.2599,
+      0.3216
+     ],
+     "forward": [
+      -0.3875,
+      0.8428,
+      0.3735
+     ],
+     "up": [
+      0.7756,
+      0.5171,
+      -0.362
+     ]
+    },
+    {
+     "name": "Detective head",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective head",
+     "position": [
+      0.0,
+      1.4483,
+      0.0434
+     ],
+     "forward": [
+      -0.0334,
+      -0.2409,
+      0.97
+     ],
+     "up": [
+      -0.1119,
+      0.9653,
+      0.2359
+     ]
+    },
+    {
+     "name": "Detective fedora",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective head/Detective fedora",
+     "position": [
+      -0.0241,
+      1.6559,
+      0.0941
+     ],
+     "forward": [
+      -0.1155,
+      -0.1279,
+      0.985
+     ],
+     "up": [
+      -0.0985,
+      0.9883,
+      0.1168
+     ]
+    },
+    {
+     "name": "Detective socket head",
+     "kind": "socket",
+     "path": "Detective hips/Detective spine/Detective head/Detective socket head",
+     "position": [
+      -0.0224,
+      1.5883,
+      0.1805
+     ],
+     "forward": [
+      -0.0334,
+      -0.2409,
+      0.97
+     ],
+     "up": [
+      -0.1119,
+      0.9653,
+      0.2359
+     ]
+    },
+    {
+     "name": "Detective sunglasses",
+     "kind": "pivot",
+     "path": "Detective hips/Detective spine/Detective head/Detective sunglasses",
+     "position": [
+      -0.0209,
+      1.5668,
+      0.1927
+     ],
+     "forward": [
+      -0.0449,
+      -0.1387,
+      0.9893
+     ],
+     "up": [
+      -0.1078,
+      0.9852,
+      0.1333
+     ]
+    }
+   ]
+  },
+  "Diamond Buyer": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Diamond Buyer.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer buyer head.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer buyer skin.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer buyer torso.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer gold.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer shoe _1b1033.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer slick hair.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer sole.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer suit arm.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer suit leg.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer suit skirt.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer suit.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer sunglasses frame.png",
+    "Assets/Art/PS1/Characters/Textures/Diamond Buyer sunglasses lens.png"
+   ],
+   "triangles": 1116,
+   "boundsMin": [
+    -0.3404,
+    0.002,
+    -0.1525
+   ],
+   "boundsMax": [
+    0.5184,
+    1.8948,
+    0.222
+   ],
+   "empties": [
+    {
+     "name": "Diamond Buyer hips",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Diamond Buyer leg L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg L",
+     "position": [
+      -0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      -0.0114,
+      -0.1333,
+      -0.991
+     ],
+     "up": [
+      0.0842,
+      0.9874,
+      -0.1338
+     ]
+    },
+    {
+     "name": "Diamond Buyer shin L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg L/Diamond Buyer shin L",
+     "position": [
+      -0.1234,
+      0.4853,
+      0.0562
+     ],
+     "forward": [
+      -0.0006,
+      -0.0077,
+      -1.0
+     ],
+     "up": [
+      0.0839,
+      0.9964,
+      -0.0077
+     ]
+    },
+    {
+     "name": "Diamond Buyer foot L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg L/Diamond Buyer shin L/Diamond Buyer foot L",
+     "position": [
+      -0.1594,
+      0.0568,
+      0.0595
+     ],
+     "forward": [
+      -0.3714,
+      0.0,
+      0.9285
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Diamond Buyer leg R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg R",
+     "position": [
+      0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0006,
+      -0.0405,
+      -0.9992
+     ],
+     "up": [
+      -0.0142,
+      0.9991,
+      -0.0405
+     ]
+    },
+    {
+     "name": "Diamond Buyer shin R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg R/Diamond Buyer shin R",
+     "position": [
+      0.094,
+      0.4804,
+      0.017
+     ],
+     "forward": [
+      -0.0012,
+      0.0859,
+      -0.9963
+     ],
+     "up": [
+      -0.014,
+      0.9962,
+      0.0859
+     ]
+    },
+    {
+     "name": "Diamond Buyer foot R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer leg R/Diamond Buyer shin R/Diamond Buyer foot R",
+     "position": [
+      0.1,
+      0.052,
+      -0.02
+     ],
+     "forward": [
+      0.2873,
+      0.0,
+      0.9578
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Diamond Buyer spine",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0697,
+      0.0523,
+      0.9962
+     ],
+     "up": [
+      -0.0037,
+      0.9986,
+      -0.0522
+     ]
+    },
+    {
+     "name": "Diamond Buyer arm L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm L",
+     "position": [
+      -0.2013,
+      1.3893,
+      -0.0116
+     ],
+     "forward": [
+      0.9591,
+      -0.2827,
+      -0.0161
+     ],
+     "up": [
+      0.2826,
+      0.9523,
+      0.1151
+     ]
+    },
+    {
+     "name": "Diamond Buyer forearm L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm L/Diamond Buyer forearm L",
+     "position": [
+      -0.2804,
+      1.1227,
+      -0.0439
+     ],
+     "forward": [
+      0.8728,
+      0.3895,
+      -0.294
+     ],
+     "up": [
+      -0.4824,
+      0.7796,
+      -0.3994
+     ]
+    },
+    {
+     "name": "Diamond Buyer hand L",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm L/Diamond Buyer forearm L/Diamond Buyer hand L",
+     "position": [
+      -0.155,
+      0.92,
+      0.06
+     ],
+     "forward": [
+      -0.9469,
+      -0.3119,
+      -0.078
+     ],
+     "up": [
+      -0.3215,
+      0.9186,
+      0.2297
+     ]
+    },
+    {
+     "name": "Diamond Buyer arm R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm R",
+     "position": [
+      0.1977,
+      1.3893,
+      -0.0395
+     ],
+     "forward": [
+      0.3165,
+      -0.9481,
+      0.0312
+     ],
+     "up": [
+      -0.9435,
+      -0.3181,
+      -0.0929
+     ]
+    },
+    {
+     "name": "Diamond Buyer forearm R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm R/Diamond Buyer forearm R",
+     "position": [
+      0.4619,
+      1.4784,
+      -0.0135
+     ],
+     "forward": [
+      -0.995,
+      -0.0978,
+      0.0196
+     ],
+     "up": [
+      0.0842,
+      -0.9293,
+      -0.3597
+     ]
+    },
+    {
+     "name": "Diamond Buyer hand R",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm R/Diamond Buyer forearm R/Diamond Buyer hand R",
+     "position": [
+      0.44,
+      1.72,
+      0.08
+     ],
+     "forward": [
+      0.0059,
+      0.0492,
+      -0.9988
+     ],
+     "up": [
+      -0.119,
+      -0.9917,
+      -0.0496
+     ]
+    },
+    {
+     "name": "Diamond Buyer socket hand R",
+     "kind": "socket",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer arm R/Diamond Buyer forearm R/Diamond Buyer hand R/Diamond Buyer socket hand R",
+     "position": [
+      0.4495,
+      1.7993,
+      0.084
+     ],
+     "forward": [
+      0.0059,
+      0.0492,
+      -0.9988
+     ],
+     "up": [
+      -0.119,
+      -0.9917,
+      -0.0496
+     ]
+    },
+    {
+     "name": "Diamond Buyer head",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer head",
+     "position": [
+      -0.0017,
+      1.4495,
+      -0.0237
+     ],
+     "forward": [
+      -0.091,
+      0.1037,
+      0.9904
+     ],
+     "up": [
+      -0.0685,
+      0.9916,
+      -0.1101
+     ]
+    },
+    {
+     "name": "Diamond Buyer socket head",
+     "kind": "socket",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer head/Diamond Buyer socket head",
+     "position": [
+      -0.0224,
+      1.6284,
+      0.0566
+     ],
+     "forward": [
+      -0.091,
+      0.1037,
+      0.9904
+     ],
+     "up": [
+      -0.0685,
+      0.9916,
+      -0.1101
+     ]
+    },
+    {
+     "name": "Diamond Buyer sunglasses",
+     "kind": "pivot",
+     "path": "Diamond Buyer hips/Diamond Buyer spine/Diamond Buyer head/Diamond Buyer sunglasses",
+     "position": [
+      -0.024,
+      1.6376,
+      0.0676
+     ],
+     "forward": [
+      -0.091,
+      0.1037,
+      0.9904
+     ],
+     "up": [
+      -0.0685,
+      0.9916,
+      -0.1101
+     ]
+    }
+   ]
+  },
   "First-Person Arms": {
    "category": "Characters",
    "module": "h_characters",
@@ -160,6 +2010,1856 @@
      "up": [
       0.0,
       1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Forger Kevin": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Forger Kevin.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin cargo pocket.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin cargo shorts.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin fake plate.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin forger head.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin kevin shirt arm.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin kevin shirt.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin kevin skin.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin khaki.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin mustache.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin sandal sole.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin sandal strap.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin shades frame.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin shades lens.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin shirt hem.png",
+    "Assets/Art/PS1/Characters/Textures/Forger Kevin visor mint.png"
+   ],
+   "triangles": 1262,
+   "boundsMin": [
+    -0.3609,
+    0.0015,
+    -0.1246
+   ],
+   "boundsMax": [
+    0.5949,
+    1.7661,
+    0.5443
+   ],
+   "empties": [
+    {
+     "name": "Forger Kevin hips",
+     "kind": "pivot",
+     "path": "Forger Kevin hips",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Forger Kevin leg L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg L",
+     "position": [
+      -0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      -0.0015,
+      -0.0405,
+      -0.9992
+     ],
+     "up": [
+      0.0378,
+      0.9985,
+      -0.0405
+     ]
+    },
+    {
+     "name": "Forger Kevin shin L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg L/Forger Kevin shin L",
+     "position": [
+      -0.1039,
+      0.4806,
+      0.017
+     ],
+     "forward": [
+      0.0032,
+      0.0859,
+      -0.9963
+     ],
+     "up": [
+      0.0372,
+      0.9956,
+      0.0859
+     ]
+    },
+    {
+     "name": "Forger Kevin foot L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg L/Forger Kevin shin L/Forger Kevin foot L",
+     "position": [
+      -0.1199,
+      0.0525,
+      -0.0199
+     ],
+     "forward": [
+      -0.2425,
+      0.0,
+      0.9701
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Forger Kevin leg R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg R",
+     "position": [
+      0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0015,
+      -0.0405,
+      -0.9992
+     ],
+     "up": [
+      -0.0378,
+      0.9985,
+      -0.0405
+     ]
+    },
+    {
+     "name": "Forger Kevin shin R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg R/Forger Kevin shin R",
+     "position": [
+      0.1039,
+      0.4806,
+      0.017
+     ],
+     "forward": [
+      -0.0032,
+      0.0859,
+      -0.9963
+     ],
+     "up": [
+      -0.0372,
+      0.9956,
+      0.0859
+     ]
+    },
+    {
+     "name": "Forger Kevin foot R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin leg R/Forger Kevin shin R/Forger Kevin foot R",
+     "position": [
+      0.1199,
+      0.0525,
+      -0.0199
+     ],
+     "forward": [
+      0.2425,
+      0.0,
+      0.9701
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Forger Kevin spine",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0521,
+      -0.0872,
+      0.9948
+     ],
+     "up": [
+      0.0046,
+      0.9962,
+      0.087
+     ]
+    },
+    {
+     "name": "Forger Kevin arm L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm L",
+     "position": [
+      -0.1975,
+      1.3881,
+      0.0531
+     ],
+     "forward": [
+      0.9228,
+      -0.3644,
+      0.125
+     ],
+     "up": [
+      0.3784,
+      0.7963,
+      -0.472
+     ]
+    },
+    {
+     "name": "Forger Kevin forearm L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm L/Forger Kevin forearm L",
+     "position": [
+      -0.3034,
+      1.1652,
+      0.1853
+     ],
+     "forward": [
+      0.8485,
+      0.1599,
+      -0.5045
+     ],
+     "up": [
+      -0.5132,
+      0.4814,
+      -0.7105
+     ]
+    },
+    {
+     "name": "Forger Kevin hand L",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm L/Forger Kevin forearm L/Forger Kevin hand L",
+     "position": [
+      -0.17,
+      1.04,
+      0.37
+     ],
+     "forward": [
+      -0.002,
+      0.995,
+      0.0995
+     ],
+     "up": [
+      0.0199,
+      0.0995,
+      -0.9948
+     ]
+    },
+    {
+     "name": "Forger Kevin socket hand L",
+     "kind": "socket",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm L/Forger Kevin forearm L/Forger Kevin hand L/Forger Kevin socket hand L",
+     "position": [
+      -0.1716,
+      1.032,
+      0.4496
+     ],
+     "forward": [
+      -0.002,
+      0.995,
+      0.0995
+     ],
+     "up": [
+      0.0199,
+      0.0995,
+      -0.9948
+     ]
+    },
+    {
+     "name": "Forger Kevin arm R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm R",
+     "position": [
+      0.202,
+      1.3881,
+      0.0322
+     ],
+     "forward": [
+      -0.7996,
+      -0.5871,
+      0.1262
+     ],
+     "up": [
+      -0.5993,
+      0.7664,
+      -0.2314
+     ]
+    },
+    {
+     "name": "Forger Kevin forearm R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm R/Forger Kevin forearm R",
+     "position": [
+      0.3698,
+      1.1735,
+      0.097
+     ],
+     "forward": [
+      -0.9177,
+      -0.3447,
+      -0.1975
+     ],
+     "up": [
+      0.3837,
+      -0.6402,
+      -0.6655
+     ]
+    },
+    {
+     "name": "Forger Kevin hand R",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm R/Forger Kevin forearm R/Forger Kevin hand R",
+     "position": [
+      0.27,
+      1.34,
+      0.27
+     ],
+     "forward": [
+      -0.9889,
+      0.1483,
+      0.0
+     ],
+     "up": [
+      -0.1483,
+      -0.9889,
+      0.0
+     ]
+    },
+    {
+     "name": "Forger Kevin fake plate",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm R/Forger Kevin forearm R/Forger Kevin hand R/Forger Kevin fake plate",
+     "position": [
+      0.44,
+      1.43,
+      0.3
+     ],
+     "forward": [
+      -0.0523,
+      0.0,
+      0.9986
+     ],
+     "up": [
+      -0.0697,
+      0.9976,
+      -0.0037
+     ]
+    },
+    {
+     "name": "Forger Kevin socket plate",
+     "kind": "socket",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin arm R/Forger Kevin forearm R/Forger Kevin hand R/Forger Kevin fake plate/Forger Kevin socket plate",
+     "position": [
+      0.44,
+      1.43,
+      0.3
+     ],
+     "forward": [
+      -0.0523,
+      0.0,
+      0.9986
+     ],
+     "up": [
+      -0.0697,
+      0.9976,
+      -0.0037
+     ]
+    },
+    {
+     "name": "Forger Kevin head",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin head",
+     "position": [
+      0.0028,
+      1.4475,
+      0.0528
+     ],
+     "forward": [
+      0.1805,
+      -0.0171,
+      0.9834
+     ],
+     "up": [
+      0.0951,
+      0.9955,
+      -0.0001
+     ]
+    },
+    {
+     "name": "Forger Kevin shades",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin head/Forger Kevin shades",
+     "position": [
+      0.0457,
+      1.7066,
+      0.1511
+     ],
+     "forward": [
+      0.2008,
+      0.5994,
+      0.7749
+     ],
+     "up": [
+      -0.0362,
+      0.795,
+      -0.6056
+     ]
+    },
+    {
+     "name": "Forger Kevin socket head",
+     "kind": "socket",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin head/Forger Kevin socket head",
+     "position": [
+      0.037,
+      1.615,
+      0.1512
+     ],
+     "forward": [
+      0.1805,
+      -0.0171,
+      0.9834
+     ],
+     "up": [
+      0.0951,
+      0.9955,
+      -0.0001
+     ]
+    },
+    {
+     "name": "Forger Kevin sun visor",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin head/Forger Kevin sun visor",
+     "position": [
+      0.0226,
+      1.6515,
+      0.0548
+     ],
+     "forward": [
+      0.1895,
+      0.087,
+      0.978
+     ],
+     "up": [
+      0.0757,
+      0.9918,
+      -0.1029
+     ]
+    },
+    {
+     "name": "Forger Kevin visor brim",
+     "kind": "pivot",
+     "path": "Forger Kevin hips/Forger Kevin spine/Forger Kevin head/Forger Kevin sun visor/Forger Kevin visor brim",
+     "position": [
+      0.0479,
+      1.6708,
+      0.1811
+     ],
+     "forward": [
+      0.1735,
+      -0.0865,
+      0.981
+     ],
+     "up": [
+      0.1075,
+      0.9918,
+      0.0685
+     ]
+    }
+   ]
+  },
+  "Kid Cap": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Kid Cap.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Kid Cap cap brim.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap cap button.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap coin face.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap coin.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap hair hair.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid arm cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid head cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid leg cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid shoe cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap kid torso cap.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Cap skin cap.png"
+   ],
+   "triangles": 1020,
+   "boundsMin": [
+    -0.3636,
+    -0.0013,
+    -0.2681
+   ],
+   "boundsMax": [
+    0.2367,
+    1.122,
+    0.38
+   ],
+   "empties": [
+    {
+     "name": "Kid Cap arm L",
+     "kind": "pivot",
+     "path": "Kid Cap arm L",
+     "position": [
+      -0.155,
+      0.655,
+      0.0
+     ],
+     "forward": [
+      -0.6957,
+      -0.7109,
+      0.1031
+     ],
+     "up": [
+      0.7033,
+      -0.7033,
+      -0.1042
+     ]
+    },
+    {
+     "name": "Kid Cap arm L forearm",
+     "kind": "pivot",
+     "path": "Kid Cap arm L/Kid Cap arm L forearm",
+     "position": [
+      -0.29,
+      0.79,
+      0.02
+     ],
+     "forward": [
+      -0.4434,
+      -0.1304,
+      0.8868
+     ],
+     "up": [
+      0.0583,
+      -0.9915,
+      -0.1166
+     ]
+    },
+    {
+     "name": "Kid Cap arm L wrist",
+     "kind": "pivot",
+     "path": "Kid Cap arm L/Kid Cap arm L forearm/Kid Cap arm L wrist",
+     "position": [
+      -0.3,
+      0.96,
+      0.04
+     ],
+     "forward": [
+      -0.4434,
+      -0.1304,
+      0.8868
+     ],
+     "up": [
+      0.0583,
+      -0.9915,
+      -0.1166
+     ]
+    },
+    {
+     "name": "Kid Cap socket hand L",
+     "kind": "socket",
+     "path": "Kid Cap arm L/Kid Cap arm L forearm/Kid Cap arm L wrist/Kid Cap socket hand L",
+     "position": [
+      -0.3026,
+      1.0046,
+      0.0452
+     ],
+     "forward": [
+      -0.4434,
+      -0.1304,
+      0.8868
+     ],
+     "up": [
+      0.0583,
+      -0.9915,
+      -0.1166
+     ]
+    },
+    {
+     "name": "Kid Cap arm R",
+     "kind": "pivot",
+     "path": "Kid Cap arm R",
+     "position": [
+      0.155,
+      0.655,
+      0.0
+     ],
+     "forward": [
+      -0.1985,
+      -0.7949,
+      -0.5733
+     ],
+     "up": [
+      -0.26,
+      0.6067,
+      -0.7512
+     ]
+    },
+    {
+     "name": "Kid Cap arm R forearm",
+     "kind": "pivot",
+     "path": "Kid Cap arm R/Kid Cap arm R forearm",
+     "position": [
+      0.2,
+      0.55,
+      0.13
+     ],
+     "forward": [
+      -0.1491,
+      -0.9282,
+      0.3409
+     ],
+     "up": [
+      0.372,
+      -0.372,
+      -0.8504
+     ]
+    },
+    {
+     "name": "Kid Cap arm R wrist",
+     "kind": "pivot",
+     "path": "Kid Cap arm R/Kid Cap arm R forearm/Kid Cap arm R wrist",
+     "position": [
+      0.13,
+      0.62,
+      0.29
+     ],
+     "forward": [
+      -0.1491,
+      -0.9282,
+      0.3409
+     ],
+     "up": [
+      0.372,
+      -0.372,
+      -0.8504
+     ]
+    },
+    {
+     "name": "Kid Cap coin R pivot",
+     "kind": "pivot",
+     "path": "Kid Cap arm R/Kid Cap arm R forearm/Kid Cap arm R wrist/Kid Cap coin R pivot",
+     "position": [
+      0.1077,
+      0.6723,
+      0.371
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Cap socket hand R",
+     "kind": "socket",
+     "path": "Kid Cap arm R/Kid Cap arm R forearm/Kid Cap arm R wrist/Kid Cap socket hand R",
+     "position": [
+      0.1133,
+      0.6367,
+      0.3283
+     ],
+     "forward": [
+      -0.1491,
+      -0.9282,
+      0.3409
+     ],
+     "up": [
+      0.372,
+      -0.372,
+      -0.8504
+     ]
+    },
+    {
+     "name": "Kid Cap head pivot",
+     "kind": "pivot",
+     "path": "Kid Cap head pivot",
+     "position": [
+      0.0,
+      0.7,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Cap leg L",
+     "kind": "pivot",
+     "path": "Kid Cap leg L",
+     "position": [
+      -0.068,
+      0.44,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Cap leg R",
+     "kind": "pivot",
+     "path": "Kid Cap leg R",
+     "position": [
+      0.068,
+      0.44,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Kid Curly": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Kid Curly.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Kid Curly dress bow.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly hair clip.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly hair hair.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly kid arm curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly kid head curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly kid leg curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly kid shoe curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly kid torso curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly skin curly.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Curly skirt curly.png"
+   ],
+   "triangles": 1284,
+   "boundsMin": [
+    -0.3296,
+    -0.0013,
+    -0.2143
+   ],
+   "boundsMax": [
+    0.3296,
+    1.1779,
+    0.2843
+   ],
+   "empties": [
+    {
+     "name": "Kid Curly arm L",
+     "kind": "pivot",
+     "path": "Kid Curly arm L",
+     "position": [
+      -0.1596,
+      0.6747,
+      0.0
+     ],
+     "forward": [
+      -0.2904,
+      -0.7605,
+      0.5808
+     ],
+     "up": [
+      0.3401,
+      -0.6493,
+      -0.6802
+     ]
+    },
+    {
+     "name": "Kid Curly arm L forearm",
+     "kind": "pivot",
+     "path": "Kid Curly arm L/Kid Curly arm L forearm",
+     "position": [
+      -0.2163,
+      0.7828,
+      0.1133
+     ],
+     "forward": [
+      -0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly arm L wrist",
+     "kind": "pivot",
+     "path": "Kid Curly arm L/Kid Curly arm L forearm/Kid Curly arm L wrist",
+     "position": [
+      -0.2575,
+      0.9785,
+      0.2266
+     ],
+     "forward": [
+      -0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly socket hand L",
+     "kind": "socket",
+     "path": "Kid Curly arm L/Kid Curly arm L forearm/Kid Curly arm L wrist/Kid Curly socket hand L",
+     "position": [
+      -0.2658,
+      1.018,
+      0.2494
+     ],
+     "forward": [
+      -0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly arm R",
+     "kind": "pivot",
+     "path": "Kid Curly arm R",
+     "position": [
+      0.1596,
+      0.6747,
+      0.0
+     ],
+     "forward": [
+      0.2904,
+      -0.7605,
+      0.5808
+     ],
+     "up": [
+      -0.3401,
+      -0.6493,
+      -0.6802
+     ]
+    },
+    {
+     "name": "Kid Curly arm R forearm",
+     "kind": "pivot",
+     "path": "Kid Curly arm R/Kid Curly arm R forearm",
+     "position": [
+      0.2163,
+      0.7828,
+      0.1133
+     ],
+     "forward": [
+      0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      -0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly arm R wrist",
+     "kind": "pivot",
+     "path": "Kid Curly arm R/Kid Curly arm R forearm/Kid Curly arm R wrist",
+     "position": [
+      0.2575,
+      0.9785,
+      0.2266
+     ],
+     "forward": [
+      0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      -0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly socket hand R",
+     "kind": "socket",
+     "path": "Kid Curly arm R/Kid Curly arm R forearm/Kid Curly arm R wrist/Kid Curly socket hand R",
+     "position": [
+      0.2658,
+      1.018,
+      0.2494
+     ],
+     "forward": [
+      0.291,
+      -0.5245,
+      0.8001
+     ],
+     "up": [
+      -0.1792,
+      -0.8514,
+      -0.4929
+     ]
+    },
+    {
+     "name": "Kid Curly head pivot",
+     "kind": "pivot",
+     "path": "Kid Curly head pivot",
+     "position": [
+      0.0,
+      0.721,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Curly leg L",
+     "kind": "pivot",
+     "path": "Kid Curly leg L",
+     "position": [
+      -0.07,
+      0.4532,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Curly leg R",
+     "kind": "pivot",
+     "path": "Kid Curly leg R",
+     "position": [
+      0.07,
+      0.4532,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Kid Glasses": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Kid Glasses.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses cherry.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses glasses frame.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses hair hair.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses kid arm glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses kid head glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses kid leg glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses kid shoe glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses kid torso glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses scoop _ff4fa3.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses skin glasses.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Glasses waffle.png"
+   ],
+   "triangles": 972,
+   "boundsMin": [
+    -0.2037,
+    -0.0012,
+    -0.1767
+   ],
+   "boundsMax": [
+    0.2119,
+    1.0184,
+    0.2683
+   ],
+   "empties": [
+    {
+     "name": "Kid Glasses arm L",
+     "kind": "pivot",
+     "path": "Kid Glasses arm L",
+     "position": [
+      -0.1442,
+      0.6091,
+      0.0
+     ],
+     "forward": [
+      0.623,
+      -0.2303,
+      -0.7476
+     ],
+     "up": [
+      0.1474,
+      0.9731,
+      -0.1769
+     ]
+    },
+    {
+     "name": "Kid Glasses arm L forearm",
+     "kind": "pivot",
+     "path": "Kid Glasses arm L/Kid Glasses arm L forearm",
+     "position": [
+      -0.1674,
+      0.4557,
+      0.0279
+     ],
+     "forward": [
+      -0.1278,
+      -0.9583,
+      -0.2556
+     ],
+     "up": [
+      -0.4286,
+      0.2857,
+      -0.8571
+     ]
+    },
+    {
+     "name": "Kid Glasses arm L wrist",
+     "kind": "pivot",
+     "path": "Kid Glasses arm L/Kid Glasses arm L forearm/Kid Glasses arm L wrist",
+     "position": [
+      -0.1116,
+      0.4185,
+      0.1395
+     ],
+     "forward": [
+      -0.1278,
+      -0.9583,
+      -0.2556
+     ],
+     "up": [
+      -0.4286,
+      0.2857,
+      -0.8571
+     ]
+    },
+    {
+     "name": "Kid Glasses socket hand L",
+     "kind": "socket",
+     "path": "Kid Glasses arm L/Kid Glasses arm L forearm/Kid Glasses arm L wrist/Kid Glasses socket hand L",
+     "position": [
+      -0.0937,
+      0.4065,
+      0.1754
+     ],
+     "forward": [
+      -0.1278,
+      -0.9583,
+      -0.2556
+     ],
+     "up": [
+      -0.4286,
+      0.2857,
+      -0.8571
+     ]
+    },
+    {
+     "name": "Kid Glasses arm R",
+     "kind": "pivot",
+     "path": "Kid Glasses arm R",
+     "position": [
+      0.1442,
+      0.6091,
+      0.0
+     ],
+     "forward": [
+      -0.2432,
+      -0.5973,
+      -0.7643
+     ],
+     "up": [
+      -0.1811,
+      0.802,
+      -0.5692
+     ]
+    },
+    {
+     "name": "Kid Glasses arm R forearm",
+     "kind": "pivot",
+     "path": "Kid Glasses arm R/Kid Glasses arm R forearm",
+     "position": [
+      0.1767,
+      0.465,
+      0.1023
+     ],
+     "forward": [
+      -0.4998,
+      -0.7809,
+      0.3748
+     ],
+     "up": [
+      0.6247,
+      -0.6247,
+      -0.4685
+     ]
+    },
+    {
+     "name": "Kid Glasses arm R wrist",
+     "kind": "pivot",
+     "path": "Kid Glasses arm R/Kid Glasses arm R forearm/Kid Glasses arm R wrist",
+     "position": [
+      0.0651,
+      0.5766,
+      0.186
+     ],
+     "forward": [
+      -0.4998,
+      -0.7809,
+      0.3748
+     ],
+     "up": [
+      0.6247,
+      -0.6247,
+      -0.4685
+     ]
+    },
+    {
+     "name": "Kid Glasses cone pivot",
+     "kind": "pivot",
+     "path": "Kid Glasses arm R/Kid Glasses arm R forearm/Kid Glasses arm R wrist/Kid Glasses cone pivot",
+     "position": [
+      0.0448,
+      0.5318,
+      0.2013
+     ],
+     "forward": [
+      -0.3123,
+      -0.1562,
+      0.937
+     ],
+     "up": [
+      -0.0494,
+      0.9877,
+      0.1482
+     ]
+    },
+    {
+     "name": "Kid Glasses socket hand R",
+     "kind": "socket",
+     "path": "Kid Glasses arm R/Kid Glasses arm R forearm/Kid Glasses arm R wrist/Kid Glasses socket hand R",
+     "position": [
+      0.039,
+      0.6027,
+      0.2056
+     ],
+     "forward": [
+      -0.4998,
+      -0.7809,
+      0.3748
+     ],
+     "up": [
+      0.6247,
+      -0.6247,
+      -0.4685
+     ]
+    },
+    {
+     "name": "Kid Glasses head pivot",
+     "kind": "pivot",
+     "path": "Kid Glasses head pivot",
+     "position": [
+      0.0,
+      0.651,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Glasses leg L",
+     "kind": "pivot",
+     "path": "Kid Glasses leg L",
+     "position": [
+      -0.0632,
+      0.4092,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Glasses leg R",
+     "kind": "pivot",
+     "path": "Kid Glasses leg R",
+     "position": [
+      0.0632,
+      0.4092,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Kid Hoodie": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Kid Hoodie.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie coin face.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie coin.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie drawstring.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie elbow hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie hair hair.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie hood.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie kid arm hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie kid head hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie kid leg hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie kid shoe hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie kid torso hoodie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Hoodie skin hoodie.png"
+   ],
+   "triangles": 1152,
+   "boundsMin": [
+    -0.2327,
+    -0.0013,
+    -0.1989
+   ],
+   "boundsMax": [
+    0.3014,
+    1.1638,
+    0.3098
+   ],
+   "empties": [
+    {
+     "name": "Kid Hoodie arm L",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm L",
+     "position": [
+      -0.1581,
+      0.6681,
+      0.0
+     ],
+     "forward": [
+      0.2727,
+      -0.5643,
+      -0.7792
+     ],
+     "up": [
+      0.1864,
+      0.8256,
+      -0.5326
+     ]
+    },
+    {
+     "name": "Kid Hoodie arm L forearm",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm L/Kid Hoodie arm L forearm",
+     "position": [
+      -0.1938,
+      0.51,
+      0.102
+     ],
+     "forward": [
+      0.2422,
+      -0.8996,
+      0.3633
+     ],
+     "up": [
+      -0.499,
+      -0.4366,
+      -0.7485
+     ]
+    },
+    {
+     "name": "Kid Hoodie arm L wrist",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm L/Kid Hoodie arm L forearm/Kid Hoodie arm L wrist",
+     "position": [
+      -0.1122,
+      0.5814,
+      0.2244
+     ],
+     "forward": [
+      0.2422,
+      -0.8996,
+      0.3633
+     ],
+     "up": [
+      -0.499,
+      -0.4366,
+      -0.7485
+     ]
+    },
+    {
+     "name": "Kid Hoodie coin L pivot",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm L/Kid Hoodie arm L forearm/Kid Hoodie arm L wrist/Kid Hoodie coin L pivot",
+     "position": [
+      -0.0817,
+      0.6387,
+      0.3008
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Hoodie socket hand L",
+     "kind": "socket",
+     "path": "Kid Hoodie arm L/Kid Hoodie arm L forearm/Kid Hoodie arm L wrist/Kid Hoodie socket hand L",
+     "position": [
+      -0.0893,
+      0.6014,
+      0.2588
+     ],
+     "forward": [
+      0.2422,
+      -0.8996,
+      0.3633
+     ],
+     "up": [
+      -0.499,
+      -0.4366,
+      -0.7485
+     ]
+    },
+    {
+     "name": "Kid Hoodie arm R",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm R",
+     "position": [
+      0.1581,
+      0.6681,
+      0.0
+     ],
+     "forward": [
+      0.3185,
+      -0.6305,
+      0.7078
+     ],
+     "up": [
+      -0.2587,
+      -0.7762,
+      -0.575
+     ]
+    },
+    {
+     "name": "Kid Hoodie arm R forearm",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm R/Kid Hoodie arm R forearm",
+     "position": [
+      0.204,
+      0.8058,
+      0.102
+     ],
+     "forward": [
+      0.4565,
+      -0.5079,
+      0.7305
+     ],
+     "up": [
+      -0.2692,
+      -0.8614,
+      -0.4307
+     ]
+    },
+    {
+     "name": "Kid Hoodie arm R wrist",
+     "kind": "pivot",
+     "path": "Kid Hoodie arm R/Kid Hoodie arm R forearm/Kid Hoodie arm R wrist",
+     "position": [
+      0.255,
+      0.969,
+      0.1836
+     ],
+     "forward": [
+      0.4565,
+      -0.5079,
+      0.7305
+     ],
+     "up": [
+      -0.2692,
+      -0.8614,
+      -0.4307
+     ]
+    },
+    {
+     "name": "Kid Hoodie socket hand R",
+     "kind": "socket",
+     "path": "Kid Hoodie arm R/Kid Hoodie arm R forearm/Kid Hoodie arm R wrist/Kid Hoodie socket hand R",
+     "position": [
+      0.2674,
+      1.0085,
+      0.2034
+     ],
+     "forward": [
+      0.4565,
+      -0.5079,
+      0.7305
+     ],
+     "up": [
+      -0.2692,
+      -0.8614,
+      -0.4307
+     ]
+    },
+    {
+     "name": "Kid Hoodie head pivot",
+     "kind": "pivot",
+     "path": "Kid Hoodie head pivot",
+     "position": [
+      0.0,
+      0.714,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Hoodie leg L",
+     "kind": "pivot",
+     "path": "Kid Hoodie leg L",
+     "position": [
+      -0.0694,
+      0.4488,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Hoodie leg R",
+     "kind": "pivot",
+     "path": "Kid Hoodie leg R",
+     "position": [
+      0.0694,
+      0.4488,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Kid Pigtails": {
+   "category": "Characters",
+   "module": "h_kids",
+   "fbx": "Assets/Art/PS1/Characters/Kid Pigtails.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails coin face.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails coin.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails hair hair.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails hair tie.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails kid arm pigtails.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails kid head pigtails.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails kid leg pigtails.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails kid shoe pigtails.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails kid torso pigtails.png",
+    "Assets/Art/PS1/Characters/Textures/Kid Pigtails skin pigtails.png"
+   ],
+   "triangles": 1084,
+   "boundsMin": [
+    -0.3759,
+    -0.0012,
+    -0.1843
+   ],
+   "boundsMax": [
+    0.3098,
+    1.0642,
+    0.1581
+   ],
+   "empties": [
+    {
+     "name": "Kid Pigtails arm L",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm L",
+     "position": [
+      -0.1504,
+      0.6353,
+      0.0
+     ],
+     "forward": [
+      -0.7673,
+      -0.5938,
+      0.2423
+     ],
+     "up": [
+      0.5662,
+      -0.8046,
+      -0.1788
+     ]
+    },
+    {
+     "name": "Kid Pigtails arm L forearm",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm L/Kid Pigtails arm L forearm",
+     "position": [
+      -0.2425,
+      0.7663,
+      0.0291
+     ],
+     "forward": [
+      -0.7537,
+      -0.5384,
+      0.3769
+     ],
+     "up": [
+      0.4815,
+      -0.8427,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails arm L wrist",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm L/Kid Pigtails arm L forearm/Kid Pigtails arm L wrist",
+     "position": [
+      -0.3201,
+      0.9021,
+      0.0679
+     ],
+     "forward": [
+      -0.7537,
+      -0.5384,
+      0.3769
+     ],
+     "up": [
+      0.4815,
+      -0.8427,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails socket hand L",
+     "kind": "socket",
+     "path": "Kid Pigtails arm L/Kid Pigtails arm L forearm/Kid Pigtails arm L wrist/Kid Pigtails socket hand L",
+     "position": [
+      -0.3411,
+      0.9389,
+      0.0784
+     ],
+     "forward": [
+      -0.7537,
+      -0.5384,
+      0.3769
+     ],
+     "up": [
+      0.4815,
+      -0.8427,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails arm R",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm R",
+     "position": [
+      0.1504,
+      0.6353,
+      0.0
+     ],
+     "forward": [
+      0.7112,
+      -0.595,
+      0.3743
+     ],
+     "up": [
+      -0.5266,
+      -0.8037,
+      -0.2771
+     ]
+    },
+    {
+     "name": "Kid Pigtails arm R forearm",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm R/Kid Pigtails arm R forearm",
+     "position": [
+      0.2425,
+      0.776,
+      0.0485
+     ],
+     "forward": [
+      0.4307,
+      -0.2692,
+      0.8614
+     ],
+     "up": [
+      -0.1204,
+      -0.9631,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails arm R wrist",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm R/Kid Pigtails arm R forearm/Kid Pigtails arm R wrist",
+     "position": [
+      0.2619,
+      0.9312,
+      0.0873
+     ],
+     "forward": [
+      0.4307,
+      -0.2692,
+      0.8614
+     ],
+     "up": [
+      -0.1204,
+      -0.9631,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails coin R pivot",
+     "kind": "pivot",
+     "path": "Kid Pigtails arm R/Kid Pigtails arm R forearm/Kid Pigtails arm R wrist/Kid Pigtails coin R pivot",
+     "position": [
+      0.2689,
+      1.0212,
+      0.113
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Pigtails socket hand R",
+     "kind": "socket",
+     "path": "Kid Pigtails arm R/Kid Pigtails arm R forearm/Kid Pigtails arm R wrist/Kid Pigtails socket hand R",
+     "position": [
+      0.2672,
+      0.9732,
+      0.0978
+     ],
+     "forward": [
+      0.4307,
+      -0.2692,
+      0.8614
+     ],
+     "up": [
+      -0.1204,
+      -0.9631,
+      -0.2408
+     ]
+    },
+    {
+     "name": "Kid Pigtails head pivot",
+     "kind": "pivot",
+     "path": "Kid Pigtails head pivot",
+     "position": [
+      0.0,
+      0.679,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Pigtails pigtail L",
+     "kind": "pivot",
+     "path": "Kid Pigtails head pivot/Kid Pigtails pigtail L",
+     "position": [
+      -0.1455,
+      0.9409,
+      -0.0388
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Pigtails pigtail R",
+     "kind": "pivot",
+     "path": "Kid Pigtails head pivot/Kid Pigtails pigtail R",
+     "position": [
+      0.1455,
+      0.9409,
+      -0.0388
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Pigtails leg L",
+     "kind": "pivot",
+     "path": "Kid Pigtails leg L",
+     "position": [
+      -0.066,
+      0.4268,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0523,
+      0.9986,
+      0.0
+     ]
+    },
+    {
+     "name": "Kid Pigtails leg R",
+     "kind": "pivot",
+     "path": "Kid Pigtails leg R",
+     "position": [
+      0.066,
+      0.4268,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.0523,
+      0.9986,
       0.0
      ]
     }
@@ -1089,6 +4789,1437 @@
       -0.0523,
       0.9986,
       0.0
+     ]
+    }
+   ]
+  },
+  "Police Officer": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Police Officer.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Police Officer badge.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop arm.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop cap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop head.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop leg.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop skin.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop sleeve hem.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cop torso.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer cuff steel.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer duty belt.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer epaulette.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer holster flap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer pistol grip.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer radio.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer shoe _221a2c.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer sole.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer visor.png"
+   ],
+   "triangles": 1298,
+   "boundsMin": [
+    -0.4315,
+    0.0023,
+    -0.1473
+   ],
+   "boundsMax": [
+    0.4315,
+    1.7762,
+    0.1792
+   ],
+   "empties": [
+    {
+     "name": "Police Officer hips",
+     "kind": "pivot",
+     "path": "Police Officer hips",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer leg L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg L",
+     "position": [
+      -0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      -0.0024,
+      -0.0639,
+      -0.998
+     ],
+     "up": [
+      0.0378,
+      0.9972,
+      -0.064
+     ]
+    },
+    {
+     "name": "Police Officer shin L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg L/Police Officer shin L",
+     "position": [
+      -0.1039,
+      0.4812,
+      0.0269
+     ],
+     "forward": [
+      0.0023,
+      0.0624,
+      -0.998
+     ],
+     "up": [
+      0.0373,
+      0.9973,
+      0.0625
+     ]
+    },
+    {
+     "name": "Police Officer foot L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg L/Police Officer shin L/Police Officer foot L",
+     "position": [
+      -0.1199,
+      0.0523,
+      0.0
+     ],
+     "forward": [
+      -0.1961,
+      0.0,
+      0.9806
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer leg R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg R",
+     "position": [
+      0.088,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0024,
+      -0.0639,
+      -0.998
+     ],
+     "up": [
+      -0.0378,
+      0.9972,
+      -0.064
+     ]
+    },
+    {
+     "name": "Police Officer shin R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg R/Police Officer shin R",
+     "position": [
+      0.1039,
+      0.4812,
+      0.0269
+     ],
+     "forward": [
+      -0.0023,
+      0.0624,
+      -0.998
+     ],
+     "up": [
+      -0.0373,
+      0.9973,
+      0.0625
+     ]
+    },
+    {
+     "name": "Police Officer foot R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer leg R/Police Officer shin R/Police Officer foot R",
+     "position": [
+      0.1199,
+      0.0523,
+      0.0
+     ],
+     "forward": [
+      0.1961,
+      0.0,
+      0.9806
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer spine",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine",
+     "position": [
+      0.0,
+      0.9,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer arm L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm L",
+     "position": [
+      -0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      0.7794,
+      -0.6219,
+      -0.0764
+     ],
+     "up": [
+      0.6262,
+      0.7687,
+      0.1305
+     ]
+    },
+    {
+     "name": "Police Officer forearm L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm L/Police Officer forearm L",
+     "position": [
+      -0.3753,
+      1.1748,
+      -0.0365
+     ],
+     "forward": [
+      0.7825,
+      0.4663,
+      -0.4126
+     ],
+     "up": [
+      -0.6166,
+      0.6722,
+      -0.4098
+     ]
+    },
+    {
+     "name": "Police Officer hand L",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm L/Police Officer forearm L/Police Officer hand L",
+     "position": [
+      -0.215,
+      1.0,
+      0.07
+     ],
+     "forward": [
+      -0.9237,
+      -0.1997,
+      0.327
+     ],
+     "up": [
+      -0.3478,
+      0.795,
+      -0.4969
+     ]
+    },
+    {
+     "name": "Police Officer socket hand L",
+     "kind": "socket",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm L/Police Officer forearm L/Police Officer hand L/Police Officer socket hand L",
+     "position": [
+      -0.1872,
+      0.9364,
+      0.1098
+     ],
+     "forward": [
+      -0.9237,
+      -0.1997,
+      0.327
+     ],
+     "up": [
+      -0.3478,
+      0.795,
+      -0.4969
+     ]
+    },
+    {
+     "name": "Police Officer arm R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm R",
+     "position": [
+      0.2,
+      1.39,
+      0.0
+     ],
+     "forward": [
+      -0.7794,
+      -0.6219,
+      -0.0764
+     ],
+     "up": [
+      -0.6262,
+      0.7687,
+      0.1305
+     ]
+    },
+    {
+     "name": "Police Officer forearm R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm R/Police Officer forearm R",
+     "position": [
+      0.3753,
+      1.1748,
+      -0.0365
+     ],
+     "forward": [
+      -0.7825,
+      0.4663,
+      -0.4126
+     ],
+     "up": [
+      0.6166,
+      0.6722,
+      -0.4098
+     ]
+    },
+    {
+     "name": "Police Officer hand R",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm R/Police Officer forearm R/Police Officer hand R",
+     "position": [
+      0.215,
+      1.0,
+      0.07
+     ],
+     "forward": [
+      0.9237,
+      -0.1997,
+      0.327
+     ],
+     "up": [
+      0.3478,
+      0.795,
+      -0.4969
+     ]
+    },
+    {
+     "name": "Police Officer socket hand R",
+     "kind": "socket",
+     "path": "Police Officer hips/Police Officer spine/Police Officer arm R/Police Officer forearm R/Police Officer hand R/Police Officer socket hand R",
+     "position": [
+      0.1872,
+      0.9364,
+      0.1098
+     ],
+     "forward": [
+      0.9237,
+      -0.1997,
+      0.327
+     ],
+     "up": [
+      0.3478,
+      0.795,
+      -0.4969
+     ]
+    },
+    {
+     "name": "Police Officer head",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer head",
+     "position": [
+      0.0,
+      1.45,
+      0.005
+     ],
+     "forward": [
+      0.0,
+      0.0349,
+      0.9994
+     ],
+     "up": [
+      0.0,
+      0.9994,
+      -0.0349
+     ]
+    },
+    {
+     "name": "Police Officer cap",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer head/Police Officer cap",
+     "position": [
+      0.0,
+      1.655,
+      0.0028
+     ],
+     "forward": [
+      0.0,
+      0.1219,
+      0.9925
+     ],
+     "up": [
+      0.0,
+      0.9925,
+      -0.1219
+     ]
+    },
+    {
+     "name": "Police Officer cap visor",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer head/Police Officer cap/Police Officer cap visor",
+     "position": [
+      0.0,
+      1.6734,
+      0.1195
+     ],
+     "forward": [
+      0.0,
+      -0.1219,
+      0.9925
+     ],
+     "up": [
+      0.0,
+      0.9925,
+      0.1219
+     ]
+    },
+    {
+     "name": "Police Officer socket head",
+     "kind": "socket",
+     "path": "Police Officer hips/Police Officer spine/Police Officer head/Police Officer socket head",
+     "position": [
+      0.0,
+      1.6234,
+      0.099
+     ],
+     "forward": [
+      0.0,
+      0.0349,
+      0.9994
+     ],
+     "up": [
+      0.0,
+      0.9994,
+      -0.0349
+     ]
+    },
+    {
+     "name": "Police Officer holster",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer holster",
+     "position": [
+      0.185,
+      0.9,
+      -0.01
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.1392,
+      0.9903,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer radio",
+     "kind": "pivot",
+     "path": "Police Officer hips/Police Officer spine/Police Officer radio",
+     "position": [
+      -0.15,
+      0.92,
+      0.08
+     ],
+     "forward": [
+      -0.4695,
+      0.0,
+      0.8829
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Police Officer Climb": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Police Officer Climb.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb badge.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop arm.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop cap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop head.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop leg.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop skin.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop sleeve hem.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cop torso.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb cuff steel.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb duty belt.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb epaulette.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb holster flap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb pistol grip.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb radio.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb shoe _221a2c.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb sole.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Climb visor.png"
+   ],
+   "triangles": 1362,
+   "boundsMin": [
+    -0.3312,
+    -0.0342,
+    -0.1798
+   ],
+   "boundsMax": [
+    0.639,
+    1.7043,
+    0.9488
+   ],
+   "empties": [
+    {
+     "name": "Police Officer Climb hips",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips",
+     "position": [
+      0.0,
+      0.88,
+      0.04
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer Climb leg L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg L",
+     "position": [
+      -0.088,
+      0.88,
+      0.04
+     ],
+     "forward": [
+      -0.0016,
+      -0.1098,
+      -0.994
+     ],
+     "up": [
+      0.0148,
+      0.9938,
+      -0.1098
+     ]
+    },
+    {
+     "name": "Police Officer Climb shin L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg L/Police Officer Climb shin L",
+     "position": [
+      -0.0942,
+      0.4626,
+      0.0861
+     ],
+     "forward": [
+      0.0065,
+      0.4328,
+      -0.9015
+     ],
+     "up": [
+      0.0134,
+      0.9014,
+      0.4329
+     ]
+    },
+    {
+     "name": "Police Officer Climb foot L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg L/Police Officer Climb shin L/Police Officer Climb foot L",
+     "position": [
+      -0.1,
+      0.075,
+      -0.1
+     ],
+     "forward": [
+      0.0,
+      -0.4104,
+      0.9119
+     ],
+     "up": [
+      0.0,
+      0.9119,
+      0.4104
+     ]
+    },
+    {
+     "name": "Police Officer Climb leg R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg R",
+     "position": [
+      0.088,
+      0.88,
+      0.04
+     ],
+     "forward": [
+      -0.0003,
+      -0.9986,
+      -0.0524
+     ],
+     "up": [
+      -0.0061,
+      0.0524,
+      -0.9986
+     ]
+    },
+    {
+     "name": "Police Officer Climb shin R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg R/Police Officer Climb shin R",
+     "position": [
+      0.0906,
+      0.858,
+      0.4594
+     ],
+     "forward": [
+      -0.0063,
+      0.2776,
+      -0.9607
+     ],
+     "up": [
+      -0.0219,
+      0.9604,
+      0.2777
+     ]
+    },
+    {
+     "name": "Police Officer Climb foot R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb leg R/Police Officer Climb shin R/Police Officer Climb foot R",
+     "position": [
+      0.1,
+      0.445,
+      0.34
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer Climb spine",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine",
+     "position": [
+      0.0,
+      0.88,
+      0.04
+     ],
+     "forward": [
+      0.0,
+      -0.454,
+      0.891
+     ],
+     "up": [
+      0.0,
+      0.891,
+      0.454
+     ]
+    },
+    {
+     "name": "Police Officer Climb arm L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm L",
+     "position": [
+      -0.2,
+      1.3166,
+      0.2625
+     ],
+     "forward": [
+      0.952,
+      -0.1491,
+      0.2675
+     ],
+     "up": [
+      0.2679,
+      -0.0176,
+      -0.9633
+     ]
+    },
+    {
+     "name": "Police Officer Climb forearm L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm L/Police Officer Climb forearm L",
+     "position": [
+      -0.275,
+      1.3215,
+      0.5322
+     ],
+     "forward": [
+      0.9898,
+      -0.1406,
+      0.0245
+     ],
+     "up": [
+      -0.0193,
+      -0.3018,
+      -0.9532
+     ]
+    },
+    {
+     "name": "Police Officer Climb hand L",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm L/Police Officer Climb forearm L/Police Officer Climb hand L",
+     "position": [
+      -0.27,
+      1.4,
+      0.78
+     ],
+     "forward": [
+      0.0,
+      0.9545,
+      -0.2983
+     ],
+     "up": [
+      0.0,
+      -0.2983,
+      -0.9545
+     ]
+    },
+    {
+     "name": "Police Officer Climb socket hand L",
+     "kind": "socket",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm L/Police Officer Climb forearm L/Police Officer Climb hand L/Police Officer Climb socket hand L",
+     "position": [
+      -0.27,
+      1.4239,
+      0.8564
+     ],
+     "forward": [
+      0.0,
+      0.9545,
+      -0.2983
+     ],
+     "up": [
+      0.0,
+      -0.2983,
+      -0.9545
+     ]
+    },
+    {
+     "name": "Police Officer Climb arm R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm R",
+     "position": [
+      0.2,
+      1.3166,
+      0.2625
+     ],
+     "forward": [
+      -0.7166,
+      -0.5965,
+      -0.3615
+     ],
+     "up": [
+      -0.6918,
+      0.5419,
+      0.4773
+     ]
+    },
+    {
+     "name": "Police Officer Climb forearm R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm R/Police Officer Climb forearm R",
+     "position": [
+      0.3937,
+      1.1649,
+      0.1288
+     ],
+     "forward": [
+      -0.6075,
+      0.7647,
+      0.2149
+     ],
+     "up": [
+      -0.7935,
+      -0.5967,
+      -0.1199
+     ]
+    },
+    {
+     "name": "Police Officer Climb hand R",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm R/Police Officer Climb forearm R/Police Officer Climb hand R",
+     "position": [
+      0.6,
+      1.32,
+      0.16
+     ],
+     "forward": [
+      -0.9988,
+      0.0499,
+      0.0
+     ],
+     "up": [
+      -0.0499,
+      -0.9988,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer Climb socket hand R",
+     "kind": "socket",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb arm R/Police Officer Climb forearm R/Police Officer Climb hand R/Police Officer Climb socket hand R",
+     "position": [
+      0.604,
+      1.3999,
+      0.16
+     ],
+     "forward": [
+      -0.9988,
+      0.0499,
+      0.0
+     ],
+     "up": [
+      -0.0499,
+      -0.9988,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer Climb head",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb head",
+     "position": [
+      0.0,
+      1.3678,
+      0.2941
+     ],
+     "forward": [
+      0.0,
+      0.1219,
+      0.9925
+     ],
+     "up": [
+      0.0,
+      0.9925,
+      -0.1219
+     ]
+    },
+    {
+     "name": "Police Officer Climb cap",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb head/Police Officer Climb cap",
+     "position": [
+      0.0,
+      1.5719,
+      0.2741
+     ],
+     "forward": [
+      0.0,
+      0.2079,
+      0.9781
+     ],
+     "up": [
+      0.0,
+      0.9781,
+      -0.2079
+     ]
+    },
+    {
+     "name": "Police Officer Climb cap visor",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb head/Police Officer Climb cap/Police Officer Climb cap visor",
+     "position": [
+      0.0,
+      1.6003,
+      0.3887
+     ],
+     "forward": [
+      0.0,
+      -0.0349,
+      0.9994
+     ],
+     "up": [
+      0.0,
+      0.9994,
+      0.0349
+     ]
+    },
+    {
+     "name": "Police Officer Climb socket head",
+     "kind": "socket",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb head/Police Officer Climb socket head",
+     "position": [
+      0.0,
+      1.5487,
+      0.3727
+     ],
+     "forward": [
+      0.0,
+      0.1219,
+      0.9925
+     ],
+     "up": [
+      0.0,
+      0.9925,
+      -0.1219
+     ]
+    },
+    {
+     "name": "Police Officer Climb holster",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb holster",
+     "position": [
+      0.185,
+      0.8845,
+      0.0311
+     ],
+     "forward": [
+      0.0,
+      -0.454,
+      0.891
+     ],
+     "up": [
+      -0.1392,
+      0.8823,
+      0.4496
+     ]
+    },
+    {
+     "name": "Police Officer Climb radio",
+     "kind": "pivot",
+     "path": "Police Officer Climb hips/Police Officer Climb spine/Police Officer Climb radio",
+     "position": [
+      -0.15,
+      0.8615,
+      0.1204
+     ],
+     "forward": [
+      -0.4695,
+      -0.4008,
+      0.7867
+     ],
+     "up": [
+      0.0,
+      0.891,
+      0.454
+     ]
+    }
+   ]
+  },
+  "Police Officer Run": {
+   "category": "Characters",
+   "module": "h_cops",
+   "fbx": "Assets/Art/PS1/Characters/Police Officer Run.fbx",
+   "textures": [
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run badge.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop arm.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop cap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop head.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop leg.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop skin.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop sleeve hem.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cop torso.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run cuff steel.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run duty belt.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run epaulette.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run holster flap.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run pistol grip.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run radio.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run shoe _221a2c.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run sole.png",
+    "Assets/Art/PS1/Characters/Textures/Police Officer Run visor.png"
+   ],
+   "triangles": 1314,
+   "boundsMin": [
+    -0.3125,
+    -0.0319,
+    -0.4723
+   ],
+   "boundsMax": [
+    0.3826,
+    1.7148,
+    0.7768
+   ],
+   "empties": [
+    {
+     "name": "Police Officer Run hips",
+     "kind": "pivot",
+     "path": "Police Officer Run hips",
+     "position": [
+      0.0,
+      0.86,
+      0.02
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Officer Run leg L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg L",
+     "position": [
+      -0.088,
+      0.86,
+      0.02
+     ],
+     "forward": [
+      0.0042,
+      -0.9338,
+      -0.3577
+     ],
+     "up": [
+      0.011,
+      0.3577,
+      -0.9338
+     ]
+    },
+    {
+     "name": "Police Officer Run shin L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg L/Police Officer Run shin L",
+     "position": [
+      -0.0926,
+      0.7098,
+      0.4122
+     ],
+     "forward": [
+      0.0005,
+      0.0283,
+      -0.9996
+     ],
+     "up": [
+      0.0171,
+      0.9995,
+      0.0283
+     ]
+    },
+    {
+     "name": "Police Officer Run foot L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg L/Police Officer Run shin L/Police Officer Run foot L",
+     "position": [
+      -0.1,
+      0.28,
+      0.4
+     ],
+     "forward": [
+      0.0,
+      0.1483,
+      0.9889
+     ],
+     "up": [
+      0.0,
+      0.9889,
+      -0.1483
+     ]
+    },
+    {
+     "name": "Police Officer Run leg R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg R",
+     "position": [
+      0.088,
+      0.86,
+      0.02
+     ],
+     "forward": [
+      -0.006,
+      0.3761,
+      -0.9266
+     ],
+     "up": [
+      -0.0148,
+      0.9265,
+      0.3761
+     ]
+    },
+    {
+     "name": "Police Officer Run shin R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg R/Police Officer Run shin R",
+     "position": [
+      0.0942,
+      0.4709,
+      -0.138
+     ],
+     "forward": [
+      -0.0104,
+      0.6093,
+      -0.7929
+     ],
+     "up": [
+      -0.0135,
+      0.7928,
+      0.6094
+     ]
+    },
+    {
+     "name": "Police Officer Run foot R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run leg R/Police Officer Run shin R/Police Officer Run foot R",
+     "position": [
+      0.1,
+      0.13,
+      -0.4
+     ],
+     "forward": [
+      0.0,
+      -0.9119,
+      0.4104
+     ],
+     "up": [
+      0.0,
+      0.4104,
+      0.9119
+     ]
+    },
+    {
+     "name": "Police Officer Run spine",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine",
+     "position": [
+      0.0,
+      0.86,
+      0.02
+     ],
+     "forward": [
+      -0.068,
+      -0.225,
+      0.972
+     ],
+     "up": [
+      -0.0157,
+      0.9744,
+      0.2244
+     ]
+    },
+    {
+     "name": "Police Officer Run arm L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm L",
+     "position": [
+      -0.2072,
+      1.3374,
+      0.116
+     ],
+     "forward": [
+      0.9738,
+      -0.1905,
+      -0.1243
+     ],
+     "up": [
+      0.1793,
+      0.3069,
+      0.9347
+     ]
+    },
+    {
+     "name": "Police Officer Run forearm L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm L/Police Officer Run forearm L",
+     "position": [
+      -0.2574,
+      1.2515,
+      -0.1457
+     ],
+     "forward": [
+      0.9891,
+      0.1337,
+      0.0623
+     ],
+     "up": [
+      -0.1439,
+      0.9673,
+      0.2088
+     ]
+    },
+    {
+     "name": "Police Officer Run hand L",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm L/Police Officer Run forearm L/Police Officer Run hand L",
+     "position": [
+      -0.22,
+      1.0,
+      -0.2
+     ],
+     "forward": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "up": [
+      0.0,
+      0.9578,
+      -0.2873
+     ]
+    },
+    {
+     "name": "Police Officer Run socket hand L",
+     "kind": "socket",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm L/Police Officer Run forearm L/Police Officer Run hand L/Police Officer Run socket hand L",
+     "position": [
+      -0.22,
+      0.9234,
+      -0.177
+     ],
+     "forward": [
+      -1.0,
+      0.0,
+      0.0
+     ],
+     "up": [
+      0.0,
+      0.9578,
+      -0.2873
+     ]
+    },
+    {
+     "name": "Police Officer Run arm R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm R",
+     "position": [
+      0.1918,
+      1.3374,
+      0.1439
+     ],
+     "forward": [
+      -0.8658,
+      -0.1456,
+      0.4787
+     ],
+     "up": [
+      -0.4779,
+      -0.0429,
+      -0.8774
+     ]
+    },
+    {
+     "name": "Police Officer Run forearm R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm R/Police Officer Run forearm R",
+     "position": [
+      0.3256,
+      1.3495,
+      0.3896
+     ],
+     "forward": [
+      -0.9879,
+      -0.1551,
+      -0.0094
+     ],
+     "up": [
+      0.0986,
+      -0.579,
+      -0.8093
+     ]
+    },
+    {
+     "name": "Police Officer Run hand R",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm R/Police Officer Run forearm R/Police Officer Run hand R",
+     "position": [
+      0.3,
+      1.5,
+      0.6
+     ],
+     "forward": [
+      0.9929,
+      -0.0118,
+      -0.118
+     ],
+     "up": [
+      -0.1186,
+      -0.0988,
+      -0.988
+     ]
+    },
+    {
+     "name": "Police Officer Run socket hand R",
+     "kind": "socket",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run arm R/Police Officer Run forearm R/Police Officer Run hand R/Police Officer Run socket hand R",
+     "position": [
+      0.3095,
+      1.5079,
+      0.679
+     ],
+     "forward": [
+      0.9929,
+      -0.0118,
+      -0.118
+     ],
+     "up": [
+      -0.1186,
+      -0.0988,
+      -0.988
+     ]
+    },
+    {
+     "name": "Police Officer Run head",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run head",
+     "position": [
+      -0.009,
+      1.3948,
+      0.1483
+     ],
+     "forward": [
+      -0.0697,
+      -0.0175,
+      0.9974
+     ],
+     "up": [
+      -0.0012,
+      0.9998,
+      0.0174
+     ]
+    },
+    {
+     "name": "Police Officer Run cap",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run head/Police Officer Run cap",
+     "position": [
+      -0.0096,
+      1.5997,
+      0.1568
+     ],
+     "forward": [
+      -0.0696,
+      0.0698,
+      0.9951
+     ],
+     "up": [
+      0.0049,
+      0.9976,
+      -0.0696
+     ]
+    },
+    {
+     "name": "Police Officer Run cap visor",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run head/Police Officer Run cap/Police Officer Run cap visor",
+     "position": [
+      -0.0178,
+      1.6119,
+      0.274
+     ],
+     "forward": [
+      -0.0687,
+      -0.1736,
+      0.9824
+     ],
+     "up": [
+      -0.0121,
+      0.9848,
+      0.1732
+     ]
+    },
+    {
+     "name": "Police Officer Run socket head",
+     "kind": "socket",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run head/Police Officer Run socket head",
+     "position": [
+      -0.0162,
+      1.563,
+      0.251
+     ],
+     "forward": [
+      -0.0697,
+      -0.0175,
+      0.9974
+     ],
+     "up": [
+      -0.0012,
+      0.9998,
+      0.0174
+     ]
+    },
+    {
+     "name": "Police Officer Run holster",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run holster",
+     "position": [
+      0.1852,
+      0.8622,
+      0.0232
+     ],
+     "forward": [
+      -0.068,
+      -0.225,
+      0.972
+     ],
+     "up": [
+      -0.1544,
+      0.9649,
+      0.2125
+     ]
+    },
+    {
+     "name": "Police Officer Run radio",
+     "kind": "pivot",
+     "path": "Police Officer Run hips/Police Officer Run spine/Police Officer Run radio",
+     "position": [
+      -0.1554,
+      0.8615,
+      0.0918
+     ],
+     "forward": [
+      -0.5283,
+      -0.1986,
+      0.8255
+     ],
+     "up": [
+      -0.0157,
+      0.9744,
+      0.2244
      ]
     }
    ]
@@ -2453,6 +7584,645 @@
      ]
     }
    ]
+  },
+  "Bait Shack": {
+   "category": "Heist",
+   "module": "h_heist",
+   "fbx": "Assets/Art/PS1/Heist/Bait Shack.fbx",
+   "textures": [
+    "Assets/Art/PS1/Heist/Textures/Bait Shack bait cooler.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack bait sign.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack cooler handle.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack cooler lid.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack dirt.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack fish eye.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack fish fin.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack fish.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack form.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack ink felt.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack ink tin.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack newspaper.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack notary sign.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _1f5a3a.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _1f5a3a_001.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _1f5a3a_002.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_001.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_002.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_003.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_004.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_005.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_006.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _24306e_007.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _7a1830.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _7a1830_001.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _7a1830_002.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _7a1830_003.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack passport _7a1830_004.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack pegboard__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 0.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 1.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 2.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 3.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 4.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 5.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 6.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack plate 7.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack rod cork.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack rod reel.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack rod.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack dark.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack glass.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack grey planks__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack mint planks__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack pink planks__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack post.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack tin roof__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shack trim pink.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack shine.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack stamp knob.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack stamp rubber.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack stamp wood.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack tin rib.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack worm crate.png",
+    "Assets/Art/PS1/Heist/Textures/Bait Shack worm.png"
+   ],
+   "triangles": 1378,
+   "boundsMin": [
+    -3.0616,
+    0.0,
+    -1.602
+   ],
+   "boundsMax": [
+    2.325,
+    3.41,
+    1.645
+   ],
+   "empties": [
+    {
+     "name": "Bait Shack cooler",
+     "kind": "pivot",
+     "path": "Bait Shack cooler",
+     "position": [
+      -2.7,
+      0.0,
+      0.95
+     ],
+     "forward": [
+      0.1392,
+      0.0,
+      0.9903
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack fish",
+     "kind": "pivot",
+     "path": "Bait Shack fish",
+     "position": [
+      -1.3,
+      1.03,
+      1.22
+     ],
+     "forward": [
+      0.2079,
+      0.0,
+      0.9781
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack ink pad",
+     "kind": "pivot",
+     "path": "Bait Shack ink pad",
+     "position": [
+      0.55,
+      1.0,
+      1.2
+     ],
+     "forward": [
+      0.1392,
+      0.0,
+      0.9903
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack newspaper",
+     "kind": "pivot",
+     "path": "Bait Shack newspaper",
+     "position": [
+      -1.3,
+      1.002,
+      1.22
+     ],
+     "forward": [
+      -0.1045,
+      0.0,
+      0.9945
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack rod 0",
+     "kind": "pivot",
+     "path": "Bait Shack rod 0",
+     "position": [
+      -1.0,
+      0.1,
+      -1.2
+     ],
+     "forward": [
+      -0.0109,
+      0.104,
+      0.9945
+     ],
+     "up": [
+      -0.104,
+      0.9891,
+      -0.1045
+     ]
+    },
+    {
+     "name": "Bait Shack rod 1",
+     "kind": "pivot",
+     "path": "Bait Shack rod 1",
+     "position": [
+      -1.3,
+      0.1,
+      -1.2
+     ],
+     "forward": [
+      0.0073,
+      0.1043,
+      0.9945
+     ],
+     "up": [
+      0.0694,
+      0.9921,
+      -0.1045
+     ]
+    },
+    {
+     "name": "Bait Shack rod 2",
+     "kind": "pivot",
+     "path": "Bait Shack rod 2",
+     "position": [
+      -1.65,
+      0.1,
+      -1.2
+     ],
+     "forward": [
+      -0.0164,
+      0.1032,
+      0.9945
+     ],
+     "up": [
+      -0.1556,
+      0.9823,
+      -0.1045
+     ]
+    },
+    {
+     "name": "Bait Shack socket shopkeeper",
+     "kind": "socket",
+     "path": "Bait Shack socket shopkeeper",
+     "position": [
+      0.0,
+      0.1,
+      0.65
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack stamp",
+     "kind": "pivot",
+     "path": "Bait Shack stamp",
+     "position": [
+      0.3,
+      1.0,
+      1.3
+     ],
+     "forward": [
+      -0.2419,
+      0.0,
+      0.9703
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Bait Shack worm crate",
+     "kind": "pivot",
+     "path": "Bait Shack worm crate",
+     "position": [
+      -2.65,
+      0.0,
+      0.1
+     ],
+     "forward": [
+      -0.2079,
+      0.0,
+      0.9781
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Flavor Tub Rocky Road Diamond": {
+   "category": "Heist",
+   "module": "h_heist",
+   "fbx": "Assets/Art/PS1/Heist/Flavor Tub Rocky Road Diamond.fbx",
+   "textures": [
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond bits.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond cream__repeat.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond diamond deep.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond diamond ice.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond diamond lavender.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond diamond white.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond star _fff7ee.png",
+    "Assets/Art/PS1/Heist/Textures/Flavor Tub Rocky Road Diamond tub__repeat.png"
+   ],
+   "triangles": 438,
+   "boundsMin": [
+    -0.1562,
+    0.0,
+    -0.1459
+   ],
+   "boundsMax": [
+    0.2213,
+    0.5,
+    0.1484
+   ],
+   "empties": [
+    {
+     "name": "Flavor Tub Rocky Road Diamond diamond",
+     "kind": "pivot",
+     "path": "Flavor Tub Rocky Road Diamond diamond",
+     "position": [
+      0.0,
+      0.235,
+      -0.08
+     ],
+     "forward": [
+      -0.104,
+      -0.866,
+      0.4891
+     ],
+     "up": [
+      -0.1801,
+      0.5,
+      0.8471
+     ]
+    },
+    {
+     "name": "Flavor Tub Rocky Road Diamond socket diamond",
+     "kind": "socket",
+     "path": "Flavor Tub Rocky Road Diamond diamond/Flavor Tub Rocky Road Diamond socket diamond",
+     "position": [
+      -0.018,
+      0.285,
+      0.0047
+     ],
+     "forward": [
+      -0.104,
+      -0.866,
+      0.4891
+     ],
+     "up": [
+      -0.1801,
+      0.5,
+      0.8471
+     ]
+    },
+    {
+     "name": "Flavor Tub Rocky Road Diamond socket hand L",
+     "kind": "socket",
+     "path": "Flavor Tub Rocky Road Diamond socket hand L",
+     "position": [
+      -0.155,
+      0.132,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Flavor Tub Rocky Road Diamond socket hand R",
+     "kind": "socket",
+     "path": "Flavor Tub Rocky Road Diamond socket hand R",
+     "position": [
+      0.155,
+      0.132,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Hope Diamond": {
+   "category": "Heist",
+   "module": "h_heist",
+   "fbx": "Assets/Art/PS1/Heist/Hope Diamond.fbx",
+   "textures": [
+    "Assets/Art/PS1/Heist/Textures/Hope Diamond diamond deep.png",
+    "Assets/Art/PS1/Heist/Textures/Hope Diamond diamond ice.png",
+    "Assets/Art/PS1/Heist/Textures/Hope Diamond diamond lavender.png",
+    "Assets/Art/PS1/Heist/Textures/Hope Diamond diamond white.png",
+    "Assets/Art/PS1/Heist/Textures/Hope Diamond star _fff7ee.png"
+   ],
+   "triangles": 174,
+   "boundsMin": [
+    -0.1904,
+    0.0,
+    -0.12
+   ],
+   "boundsMax": [
+    0.2038,
+    0.29,
+    0.1361
+   ],
+   "empties": []
+  },
+  "Police Roadblock": {
+   "category": "Heist",
+   "module": "h_heist",
+   "fbx": "Assets/Art/PS1/Heist/Police Roadblock.fbx",
+   "textures": [
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock amber lamp.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock barricade foot.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock barricade leg.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock cone base.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock cone.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock lamp housing.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock police line board.png",
+    "Assets/Art/PS1/Heist/Textures/Police Roadblock roadblock stripes__repeat.png"
+   ],
+   "triangles": 704,
+   "boundsMin": [
+    -3.0933,
+    -0.0052,
+    -0.5577
+   ],
+   "boundsMax": [
+    3.1192,
+    1.4,
+    1.3459
+   ],
+   "empties": [
+    {
+     "name": "Police Roadblock barricade C",
+     "kind": "pivot",
+     "path": "Police Roadblock barricade C",
+     "position": [
+      0.0,
+      0.0,
+      0.1
+     ],
+     "forward": [
+      0.0349,
+      0.0,
+      0.9994
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock barricade L",
+     "kind": "pivot",
+     "path": "Police Roadblock barricade L",
+     "position": [
+      -2.05,
+      0.0,
+      -0.15
+     ],
+     "forward": [
+      -0.0523,
+      0.0,
+      0.9986
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock socket lamp L",
+     "kind": "socket",
+     "path": "Police Roadblock barricade L/Police Roadblock socket lamp L",
+     "position": [
+      -2.8531,
+      1.3,
+      -0.112
+     ],
+     "forward": [
+      -0.0523,
+      0.0,
+      0.9986
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock barricade R",
+     "kind": "pivot",
+     "path": "Police Roadblock barricade R",
+     "position": [
+      2.05,
+      0.0,
+      -0.15
+     ],
+     "forward": [
+      0.0698,
+      0.0,
+      0.9976
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock socket lamp R",
+     "kind": "socket",
+     "path": "Police Roadblock barricade R/Police Roadblock socket lamp R",
+     "position": [
+      2.8536,
+      1.3,
+      -0.126
+     ],
+     "forward": [
+      0.0698,
+      0.0,
+      0.9976
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock cone 0",
+     "kind": "pivot",
+     "path": "Police Roadblock cone 0",
+     "position": [
+      -2.85,
+      0.0,
+      1.0
+     ],
+     "forward": [
+      -0.1736,
+      0.0,
+      0.9848
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock cone 1",
+     "kind": "pivot",
+     "path": "Police Roadblock cone 1",
+     "position": [
+      -1.0,
+      0.0,
+      1.05
+     ],
+     "forward": [
+      -0.6428,
+      0.0,
+      0.766
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock cone 2",
+     "kind": "pivot",
+     "path": "Police Roadblock cone 2",
+     "position": [
+      1.0,
+      0.0,
+      1.0
+     ],
+     "forward": [
+      -0.9397,
+      0.0,
+      0.342
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Roadblock cone 3",
+     "kind": "pivot",
+     "path": "Police Roadblock cone 3",
+     "position": [
+      2.85,
+      0.0,
+      0.95
+     ],
+     "forward": [
+      -0.342,
+      0.0,
+      0.9397
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Town Line Sign": {
+   "category": "Heist",
+   "module": "h_heist",
+   "fbx": "Assets/Art/PS1/Heist/Town Line Sign.fbx",
+   "textures": [
+    "Assets/Art/PS1/Heist/Textures/Town Line Sign come back soon.png",
+    "Assets/Art/PS1/Heist/Textures/Town Line Sign sign back.png",
+    "Assets/Art/PS1/Heist/Textures/Town Line Sign sign post.png",
+    "Assets/Art/PS1/Heist/Textures/Town Line Sign town line sign.png"
+   ],
+   "triangles": 120,
+   "boundsMin": [
+    -1.3,
+    0.0,
+    -0.17
+   ],
+   "boundsMax": [
+    1.3,
+    3.0,
+    0.03
+   ],
+   "empties": []
   },
   "Cocoa Bag": {
    "category": "Items",
@@ -22197,6 +27967,830 @@
      "up": [
       0.0,
       1.0,
+      0.0
+     ]
+    }
+   ]
+  },
+  "Harbor Dock": {
+   "category": "Vehicles",
+   "module": "h_vehicles",
+   "fbx": "Assets/Art/PS1/Vehicles/Harbor Dock.fbx",
+   "textures": [
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock bollard iron.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock cargo box.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock dock beam.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock dock planks__repeat.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock fish crate.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock lamp glow.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock lamp iron.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock life ring.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock pallet wood.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock pier sign.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock piling.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock post cap.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock rope.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock sign post.png",
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Dock strap.png"
+   ],
+   "triangles": 4172,
+   "boundsMin": [
+    -2.3707,
+    -3.0,
+    0.0
+   ],
+   "boundsMax": [
+    2.3707,
+    3.82,
+    26.08
+   ],
+   "empties": [
+    {
+     "name": "Harbor Dock pier",
+     "kind": "pivot",
+     "path": "Harbor Dock pier",
+     "position": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock bollard 1",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock bollard 1",
+     "position": [
+      -1.65,
+      0.0,
+      6.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock bollard 2",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock bollard 2",
+     "position": [
+      1.65,
+      0.0,
+      12.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock bollard 3",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock bollard 3",
+     "position": [
+      -1.65,
+      0.0,
+      13.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock bollard 4",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock bollard 4",
+     "position": [
+      -1.65,
+      0.0,
+      24.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock bollard 5",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock bollard 5",
+     "position": [
+      1.65,
+      0.0,
+      24.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock lamp far",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock lamp far",
+     "position": [
+      -1.8,
+      0.0,
+      18.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock socket lamp far",
+     "kind": "socket",
+     "path": "Harbor Dock pier/Harbor Dock lamp far/Harbor Dock socket lamp far",
+     "position": [
+      -1.8,
+      3.27,
+      18.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock lamp near",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock lamp near",
+     "position": [
+      1.8,
+      0.0,
+      7.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock socket lamp near",
+     "kind": "socket",
+     "path": "Harbor Dock pier/Harbor Dock lamp near/Harbor Dock socket lamp near",
+     "position": [
+      1.8,
+      3.27,
+      7.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock life ring post",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock life ring post",
+     "position": [
+      1.85,
+      0.0,
+      10.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock pallet",
+     "kind": "pivot",
+     "path": "Harbor Dock pier/Harbor Dock pallet",
+     "position": [
+      1.35,
+      0.0,
+      4.1
+     ],
+     "forward": [
+      -0.1045,
+      0.0,
+      0.9945
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock sign",
+     "kind": "pivot",
+     "path": "Harbor Dock sign",
+     "position": [
+      1.82,
+      0.0,
+      0.45
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Harbor Dock socket yacht",
+     "kind": "socket",
+     "path": "Harbor Dock socket yacht",
+     "position": [
+      -4.65,
+      -1.0,
+      19.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      -1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ],
+   "notes": [
+    "dropped light"
+   ]
+  },
+  "Harbor Water": {
+   "category": "Vehicles",
+   "module": "h_vehicles",
+   "fbx": "Assets/Art/PS1/Vehicles/Harbor Water.fbx",
+   "textures": [
+    "Assets/Art/PS1/Vehicles/Textures/Harbor Water harbor water__repeat.png"
+   ],
+   "triangles": 136,
+   "boundsMin": [
+    -40.0,
+    -0.3,
+    -40.0
+   ],
+   "boundsMax": [
+    40.0,
+    0.0,
+    40.0
+   ],
+   "empties": []
+  },
+  "Lighthouse": {
+   "category": "Vehicles",
+   "module": "h_vehicles",
+   "fbx": "Assets/Art/PS1/Vehicles/Lighthouse.fbx",
+   "textures": [
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse door.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse lamp core.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse lamp room.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse lh dark.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse lh red.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse lighthouse rock.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse plinth.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse rock moss.png",
+    "Assets/Art/PS1/Vehicles/Textures/Lighthouse tower stripes.png"
+   ],
+   "triangles": 756,
+   "boundsMin": [
+    -3.524,
+    -1.1451,
+    -2.8198
+   ],
+   "boundsMax": [
+    3.7483,
+    12.2,
+    3.2128
+   ],
+   "empties": [
+    {
+     "name": "Lighthouse socket lamp",
+     "kind": "socket",
+     "path": "Lighthouse socket lamp",
+     "position": [
+      0.0,
+      10.35,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ],
+   "notes": [
+    "dropped light"
+   ]
+  },
+  "Police Car": {
+   "category": "Vehicles",
+   "module": "h_vehicles",
+   "fbx": "Assets/Art/PS1/Vehicles/Police Car.fbx",
+   "textures": [
+    "Assets/Art/PS1/Vehicles/Textures/Police Car badge gold.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car bar blue.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car bar red.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car bar white.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car cage.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car cap brim.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car chrome.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car dash.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car headlight.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car officer face driver.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car officer face partner.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police black.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police grille.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police plate.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police roof.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police side.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police tint.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police trim.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car police white.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car push bar.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car reverse light.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car rubber pad.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car seat.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car skin.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car steel wheel.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car taillight.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car tire.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car turn signal.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car undercarriage.png",
+    "Assets/Art/PS1/Vehicles/Textures/Police Car uniform navy.png"
+   ],
+   "triangles": 2264,
+   "boundsMin": [
+    -1.075,
+    -0.0592,
+    -2.55
+   ],
+   "boundsMax": [
+    1.07,
+    1.7506,
+    2.715
+   ],
+   "empties": [
+    {
+     "name": "Police Car body",
+     "kind": "pivot",
+     "path": "Police Car body",
+     "position": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car light bar",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car light bar",
+     "position": [
+      0.0,
+      1.51,
+      0.02
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car socket light bar",
+     "kind": "socket",
+     "path": "Police Car body/Police Car light bar/Police Car socket light bar",
+     "position": [
+      0.0,
+      1.81,
+      0.02
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car officer driver",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer driver",
+     "position": [
+      -0.42,
+      0.62,
+      -0.1
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car officer driver arm L",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer driver/Police Car officer driver arm L",
+     "position": [
+      -0.61,
+      1.04,
+      -0.1
+     ],
+     "forward": [
+      -0.0047,
+      -0.9992,
+      -0.0394
+     ],
+     "up": [
+      -0.1191,
+      0.0397,
+      -0.9921
+     ]
+    },
+    {
+     "name": "Police Car officer driver arm R",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer driver/Police Car officer driver arm R",
+     "position": [
+      -0.23,
+      1.04,
+      -0.1
+     ],
+     "forward": [
+      0.0047,
+      -0.9992,
+      -0.0394
+     ],
+     "up": [
+      0.1191,
+      0.0397,
+      -0.9921
+     ]
+    },
+    {
+     "name": "Police Car officer driver head",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer driver/Police Car officer driver head",
+     "position": [
+      -0.42,
+      1.08,
+      -0.12
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car officer partner",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer partner",
+     "position": [
+      0.42,
+      0.62,
+      -0.1
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car officer partner arm L",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer partner/Police Car officer partner arm L",
+     "position": [
+      0.23,
+      1.04,
+      -0.1
+     ],
+     "forward": [
+      -0.047,
+      -0.7079,
+      -0.7048
+     ],
+     "up": [
+      -0.0471,
+      0.7063,
+      -0.7063
+     ]
+    },
+    {
+     "name": "Police Car officer partner arm R",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer partner/Police Car officer partner arm R",
+     "position": [
+      0.61,
+      1.04,
+      -0.1
+     ],
+     "forward": [
+      0.047,
+      -0.7079,
+      -0.7048
+     ],
+     "up": [
+      0.0471,
+      0.7063,
+      -0.7063
+     ]
+    },
+    {
+     "name": "Police Car officer partner head",
+     "kind": "pivot",
+     "path": "Police Car body/Police Car officer partner/Police Car officer partner head",
+     "position": [
+      0.42,
+      1.08,
+      -0.12
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car wheel FL",
+     "kind": "pivot",
+     "path": "Police Car wheel FL",
+     "position": [
+      -0.8,
+      0.34,
+      1.45
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car wheel FR",
+     "kind": "pivot",
+     "path": "Police Car wheel FR",
+     "position": [
+      0.8,
+      0.34,
+      1.45
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car wheel RL",
+     "kind": "pivot",
+     "path": "Police Car wheel RL",
+     "position": [
+      -0.8,
+      0.34,
+      -1.45
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    },
+    {
+     "name": "Police Car wheel RR",
+     "kind": "pivot",
+     "path": "Police Car wheel RR",
+     "position": [
+      0.8,
+      0.34,
+      -1.45
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      0.0,
+      1.0,
+      0.0
+     ]
+    }
+   ],
+   "notes": [
+    "dropped light"
+   ]
+  },
+  "Yacht": {
+   "category": "Vehicles",
+   "module": "h_vehicles",
+   "fbx": "Assets/Art/PS1/Vehicles/Yacht.fbx",
+   "textures": [
+    "Assets/Art/PS1/Vehicles/Textures/Yacht anchor.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht arch.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht cabin back.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht cabin front.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht cabin side.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht cushion _38f2c3.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht cushion _ff4fa3.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht fender.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht helm screen.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht mast light.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht nav port.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht nav starboard.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht rail steel.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht rope.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht rub rail.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht teak__repeat.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht trim mint.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht trim pink.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht yacht hull.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht yacht transom.png",
+    "Assets/Art/PS1/Vehicles/Textures/Yacht yacht white.png"
+   ],
+   "triangles": 2022,
+   "boundsMin": [
+    -3.769,
+    -1.0,
+    -7.06
+   ],
+   "boundsMax": [
+    2.175,
+    5.821,
+    7.06
+   ],
+   "empties": [
+    {
+     "name": "Yacht gangway",
+     "kind": "pivot",
+     "path": "Yacht gangway",
+     "position": [
+      -2.06,
+      1.24,
+      -4.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.1219,
+      0.9925,
+      0.0
+     ]
+    },
+    {
+     "name": "Yacht socket gangway",
+     "kind": "socket",
+     "path": "Yacht gangway/Yacht socket gangway",
+     "position": [
+      -3.751,
+      1.0626,
+      -4.5
+     ],
+     "forward": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "up": [
+      -0.1219,
+      0.9925,
       0.0
      ]
     }

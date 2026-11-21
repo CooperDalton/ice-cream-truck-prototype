@@ -36,10 +36,12 @@ UNITY_PROJECT = os.path.join(REPO, "Zombie Ice Cream Truck")
 ART_REL = "Assets/Art/PS1"
 ART = os.path.join(UNITY_PROJECT, ART_REL)
 
-MODULES = ["h_core", "h_characters", "h_weapons", "h_items", "h_truck", "h_road", "h_stops", "h_fx", "h_scenery", "h_hotspots", "h_shop"]
+MODULES = ["h_core", "h_characters", "h_weapons", "h_items", "h_truck", "h_road", "h_stops", "h_fx", "h_scenery", "h_hotspots", "h_shop",
+           "h_kids", "h_cops", "h_vehicles", "h_heist"]
 CATEGORY = {"h_core": "Zombies", "h_characters": "Characters", "h_weapons": "Weapons", "h_items": "Items",
             "h_truck": "Truck", "h_road": "Road", "h_stops": "Stops", "h_fx": "FX", "h_scenery": "Scenery",
-            "h_hotspots": "Stops", "h_shop": "Shop"}
+            "h_hotspots": "Stops", "h_shop": "Shop", "h_kids": "Characters", "h_cops": "Characters",
+            "h_vehicles": "Vehicles", "h_heist": "Heist"}
 ZOMBIE_CHARACTERS = {"Walker Worker", "Walker Mail Carrier", "Walker Granny", "Frozen Walker"}
 SKIP = {"Walker Hit", "Sprinter Climb", "Sprinter Hit", "Bloater Pop", "Player T-Pose",
         "Walker Worker Hit", "Walker Mail Carrier Hit", "Walker Granny Hit"}
